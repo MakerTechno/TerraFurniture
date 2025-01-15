@@ -1,7 +1,9 @@
 package nowebsite.makertechno.terra_furniture.common.block.chair;
 
 import com.mojang.serialization.MapCodec;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.EntityBlock;
@@ -12,19 +14,24 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import nowebsite.makertechno.terra_furniture.client.model.block.PlasticChairModel;
 import nowebsite.makertechno.terra_furniture.common.init.TFBlocks;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
+
+import java.util.function.Consumer;
 
 public class PlasticChairBlock extends AbstractChairBlock implements EntityBlock {
     public static final MapCodec<PlasticChairBlock> CODEC = simpleCodec(PlasticChairBlock::new);
-    private static final VoxelShape SHAPE = Shapes.box(0.1875, 0.0, 0.1875, 0.8125, 1.0, 0.8125);
-    private static final Vec3 SIT_POS = new Vec3(0, 0.16, 0);
+    private static final VoxelShape SHAPE = Shapes.box(0.1875, 0.0, 0.1875, 0.8125, 0.8, 0.8125);
+    private static final Vec3 SIT_POS = new Vec3(0, 0.4, 0);
 
     public PlasticChairBlock(Properties properties) {
         super(properties);
@@ -36,18 +43,18 @@ public class PlasticChairBlock extends AbstractChairBlock implements EntityBlock
     }
 
     @Override
-    public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
+    public RenderShape getRenderShape(BlockState pState) {
         return RenderShape.INVISIBLE;
     }
 
     @Override
-    public @NotNull VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new Entity(blockPos, blockState);
     }
 
@@ -77,6 +84,36 @@ public class PlasticChairBlock extends AbstractChairBlock implements EntityBlock
 
         public Item(PlasticChairBlock pBlock) {
             super(pBlock, new Properties());
+        }
+
+        @SuppressWarnings("removal")
+        @Override
+        public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
+            consumer.accept(new GeoRenderProvider() {
+                private GeoItemRenderer<Item> renderer;
+                @Override
+                public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
+                    if (renderer == null) {
+                        this.renderer = new GeoItemRenderer<>(new GeoModel<>() {
+                            @Override
+                            public ResourceLocation getModelResource(PlasticChairBlock.Item animatable) {
+                                return PlasticChairModel.MODEL;
+                            }
+
+                            @Override
+                            public ResourceLocation getTextureResource(PlasticChairBlock.Item animatable) {
+                                return PlasticChairModel.TEXTURE;
+                            }
+
+                            @Override
+                            public @Nullable ResourceLocation getAnimationResource(PlasticChairBlock.Item animatable) {
+                                return null;
+                            }
+                        });
+                    }
+                    return renderer;
+                }
+            });
         }
 
         @Override
