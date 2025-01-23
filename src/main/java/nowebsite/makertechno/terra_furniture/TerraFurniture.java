@@ -7,6 +7,7 @@ import net.neoforged.fml.common.Mod;
 import nowebsite.makertechno.terra_furniture.common.init.TFBlocks;
 import nowebsite.makertechno.terra_furniture.common.init.TFEntities;
 import nowebsite.makertechno.terra_furniture.common.init.TFItems;
+import nowebsite.makertechno.terra_furniture.common.init.TFTabs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +20,7 @@ public class TerraFurniture {
         TFItems.register(modEventBus);
         TFBlocks.register(modEventBus);
         TFEntities.ENTITIES.register(modEventBus);
+        TFTabs.TABS.register(modEventBus);
     }
 
     public static ResourceLocation asResource(String path) {
