@@ -150,11 +150,9 @@ public class SofaBlock extends AbstractChairBlock {
         if (isSofa(blockstate)) {
             Direction direction1 = blockstate.getValue(FACING);
             if (direction1 == state.getValue(FACING)) {
-                if (direction1 == direction.getCounterClockWise() || direction1 == direction.getClockWise()) {
-                    return false;
-                }
                 return false;
             }
+            return direction1 != direction.getCounterClockWise() && direction1 != direction.getClockWise();
         }
         return true;
     }
@@ -164,11 +162,9 @@ public class SofaBlock extends AbstractChairBlock {
         if (isSofa(blockstate)) {
             Direction direction1 = blockstate.getValue(FACING);
             if (direction1 == state.getValue(FACING)) {
-                if (direction1 == direction.getCounterClockWise() || direction1 == direction.getClockWise()) {
-                    return false;
-                }
                 return false;
             }
+            return direction1 != direction.getCounterClockWise() && direction1 != direction.getClockWise();
         }
         return true;
     }
