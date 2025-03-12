@@ -6,7 +6,7 @@
 	"textures": {
 		"0": "terra_furniture:block/glass_table",
 		"1": "terra_furniture:block/glass_furniture",
-		"particle": "terra_furniture:block/glass_table"
+		"particle": "minecraft:block/glass"
 	},
 	"elements": [
 		{

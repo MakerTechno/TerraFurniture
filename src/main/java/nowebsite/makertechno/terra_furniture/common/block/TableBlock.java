@@ -3,16 +3,8 @@ package nowebsite.makertechno.terra_furniture.common.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.LeadItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CrossCollisionBlock;
@@ -23,30 +15,37 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class TableBlock extends CrossCollisionBlock {
     public static final MapCodec<TableBlock> CODEC = simpleCodec(TableBlock::new);
-    private final VoxelShape[] occlusionByIndex;
-
+    private static final VoxelShape TABLE_TOP_SHAPE = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
+    private static final VoxelShape TABLE_LEG_SHAPE = Block.box(6.0, 0.0, 6.0, 10.0, 14.0, 10.0);
     public MapCodec<TableBlock> codec() {
         return CODEC;
     }
 
-    public TableBlock(BlockBehaviour.Properties p_53302_) {
-        super(8.0F, 8.0F, 16.0F, 16.0F, 16.0F, p_53302_);
+    public TableBlock(BlockBehaviour.Properties properties) {
+        super(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(WATERLOGGED, false));
-        this.occlusionByIndex = this.makeShapes(2.0F, 1.0F, 16.0F, 6.0F, 15.0F);
     }
 
+    @Override
     protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
-        return this.occlusionByIndex[this.getAABBIndex(state)];
+        if ((state.getValue(NORTH) && state.getValue(SOUTH)) || (state.getValue(WEST) && state.getValue(EAST))) {
+            return TABLE_TOP_SHAPE;
+        }
+        return Shapes.or(TABLE_TOP_SHAPE,TABLE_LEG_SHAPE);
     }
-
-    protected VoxelShape getVisualShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context) {
-        return this.getShape(state, reader, pos, context);
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return this.getOcclusionShape(pState,pLevel,pPos);
+    }
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return this.getOcclusionShape(state,level,pos);
     }
 
     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
@@ -81,6 +80,6 @@ public class TableBlock extends CrossCollisionBlock {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{NORTH, EAST, WEST, SOUTH, WATERLOGGED});
+        builder.add(NORTH, EAST, WEST, SOUTH, WATERLOGGED);
     }
 }

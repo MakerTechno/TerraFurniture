@@ -5,7 +5,7 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "terra_furniture:block/glass_furniture",
-		"particle": "terra_furniture:block/glass_furniture"
+		"particle": "minecraft:block/glass"
 	},
 	"elements": [
 		{
