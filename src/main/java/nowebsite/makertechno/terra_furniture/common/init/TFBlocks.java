@@ -18,6 +18,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
 import nowebsite.makertechno.terra_furniture.common.block.ChairBlock;
+import nowebsite.makertechno.terra_furniture.common.block.SofaBlock;
 import nowebsite.makertechno.terra_furniture.common.block.TableBlock;
 import nowebsite.makertechno.terra_furniture.common.block.ToiletBlock;
 import nowebsite.makertechno.terra_furniture.common.block.chair.PlasticChairBlock;
@@ -46,6 +47,7 @@ public final class TFBlocks {
     public static final DeferredBlock<ChairBlock> GLASS_CHAIR = registerWithItem("glass_chair", () -> new ChairBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
     public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
     public static final DeferredBlock<ToiletBlock> GLASS_TOILET = registerWithItem("glass_toilet", () -> new ToiletBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
+    public static final DeferredBlock<SofaBlock> GLASS_SOFA = registerWithItem("glass_sofa", () -> new SofaBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
 
     public static <B extends Block> DeferredBlock<B> registerWithItem(String id, Supplier<B> block) {
         return registerWithItem(id, block, new Item.Properties());

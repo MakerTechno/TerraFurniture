@@ -7,14 +7,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -27,7 +25,7 @@ public abstract class AbstractChairBlock extends HorizontalDirectionalBlock impl
     protected AbstractChairBlock(Properties pProperties) {
         super(pProperties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
-        registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)));
+        registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
@@ -53,8 +51,28 @@ public abstract class AbstractChairBlock extends HorizontalDirectionalBlock impl
         LevelAccessor levelaccessor = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         return defaultBlockState()
-                .setValue(WATERLOGGED, Boolean.valueOf(levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER))
+                .setValue(WATERLOGGED, levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER)
                 .setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+    protected BlockState rotate(BlockState state, Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+    }
+
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        Direction direction = state.getValue(FACING);
+        switch (mirror) {
+            case LEFT_RIGHT -> {
+                if (direction.getAxis() == Direction.Axis.Z) {
+                    return state.rotate(Rotation.CLOCKWISE_180);
+                }
+            }
+            case FRONT_BACK -> {
+                if (direction.getAxis() == Direction.Axis.X) {
+                    return state.rotate(Rotation.CLOCKWISE_180);
+                }
+            }
+        }
+        return super.mirror(state, mirror);
     }
     @Override
     protected FluidState getFluidState(BlockState state) {
