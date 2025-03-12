@@ -4,12 +4,16 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
+import nowebsite.makertechno.terra_furniture.common.block.ChairBlock;
+import nowebsite.makertechno.terra_furniture.common.block.TableBlock;
+import nowebsite.makertechno.terra_furniture.common.block.ToiletBlock;
 import nowebsite.makertechno.terra_furniture.common.block.chair.PlasticChairBlock;
 
 import java.util.function.Function;
@@ -21,6 +25,11 @@ public final class TFBlocks {
 
     public static final DeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(BlockBehaviour.Properties.of().lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
     public static final Supplier<BlockEntityType<PlasticChairBlock.Entity>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register("plastic_chair_entity", () -> BlockEntityType.Builder.of(PlasticChairBlock.Entity::new, PLASTIC_CHAIR.get()).build(null));
+
+    // Glass
+    public static final DeferredBlock<ChairBlock> GLASS_CHAIR = registerWithItem("glass_chair", () -> new ChairBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
+    public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
+    public static final DeferredBlock<ToiletBlock> GLASS_TOILET = registerWithItem("glass_toilet", () -> new ToiletBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
 
     public static <B extends Block> DeferredBlock<B> registerWithItem(String id, Supplier<B> block) {
         return registerWithItem(id, block, new Item.Properties());
