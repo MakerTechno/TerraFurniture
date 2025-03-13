@@ -1,18 +1,11 @@
 package nowebsite.makertechno.terra_furniture.common.block.light;
 
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -23,26 +16,16 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class CandelabrasBlock extends SwitchableLightBlock {
-    public static final DirectionProperty FACING;
-    protected static final MapCodec<SimpleParticleType> PARTICLE_OPTIONS_FIELD;
-    public static final MapCodec<CandelabrasBlock> CODEC;
-    protected final SimpleParticleType flameParticle;
-
-    public MapCodec<? extends CandelabrasBlock> codec() {
-        return CODEC;
-    }
-
-    public CandelabrasBlock(SimpleParticleType flameParticle, Properties properties) {
-        super(properties);
-        this.flameParticle = flameParticle;
+public class CandelairasBlock extends SwitchableLightBlock {
+    public static final MapCodec<CandelairasBlock> CODEC;
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public CandelairasBlock(SimpleParticleType flameParticle, Properties properties) {
+        super(flameParticle, properties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
     @Override
@@ -89,20 +72,10 @@ public class CandelabrasBlock extends SwitchableLightBlock {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
+    public MapCodec<? extends CandelairasBlock> codec() {
+        return CODEC;
+    }
     static {
-        PARTICLE_OPTIONS_FIELD = BuiltInRegistries.PARTICLE_TYPE.byNameCodec().comapFlatMap((p_304958_) -> {
-            DataResult var10000;
-            if (p_304958_ instanceof SimpleParticleType simpleparticletype) {
-                var10000 = DataResult.success(simpleparticletype);
-            } else {
-                var10000 = DataResult.error(() -> {
-                    return "Not a SimpleParticleType: " + String.valueOf(p_304958_);
-                });
-            }
-            return var10000;
-        }, (p_304720_) -> {return (ParticleType<?>) p_304720_;}).fieldOf("particle_options");
-        CODEC = RecordCodecBuilder.mapCodec((p_308842_) -> p_308842_.group(PARTICLE_OPTIONS_FIELD.forGetter((p_304762_) -> p_304762_.flameParticle), propertiesCodec()).apply(p_308842_, CandelabrasBlock::new));
-
-        FACING = BlockStateProperties.HORIZONTAL_FACING;
+        CODEC = RecordCodecBuilder.mapCodec((p_308842_) -> p_308842_.group(PARTICLE_OPTIONS_FIELD.forGetter((p_304762_) -> p_304762_.flameParticle), propertiesCodec()).apply(p_308842_, CandelairasBlock::new));
     }
 }

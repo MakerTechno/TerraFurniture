@@ -20,8 +20,7 @@ import nowebsite.makertechno.terra_furniture.common.block.chair.ChairBlock;
 import nowebsite.makertechno.terra_furniture.common.block.chair.PlasticChairBlock;
 import nowebsite.makertechno.terra_furniture.common.block.chair.SofaBlock;
 import nowebsite.makertechno.terra_furniture.common.block.chair.ToiletBlock;
-import nowebsite.makertechno.terra_furniture.common.block.light.CandelabrasBlock;
-import nowebsite.makertechno.terra_furniture.common.block.light.TRCandleBlock;
+import nowebsite.makertechno.terra_furniture.common.block.light.*;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -46,9 +45,12 @@ public final class TFBlocks {
     public static final DeferredBlock<ChairBlock> GLASS_CHAIR = registerWithItem("glass_chair", () -> new ChairBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
     public static final DeferredBlock<ToiletBlock> GLASS_TOILET = registerWithItem("glass_toilet", () -> new ToiletBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
     public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
-    public static final DeferredBlock<TRCandleBlock> GLASS_CANDLE = registerWithItem("glass_candle", () -> new TRCandleBlock(ParticleTypes.END_ROD,BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<TFCandleBlock> GLASS_CANDLE = registerWithItem("glass_candle", () -> new TFCandleBlock(ParticleTypes.END_ROD,BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<ChandelierBlock> GLASS_CHANDELIER = registerWithItem("glass_chandelier", () -> new ChandelierBlock(ParticleTypes.SOUL_FIRE_FLAME,BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<TFLanternBlock> GLASS_LANTERN = registerWithItem("glass_lantern", () -> new TFLanternBlock(ParticleTypes.END_ROD,BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
     public static final DeferredBlock<SofaBlock> GLASS_SOFA = registerWithItem("glass_sofa", () -> new SofaBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
-    public static final DeferredBlock<CandelabrasBlock> GLASS_CANDELABRAS = registerWithItem("glass_candelabras", () -> new CandelabrasBlock(ParticleTypes.END_ROD,BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<LampBlock> GLASS_LAMP = registerWithItem("glass_lamp", () -> new LampBlock(ParticleTypes.END_ROD,BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<CandelairasBlock> GLASS_CANDELABRAS = registerWithItem("glass_candelabras", () -> new CandelairasBlock(ParticleTypes.END_ROD,BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
 
     public static <B extends Block> DeferredBlock<B> registerWithItem(String id, Supplier<B> block) {
         return registerWithItem(id, block, new Item.Properties());
