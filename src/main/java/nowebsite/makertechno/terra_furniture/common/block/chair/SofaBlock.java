@@ -71,16 +71,16 @@ public class SofaBlock extends AbstractChairBlock {
                         TopShape = UP_STRAIGHT_X;
                     }
                     case SOUTH -> {
-                        BottomDirection = BOTTOM_X.move(0, 0, (double) 3 / 16);
-                        TopShape = UP_STRAIGHT_X.move(0, 0, (double) 11 / 16);
+                        BottomDirection = BOTTOM_X.move(0, 0, 3 / 16.0);
+                        TopShape = UP_STRAIGHT_X.move(0, 0, 11 / 16.0);
                     }
                     case WEST -> {
                         BottomDirection = BOTTOM_Z;
                         TopShape = UP_STRAIGHT_Z;
                     }
                     case EAST -> {
-                        BottomDirection = BOTTOM_Z.move((double) 3 / 16, 0, 0);
-                        TopShape = UP_STRAIGHT_Z.move((double) 11 / 16, 0, 0);
+                        BottomDirection = BOTTOM_Z.move(3 / 16.0, 0, 0);
+                        TopShape = UP_STRAIGHT_Z.move(11 / 16.0, 0, 0);
                     }
                 }
             }
@@ -91,36 +91,36 @@ public class SofaBlock extends AbstractChairBlock {
                         TopShape = UP_STRAIGHT_S;
                     }
                     case SOUTH -> {
-                        BottomDirection = BOTTOM_S.move((double) 3 / 16, 0, (double) 3 / 16);
-                        TopShape = UP_STRAIGHT_S.move((double) 11 / 16, 0, (double) 11 / 16);
+                        BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 3 / 16.0);
+                        TopShape = UP_STRAIGHT_S.move(11 / 16.0, 0, 11 / 16.0);
                     }
                     case WEST -> {
-                        BottomDirection = BOTTOM_S.move(0, 0, (double) 3 / 16);
-                        TopShape = UP_STRAIGHT_S.move(0, 0, (double) 11 / 16);
+                        BottomDirection = BOTTOM_S.move(0, 0, 3 / 16.0);
+                        TopShape = UP_STRAIGHT_S.move(0, 0, 11 / 16.0);
                     }
                     case EAST -> {
-                        BottomDirection = BOTTOM_S.move((double) 3 / 16, 0, 0);
-                        TopShape = UP_STRAIGHT_S.move((double) 11 / 16, 0, 0);
+                        BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 0);
+                        TopShape = UP_STRAIGHT_S.move(11 / 16.0, 0, 0);
                     }
                 }
             }
             case OUTER_RIGHT -> {
                 switch (state.getValue(FACING)) {
                     case NORTH -> {
-                        BottomDirection = BOTTOM_S.move((double) 3 / 16, 0, 0);
-                        TopShape = UP_STRAIGHT_S.move((double) 11 / 16, 0, 0);
+                        BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 0);
+                        TopShape = UP_STRAIGHT_S.move(11 / 16.0, 0, 0);
                     }
                     case SOUTH -> {
-                        BottomDirection = BOTTOM_S.move(0, 0, (double) 3 / 16);
-                        TopShape = UP_STRAIGHT_S.move(0, 0, (double) 11 / 16);
+                        BottomDirection = BOTTOM_S.move(0, 0, 3 / 16.0);
+                        TopShape = UP_STRAIGHT_S.move(0, 0, 11 / 16.0);
                     }
                     case WEST -> {
                         BottomDirection = BOTTOM_S;
                         TopShape = UP_STRAIGHT_S;
                     }
                     case EAST -> {
-                        BottomDirection = BOTTOM_S.move((double) 3 / 16, 0, (double) 3 / 16);
-                        TopShape = UP_STRAIGHT_S.move((double) 11 / 16, 0, (double) 11 / 16);
+                        BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 3 / 16.0);
+                        TopShape = UP_STRAIGHT_S.move(11 / 16.0, 0, 11 / 16.0);
                     }
                 }
             }
@@ -129,17 +129,17 @@ public class SofaBlock extends AbstractChairBlock {
             case INNER_LEFT -> {
                 switch (state.getValue(FACING)){
                     case NORTH -> TopShapeAdd = UP_STRAIGHT_Z;
-                    case SOUTH -> TopShapeAdd = UP_STRAIGHT_Z.move((double) 11 /16,0,0);
-                    case WEST -> TopShapeAdd = UP_STRAIGHT_X.move(0,0,(double) 11 /16);
+                    case SOUTH -> TopShapeAdd = UP_STRAIGHT_Z.move(11 /16.0,0,0);
+                    case WEST -> TopShapeAdd = UP_STRAIGHT_X.move(0,0,11 /16.0);
                     case EAST -> TopShapeAdd = UP_STRAIGHT_X;
                 }
             }
             case INNER_RIGHT -> {
                 switch (state.getValue(FACING)){
-                    case NORTH -> TopShapeAdd = UP_STRAIGHT_Z.move((double) 11 /16,0,0);
+                    case NORTH -> TopShapeAdd = UP_STRAIGHT_Z.move(11 /16.0,0,0);
                     case SOUTH -> TopShapeAdd = UP_STRAIGHT_Z;
                     case WEST -> TopShapeAdd = UP_STRAIGHT_X;
-                    case EAST -> TopShapeAdd = UP_STRAIGHT_X.move(0,0,(double) 11 /16);
+                    case EAST -> TopShapeAdd = UP_STRAIGHT_X.move(0,0,11 /16.0);
                 }
             }
         }

@@ -51,6 +51,7 @@ public final class TFBlocks {
     public static final DeferredBlock<SofaBlock> GLASS_SOFA = registerWithItem("glass_sofa", () -> new SofaBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
     public static final DeferredBlock<LampBlock> GLASS_LAMP = registerWithItem("glass_lamp", () -> new LampBlock(ParticleTypes.END_ROD,BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
     public static final DeferredBlock<CandelairasBlock> GLASS_CANDELABRAS = registerWithItem("glass_candelabras", () -> new CandelairasBlock(ParticleTypes.END_ROD,BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<SinkBlock> GLASS_SINK = registerWithItem("glass_sink", () -> new SinkBlock(BlockBehaviour.Properties.ofLegacyCopy(Blocks.GLASS)));
 
     public static <B extends Block> DeferredBlock<B> registerWithItem(String id, Supplier<B> block) {
         return registerWithItem(id, block, new Item.Properties());
