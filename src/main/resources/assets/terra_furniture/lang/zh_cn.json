@@ -3,7 +3,9 @@
 
     "block.terra_furniture.glass_door": "玻璃门",
     "block.terra_furniture.glass_chair": "玻璃椅",
-    "block.terra_furniture.glass_table": "玻璃桌",
     "block.terra_furniture.glass_toilet": "玻璃马桶",
-    "block.terra_furniture.glass_sofa": "玻璃沙发"
+    "block.terra_furniture.glass_table": "玻璃桌",
+    "block.terra_furniture.glass_candle": "玻璃蜡烛",
+    "block.terra_furniture.glass_sofa": "玻璃沙发",
+    "block.terra_furniture.glass_candelabras": "玻璃烛台"
 }

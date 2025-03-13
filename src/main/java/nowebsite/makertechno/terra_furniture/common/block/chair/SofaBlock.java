@@ -1,4 +1,4 @@
-package nowebsite.makertechno.terra_furniture.common.block;
+package nowebsite.makertechno.terra_furniture.common.block.chair;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -20,12 +20,10 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import nowebsite.makertechno.terra_furniture.common.block.chair.AbstractChairBlock;
 
 public class SofaBlock extends AbstractChairBlock {
     public static final MapCodec<ChairBlock> CODEC = simpleCodec(ChairBlock::new);
 
-    public static final DirectionProperty FACING;
     public static final EnumProperty<StairsShape> SHAPE;
     public static final BooleanProperty LEFT_END;
     public static final BooleanProperty RIGHT_END;
@@ -45,7 +43,6 @@ public class SofaBlock extends AbstractChairBlock {
     public SofaBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
-                .setValue(FACING, Direction.NORTH)
                 .setValue(SHAPE, StairsShape.STRAIGHT)
                 .setValue(LEFT_END, true)
                 .setValue(RIGHT_END, true)
@@ -276,7 +273,6 @@ public class SofaBlock extends AbstractChairBlock {
     }
 
     static {
-        FACING = HorizontalDirectionalBlock.FACING;
         SHAPE = BlockStateProperties.STAIRS_SHAPE;
         LEFT_END = BooleanProperty.create("left_end");
         RIGHT_END = BooleanProperty.create("right_end");

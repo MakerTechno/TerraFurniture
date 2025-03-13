@@ -1,4 +1,4 @@
-package nowebsite.makertechno.terra_furniture.common.block;
+package nowebsite.makertechno.terra_furniture.common.block.chair;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import nowebsite.makertechno.terra_furniture.common.block.chair.AbstractChairBlock;
 
 public class ToiletBlock extends AbstractChairBlock {
     public static final MapCodec<ToiletBlock> CODEC = simpleCodec(ToiletBlock::new);
