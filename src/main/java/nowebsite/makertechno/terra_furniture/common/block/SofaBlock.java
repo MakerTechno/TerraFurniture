@@ -6,7 +6,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
@@ -19,8 +22,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import nowebsite.makertechno.terra_furniture.common.block.chair.AbstractChairBlock;
 
-import java.util.stream.IntStream;
-
 public class SofaBlock extends AbstractChairBlock {
     public static final MapCodec<ChairBlock> CODEC = simpleCodec(ChairBlock::new);
 
@@ -30,39 +31,15 @@ public class SofaBlock extends AbstractChairBlock {
     public static final BooleanProperty RIGHT_END;
     public static final BooleanProperty WATERLOGGED;
     protected static final VoxelShape BOTTOM_AABB;
-    protected static final VoxelShape OCTET_NPN;
-    protected static final VoxelShape OCTET_NPP;
-    protected static final VoxelShape OCTET_PPN;
-    protected static final VoxelShape OCTET_PPP;
-    protected static final VoxelShape[] SHAPES;
-    private static final int[] SHAPE_BY_STATE;
+    protected static final VoxelShape BOTTOM_X;
+    protected static final VoxelShape BOTTOM_Z;
+    protected static final VoxelShape UP_STRAIGHT_X;
+    protected static final VoxelShape UP_STRAIGHT_Z;
+    protected static final VoxelShape BOTTOM_S;
+    protected static final VoxelShape UP_STRAIGHT_S;
     @Override
     protected MapCodec<ChairBlock> codec() {
         return CODEC;
-    }
-
-    private static VoxelShape[] makeShapes() {
-        return IntStream.range(0, 16).mapToObj(SofaBlock::makeSofaShape).toArray(VoxelShape[]::new);
-    }
-    private static VoxelShape makeSofaShape(int bitfield) {
-        VoxelShape voxelshape = SofaBlock.BOTTOM_AABB;
-        if ((bitfield & 1) != 0) {
-            voxelshape = Shapes.or(SofaBlock.BOTTOM_AABB, SofaBlock.OCTET_NPN);
-        }
-
-        if ((bitfield & 2) != 0) {
-            voxelshape = Shapes.or(voxelshape, SofaBlock.OCTET_PPN);
-        }
-
-        if ((bitfield & 4) != 0) {
-            voxelshape = Shapes.or(voxelshape, SofaBlock.OCTET_NPP);
-        }
-
-        if ((bitfield & 8) != 0) {
-            voxelshape = Shapes.or(voxelshape, SofaBlock.OCTET_PPP);
-        }
-
-        return voxelshape;
     }
 
     public SofaBlock(Properties properties) {
@@ -86,14 +63,93 @@ public class SofaBlock extends AbstractChairBlock {
     }
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPES[SHAPE_BY_STATE[this.getShapeIndex(state)]];
+        VoxelShape BottomDirection = BOTTOM_AABB;
+        VoxelShape TopShape = Shapes.empty();
+        VoxelShape TopShapeAdd = Shapes.empty();
+        switch (state.getValue(SHAPE)){
+            case STRAIGHT -> {
+                switch (state.getValue(FACING)) {
+                    case NORTH -> {
+                        BottomDirection = BOTTOM_X;
+                        TopShape = UP_STRAIGHT_X;
+                    }
+                    case SOUTH -> {
+                        BottomDirection = BOTTOM_X.move(0, 0, (double) 3 / 16);
+                        TopShape = UP_STRAIGHT_X.move(0, 0, (double) 11 / 16);
+                    }
+                    case WEST -> {
+                        BottomDirection = BOTTOM_Z;
+                        TopShape = UP_STRAIGHT_Z;
+                    }
+                    case EAST -> {
+                        BottomDirection = BOTTOM_Z.move((double) 3 / 16, 0, 0);
+                        TopShape = UP_STRAIGHT_Z.move((double) 11 / 16, 0, 0);
+                    }
+                }
+            }
+            case OUTER_LEFT -> {
+                switch (state.getValue(FACING)) {
+                    case NORTH -> {
+                        BottomDirection = BOTTOM_S;
+                        TopShape = UP_STRAIGHT_S;
+                    }
+                    case SOUTH -> {
+                        BottomDirection = BOTTOM_S.move((double) 3 / 16, 0, (double) 3 / 16);
+                        TopShape = UP_STRAIGHT_S.move((double) 11 / 16, 0, (double) 11 / 16);
+                    }
+                    case WEST -> {
+                        BottomDirection = BOTTOM_S.move(0, 0, (double) 3 / 16);
+                        TopShape = UP_STRAIGHT_S.move(0, 0, (double) 11 / 16);
+                    }
+                    case EAST -> {
+                        BottomDirection = BOTTOM_S.move((double) 3 / 16, 0, 0);
+                        TopShape = UP_STRAIGHT_S.move((double) 11 / 16, 0, 0);
+                    }
+                }
+            }
+            case OUTER_RIGHT -> {
+                switch (state.getValue(FACING)) {
+                    case NORTH -> {
+                        BottomDirection = BOTTOM_S.move((double) 3 / 16, 0, 0);
+                        TopShape = UP_STRAIGHT_S.move((double) 11 / 16, 0, 0);
+                    }
+                    case SOUTH -> {
+                        BottomDirection = BOTTOM_S.move(0, 0, (double) 3 / 16);
+                        TopShape = UP_STRAIGHT_S.move(0, 0, (double) 11 / 16);
+                    }
+                    case WEST -> {
+                        BottomDirection = BOTTOM_S;
+                        TopShape = UP_STRAIGHT_S;
+                    }
+                    case EAST -> {
+                        BottomDirection = BOTTOM_S.move((double) 3 / 16, 0, (double) 3 / 16);
+                        TopShape = UP_STRAIGHT_S.move((double) 11 / 16, 0, (double) 11 / 16);
+                    }
+                }
+            }
+        }
+        switch (state.getValue(SHAPE)){
+            case INNER_LEFT -> {
+                switch (state.getValue(FACING)){
+                    case NORTH -> TopShapeAdd = UP_STRAIGHT_Z;
+                    case SOUTH -> TopShapeAdd = UP_STRAIGHT_Z.move((double) 11 /16,0,0);
+                    case WEST -> TopShapeAdd = UP_STRAIGHT_X.move(0,0,(double) 11 /16);
+                    case EAST -> TopShapeAdd = UP_STRAIGHT_X;
+                }
+            }
+            case INNER_RIGHT -> {
+                switch (state.getValue(FACING)){
+                    case NORTH -> TopShapeAdd = UP_STRAIGHT_Z.move((double) 11 /16,0,0);
+                    case SOUTH -> TopShapeAdd = UP_STRAIGHT_Z;
+                    case WEST -> TopShapeAdd = UP_STRAIGHT_X;
+                    case EAST -> TopShapeAdd = UP_STRAIGHT_X.move(0,0,(double) 11 /16);
+                }
+            }
+        }
+        return Shapes.or(BottomDirection,TopShape,TopShapeAdd);
     }
 
-    private int getShapeIndex(BlockState state) {
-        return state.getValue(SHAPE).ordinal() * 4 + state.getValue(FACING).get2DDataValue();
-    }
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Direction direction = context.getClickedFace();
         BlockPos blockpos = context.getClickedPos();
         FluidState fluidstate = context.getLevel().getFluidState(blockpos);
         BlockState blockstate = this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
@@ -226,11 +282,12 @@ public class SofaBlock extends AbstractChairBlock {
         RIGHT_END = BooleanProperty.create("right_end");
         WATERLOGGED = BlockStateProperties.WATERLOGGED;
         BOTTOM_AABB = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
-        OCTET_NPN = Block.box(0.0, 8.0, 0.0, 8.0, 16.0, 8.0);
-        OCTET_NPP = Block.box(0.0, 8.0, 8.0, 8.0, 16.0, 16.0);
-        OCTET_PPN = Block.box(8.0, 8.0, 0.0, 16.0, 16.0, 8.0);
-        OCTET_PPP = Block.box(8.0, 8.0, 8.0, 16.0, 16.0, 16.0);
-        SHAPES = makeShapes();
-        SHAPE_BY_STATE = new int[]{12, 5, 3, 10, 14, 13, 7, 11, 13, 7, 11, 14, 8, 4, 1, 2, 4, 1, 2, 8};
+
+        BOTTOM_X = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 13.0);
+        BOTTOM_Z = Block.box(0.0, 0.0, 0.0, 13.0, 8.0, 16.0);
+        UP_STRAIGHT_X = Block.box(0.0, 8.0, 0.0, 16.0, 14.0, 5.0);
+        UP_STRAIGHT_Z = Block.box(0.0, 8.0, 0.0, 5.0, 14.0, 16.0);
+        BOTTOM_S = Block.box(0.0, 0.0, 0.0, 13.0, 8.0, 13.0);
+        UP_STRAIGHT_S = Block.box(0.0, 8.0, 0.0, 5.0, 14.0, 5.0);
     }
 }

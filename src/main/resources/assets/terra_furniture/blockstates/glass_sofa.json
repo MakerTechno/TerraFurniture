@@ -1,18 +1,20 @@
 {
   "variants": {
     "facing=east,shape=inner_left": {
-      "model": "minecraft:block/acacia_stairs_inner",
+      "model": "terra_furniture:block/glass/sofa_inner_left",
       "y": 270
     },
     "facing=east,shape=inner_right": {
-      "model": "minecraft:block/acacia_stairs_inner"
+      "model": "terra_furniture:block/glass/sofa_inner_right",
+      "y": 270
     },
     "facing=east,shape=outer_left": {
-      "model": "minecraft:block/acacia_stairs_outer",
+      "model": "terra_furniture:block/glass/sofa_outer_left",
       "y": 270
     },
     "facing=east,shape=outer_right": {
-      "model": "minecraft:block/acacia_stairs_outer"
+      "model": "terra_furniture:block/glass/sofa_outer_right",
+      "y": 270
     },
     "facing=east,shape=straight,left_end=true,right_end=true": {
       "model": "terra_furniture:block/glass/sofa",
@@ -31,20 +33,20 @@
       "y": 270
     },
     "facing=north,shape=inner_left": {
-      "model": "minecraft:block/acacia_stairs_inner",
+      "model": "terra_furniture:block/glass/sofa_inner_left",
       "y": 180
     },
     "facing=north,shape=inner_right": {
-      "model": "minecraft:block/acacia_stairs_inner",
-      "y": 270
+      "model": "terra_furniture:block/glass/sofa_inner_right",
+      "y": 180
     },
     "facing=north,shape=outer_left": {
-      "model": "minecraft:block/acacia_stairs_outer",
+      "model": "terra_furniture:block/glass/sofa_outer_left",
       "y": 180
     },
     "facing=north,shape=outer_right": {
-      "model": "minecraft:block/acacia_stairs_outer",
-      "y": 270
+      "model": "terra_furniture:block/glass/sofa_outer_right",
+      "y": 180
     },
     "facing=north,shape=straight,left_end=true,right_end=true": {
       "model": "terra_furniture:block/glass/sofa",
@@ -63,18 +65,16 @@
       "y": 180
     },
     "facing=south,shape=inner_left": {
-      "model": "minecraft:block/acacia_stairs_inner"
+      "model": "terra_furniture:block/glass/sofa_inner_left"
     },
     "facing=south,shape=inner_right": {
-      "model": "minecraft:block/acacia_stairs_inner",
-      "y": 90
+      "model": "terra_furniture:block/glass/sofa_inner_right"
     },
     "facing=south,shape=outer_left": {
-      "model": "minecraft:block/acacia_stairs_outer"
+      "model": "terra_furniture:block/glass/sofa_outer_left"
     },
     "facing=south,shape=outer_right": {
-      "model": "minecraft:block/acacia_stairs_outer",
-      "y": 90
+      "model": "terra_furniture:block/glass/sofa_outer_right"
     },
     "facing=south,shape=straight,left_end=true,right_end=true": {
       "model": "terra_furniture:block/glass/sofa"
@@ -89,20 +89,20 @@
       "model": "terra_furniture:block/glass/sofa_middle"
     },
     "facing=west,shape=inner_left": {
-      "model": "minecraft:block/acacia_stairs_inner",
+      "model": "terra_furniture:block/glass/sofa_inner_left",
       "y": 90
     },
     "facing=west,shape=inner_right": {
-      "model": "minecraft:block/acacia_stairs_inner",
-      "y": 180
+      "model": "terra_furniture:block/glass/sofa_inner_right",
+      "y": 90
     },
     "facing=west,shape=outer_left": {
-      "model": "minecraft:block/acacia_stairs_outer",
+      "model": "terra_furniture:block/glass/sofa_outer_left",
       "y": 90
     },
     "facing=west,shape=outer_right": {
-      "model": "minecraft:block/acacia_stairs_outer",
-      "y": 180
+      "model": "terra_furniture:block/glass/sofa_outer_right",
+      "y": 90
     },
     "facing=west,shape=straight,left_end=true,right_end=true": {
       "model": "terra_furniture:block/glass/sofa",
