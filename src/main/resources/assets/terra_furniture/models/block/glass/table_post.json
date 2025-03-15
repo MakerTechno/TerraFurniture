@@ -1,0 +1,8 @@
+{
+  "parent": "terra_furniture:block/table_post",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "texture": "minecraft:block/glass_pane_top",
+    "particle": "minecraft:block/glass"
+  }
+}

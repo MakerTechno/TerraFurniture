@@ -1,0 +1,23 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/door_bottom_left",
+	"render_type": "minecraft:cutout",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "terra_furniture:block/glass_door",
+		"particle": "minecraft:block/glass"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [3, 16, 16],
+			"faces": {
+				"north": {"uv": [9.5, 8, 8, 16], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [8, 8, 0, 16], "texture": "#0"},
+				"south": {"uv": [8, 8, 9.5, 16], "texture": "#0", "cullface": "south"},
+				"west": {"uv": [0, 8, 8, 16], "texture": "#0", "cullface": "west"},
+				"down": {"uv": [8, 16, 9.5, 8], "texture": "#0", "cullface": "down"}
+			}
+		}
+	]
+}
