@@ -1,4 +1,4 @@
-package nowebsite.makertechno.terra_furniture.common.block.chair;
+package nowebsite.makertechno.terra_furniture.common.block.sittable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -8,12 +8,18 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
-import nowebsite.makertechno.terra_furniture.common.block.chair.AbstractChairBlock;
+import nowebsite.makertechno.terra_furniture.common.block.sittable.AbstractChairBlock;
 import org.jetbrains.annotations.NotNull;
 
 public class ChairEntity extends Entity {
     public ChairEntity(EntityType<ChairEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        //setNoGravity(true);
+        //setInvisible(true);
+        //horizontalCollision = false;
+        //minorHorizontalCollision = false;
+        //verticalCollision = false;
+        //verticalCollisionBelow = false;
     }
 
     @Override

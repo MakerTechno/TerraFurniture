@@ -1,4 +1,4 @@
-package nowebsite.makertechno.terra_furniture.common.block.chair;
+package nowebsite.makertechno.terra_furniture.common.block.sittable;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -9,23 +9,23 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class ToiletBlock extends AbstractChairBlock {
-    public static final MapCodec<ToiletBlock> CODEC = simpleCodec(ToiletBlock::new);
-    public ToiletBlock(Properties properties) {
+public class ChairBlock extends AbstractChairBlock {
+    public static final MapCodec<ChairBlock> CODEC = simpleCodec(ChairBlock::new);
+    public ChairBlock(Properties properties) {
         super(properties);
     }
     @Override
     public Vec3 sitPos() {
-        return new Vec3(0, 0.2, 0);
+        return new Vec3(0, 0, 0);
     }
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Block.box(4.0, 0.0, 4.0, 12.0, 11.0, 12.0);
+        return Block.box(4.0, 0.0, 4.0, 12.0, 8.0, 12.0);
     }
 
     @Override
-    protected MapCodec<ToiletBlock> codec() {
+    protected MapCodec<ChairBlock> codec() {
         return CODEC;
     }
 }

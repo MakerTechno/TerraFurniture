@@ -3,11 +3,8 @@ package nowebsite.makertechno.terra_furniture.common.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,14 +13,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import nowebsite.makertechno.terra_furniture.common.block.chair.ChairBlock;
-import nowebsite.makertechno.terra_furniture.common.entity.chair.ChairEntity;
-import nowebsite.makertechno.terra_furniture.common.init.TFEntities;
+import org.jetbrains.annotations.NotNull;
 
 public class SinkBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
     public static final MapCodec<SinkBlock> CODEC = simpleCodec(SinkBlock::new);
@@ -38,7 +31,7 @@ public class SinkBlock extends HorizontalDirectionalBlock implements SimpleWater
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         switch (state.getValue(FACING)){
             case NORTH -> {
                 return Shapes.or(SINK_X.move(0,0, 3/16.0),PIPE.move(0,0, 6/16.0));
@@ -56,11 +49,11 @@ public class SinkBlock extends HorizontalDirectionalBlock implements SimpleWater
         return Shapes.or(SINK_X,PIPE);
     }
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED,FACING);
     }
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         LevelAccessor levelaccessor = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         return defaultBlockState()
@@ -68,10 +61,10 @@ public class SinkBlock extends HorizontalDirectionalBlock implements SimpleWater
                 .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    protected BlockState rotate(BlockState state, Rotation rot) {
+    protected @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rot) {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
-    protected BlockState mirror(BlockState state, Mirror mirror) {
+    protected @NotNull BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
         Direction direction = state.getValue(FACING);
         switch (mirror) {
             case LEFT_RIGHT -> {
@@ -88,12 +81,12 @@ public class SinkBlock extends HorizontalDirectionalBlock implements SimpleWater
         return super.mirror(state, mirror);
     }
     @Override
-    protected FluidState getFluidState(BlockState state) {
+    protected @NotNull FluidState getFluidState(@NotNull BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    protected MapCodec<SinkBlock> codec() {
+    protected @NotNull MapCodec<SinkBlock> codec() {
         return CODEC;
     }
     static {

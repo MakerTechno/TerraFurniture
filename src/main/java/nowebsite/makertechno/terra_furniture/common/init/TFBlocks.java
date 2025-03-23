@@ -16,10 +16,10 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
 import nowebsite.makertechno.terra_furniture.common.block.*;
-import nowebsite.makertechno.terra_furniture.common.block.chair.ChairBlock;
-import nowebsite.makertechno.terra_furniture.common.block.chair.PlasticChairBlock;
-import nowebsite.makertechno.terra_furniture.common.block.chair.SofaBlock;
-import nowebsite.makertechno.terra_furniture.common.block.chair.ToiletBlock;
+import nowebsite.makertechno.terra_furniture.common.block.sittable.ChairBlock;
+import nowebsite.makertechno.terra_furniture.common.block.sittable.PlasticChairBlock;
+import nowebsite.makertechno.terra_furniture.common.block.sittable.SofaBlock;
+import nowebsite.makertechno.terra_furniture.common.block.sittable.ToiletBlock;
 import nowebsite.makertechno.terra_furniture.common.block.light.*;
 
 import java.util.function.Function;

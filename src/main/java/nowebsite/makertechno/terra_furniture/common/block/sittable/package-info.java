@@ -1,3 +1,3 @@
 @javax.annotation.ParametersAreNonnullByDefault
 @net.minecraft.MethodsReturnNonnullByDefault
-package nowebsite.makertechno.terra_furniture.common.block.chair;
+package nowebsite.makertechno.terra_furniture.common.block.sittable;

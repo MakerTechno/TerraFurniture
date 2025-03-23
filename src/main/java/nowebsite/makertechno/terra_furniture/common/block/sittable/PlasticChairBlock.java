@@ -1,4 +1,4 @@
-package nowebsite.makertechno.terra_furniture.common.block.chair;
+package nowebsite.makertechno.terra_furniture.common.block.sittable;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
