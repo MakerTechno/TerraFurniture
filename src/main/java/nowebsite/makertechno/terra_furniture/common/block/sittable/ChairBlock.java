@@ -21,7 +21,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
 import nowebsite.makertechno.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import nowebsite.makertechno.terra_furniture.common.block.func.BaseSittableBE;
-import nowebsite.makertechno.terra_furniture.common.block.sittable.entity.ChairBE;
 import nowebsite.makertechno.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -100,7 +99,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
         return "";
     }
 
-    public static class Entity extends ChairBE<Entity> {
+    public static class Entity extends BaseSittableBE<Entity> {
         private double yOffset = 0.0;
         public Entity(BlockPos pos, BlockState blockState) {
             super(TFBlocks.CHAIR_ENTITY, pos, blockState);
