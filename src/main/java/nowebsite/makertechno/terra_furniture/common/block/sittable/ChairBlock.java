@@ -30,11 +30,6 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
         super(state, properties);
     }
 
-    @Override
-    public @Nullable PushReaction getPistonPushReaction(BlockState state) {
-        return super.getPistonPushReaction(state);
-    }
-
     protected double getYOffset() {
         return 0.4;
     }
