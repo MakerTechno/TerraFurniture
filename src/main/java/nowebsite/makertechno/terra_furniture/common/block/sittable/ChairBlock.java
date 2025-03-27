@@ -75,7 +75,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
     @Nullable
     public <E extends BlockEntity> BlockEntityTicker<E> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<E> blockEntityType) {
         return level.isClientSide() ? null : (level1, pos, blockState, t) -> {
-            if (t instanceof Entity blockEntity) {
+            if (t instanceof BaseSittableBE<?> blockEntity) {
                 blockEntity.tickAtServer();
             }
         };

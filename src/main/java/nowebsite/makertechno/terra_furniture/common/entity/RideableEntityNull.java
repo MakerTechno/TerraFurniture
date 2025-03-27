@@ -38,9 +38,9 @@ public class RideableEntityNull extends VehicleEntity implements IEntityWithComp
         BlockEntity blockEntity = level().getBlockEntity(blockEntityPos);
         if (!(blockEntity instanceof BaseSittableBE<?> cast)){
             this.remove(RemovalReason.DISCARDED);
-        }
-        else if (cast.getBlockState() != cast.containerBlock || canAddPassenger(this)){
-            cast.setRemoved();
+        } else {
+            if (cast.getBlockState() != cast.containerBlock) cast.setRemoved();
+            if (canAddPassenger(this)) cast.cleanSeat();
         }
     }
     private int count;
@@ -51,9 +51,9 @@ public class RideableEntityNull extends VehicleEntity implements IEntityWithComp
             BlockEntity blockEntity = level().getBlockEntity(blockEntityPos);
             if (!(blockEntity instanceof BaseSittableBE<?> cast)){
                 this.remove(RemovalReason.DISCARDED);
-            }
-            else if (cast.getBlockState() != cast.containerBlock || canAddPassenger(this)){
-                cast.setRemoved();
+            } else {
+                if (cast.getBlockState() != cast.containerBlock) cast.setRemoved();
+                if (canAddPassenger(this)) cast.cleanSeat();
             }
         } else {
             count++;

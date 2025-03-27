@@ -28,7 +28,8 @@ public abstract class BaseSittableBE<T extends BaseSittableBE<T>> extends BlockE
         if (this.sit != null && this.sit.getFirstPassenger() == null && this.count >= 10) {
             this.sit.remove(Entity.RemovalReason.DISCARDED);
             this.sit = null;
-        } else if (this.count <= 10) {
+        }
+        else if (this.count <= 10) {
             ++this.count;
         }
     }
@@ -52,8 +53,11 @@ public abstract class BaseSittableBE<T extends BaseSittableBE<T>> extends BlockE
     }
     @Override
     public void setRemoved() {
+        cleanSeat();
         Objects.requireNonNull(getLevel()).removeBlockEntity(getBlockPos());
         newOneFromBlock();
+    }
+    public void cleanSeat() {
         if (this.sit != null) {
             this.sit.remove(Entity.RemovalReason.DISCARDED);
             this.sit = null;
