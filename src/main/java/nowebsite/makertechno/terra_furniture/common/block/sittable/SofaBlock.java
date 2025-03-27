@@ -39,7 +39,7 @@ public class SofaBlock extends ChairBlock {
 
     @Override
     protected double getYOffset() {
-        return 0.36;
+        return 0.55;
     }
 
     @Override

@@ -74,7 +74,7 @@ public class PlasticChairBlock extends ChairBlock {
 
         @Override
         public double getYSvOffset() {
-            return 0.4;
+            return 0.9;
         }
     }
 

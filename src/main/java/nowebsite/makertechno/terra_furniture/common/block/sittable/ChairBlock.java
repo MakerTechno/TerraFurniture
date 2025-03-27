@@ -26,17 +26,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock> implements EntityBlock {
+    public static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 8.0, 12.0);
     public ChairBlock(@NotNull BlockState state, Properties properties) {
         super(state, properties);
     }
 
     protected double getYOffset() {
-        return 0.4;
+        return 0.5;
     }
 
     @Override
     protected VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Block.box(4.0, 0.0, 4.0, 12.0, 8.0, 12.0);
+        return SHAPE;
     }
 
     @Override

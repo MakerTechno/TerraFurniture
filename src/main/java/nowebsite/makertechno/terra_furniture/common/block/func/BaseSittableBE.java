@@ -37,13 +37,6 @@ public abstract class BaseSittableBE<T extends BaseSittableBE<T>> extends BlockE
             this.count = 0;
             this.sit = new RideableEntityNull(TFEntities.NULL_RIDE.get(), level, this.worldPosition);
             this.sit.setPos((double)pos.getX() + 0.5, (double)pos.getY() + getYSvOffset(), (double)pos.getZ() + 0.5);
-            /*int rotate = switch (direction) {
-                case EAST -> 90;
-                case SOUTH -> 180;
-                case WEST -> 270;
-                default -> 0;
-            };
-            sit.setYRot(180 + rotate);*/
             level.addFreshEntity(this.sit);
             if (!player.startRiding(this.sit, true)) {
                 player.displayClientMessage(Component.translatable("msg.furnitureplan.sit"), true);
