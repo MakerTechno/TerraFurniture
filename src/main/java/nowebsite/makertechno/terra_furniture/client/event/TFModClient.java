@@ -7,7 +7,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
 import nowebsite.makertechno.terra_furniture.client.model.block.PlasticChairModel;
-import nowebsite.makertechno.terra_furniture.client.renderer.entity.EmptyEntityRenderer;
 import nowebsite.makertechno.terra_furniture.common.init.TFBlocks;
 import nowebsite.makertechno.terra_furniture.common.init.TFEntities;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
