@@ -11,10 +11,10 @@ import nowebsite.makertechno.terra_furniture.common.init.TFTabs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Mod(TerraFurniture.MODID)
+@Mod(TerraFurniture.MOD_ID)
 public class TerraFurniture {
     // TODO: 要是换DataGen多好啊( 变种方块json会累死人的
-    public static final String MODID = "terra_furniture";
+    public static final String MOD_ID = "terra_furniture";
     public static final Logger LOGGER = LoggerFactory.getLogger("Terra Furniture");
 
     public TerraFurniture(IEventBus modEventBus, ModContainer modContainer) {
@@ -25,6 +25,6 @@ public class TerraFurniture {
     }
 
     public static ResourceLocation asResource(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }
