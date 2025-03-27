@@ -21,10 +21,10 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class CandelairasBlock extends SwitchableLightBlock {
-    public static final MapCodec<CandelairasBlock> CODEC;
+public class CandelabraBlock extends SwitchableLightBlock {
+    public static final MapCodec<CandelabraBlock> CODEC;
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public CandelairasBlock(SimpleParticleType flameParticle, Properties properties) {
+    public CandelabraBlock(SimpleParticleType flameParticle, Properties properties) {
         super(flameParticle, properties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
@@ -72,10 +72,10 @@ public class CandelairasBlock extends SwitchableLightBlock {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
-    public MapCodec<? extends CandelairasBlock> codec() {
+    public MapCodec<? extends CandelabraBlock> codec() {
         return CODEC;
     }
     static {
-        CODEC = RecordCodecBuilder.mapCodec((p_308842_) -> p_308842_.group(PARTICLE_OPTIONS_FIELD.forGetter((p_304762_) -> p_304762_.flameParticle), propertiesCodec()).apply(p_308842_, CandelairasBlock::new));
+        CODEC = RecordCodecBuilder.mapCodec((p_308842_) -> p_308842_.group(PARTICLE_OPTIONS_FIELD.forGetter((p_304762_) -> p_304762_.flameParticle), propertiesCodec()).apply(p_308842_, CandelabraBlock::new));
     }
 }
