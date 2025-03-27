@@ -1,5 +1,6 @@
 package nowebsite.makertechno.terra_furniture.client.event;
 
+import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -15,8 +16,9 @@ import software.bernie.geckolib.renderer.GeoBlockRenderer;
 public final class TFModClient {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(TFEntities.CHAIR.get(), EmptyEntityRenderer::new);
+        event.registerEntityRenderer(TFEntities.NULL_RIDE.get(), NoopRenderer::new);
 
         event.registerBlockEntityRenderer(TFBlocks.PLASTIC_CHAIR_ENTITY.get(), context -> new GeoBlockRenderer<>(new PlasticChairModel()));
+
     }
 }

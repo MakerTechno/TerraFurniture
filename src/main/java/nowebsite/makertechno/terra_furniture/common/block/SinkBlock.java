@@ -16,16 +16,15 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import nowebsite.makertechno.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.jetbrains.annotations.NotNull;
 
-public class SinkBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<SinkBlock> CODEC = simpleCodec(SinkBlock::new);
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> implements SimpleWaterloggedBlock {
     protected static final VoxelShape SINK_X;
     protected static final VoxelShape SINK_Z;
     protected static final VoxelShape PIPE;
-    public SinkBlock(Properties pProperties) {
-        super(pProperties);
+    public SinkBlock(BlockState state, Properties pProperties) {
+        super(state, pProperties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
         registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
     }
@@ -48,22 +47,7 @@ public class SinkBlock extends HorizontalDirectionalBlock implements SimpleWater
         }
         return Shapes.or(SINK_X,PIPE);
     }
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED,FACING);
-    }
-    @Override
-    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
-        LevelAccessor levelaccessor = context.getLevel();
-        BlockPos blockpos = context.getClickedPos();
-        return defaultBlockState()
-                .setValue(WATERLOGGED, levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER)
-                .setValue(FACING, context.getHorizontalDirection().getOpposite());
-    }
 
-    protected @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rot) {
-        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-    }
     protected @NotNull BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
         Direction direction = state.getValue(FACING);
         switch (mirror) {
@@ -80,18 +64,25 @@ public class SinkBlock extends HorizontalDirectionalBlock implements SimpleWater
         }
         return super.mirror(state, mirror);
     }
-    @Override
-    protected @NotNull FluidState getFluidState(@NotNull BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
 
     @Override
-    protected @NotNull MapCodec<SinkBlock> codec() {
-        return CODEC;
+    protected BasePropertyHorizontalDirectionBlock<SinkBlock> createNewInstance(BlockState baseState, Properties properties) {
+        return new SinkBlock(baseState, properties);
     }
+
     static {
         SINK_X = Block.box(1.0, 10.0, 3.0, 15.0, 15.0, 13.0);
         SINK_Z = Block.box(3.0, 10.0, 1.0, 13.0, 15.0, 15.0);
         PIPE = Block.box(7.0, 0.0, 7.0, 9.0, 10.0, 9.0);
+    }
+
+    @Override
+    public String getSpecificName() {
+        return "";
+    }
+
+    @Override
+    public String parentName() {
+        return "";
     }
 }

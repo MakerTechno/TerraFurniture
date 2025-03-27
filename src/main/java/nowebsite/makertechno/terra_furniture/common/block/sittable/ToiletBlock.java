@@ -9,23 +9,16 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class ToiletBlock extends AbstractChairBlock {
-    public static final MapCodec<ToiletBlock> CODEC = simpleCodec(ToiletBlock::new);
-    public ToiletBlock(Properties properties) {
-        super(properties);
+public class ToiletBlock extends ChairBlock {
+    public ToiletBlock(BlockState state, Properties properties) {
+        super(state, properties);
     }
     @Override
-    public Vec3 sitPos() {
-        return new Vec3(0, 0.2, 0);
+    protected double getYOffset() {
+        return 0.2;
     }
-
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return Block.box(4.0, 0.0, 4.0, 12.0, 11.0, 12.0);
-    }
-
-    @Override
-    protected MapCodec<ToiletBlock> codec() {
-        return CODEC;
     }
 }

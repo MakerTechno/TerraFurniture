@@ -1,4 +1,4 @@
-package nowebsite.makertechno.terra_furniture.common.block.sittable.entity;
+package nowebsite.makertechno.terra_furniture.common.block.func;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

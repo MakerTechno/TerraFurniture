@@ -1,6 +1,5 @@
 package nowebsite.makertechno.terra_furniture.common.block.sittable;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -12,21 +11,15 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class SofaBlock extends AbstractChairBlock {
-    public static final MapCodec<ChairBlock> CODEC = simpleCodec(ChairBlock::new);
-
+public class SofaBlock extends ChairBlock {
     public static final EnumProperty<StairsShape> SHAPE;
     public static final BooleanProperty LEFT_END;
     public static final BooleanProperty RIGHT_END;
-    public static final BooleanProperty WATERLOGGED;
     protected static final VoxelShape BOTTOM_AABB;
     protected static final VoxelShape BOTTOM_X;
     protected static final VoxelShape BOTTOM_Z;
@@ -34,13 +27,9 @@ public class SofaBlock extends AbstractChairBlock {
     protected static final VoxelShape UP_STRAIGHT_Z;
     protected static final VoxelShape BOTTOM_S;
     protected static final VoxelShape UP_STRAIGHT_S;
-    @Override
-    protected MapCodec<ChairBlock> codec() {
-        return CODEC;
-    }
 
-    public SofaBlock(Properties properties) {
-        super(properties);
+    public SofaBlock(BlockState state, Properties properties) {
+        super(state, properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(SHAPE, StairsShape.STRAIGHT)
                 .setValue(LEFT_END, true)
@@ -49,14 +38,10 @@ public class SofaBlock extends AbstractChairBlock {
     }
 
     @Override
-    public Vec3 sitPos() {
-        return new Vec3(0, 0, 0);
+    protected double getYOffset() {
+        return 0.36;
     }
 
-    @Override
-    protected boolean useShapeForLightOcclusion(BlockState state) {
-        return true;
-    }
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         VoxelShape BottomDirection = BOTTOM_AABB;
@@ -147,8 +132,7 @@ public class SofaBlock extends AbstractChairBlock {
 
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockPos blockpos = context.getClickedPos();
-        FluidState fluidstate = context.getLevel().getFluidState(blockpos);
-        BlockState blockstate = this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+        BlockState blockstate = super.getStateForPlacement(context);
         return blockstate
                 .setValue(SHAPE, getSofaShape(blockstate, context.getLevel(), blockpos))
                 .setValue(LEFT_END, getSofaLeftEnd(blockstate, context.getLevel(), blockpos))
@@ -156,15 +140,13 @@ public class SofaBlock extends AbstractChairBlock {
     }
     @Override
     protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
-        if (state.getValue(WATERLOGGED)) {
-            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        }
+        BlockState state1 = super.updateShape(state ,facing, facingState, level, currentPos, facingPos);
         return facing.getAxis().isHorizontal()
-                ? state
-                .setValue(SHAPE, getSofaShape(state, level, currentPos))
-                .setValue(LEFT_END, getSofaLeftEnd(state, level, currentPos))
-                .setValue(RIGHT_END, getSofaRightEnd(state, level, currentPos))
-                : super.updateShape(state, facing, facingState, level, currentPos, facingPos);
+                ? state1
+                .setValue(SHAPE, getSofaShape(state1, level, currentPos))
+                .setValue(LEFT_END, getSofaLeftEnd(state1, level, currentPos))
+                .setValue(RIGHT_END, getSofaRightEnd(state1, level, currentPos))
+                : super.updateShape(state1, facing, facingState, level, currentPos, facingPos);
     }
     private static StairsShape getSofaShape(BlockState state, BlockGetter level, BlockPos pos) {
         Direction direction = state.getValue(FACING);
@@ -223,10 +205,7 @@ public class SofaBlock extends AbstractChairBlock {
     public static boolean isSofa(BlockState state) {
         return state.getBlock() instanceof SofaBlock;
     }
-    @Override
-    protected BlockState rotate(BlockState state, Rotation rot) {
-        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-    }
+
     @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
         Direction direction = state.getValue(FACING);
@@ -260,11 +239,8 @@ public class SofaBlock extends AbstractChairBlock {
     }
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, SHAPE, LEFT_END, RIGHT_END, WATERLOGGED);
-    }
-    @Override
-    protected FluidState getFluidState(BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+        super.createBlockStateDefinition(builder);
+        builder.add(SHAPE, LEFT_END, RIGHT_END);
     }
     @Override
     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
@@ -275,7 +251,6 @@ public class SofaBlock extends AbstractChairBlock {
         SHAPE = BlockStateProperties.STAIRS_SHAPE;
         LEFT_END = BooleanProperty.create("left_end");
         RIGHT_END = BooleanProperty.create("right_end");
-        WATERLOGGED = BlockStateProperties.WATERLOGGED;
         BOTTOM_AABB = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
 
         BOTTOM_X = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 13.0);
