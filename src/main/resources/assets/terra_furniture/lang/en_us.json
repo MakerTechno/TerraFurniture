@@ -1,5 +1,6 @@
 {
     "creativetab.terra_furniture": "Confluence | Furniture",
+    "msg.terra_furniture.sit" : "Something wrong happened, it's the reason why you can't sit on this block.",
 
     "block.terra_furniture.glass_door": "Glass Door",
     "block.terra_furniture.glass_chair": "Glass Chair",

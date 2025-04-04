@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class CandelabraBlock extends SwitchableLightBlock {
     public static final MapCodec<CandelabraBlock> CODEC;
@@ -29,11 +30,11 @@ public class CandelabraBlock extends SwitchableLightBlock {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
         builder.add(FACING,WATERLOGGED,POWERED,LIT);
     }
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         LevelAccessor levelaccessor = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         return defaultBlockState()
@@ -43,12 +44,10 @@ public class CandelabraBlock extends SwitchableLightBlock {
                 .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         boolean FacingWE = false;
         switch (state.getValue(FACING)){
-            case WEST, EAST -> {
-                FacingWE = true;
-            }
+            case WEST, EAST -> FacingWE = true;
         }
         if (state.getValue(LIT)){
             level.addParticle(this.flameParticle, pos.getX() + 0.5, pos.getY() + 0.9, pos.getZ() + 0.5, 0.0, 0.0, 0.0);

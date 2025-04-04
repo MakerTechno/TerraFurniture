@@ -39,7 +39,6 @@ public class RideableEntityNull extends VehicleEntity implements IEntityWithComp
         if (!(blockEntity instanceof BaseSittableBE<?> cast)){
             this.remove(RemovalReason.DISCARDED);
         } else {
-            if (cast.getBlockState() != cast.containerBlock) cast.setRemoved();
             if (canAddPassenger(this)) cast.cleanSeat();
         }
     }
@@ -52,7 +51,6 @@ public class RideableEntityNull extends VehicleEntity implements IEntityWithComp
             if (!(blockEntity instanceof BaseSittableBE<?> cast)){
                 this.remove(RemovalReason.DISCARDED);
             } else {
-                if (cast.getBlockState() != cast.containerBlock) cast.setRemoved();
                 if (canAddPassenger(this)) cast.cleanSeat();
             }
         } else {

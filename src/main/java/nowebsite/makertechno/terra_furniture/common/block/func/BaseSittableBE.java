@@ -14,8 +14,6 @@ import nowebsite.makertechno.terra_furniture.common.entity.RideableEntityNull;
 import nowebsite.makertechno.terra_furniture.common.init.TFEntities;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public abstract class BaseSittableBE<T extends BaseSittableBE<T>> extends BlockEntity {
     public RideableEntityNull sit = null;
     public final BlockState containerBlock;
@@ -40,7 +38,7 @@ public abstract class BaseSittableBE<T extends BaseSittableBE<T>> extends BlockE
             this.sit.setPos((double)pos.getX() + 0.5, (double)pos.getY() + getYSvOffset(), (double)pos.getZ() + 0.5);
             level.addFreshEntity(this.sit);
             if (!player.startRiding(this.sit, true)) {
-                player.displayClientMessage(Component.translatable("msg.furnitureplan.sit"), true);
+                player.displayClientMessage(Component.translatable("msg.terra_furniture.sit"), true);
                 this.sit.remove(Entity.RemovalReason.DISCARDED);
                 this.sit = null;
                 return InteractionResult.PASS;
@@ -51,18 +49,11 @@ public abstract class BaseSittableBE<T extends BaseSittableBE<T>> extends BlockE
             return InteractionResult.PASS;
         }
     }
-    @Override
-    public void setRemoved() {
-        cleanSeat();
-        Objects.requireNonNull(getLevel()).removeBlockEntity(getBlockPos());
-        newOneFromBlock();
-    }
     public void cleanSeat() {
         if (this.sit != null) {
             this.sit.remove(Entity.RemovalReason.DISCARDED);
             this.sit = null;
         }
     }
-    public abstract void newOneFromBlock();
     public abstract double getYSvOffset();
 }

@@ -4,19 +4,15 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class TFCandleBlock extends SwitchableLightBlock {
 
@@ -26,7 +22,7 @@ public class TFCandleBlock extends SwitchableLightBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    public void animateTick(@NotNull BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (state.getValue(LIT)){
             level.addParticle(this.flameParticle, pos.getX() + 0.5, pos.getY() + 0.4, pos.getZ() + 0.5, 0.0, 0.0, 0.0);
         }

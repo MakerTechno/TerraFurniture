@@ -103,14 +103,6 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
             super(TFBlocks.CHAIR_ENTITY, pos, blockState);
             this.yOffset = yOffset;
         }
-
-        @Override
-        public void newOneFromBlock() {
-            if (containerBlock.getBlock() instanceof ChairBlock chairBlock){
-                chairBlock.newBlockEntity(this.getBlockPos(), containerBlock);
-            }
-        }
-
         @Override
         public double getYSvOffset() {
             return yOffset;
