@@ -32,5 +32,6 @@ public final class TFDataGenerator {
         generator.addProvider(server, blockTagsProvider);
         generator.addProvider(server, new TFItemTagsProvider(output, lookup, blockTagsProvider.contentsGetter(), helper));
         generator.addProvider(server, new TFLootTableProvider(output, lookup));
+        generator.addProvider(server, new TFRecipeProvider(output, lookup));
     }
 }

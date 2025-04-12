@@ -20,6 +20,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
+import nowebsite.makertechno.terra_furniture.common.block.GlassKilnBlock;
 import nowebsite.makertechno.terra_furniture.common.block.SinkBlock;
 import nowebsite.makertechno.terra_furniture.common.block.TableBlock;
 import nowebsite.makertechno.terra_furniture.common.block.light.*;
@@ -43,6 +44,9 @@ public final class TFBlocks {
         "plastic_chair_entity",
         () -> BlockEntityType.Builder.of(PlasticChairBlock.Entity::new, PLASTIC_CHAIR.get()).build(DSL.remainderType())
     );
+
+    public static final DeferredBlock<GlassKilnBlock> GLASS_KILN = registerWithItem("glass_kiln", () -> new GlassKilnBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE)));
+    public static final Supplier<BlockEntityType<GlassKilnBlock.Entity>> GLASS_KILN_ENTITY = BLOCK_ENTITIES.register("glass_kiln_entity", () -> BlockEntityType.Builder.of(GlassKilnBlock.Entity::new, GLASS_KILN.get()).build(null));
 
     // Glass
     public static final BlockSetType GLASS = new BlockSetType(

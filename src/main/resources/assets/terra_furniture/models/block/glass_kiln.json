@@ -1,9 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"texture_size": [96, 96],
+	"render_type": "cutout",
 	"textures": {
-		"0": "confluence:block/glass_kiln",
-		"particle": "confluence:block/glass_kiln"
+		"0": "terra_furniture:block/glass_kiln",
+		"particle": "terra_furniture:block/glass_kiln"
 	},
 	"elements": [
 		{
