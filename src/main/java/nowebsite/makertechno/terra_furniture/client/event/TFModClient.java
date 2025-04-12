@@ -11,7 +11,7 @@ import nowebsite.makertechno.terra_furniture.common.init.TFBlocks;
 import nowebsite.makertechno.terra_furniture.common.init.TFEntities;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
-@EventBusSubscriber(modid = TerraFurniture.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TerraFurniture.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class TFModClient {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

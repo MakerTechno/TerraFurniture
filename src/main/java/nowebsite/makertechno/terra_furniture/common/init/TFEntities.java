@@ -9,7 +9,7 @@ import nowebsite.makertechno.terra_furniture.TerraFurniture;
 import nowebsite.makertechno.terra_furniture.common.entity.RideableEntityNull;
 
 public final class TFEntities {
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, TerraFurniture.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, TerraFurniture.MODID);
 
     public static final DeferredHolder<EntityType<?>, EntityType<RideableEntityNull>> NULL_RIDE = ENTITIES.register(
         "null_ride",

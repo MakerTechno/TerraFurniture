@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
 
 public final class TFTabs {
-    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB, TerraFurniture.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB, TerraFurniture.MODID);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> FURNITURE = TABS.register("furniture", () -> CreativeModeTab.builder().icon(TFBlocks.PLASTIC_CHAIR::toStack)
             .title(Component.translatable("creativetab.terra_furniture"))

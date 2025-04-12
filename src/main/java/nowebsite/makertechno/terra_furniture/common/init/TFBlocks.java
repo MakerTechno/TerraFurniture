@@ -6,7 +6,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,9 +20,13 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
-import nowebsite.makertechno.terra_furniture.common.block.*;
-import nowebsite.makertechno.terra_furniture.common.block.sittable.*;
+import nowebsite.makertechno.terra_furniture.common.block.SinkBlock;
+import nowebsite.makertechno.terra_furniture.common.block.TableBlock;
 import nowebsite.makertechno.terra_furniture.common.block.light.*;
+import nowebsite.makertechno.terra_furniture.common.block.sittable.ChairBlock;
+import nowebsite.makertechno.terra_furniture.common.block.sittable.PlasticChairBlock;
+import nowebsite.makertechno.terra_furniture.common.block.sittable.SofaBlock;
+import nowebsite.makertechno.terra_furniture.common.block.sittable.ToiletBlock;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -28,8 +35,8 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 public final class TFBlocks {
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(TerraFurniture.MOD_ID);
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, TerraFurniture.MOD_ID);
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(TerraFurniture.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, TerraFurniture.MODID);
 
     public static final DeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(BlockBehaviour.Properties.of().lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PlasticChairBlock.Entity>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register(
