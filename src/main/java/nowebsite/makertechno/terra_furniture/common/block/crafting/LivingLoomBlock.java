@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,6 +19,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import nowebsite.makertechno.terra_furniture.common.menu.LivingLoomMenu;
+import org.jetbrains.annotations.Nullable;
 
 public class LivingLoomBlock extends HorizontalDirectionalBlock {
     public static final MapCodec<LivingLoomBlock> CODEC = simpleCodec(LivingLoomBlock::new);
@@ -53,8 +55,13 @@ public class LivingLoomBlock extends HorizontalDirectionalBlock {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
-            player.openMenu(new SimpleMenuProvider((containerId, inventory, player1) -> new LivingLoomMenu(containerId, inventory), Component.translatable("container.terra_furniture.living_loom")));
+            player.openMenu(state.getMenuProvider(level, pos));
             return InteractionResult.CONSUME;
         }
+    }
+
+    @Override
+    public @Nullable MenuProvider getMenuProvider(BlockState pState, Level pLevel, BlockPos pPos) {
+        return new SimpleMenuProvider((pContainerId, pPlayerInventory, pPlayer) -> new LivingLoomMenu(pContainerId, pPlayerInventory), Component.translatable("container.terra_furniture.living_loom"));
     }
 }

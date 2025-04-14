@@ -9,10 +9,10 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
 import nowebsite.makertechno.terra_furniture.client.model.block.PlasticChairModel;
 import nowebsite.makertechno.terra_furniture.client.screen.GlassKilnScreen;
-import nowebsite.makertechno.terra_furniture.client.screen.LivingLoomScreen;
 import nowebsite.makertechno.terra_furniture.common.init.TFBlocks;
 import nowebsite.makertechno.terra_furniture.common.init.TFEntities;
 import nowebsite.makertechno.terra_furniture.common.init.TFRegistries;
+import org.confluence.lib.client.screen.ShapedAmountContainerScreen4x;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 @EventBusSubscriber(modid = TerraFurniture.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -27,6 +27,6 @@ public final class TFModClient {
     @SubscribeEvent
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
         event.register(TFRegistries.GLASS_KILN_MENU.get(), GlassKilnScreen::new);
-        event.register(TFRegistries.LIVING_LOOM_MENU.get(), LivingLoomScreen::new);
+        ShapedAmountContainerScreen4x.register(TFRegistries.LIVING_LOOM_MENU.get(), event::register);
     }
 }
