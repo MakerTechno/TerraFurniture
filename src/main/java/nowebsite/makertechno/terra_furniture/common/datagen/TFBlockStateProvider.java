@@ -1,6 +1,8 @@
 package nowebsite.makertechno.terra_furniture.common.datagen;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
@@ -19,9 +21,12 @@ public class TFBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        getVariantBuilder(TFBlocks.GLASS_KILN.get()).forAllStates(state -> ConfiguredModel.builder()
-                .modelFile(new ModelFile.ExistingModelFile(TerraFurniture.asResource("block/glass_kiln"), helper))
-                .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
-                .build());
+        horizontalDirectional(TFBlocks.GLASS_KILN.get());
+        horizontalDirectional(TFBlocks.LIVING_LOOM.get());
+    }
+
+    private void horizontalDirectional(Block block) {
+        ModelFile.ExistingModelFile modelFile = new ModelFile.ExistingModelFile(TerraFurniture.asResource("block/" + BuiltInRegistries.BLOCK.getKey(block).getPath()), helper);
+        getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder().modelFile(modelFile).rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360).build());
     }
 }

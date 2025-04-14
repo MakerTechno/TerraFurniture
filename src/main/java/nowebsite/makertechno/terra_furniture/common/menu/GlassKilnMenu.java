@@ -30,12 +30,12 @@ public class GlassKilnMenu extends AbstractContainerMenu {
     private final Container forgeContainer;
     private final ContainerData forgeData;
 
-    public GlassKilnMenu(int pContainerId, Inventory inventory) {
-        this(pContainerId, inventory, new SimpleContainer(SLOT_COUNT), new SimpleContainerData(DATA_COUNT));
+    public GlassKilnMenu(int containerId, Inventory inventory) {
+        this(containerId, inventory, new SimpleContainer(SLOT_COUNT), new SimpleContainerData(DATA_COUNT));
     }
 
-    public GlassKilnMenu(int pContainerId, Inventory inventory, Container forgeContainer, ContainerData forgeData) {
-        super(TFRegistries.GLASS_KILN_MENU.get(), pContainerId);
+    public GlassKilnMenu(int containerId, Inventory inventory, Container forgeContainer, ContainerData forgeData) {
+        super(TFRegistries.GLASS_KILN_MENU.get(), containerId);
         checkContainerSize(forgeContainer, SLOT_COUNT);
         checkContainerDataCount(forgeData, DATA_COUNT);
         this.forgeContainer = forgeContainer;

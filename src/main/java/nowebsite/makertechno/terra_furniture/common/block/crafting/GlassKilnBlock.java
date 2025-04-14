@@ -1,9 +1,8 @@
-package nowebsite.makertechno.terra_furniture.common.block;
+package nowebsite.makertechno.terra_furniture.common.block.crafting;
 
 import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -49,12 +48,8 @@ import nowebsite.makertechno.terra_furniture.common.recipe.GlassKilnRecipe;
 import org.confluence.lib.util.LibUtils;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import static nowebsite.makertechno.terra_furniture.common.menu.GlassKilnMenu.*;
 
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class GlassKilnBlock extends HorizontalDirectionalBlock implements EntityBlock {
     public static final MapCodec<GlassKilnBlock> CODEC = simpleCodec(GlassKilnBlock::new);
 

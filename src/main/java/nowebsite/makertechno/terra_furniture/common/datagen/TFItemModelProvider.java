@@ -14,5 +14,6 @@ public class TFItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         simpleBlockItem(TFBlocks.GLASS_KILN.get());
+        simpleBlockItem(TFBlocks.LIVING_LOOM.get());
     }
 }

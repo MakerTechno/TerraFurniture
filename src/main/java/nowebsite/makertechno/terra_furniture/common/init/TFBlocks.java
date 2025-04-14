@@ -20,9 +20,10 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import nowebsite.makertechno.terra_furniture.TerraFurniture;
-import nowebsite.makertechno.terra_furniture.common.block.GlassKilnBlock;
 import nowebsite.makertechno.terra_furniture.common.block.SinkBlock;
 import nowebsite.makertechno.terra_furniture.common.block.TableBlock;
+import nowebsite.makertechno.terra_furniture.common.block.crafting.GlassKilnBlock;
+import nowebsite.makertechno.terra_furniture.common.block.crafting.LivingLoomBlock;
 import nowebsite.makertechno.terra_furniture.common.block.light.*;
 import nowebsite.makertechno.terra_furniture.common.block.sittable.ChairBlock;
 import nowebsite.makertechno.terra_furniture.common.block.sittable.PlasticChairBlock;
@@ -47,6 +48,7 @@ public final class TFBlocks {
 
     public static final DeferredBlock<GlassKilnBlock> GLASS_KILN = registerWithItem("glass_kiln", () -> new GlassKilnBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE)));
     public static final Supplier<BlockEntityType<GlassKilnBlock.Entity>> GLASS_KILN_ENTITY = BLOCK_ENTITIES.register("glass_kiln_entity", () -> BlockEntityType.Builder.of(GlassKilnBlock.Entity::new, GLASS_KILN.get()).build(null));
+    public static final DeferredBlock<LivingLoomBlock> LIVING_LOOM = registerWithItem("living_loom", () -> new LivingLoomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LOOM)));
 
     // Glass
     public static final BlockSetType GLASS = new BlockSetType(
