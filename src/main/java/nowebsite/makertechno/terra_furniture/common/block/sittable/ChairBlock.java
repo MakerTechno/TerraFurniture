@@ -26,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock> implements EntityBlock {
     public static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 8.0, 12.0);
+
     public ChairBlock(@NotNull BlockState state, Properties properties) {
         super(state, properties);
     }
@@ -48,6 +49,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
     protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
+
     @Override
     protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
         InteractionResult resultA;
@@ -79,6 +81,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
             }
         };
     }
+
     @Override
     protected BasePropertyHorizontalDirectionBlock<ChairBlock> createNewInstance(BlockState baseState, Properties properties) {
         return new ChairBlock(baseState, properties);
@@ -96,13 +99,16 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
     public static class Entity extends BaseSittableBE<Entity> {
         private double yOffset = 0.0;
+
         public Entity(BlockPos pos, BlockState blockState) {
             super(TFBlocks.CHAIR_ENTITY, pos, blockState);
         }
+
         public Entity(BlockPos pos, BlockState blockState, double yOffset) {
             super(TFBlocks.CHAIR_ENTITY, pos, blockState);
             this.yOffset = yOffset;
         }
+
         @Override
         public double getYSvOffset() {
             return yOffset;

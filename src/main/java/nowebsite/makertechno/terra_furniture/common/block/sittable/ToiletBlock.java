@@ -9,13 +9,16 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ToiletBlock extends ChairBlock {
     public static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 11.0, 12.0);
+
     public ToiletBlock(BlockState state, Properties properties) {
         super(state, properties);
     }
+
     @Override
     protected double getYOffset() {
         return 0.75;
     }
+
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;

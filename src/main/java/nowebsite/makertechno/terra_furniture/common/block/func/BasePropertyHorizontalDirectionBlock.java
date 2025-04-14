@@ -23,22 +23,25 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
 public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropertyHorizontalDirectionBlock<T>> extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, IVarietyBlock {
-    public final MapCodec<BasePropertyHorizontalDirectionBlock<T>> codec = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(BlockState.CODEC.fieldOf("base_state").forGetter(block -> block.baseState), propertiesCodec())
-                    .apply(instance, this::createNewInstance)
-    );
+    public final MapCodec<BasePropertyHorizontalDirectionBlock<T>> codec = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            BlockState.CODEC.fieldOf("base_state").forGetter(block -> block.baseState), propertiesCodec()
+    ).apply(instance, this::createNewInstance));
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public final Block base;
     public final BlockState baseState;
+
     public BasePropertyHorizontalDirectionBlock(@NotNull BlockState state, Properties properties) {
         super(properties);
         this.base = state.getBlock();
         this.baseState = state;
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, false));
     }
+
     @Override
     protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return this.getOcclusionShape(state, getter, pos);
     }
+
     @Override
     protected @NotNull BlockState updateShape(@NotNull BlockState pState, @NotNull Direction pDirection, @NotNull BlockState pNeighborState, @NotNull LevelAccessor pLevel, @NotNull BlockPos pPos, @NotNull BlockPos pNeighborPos) {
         if (pState.getValue(WATERLOGGED)) {
@@ -46,6 +49,7 @@ public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropert
         }
         return super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
     }
+
     @Override
     protected @NotNull FluidState getFluidState(@NotNull BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
@@ -55,36 +59,41 @@ public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropert
     @NotNull
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         BlockState blockState = super.getStateForPlacement(context);
-        blockState =
-            blockState == null ?
-                defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite())
-                :
-                blockState.setValue(FACING, context.getHorizontalDirection().getOpposite());
+        blockState = blockState == null
+                ? defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite())
+                : blockState.setValue(FACING, context.getHorizontalDirection().getOpposite());
         return blockState.setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
     }
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> pBuilder) {
         pBuilder.add(WATERLOGGED, FACING);
     }
+
     @Override
     public float getExplosionResistance() {
         return this.base.getExplosionResistance();
     }
+
     @Override
     public String textureName() {
         return null;
     }
+
     @Override
     public String textureKey() {
         return "particle";
     }
+
     @Override
     protected boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType pathComputationType) {
         return false;
     }
+
     @Override
     protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return codec;
     }
+
     protected abstract BasePropertyHorizontalDirectionBlock<T> createNewInstance(BlockState baseState, Properties properties);
 }
