@@ -14,8 +14,14 @@ public class TFEnglishProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add("creativetab.terra_furniture", "Terra Furniture");
+
         add("msg.terra_furniture.sit", "Something wrong happened, it's the reason why you can't sit on this block.");
+
         add("container.terra_furniture.glass_kiln", "Glass Kiln");
+        add("container.terra_furniture.living_loom", "Living Loom");
+
+        add("title.terra_furniture.glass_kiln", "Glass Kiln");
+        add("title.terra_furniture.living_loom", "Living Loom");
 
         TFBlocks.BLOCKS.getEntries().forEach(block -> add(block.get(), LibUtils.toTitleCase(block.getId().getPath())));
     }

@@ -37,15 +37,16 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
         glassKiln(recipeOutput, TFBlocks.GLASS_CHAIR.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', Ingredient.of(Items.GLASS)
         ), List.of(
-                "G ",
-                "GG"
+                "G  ",
+                "GGG",
+                "G G"
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_TOILET.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', Ingredient.of(Items.GLASS)
         ), List.of(
-                "GG ",
-                " GG",
-                " GG"
+                "G  ",
+                "G G",
+                "GG "
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_TABLE.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', Ingredient.of(Items.GLASS),
@@ -74,8 +75,9 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 'G', Ingredient.of(Items.GLASS),
                 'A', Ingredient.of(Items.WATER_BUCKET)
         ), List.of(
+                "G  ",
                 "GAG",
-                "GG "
+                " G "
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_CANDLE.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', Ingredient.of(Items.GLASS),

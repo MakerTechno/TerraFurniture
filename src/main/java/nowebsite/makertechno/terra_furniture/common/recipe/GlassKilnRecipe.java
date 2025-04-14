@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import nowebsite.makertechno.terra_furniture.common.init.TFBlocks;
 import nowebsite.makertechno.terra_furniture.common.init.TFRegistries;
 import org.confluence.lib.common.recipe.AbstractAmountRecipe;
+import org.confluence.lib.mixed.IShapedRecipePattern;
 import org.jetbrains.annotations.Nullable;
 
 public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
@@ -25,7 +26,7 @@ public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
         this.pattern = pattern;
         this.experience = experience;
         this.cookingTime = cookingTime;
-        pattern.symmetrical = true;
+        IShapedRecipePattern.setNonSymmetricalMatching(pattern);
     }
 
     public float getExperience() {

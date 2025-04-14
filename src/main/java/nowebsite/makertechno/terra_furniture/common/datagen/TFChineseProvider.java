@@ -13,8 +13,17 @@ public class TFChineseProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add("creativetab.terra_furniture", "泰拉家具");
+
         add("msg.terra_furniture.sit", "出现某些错误导致乘坐方块失败。");
+
         add("container.terra_furniture.glass_kiln", "玻璃窑");
+        add("container.terra_furniture.living_loom", "生命木织机");
+
+        add("title.terra_furniture.glass_kiln", "玻璃窑");
+        add("title.terra_furniture.living_loom", "生命木织机");
+
+        add(TFBlocks.GLASS_KILN.get(), "玻璃窑");
+        add(TFBlocks.LIVING_LOOM.get(), "生命木织机");
 
         add(TFBlocks.PLASTIC_CHAIR.get(), "塑料椅");
         add(TFBlocks.GLASS_DOOR.get(), "玻璃门");
