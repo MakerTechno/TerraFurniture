@@ -24,8 +24,6 @@ import org.confluence.terra_furniture.common.block.SinkBlock;
 import org.confluence.terra_furniture.common.block.TableBlock;
 import org.confluence.terra_furniture.common.block.crafting.GlassKilnBlock;
 import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
-import nowebsite.confluence.terra_furniture.common.block.light.*;
-import nowebsite.makertechno.terra_furniture.common.block.light.*;
 import org.confluence.terra_furniture.common.block.light.*;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;

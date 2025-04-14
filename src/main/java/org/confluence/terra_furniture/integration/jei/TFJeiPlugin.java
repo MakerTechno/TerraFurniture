@@ -2,6 +2,7 @@ package org.confluence.terra_furniture.integration.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IJeiHelpers;
@@ -14,12 +15,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.*;
+import org.confluence.lib.common.recipe.AmountIngredient;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
+import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
-import org.confluence.lib.client.screen.ShapedAmountContainerScreen4x;
-import org.confluence.lib.common.recipe.AmountIngredient;
 
 import java.util.List;
 
@@ -55,12 +56,12 @@ public class TFJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(TFBlocks.LIVING_LOOM.toStack(), LivingLoomCategory.TYPE);
-        registration.addRecipeCatalyst(TFBlocks.GLASS_KILN.toStack(), GlassKilnCategory.TYPE);
+        registration.addRecipeCatalyst(TFBlocks.GLASS_KILN.toStack(), GlassKilnCategory.TYPE, RecipeTypes.SMELTING);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(ShapedAmountContainerScreen4x.class, 95, 32, 28, 23, LivingLoomCategory.TYPE);
+        registration.addRecipeClickArea(LivingLoomScreen.class, 95, 32, 28, 23, LivingLoomCategory.TYPE);
         registration.addRecipeClickArea(GlassKilnScreen.class, 95, 44, 28, 23, GlassKilnCategory.TYPE);
     }
 
