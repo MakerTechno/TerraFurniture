@@ -9,12 +9,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
+import org.confluence.lib.common.data.gen.AbstractRecipeProvider;
+import org.confluence.lib.common.recipe.AmountIngredient;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.recipe.GlassKilnRecipe;
+import org.confluence.terra_furniture.common.recipe.IceMachineRecipe;
 import org.confluence.terra_furniture.common.recipe.LivingLoomRecipe;
-import org.confluence.lib.common.data.gen.AbstractRecipeProvider;
-import org.confluence.lib.common.recipe.AmountIngredient;
 
 import java.util.List;
 import java.util.Map;
@@ -111,16 +112,30 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "GGG",
                 " G "
         )), 0.1F, 200);
+        glassKiln(recipeOutput, TFBlocks.GLASS_CLOCK.toStack(), ShapedRecipePattern.of(Map.of(
+                'G', Ingredient.of(Items.GLASS),
+                'I', AmountIngredient.of(2, Items.IRON_INGOT)
+        ), List.of(
+                " G ",
+                "GIG",
+                "GII",
+                "GGG"
+        )), 0.1F, 200);
     }
 
     protected void glassKiln(RecipeOutput recipeOutput, ItemStack result, ShapedRecipePattern pattern, float experience, int cookingTime) {
-        ResourceLocation id = TerraFurniture.asResource(getItemName(result.getItem()));
+        ResourceLocation id = TerraFurniture.asResource("glass_kiln/" + getItemName(result.getItem()));
         recipeOutput.accept(id, new GlassKilnRecipe(result, pattern, experience, cookingTime), null);
 
     }
 
     protected void livingLoom(RecipeOutput recipeOutput, ItemStack result, ShapedRecipePattern pattern) {
-        ResourceLocation id = TerraFurniture.asResource(getItemName(result.getItem()));
+        ResourceLocation id = TerraFurniture.asResource("living_loom/" + getItemName(result.getItem()));
         recipeOutput.accept(id, new LivingLoomRecipe(result, pattern), null);
+    }
+
+    protected void iceMachine(RecipeOutput recipeOutput, ItemStack result, ShapedRecipePattern pattern) {
+        ResourceLocation id = TerraFurniture.asResource("ice_machine/" + getItemName(result.getItem()));
+        recipeOutput.accept(id, new IceMachineRecipe(result, pattern), null);
     }
 }

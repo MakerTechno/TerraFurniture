@@ -24,6 +24,8 @@ public class TFChineseProvider extends LanguageProvider {
         add("title.terra_furniture.living_loom", "生命木织机");
         add("title.terra_furniture.ice_machine", "冰雪机");
 
+        add("info.terra_furniture.time", "时间: [%s:%s]");
+
         add(TFBlocks.GLASS_KILN.get(), "玻璃窑");
         add(TFBlocks.LIVING_LOOM.get(), "生命木织机");
         add(TFBlocks.ICE_MACHINE.get(), "冰雪机");
@@ -40,5 +42,7 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.GLASS_LAMP.get(), "玻璃灯");
         add(TFBlocks.GLASS_CANDELABRAS.get(), "玻璃烛台");
         add(TFBlocks.GLASS_SINK.get(), "玻璃水槽");
+        add(TFBlocks.GLASS_CLOCK.get(), "玻璃时钟");
+        add(TFBlocks.GLASS_BATHTUB.get(), "玻璃浴缸");
     }
 }

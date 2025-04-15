@@ -25,6 +25,8 @@ public class TFEnglishProvider extends LanguageProvider {
         add("title.terra_furniture.living_loom", "Living Loom");
         add("title.terra_furniture.ice_machine", "Ice Machine");
 
+        add("info.terra_furniture.time", "Time: [%s:%s]");
+
         TFBlocks.BLOCKS.getEntries().forEach(block -> add(block.get(), LibUtils.toTitleCase(block.getId().getPath())));
     }
 }
