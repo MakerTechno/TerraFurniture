@@ -28,10 +28,10 @@ import java.util.List;
 
 public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock {
     public static final MapCodec<BathtubBlock> CODEC = simpleCodec(BathtubBlock::new);
-    private static final VoxelShape SOUTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(3, 3, 0, 13, 8, 13), BooleanOp.ONLY_FIRST);
-    private static final VoxelShape WEST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(0, 3, 3, 13, 8, 13), BooleanOp.ONLY_FIRST);
-    private static final VoxelShape NORTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(3, 3, 3, 13, 8, 16), BooleanOp.ONLY_FIRST);
-    private static final VoxelShape EAST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(3, 3, 3, 16, 8, 13), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape SOUTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 0, 15, 8, 15), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape WEST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 1, 16, 8, 15), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape NORTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 1, 15, 8, 16), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape EAST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(0, 1, 1, 15, 8, 15), BooleanOp.ONLY_FIRST);
     private static final VoxelShape[] BASE_SHAPES = new VoxelShape[]{SOUTH_SHAPE, WEST_SHAPE, NORTH_SHAPE, EAST_SHAPE};
     private static final VoxelShape[] FORWARD_SHAPES = new VoxelShape[]{NORTH_SHAPE, EAST_SHAPE, SOUTH_SHAPE, WEST_SHAPE};
 
