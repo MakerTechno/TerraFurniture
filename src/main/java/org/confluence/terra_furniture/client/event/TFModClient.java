@@ -9,6 +9,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.block.PlasticChairModel;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
+import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFEntities;
@@ -28,5 +29,6 @@ public final class TFModClient {
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
         event.register(TFRegistries.GLASS_KILN_MENU.get(), GlassKilnScreen::new);
         event.register(TFRegistries.LIVING_LOOM_MENU.get(), LivingLoomScreen::new);
+        event.register(TFRegistries.ICE_MACHINE_MENU.get(), IceMachineScreen::new);
     }
 }

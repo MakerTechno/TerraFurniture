@@ -9,23 +9,19 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import org.confluence.terra_furniture.common.menu.LivingLoomMenu;
+import org.confluence.terra_furniture.common.menu.IceMachineMenu;
 import org.jetbrains.annotations.Nullable;
 
-public class LivingLoomBlock extends HorizontalDirectionalBlock {
-    public static final MapCodec<LivingLoomBlock> CODEC = simpleCodec(LivingLoomBlock::new);
-    private static final VoxelShape SHAPE = box(4, 0, 4, 12, 16, 12);
+public class IceMachineBlock extends HorizontalDirectionalBlock {
+    public static final MapCodec<IceMachineBlock> CODEC = simpleCodec(IceMachineBlock::new);
 
-    public LivingLoomBlock(Properties properties) {
+    public IceMachineBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
@@ -41,13 +37,8 @@ public class LivingLoomBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    protected MapCodec<LivingLoomBlock> codec() {
+    protected MapCodec<IceMachineBlock> codec() {
         return CODEC;
-    }
-
-    @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
     }
 
     @Override
@@ -62,6 +53,6 @@ public class LivingLoomBlock extends HorizontalDirectionalBlock {
 
     @Override
     public @Nullable MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
-        return new SimpleMenuProvider((containerId, inventory, player) -> new LivingLoomMenu(containerId, inventory), Component.translatable("container.terra_furniture.living_loom"));
+        return new SimpleMenuProvider((containerId, inventory, player) -> new IceMachineMenu(containerId, inventory), Component.translatable("container.terra_furniture.ice_machine"));
     }
 }
