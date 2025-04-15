@@ -10,10 +10,10 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import org.confluence.lib.common.recipe.AbstractAmountRecipe;
+import org.confluence.lib.mixed.LibShapedRecipePattern;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
-import org.confluence.lib.common.recipe.AbstractAmountRecipe;
-import org.confluence.lib.mixed.IShapedRecipePattern;
 import org.jetbrains.annotations.Nullable;
 
 public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
@@ -26,7 +26,7 @@ public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
         this.pattern = pattern;
         this.experience = experience;
         this.cookingTime = cookingTime;
-        IShapedRecipePattern.setNonSymmetricalMatching(pattern);
+        LibShapedRecipePattern.setNonSymmetricalMatching(pattern);
     }
 
     public float getExperience() {
