@@ -17,12 +17,23 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import org.confluence.lib.common.block.HorizontalDirectionalWithHorizontalTwoPartBlock;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.confluence.lib.common.block.HorizontalDirectionalWithForwardTwoPartBlock;
+import org.confluence.lib.common.block.StateProperties;
 
 import java.util.List;
 
-public class BathtubBlock extends HorizontalDirectionalWithHorizontalTwoPartBlock {
+public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock {
     public static final MapCodec<BathtubBlock> CODEC = simpleCodec(BathtubBlock::new);
+    private static final VoxelShape SOUTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(3, 3, 0, 13, 8, 13), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape WEST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(0, 3, 3, 13, 8, 13), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape NORTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(3, 3, 3, 13, 8, 16), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape EAST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(3, 3, 3, 16, 8, 13), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape[] BASE_SHAPES = new VoxelShape[]{SOUTH_SHAPE, WEST_SHAPE, NORTH_SHAPE, EAST_SHAPE};
+    private static final VoxelShape[] FORWARD_SHAPES = new VoxelShape[]{NORTH_SHAPE, EAST_SHAPE, SOUTH_SHAPE, WEST_SHAPE};
 
     public BathtubBlock(Properties properties) {
         super(properties);
@@ -40,13 +51,22 @@ public class BathtubBlock extends HorizontalDirectionalWithHorizontalTwoPartBloc
     }
 
     @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        int index = state.getValue(FACING).get2DDataValue();
+        return switch (state.getValue(PART)) {
+            case BASE -> BASE_SHAPES[index];
+            case FORWARD -> FORWARD_SHAPES[index];
+        };
+    }
+
+    @Override
     public boolean isBed(BlockState state, BlockGetter level, BlockPos pos, LivingEntity sleeper) {
         return true;
     }
 
     @Override
     public Direction getBedDirection(BlockState state, LevelReader level, BlockPos pos) {
-        return state.getValue(FACING).getClockWise();
+        return state.getValue(FACING).getOpposite();
     }
 
     @Override
@@ -63,9 +83,12 @@ public class BathtubBlock extends HorizontalDirectionalWithHorizontalTwoPartBloc
                 player.displayClientMessage(Component.translatable("block.minecraft.bed.occupied"), true);
             }
         } else {
-            player.startSleepInBed(pos).ifLeft(p_49477_ -> {
-                if (p_49477_.getMessage() != null) {
-                    player.displayClientMessage(p_49477_.getMessage(), true);
+            if (state.getValue(PART).isBase()) {
+                pos = pos.relative(StateProperties.ForwardTwoPart.getConnectedDirection(state));
+            }
+            player.startSleepInBed(pos).ifLeft(problem -> {
+                if (problem.getMessage() != null) {
+                    player.displayClientMessage(problem.getMessage(), true);
                 }
             });
         }
@@ -77,7 +100,7 @@ public class BathtubBlock extends HorizontalDirectionalWithHorizontalTwoPartBloc
         if (list.isEmpty()) {
             return false;
         } else {
-            list.get(0).stopSleeping();
+            list.getFirst().stopSleeping();
             return true;
         }
     }
