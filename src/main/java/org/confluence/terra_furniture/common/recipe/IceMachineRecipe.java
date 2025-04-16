@@ -38,8 +38,8 @@ public class IceMachineRecipe extends ShapedAmountRecipe4x<MenuRecipeInput> {
     }
 
     public static class Serializer implements RecipeSerializer<IceMachineRecipe> {
-        public static final MapCodec<IceMachineRecipe> CODEC = ShapedAmountRecipe4x.serializerMapCodec(IceMachineRecipe::new);
-        public static final StreamCodec<RegistryFriendlyByteBuf, IceMachineRecipe> STREAM_CODEC = ShapedAmountRecipe4x.serializerSteamCodec(IceMachineRecipe::new);
+        public static final MapCodec<IceMachineRecipe> CODEC = ShapedAmountRecipe4x.shapedSerializerMapCodec(IceMachineRecipe::new);
+        public static final StreamCodec<RegistryFriendlyByteBuf, IceMachineRecipe> STREAM_CODEC = ShapedAmountRecipe4x.shapedSerializerSteamCodec(IceMachineRecipe::new);
 
         @Override
         public MapCodec<IceMachineRecipe> codec() {
