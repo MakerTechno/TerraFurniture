@@ -20,10 +20,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.block.BathtubBlock;
-import org.confluence.terra_furniture.common.block.GrandfatherClockBlock;
-import org.confluence.terra_furniture.common.block.SinkBlock;
-import org.confluence.terra_furniture.common.block.TableBlock;
+import org.confluence.terra_furniture.common.block.*;
 import org.confluence.terra_furniture.common.block.crafting.GlassKilnBlock;
 import org.confluence.terra_furniture.common.block.crafting.IceMachineBlock;
 import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
@@ -64,6 +61,11 @@ public final class TFBlocks {
     public static final DeferredBlock<SofaBlock> GLASS_SOFA = registerSofaDiscardItem("glass_sofa", Blocks.GLASS, properties -> {});
     public static final DeferredBlock<ToiletBlock> GLASS_TOILET = registerToiletDiscardItem("glass_toilet", Blocks.GLASS, properties -> {});
     public static final DeferredBlock<SinkBlock> GLASS_SINK = registerSinkDiscardItem("glass_sink", Blocks.GLASS, properties -> {});
+
+    public static final DeferredBlock<FishBowlBlock> FISH_BOWL = registerWithItem("fish_bowl", () -> new FishBowlBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlBlock.Item(block, new Item.Properties()));
+    public static final DeferredBlock<FishBowlBlock> GOLD_FISH_BOWL = registerWithItem("gold_fish_bowl", () -> new FishBowlBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlBlock.Item(block, new Item.Properties()));
+    public static final DeferredBlock<FishBowlBlock> PUPFISH_BOWL = registerWithItem("pupfish_bowl", () -> new FishBowlBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlBlock.Item(block, new Item.Properties()));
+    public static final DeferredBlock<FishBowlBlock> LAVA_SERPENT_BOWL = registerWithItem("lava_serpent_bowl", () -> new FishBowlBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlBlock.Item(block, new Item.Properties()));
 
     public static final DeferredBlock<DoorBlock> GLASS_DOOR = registerWithItem("glass_door", () -> new DoorBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));

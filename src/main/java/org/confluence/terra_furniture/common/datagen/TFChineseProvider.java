@@ -30,6 +30,11 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.LIVING_LOOM.get(), "生命木织机");
         add(TFBlocks.ICE_MACHINE.get(), "冰雪机");
 
+        add(TFBlocks.FISH_BOWL.get(), "鱼缸");
+        add(TFBlocks.GOLD_FISH_BOWL.get(), "金鱼缸");
+        add(TFBlocks.PUPFISH_BOWL.get(), "鳉鱼缸");
+        add(TFBlocks.LAVA_SERPENT_BOWL.get(), "熔岩蛇缸");
+
         add(TFBlocks.PLASTIC_CHAIR.get(), "塑料椅");
         add(TFBlocks.GLASS_DOOR.get(), "玻璃门");
         add(TFBlocks.GLASS_CHAIR.get(), "玻璃椅");
