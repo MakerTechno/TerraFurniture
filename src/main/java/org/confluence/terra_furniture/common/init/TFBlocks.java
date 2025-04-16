@@ -66,6 +66,8 @@ public final class TFBlocks {
     public static final DeferredBlock<FishBowlBlock> GOLD_FISH_BOWL = registerWithItem("gold_fish_bowl", () -> new FishBowlBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlBlock.Item(block, new Item.Properties()));
     public static final DeferredBlock<FishBowlBlock> PUPFISH_BOWL = registerWithItem("pupfish_bowl", () -> new FishBowlBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlBlock.Item(block, new Item.Properties()));
     public static final DeferredBlock<FishBowlBlock> LAVA_SERPENT_BOWL = registerWithItem("lava_serpent_bowl", () -> new FishBowlBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlBlock.Item(block, new Item.Properties()));
+    public static final DeferredBlock<TrashCanBlock> TRASH_CAN = registerWithItem("trash_can", () -> new TrashCanBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BARS)));
+    public static final Supplier<BlockEntityType<TrashCanBlock.Entity>> TRASH_CAN_ENTITY = BLOCK_ENTITIES.register("trash_can_entity", () -> BlockEntityType.Builder.of(TrashCanBlock.Entity::new, TRASH_CAN.get()).build(DSL.remainderType()));
 
     public static final DeferredBlock<DoorBlock> GLASS_DOOR = registerWithItem("glass_door", () -> new DoorBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));

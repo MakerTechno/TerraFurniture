@@ -19,6 +19,7 @@ public class TFChineseProvider extends LanguageProvider {
         add("container.terra_furniture.glass_kiln", "玻璃窑");
         add("container.terra_furniture.living_loom", "生命木织机");
         add("container.terra_furniture.ice_machine", "冰雪机");
+        add("container.terra_furniture.trash_can", "垃圾桶");
 
         add("title.terra_furniture.glass_kiln", "玻璃窑");
         add("title.terra_furniture.living_loom", "生命木织机");
@@ -34,6 +35,7 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.GOLD_FISH_BOWL.get(), "金鱼缸");
         add(TFBlocks.PUPFISH_BOWL.get(), "鳉鱼缸");
         add(TFBlocks.LAVA_SERPENT_BOWL.get(), "熔岩蛇缸");
+        add(TFBlocks.TRASH_CAN.get(), "垃圾桶");
 
         add(TFBlocks.PLASTIC_CHAIR.get(), "塑料椅");
         add(TFBlocks.GLASS_DOOR.get(), "玻璃门");
