@@ -36,6 +36,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
+import static net.minecraft.world.level.block.state.properties.BlockSetType.STONE;
+
 public final class TFBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(TerraFurniture.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, TerraFurniture.MODID);
@@ -79,8 +81,28 @@ public final class TFBlocks {
     public static final DeferredBlock<GrandfatherClockBlock> GLASS_CLOCK = registerWithItem("glass_clock", () -> new GrandfatherClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<BathtubBlock> GLASS_BATHTUB = registerWithItem("glass_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
 
+    //地牢
+    public static final DeferredBlock<ChairBlock> BLUE_BRICK_CHAIR = registerChairDiscardItem("blue_brick_chair", Blocks.STONE, properties -> {});
+    public static final DeferredBlock<SofaBlock> BLUE_BRICK_SOFA = registerSofaDiscardItem("blue_brick_sofa", Blocks.STONE, properties -> {});
+    public static final DeferredBlock<ToiletBlock> BLUE_BRICK_TOILET = registerToiletDiscardItem("blue_brick_toilet", Blocks.STONE, properties -> {});
+    public static final DeferredBlock<SinkBlock> BLUE_BRICK_SINK = registerSinkDiscardItem("blue_brick_sink", Blocks.STONE, properties -> {});
+    public static final DeferredBlock<DoorBlock> BLUE_BRICK_DOOR = registerWithItem("blue_brick_door", () -> new DoorBlock(STONE, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredBlock<TableBlock> BLUE_BRICK_TABLE = registerWithItem("blue_brick_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredBlock<TFCandleBlock> BLUE_BRICK_CANDLE = registerWithItem("blue_brick_candle", () -> new TFCandleBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<ChandelierBlock> BLUE_BRICK_CHANDELIER = registerWithItem("blue_brick_chandelier", () -> new ChandelierBlock(ParticleTypes.SOUL_FIRE_FLAME, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<TFLanternBlock> BLUE_BRICK_LANTERN = registerWithItem("blue_brick_lantern", () -> new TFLanternBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<LampBlock> BLUE_BRICK_LAMP = registerWithItem("blue_brick_lamp", () -> new LampBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<CandelabraBlock> BLUE_BRICK_CANDELABRAS = registerWithItem("blue_brick_candelabras", () -> new CandelabraBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<GrandfatherClockBlock> BLUE_BRICK_CLOCK = registerWithItem("blue_brick_clock", () -> new GrandfatherClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredBlock<BathtubBlock> BLUE_BRICK_BATHTUB = registerWithItem("blue_brick_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChairBlock.Entity>> CHAIR_ENTITY = BLOCK_ENTITIES.register("chair_entity", () -> BlockEntityType.Builder.of(ChairBlock.Entity::new,
-            GLASS_CHAIR.get(), GLASS_SOFA.get(), GLASS_TOILET.get()
+            GLASS_CHAIR.get(),
+            GLASS_SOFA.get(),
+            GLASS_TOILET.get(),
+            BLUE_BRICK_CHAIR.get(),
+            BLUE_BRICK_SOFA.get(),
+            BLUE_BRICK_TOILET.get()
     ).build(DSL.remainderType()));
 
     public static <B extends Block> DeferredBlock<B> registerWithItem(String id, Supplier<B> block) {

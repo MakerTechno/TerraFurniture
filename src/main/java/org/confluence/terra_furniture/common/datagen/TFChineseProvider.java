@@ -51,5 +51,19 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.GLASS_SINK.get(), "玻璃水槽");
         add(TFBlocks.GLASS_CLOCK.get(), "玻璃时钟");
         add(TFBlocks.GLASS_BATHTUB.get(), "玻璃浴缸");
+
+        add(TFBlocks.BLUE_BRICK_DOOR.get(), "蓝地牢门");
+        add(TFBlocks.BLUE_BRICK_CHAIR.get(), "蓝地牢椅");
+        add(TFBlocks.BLUE_BRICK_TOILET.get(), "蓝地牢马桶");
+        add(TFBlocks.BLUE_BRICK_TABLE.get(), "蓝地牢桌");
+        add(TFBlocks.BLUE_BRICK_CANDLE.get(), "蓝地牢蜡烛");
+        add(TFBlocks.BLUE_BRICK_CHANDELIER.get(), "蓝地牢吊灯");
+        add(TFBlocks.BLUE_BRICK_LANTERN.get(), "蓝地牢灯笼");
+        add(TFBlocks.BLUE_BRICK_SOFA.get(), "蓝地牢沙发");
+        add(TFBlocks.BLUE_BRICK_LAMP.get(), "蓝地牢灯");
+        add(TFBlocks.BLUE_BRICK_CANDELABRAS.get(), "蓝地牢烛台");
+        add(TFBlocks.BLUE_BRICK_SINK.get(), "蓝地牢水槽");
+        add(TFBlocks.BLUE_BRICK_CLOCK.get(), "蓝地牢时钟");
+        add(TFBlocks.BLUE_BRICK_BATHTUB.get(), "蓝地牢浴缸");
     }
 }
