@@ -112,15 +112,15 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "GGG",
                 " G "
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_CLOCK.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS),
-                'I', AmountIngredient.of(2, Items.IRON_INGOT)
-        ), List.of(
-                " G ",
-                "GIG",
-                "GII",
-                "GGG"
-        )), 0.1F, 200);
+//        glassKiln(recipeOutput, TFBlocks.GLASS_CLOCK.toStack(), ShapedRecipePattern.of(Map.of(
+//                'G', Ingredient.of(Items.GLASS),
+//                'I', AmountIngredient.of(2, Items.IRON_INGOT)
+//        ), List.of(
+//                " G ",
+//                "GIG",
+//                "GII",
+//                "GGG"
+//        )), 0.1F, 200);
     }
 
     protected void glassKiln(RecipeOutput recipeOutput, ItemStack result, ShapedRecipePattern pattern, float experience, int cookingTime) {

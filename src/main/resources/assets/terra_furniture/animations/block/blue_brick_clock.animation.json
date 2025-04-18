@@ -1,0 +1,21 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"clock": {
+			"loop": true,
+			"bones": {
+				"h": {
+					"rotation": {
+						"vector": [0, 0, "query.time_of_day*720-180"]
+					}
+				},
+				"m": {
+					"rotation": {
+						"vector": [0, 0, "query.time_of_day*8640"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

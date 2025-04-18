@@ -7,7 +7,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.client.model.block.PlasticChairModel;
+import org.confluence.terra_furniture.client.model.PlasticChairModel;
+import org.confluence.terra_furniture.client.renderer.ClockRenderer;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
@@ -23,6 +24,7 @@ public final class TFModClient {
         event.registerEntityRenderer(TFEntities.NULL_RIDE.get(), NoopRenderer::new);
 
         event.registerBlockEntityRenderer(TFBlocks.PLASTIC_CHAIR_ENTITY.get(), context -> new GeoBlockRenderer<>(new PlasticChairModel()));
+        event.registerBlockEntityRenderer(TFBlocks.CLOCK_ENTITY.get(), context -> new ClockRenderer());
     }
 
     @SubscribeEvent

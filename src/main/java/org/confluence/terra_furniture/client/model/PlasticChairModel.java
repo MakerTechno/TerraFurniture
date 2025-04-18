@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.client.model.block;
+package org.confluence.terra_furniture.client.model;
 
 import net.minecraft.resources.ResourceLocation;
 import org.confluence.terra_furniture.TerraFurniture;
