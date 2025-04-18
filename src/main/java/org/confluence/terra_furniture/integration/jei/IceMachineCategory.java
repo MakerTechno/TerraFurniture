@@ -56,7 +56,7 @@ public class IceMachineCategory implements IRecipeCategory<IceMachineRecipe> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, IceMachineRecipe recipe, IFocusGroup focuses) {
-        ShapedRecipePattern pattern = recipe.pattern;
+        ShapedRecipePattern pattern = recipe.either.orThrow();
         int width = pattern.width();
         int height = pattern.height();
         boolean symmetrical = pattern.symmetrical;

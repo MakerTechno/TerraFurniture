@@ -7,12 +7,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
+import org.confluence.lib.common.recipe.EitherAmountRecipe4x;
 import org.confluence.lib.common.recipe.MenuRecipeInput;
-import org.confluence.lib.common.recipe.ShapedAmountRecipe4x;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
 
-public class LivingLoomRecipe extends ShapedAmountRecipe4x<MenuRecipeInput> {
+public class LivingLoomRecipe extends EitherAmountRecipe4x<MenuRecipeInput> {
     public LivingLoomRecipe(ItemStack result, ShapedRecipePattern pattern) {
         super(result, pattern);
     }
@@ -38,8 +38,8 @@ public class LivingLoomRecipe extends ShapedAmountRecipe4x<MenuRecipeInput> {
     }
 
     public static class Serializer implements RecipeSerializer<LivingLoomRecipe> {
-        public static final MapCodec<LivingLoomRecipe> CODEC = ShapedAmountRecipe4x.shapedSerializerMapCodec(LivingLoomRecipe::new);
-        public static final StreamCodec<RegistryFriendlyByteBuf, LivingLoomRecipe> STREAM_CODEC = ShapedAmountRecipe4x.shapedSerializerSteamCodec(LivingLoomRecipe::new);
+        public static final MapCodec<LivingLoomRecipe> CODEC = EitherAmountRecipe4x.shapedSerializerMapCodec(LivingLoomRecipe::new);
+        public static final StreamCodec<RegistryFriendlyByteBuf, LivingLoomRecipe> STREAM_CODEC = EitherAmountRecipe4x.shapedSerializerSteamCodec(LivingLoomRecipe::new);
 
         @Override
         public MapCodec<LivingLoomRecipe> codec() {

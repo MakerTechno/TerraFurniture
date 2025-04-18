@@ -7,12 +7,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
+import org.confluence.lib.common.recipe.EitherAmountRecipe4x;
 import org.confluence.lib.common.recipe.MenuRecipeInput;
-import org.confluence.lib.common.recipe.ShapedAmountRecipe4x;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
 
-public class IceMachineRecipe extends ShapedAmountRecipe4x<MenuRecipeInput> {
+public class IceMachineRecipe extends EitherAmountRecipe4x<MenuRecipeInput> {
     public IceMachineRecipe(ItemStack result, ShapedRecipePattern pattern) {
         super(result, pattern);
     }
@@ -38,8 +38,8 @@ public class IceMachineRecipe extends ShapedAmountRecipe4x<MenuRecipeInput> {
     }
 
     public static class Serializer implements RecipeSerializer<IceMachineRecipe> {
-        public static final MapCodec<IceMachineRecipe> CODEC = ShapedAmountRecipe4x.shapedSerializerMapCodec(IceMachineRecipe::new);
-        public static final StreamCodec<RegistryFriendlyByteBuf, IceMachineRecipe> STREAM_CODEC = ShapedAmountRecipe4x.shapedSerializerSteamCodec(IceMachineRecipe::new);
+        public static final MapCodec<IceMachineRecipe> CODEC = EitherAmountRecipe4x.shapedSerializerMapCodec(IceMachineRecipe::new);
+        public static final StreamCodec<RegistryFriendlyByteBuf, IceMachineRecipe> STREAM_CODEC = EitherAmountRecipe4x.shapedSerializerSteamCodec(IceMachineRecipe::new);
 
         @Override
         public MapCodec<IceMachineRecipe> codec() {

@@ -4,7 +4,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import org.confluence.lib.common.menu.ShapedAmountContainerMenu4x;
+import org.confluence.lib.common.menu.EitherAmountContainerMenu4x;
 import org.confluence.lib.common.menu.ToggleAmountResultSlot;
 import org.confluence.lib.common.recipe.AbstractAmountRecipe;
 import org.confluence.lib.common.recipe.MenuRecipeInput;
@@ -12,7 +12,7 @@ import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
 import org.confluence.terra_furniture.common.recipe.IceMachineRecipe;
 
-public class IceMachineMenu extends ShapedAmountContainerMenu4x<MenuRecipeInput, IceMachineRecipe, ToggleAmountResultSlot<IceMachineRecipe>, ContainerLevelAccess> {
+public class IceMachineMenu extends EitherAmountContainerMenu4x<MenuRecipeInput, IceMachineRecipe, ToggleAmountResultSlot<IceMachineRecipe>, ContainerLevelAccess> {
     public IceMachineMenu(int containerId, Inventory inventory) {
         this(containerId, inventory, ContainerLevelAccess.NULL);
     }
@@ -28,7 +28,7 @@ public class IceMachineMenu extends ShapedAmountContainerMenu4x<MenuRecipeInput,
                     @Override
                     public void onTake(Player player, ItemStack stack) {
                         if (recipe != null) {
-                            AbstractAmountRecipe.consumeShaped(input, 4, 4, recipe.pattern);
+                            AbstractAmountRecipe.consumeShaped(input, 4, 4, recipe.either.orThrow());
                             input.setChanged();
                             updateMenu();
                         }

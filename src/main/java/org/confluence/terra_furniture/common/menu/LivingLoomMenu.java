@@ -4,15 +4,15 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import org.confluence.terra_furniture.common.init.TFBlocks;
-import org.confluence.terra_furniture.common.init.TFRegistries;
-import org.confluence.terra_furniture.common.recipe.LivingLoomRecipe;
-import org.confluence.lib.common.menu.ShapedAmountContainerMenu4x;
+import org.confluence.lib.common.menu.EitherAmountContainerMenu4x;
 import org.confluence.lib.common.menu.ToggleAmountResultSlot;
 import org.confluence.lib.common.recipe.AbstractAmountRecipe;
 import org.confluence.lib.common.recipe.MenuRecipeInput;
+import org.confluence.terra_furniture.common.init.TFBlocks;
+import org.confluence.terra_furniture.common.init.TFRegistries;
+import org.confluence.terra_furniture.common.recipe.LivingLoomRecipe;
 
-public class LivingLoomMenu extends ShapedAmountContainerMenu4x<MenuRecipeInput, LivingLoomRecipe, ToggleAmountResultSlot<LivingLoomRecipe>, ContainerLevelAccess> {
+public class LivingLoomMenu extends EitherAmountContainerMenu4x<MenuRecipeInput, LivingLoomRecipe, ToggleAmountResultSlot<LivingLoomRecipe>, ContainerLevelAccess> {
     public LivingLoomMenu(int containerId, Inventory inventory) {
         this(containerId, inventory, ContainerLevelAccess.NULL);
     }
@@ -28,7 +28,7 @@ public class LivingLoomMenu extends ShapedAmountContainerMenu4x<MenuRecipeInput,
                     @Override
                     public void onTake(Player player, ItemStack stack) {
                         if (recipe != null) {
-                            AbstractAmountRecipe.consumeShaped(input, 4, 4, recipe.pattern);
+                            AbstractAmountRecipe.consumeShaped(input, 4, 4, recipe.either.orThrow());
                             input.setChanged();
                             updateMenu();
                         }
