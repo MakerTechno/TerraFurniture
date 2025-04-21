@@ -1,6 +1,7 @@
 package org.confluence.terra_furniture.common.block.light;
 
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Lifecycle;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -81,7 +82,7 @@ public abstract class SwitchableLightBlock extends CopperBulbBlock implements Si
             .byNameCodec()
             .comapFlatMap(
                 particleType -> particleType instanceof SimpleParticleType simpleparticletype
-                    ? DataResult.success(simpleparticletype)
+                    ? DataResult.success(simpleparticletype, Lifecycle.stable())
                     : DataResult.error(() -> "Not a SimpleParticleType: " + particleType),
                 simpleParticleType -> simpleParticleType)
             .fieldOf("particle_options");
