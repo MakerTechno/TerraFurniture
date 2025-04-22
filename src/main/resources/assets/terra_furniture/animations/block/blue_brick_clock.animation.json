@@ -3,6 +3,7 @@
 	"animations": {
 		"clock": {
 			"loop": true,
+			"animation_length": 1,
 			"bones": {
 				"h": {
 					"rotation": {
@@ -12,6 +13,21 @@
 				"m": {
 					"rotation": {
 						"vector": [0, 0, "query.time_of_day*8640"]
+					}
+				},
+				"bone": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 15]
+						},
+						"0.5": {
+							"vector": [0, 0, -15],
+							"easing": "easeInOutQuad"
+						},
+						"1.0": {
+							"vector": [0, 0, 15],
+							"easing": "easeInOutQuad"
+						}
 					}
 				}
 			}
