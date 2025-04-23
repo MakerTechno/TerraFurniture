@@ -43,7 +43,7 @@ import static net.minecraft.world.level.block.state.properties.BlockSetType.STON
 public final class TFBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(TerraFurniture.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, TerraFurniture.MODID);
-    private static List<DeferredBlock<ChairBlock>> chairBlocks = new LinkedList<>();
+    private static List<DeferredBlock<?>> chairBlocks = new LinkedList<>();
     private static List<DeferredBlock<ClockBlock>> clockBlocks = new LinkedList<>();
 
     public static final DeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(BlockBehaviour.Properties.of().lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
@@ -157,6 +157,7 @@ public final class TFBlocks {
 
     public static @NotNull DeferredBlock<SofaBlock> registerSofaDiscardItem(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
         DeferredBlock<SofaBlock> block = registerSofa(id, asBlock, extraProp);
+        chairBlocks.add(block);
         TFItems.BLOCK_ITEMS.registerSimpleBlockItem(block);
         return block;
     }
@@ -169,6 +170,7 @@ public final class TFBlocks {
 
     public static @NotNull DeferredBlock<ToiletBlock> registerToiletDiscardItem(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
         DeferredBlock<ToiletBlock> block = registerToilet(id, asBlock, extraProp);
+        chairBlocks.add(block);
         TFItems.BLOCK_ITEMS.registerSimpleBlockItem(block);
         return block;
     }
