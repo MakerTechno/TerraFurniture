@@ -26,6 +26,8 @@ public class TableBlock extends CrossCollisionBlock {
     public static final MapCodec<TableBlock> CODEC = simpleCodec(TableBlock::new);
     private static final VoxelShape TABLE_TOP_SHAPE = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
     private static final VoxelShape TABLE_LEG_SHAPE = Block.box(6.0, 0.0, 6.0, 10.0, 14.0, 10.0);
+    public static final VoxelShape SHAPE = Shapes.or(TABLE_TOP_SHAPE, TABLE_LEG_SHAPE);
+
     public @NotNull MapCodec<TableBlock> codec() {
         return CODEC;
     }
@@ -40,15 +42,17 @@ public class TableBlock extends CrossCollisionBlock {
         if ((state.getValue(NORTH) && state.getValue(SOUTH)) || (state.getValue(WEST) && state.getValue(EAST))) {
             return TABLE_TOP_SHAPE;
         }
-        return Shapes.or(TABLE_TOP_SHAPE,TABLE_LEG_SHAPE);
+        return SHAPE;
     }
+
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
-        return this.getOcclusionShape(pState,pLevel,pPos);
+        return this.getOcclusionShape(pState, pLevel, pPos);
     }
+
     @Override
     protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        return this.getOcclusionShape(state,level,pos);
+        return this.getOcclusionShape(state, level, pos);
     }
 
     protected boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType pathComputationType) {
@@ -79,7 +83,7 @@ public class TableBlock extends CrossCollisionBlock {
             level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
-        return facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? state.setValue((Property)PROPERTY_BY_DIRECTION.get(facing), this.connectsTo(facingState, facingState.isFaceSturdy(level, facingPos, facing.getOpposite()))) : super.updateShape(state, facing, facingState, level, currentPos, facingPos);
+        return facing.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? state.setValue((Property) PROPERTY_BY_DIRECTION.get(facing), this.connectsTo(facingState, facingState.isFaceSturdy(level, facingPos, facing.getOpposite()))) : super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
