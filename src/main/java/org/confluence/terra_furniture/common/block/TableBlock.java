@@ -26,7 +26,7 @@ public class TableBlock extends CrossCollisionBlock {
     public static final MapCodec<TableBlock> CODEC = simpleCodec(TableBlock::new);
     private static final VoxelShape TABLE_TOP_SHAPE = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
     private static final VoxelShape TABLE_LEG_SHAPE = Block.box(6.0, 0.0, 6.0, 10.0, 14.0, 10.0);
-    public static final VoxelShape SHAPE = Shapes.or(TABLE_TOP_SHAPE, TABLE_LEG_SHAPE);
+    private static final VoxelShape SHAPE = Shapes.or(TABLE_TOP_SHAPE, TABLE_LEG_SHAPE);
 
     public @NotNull MapCodec<TableBlock> codec() {
         return CODEC;
