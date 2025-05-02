@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
+import net.neoforged.neoforge.common.Tags;
 import org.confluence.lib.common.data.gen.AbstractRecipeProvider;
 import org.confluence.lib.common.recipe.AmountIngredient;
 import org.confluence.terra_furniture.TerraFurniture;
@@ -28,43 +29,44 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
 
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput, HolderLookup.Provider holderLookup) {
+        Ingredient glass = Ingredient.of(Tags.Items.GLASS_BLOCKS_COLORLESS);
         glassKiln(recipeOutput, TFBlocks.GLASS_DOOR.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS)
+                'G', glass
         ), List.of(
                 "GG",
                 "GG",
                 "GG"
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_CHAIR.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS)
+                'G', glass
         ), List.of(
                 "G  ",
                 "GGG",
                 "G G"
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_TOILET.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS)
+                'G', glass
         ), List.of(
                 "G  ",
                 "G G",
                 "GG "
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_TABLE.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS),
+                'G', glass,
                 'A', AmountIngredient.of(2, Items.GLASS)
         ), List.of(
                 "GGGG",
                 " AA "
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_SOFA.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS),
+                'G', glass,
                 'A', Ingredient.of(ItemTags.WOOL)
         ), List.of(
                 "GAAG",
                 "GGGG"
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_CHANDELIER.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS),
+                'G', glass,
                 'A', Ingredient.of(Items.CHAIN),
                 'B', AmountIngredient.of(4, Items.TORCH)
         ), List.of(
@@ -73,7 +75,7 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 " G "
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_SINK.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS),
+                'G', glass,
                 'A', Ingredient.of(Items.WATER_BUCKET)
         ), List.of(
                 "G  ",
@@ -81,14 +83,14 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 " G "
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_CANDLE.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS),
+                'G', glass,
                 'A', Ingredient.of(Items.TORCH)
         ), List.of(
                 " G ",
                 "GAG"
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_LANTERN.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS),
+                'G', glass,
                 'A', Ingredient.of(Items.TORCH)
         ), List.of(
                 " G ",
@@ -96,7 +98,7 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "GGG"
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_LAMP.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS),
+                'G', glass,
                 'A', Ingredient.of(Items.TORCH)
         ), List.of(
                 "A",
@@ -105,7 +107,7 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "G"
         )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_CANDELABRAS.toStack(), ShapedRecipePattern.of(Map.of(
-                'G', Ingredient.of(Items.GLASS),
+                'G', glass,
                 'A', AmountIngredient.of(2, Items.TORCH)
         ), List.of(
                 "AGA",
