@@ -1,5 +1,6 @@
 package org.confluence.terra_furniture.common.block.sittable;
 
+import com.google.common.collect.HashBasedTable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,10 +19,12 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.confluence.lib.util.LibUtils;
 
 public class SofaBlock extends ChairBlock {
     public static final VoxelShape BOTTOM_AABB;
     public static final VoxelShape BOTTOM_S, BOTTOM_X, BOTTOM_Z, TOP_STRAIGHT_S, TOP_STRAIGHT_X, TOP_STRAIGHT_Z;
+    private static final HashBasedTable<StairsShape, Direction, VoxelShape> cache = HashBasedTable.create();
 
     static {
         BOTTOM_AABB = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
@@ -31,6 +34,95 @@ public class SofaBlock extends ChairBlock {
         TOP_STRAIGHT_X = Block.box(0.0, 8.0, 0.0, 16.0, 14.0, 5.0);
         TOP_STRAIGHT_Z = Block.box(0.0, 8.0, 0.0, 5.0, 14.0, 16.0);
         TOP_STRAIGHT_S = Block.box(0.0, 8.0, 0.0, 5.0, 14.0, 5.0);
+
+        for (StairsShape shape : StairsShape.values()) {
+            for (Direction facing : LibUtils.HORIZONTAL) {
+                VoxelShape BottomDirection = BOTTOM_AABB;
+                VoxelShape TopShape = Shapes.empty();
+                VoxelShape TopShapeAdd = Shapes.empty();
+                switch (shape) {
+                    case STRAIGHT -> {
+                        switch (facing) {
+                            case NORTH -> {
+                                BottomDirection = BOTTOM_X.move(0, 0, 3 / 16.0);
+                                TopShape = TOP_STRAIGHT_X.move(0, 0, 11 / 16.0);
+                            }
+                            case SOUTH -> {
+                                BottomDirection = BOTTOM_X;
+                                TopShape = TOP_STRAIGHT_X;
+                            }
+                            case WEST -> {
+                                BottomDirection = BOTTOM_Z.move(3 / 16.0, 0, 0);
+                                TopShape = TOP_STRAIGHT_Z.move(11 / 16.0, 0, 0);
+                            }
+                            case EAST -> {
+                                BottomDirection = BOTTOM_Z;
+                                TopShape = TOP_STRAIGHT_Z;
+                            }
+                        }
+                    }
+                    case OUTER_LEFT -> {
+                        switch (facing) {
+                            case NORTH -> {
+                                BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 3 / 16.0);
+                                TopShape = TOP_STRAIGHT_S.move(11 / 16.0, 0, 11 / 16.0);
+                            }
+                            case SOUTH -> {
+                                BottomDirection = BOTTOM_S;
+                                TopShape = TOP_STRAIGHT_S;
+                            }
+                            case WEST -> {
+                                BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 0);
+                                TopShape = TOP_STRAIGHT_S.move(11 / 16.0, 0, 0);
+                            }
+                            case EAST -> {
+                                BottomDirection = BOTTOM_S.move(0, 0, 3 / 16.0);
+                                TopShape = TOP_STRAIGHT_S.move(0, 0, 11 / 16.0);
+                            }
+                        }
+                    }
+                    case OUTER_RIGHT -> {
+                        switch (facing) {
+                            case NORTH -> {
+                                BottomDirection = BOTTOM_S.move(0, 0, 3 / 16.0);
+                                TopShape = TOP_STRAIGHT_S.move(0, 0, 11 / 16.0);
+                            }
+                            case SOUTH -> {
+                                BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 0);
+                                TopShape = TOP_STRAIGHT_S.move(11 / 16.0, 0, 0);
+                            }
+                            case WEST -> {
+                                BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 3 / 16.0);
+                                TopShape = TOP_STRAIGHT_S.move(11 / 16.0, 0, 11 / 16.0);
+                            }
+                            case EAST -> {
+                                BottomDirection = BOTTOM_S;
+                                TopShape = TOP_STRAIGHT_S;
+                            }
+                        }
+                    }
+                }
+                switch (shape) {
+                    case INNER_LEFT -> {
+                        switch (facing) {
+                            case NORTH -> TopShapeAdd = TOP_STRAIGHT_Z.move(11 / 16.0, 0, 0);
+                            case SOUTH -> TopShapeAdd = TOP_STRAIGHT_Z;
+                            case WEST -> TopShapeAdd = TOP_STRAIGHT_X;
+                            case EAST -> TopShapeAdd = TOP_STRAIGHT_X.move(0, 0, 11 / 16.0);
+                        }
+                    }
+                    case INNER_RIGHT -> {
+                        switch (facing) {
+                            case NORTH -> TopShapeAdd = TOP_STRAIGHT_Z;
+                            case SOUTH -> TopShapeAdd = TOP_STRAIGHT_Z.move(11 / 16.0, 0, 0);
+                            case WEST -> TopShapeAdd = TOP_STRAIGHT_X.move(0, 0, 11 / 16.0);
+                            case EAST -> TopShapeAdd = TOP_STRAIGHT_X;
+                        }
+                    }
+                }
+                cache.put(shape, facing, Shapes.or(BottomDirection, TopShape, TopShapeAdd));
+            }
+        }
     }
 
     public static final EnumProperty<StairsShape> SHAPE = BlockStateProperties.STAIRS_SHAPE;
@@ -52,90 +144,8 @@ public class SofaBlock extends ChairBlock {
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        VoxelShape BottomDirection = BOTTOM_AABB;
-        VoxelShape TopShape = Shapes.empty();
-        VoxelShape TopShapeAdd = Shapes.empty();
-        switch (state.getValue(SHAPE)) {
-            case STRAIGHT -> {
-                switch (state.getValue(FACING)) {
-                    case NORTH -> {
-                        BottomDirection = BOTTOM_X.move(0, 0, 3 / 16.0);
-                        TopShape = TOP_STRAIGHT_X.move(0, 0, 11 / 16.0);
-                    }
-                    case SOUTH -> {
-                        BottomDirection = BOTTOM_X;
-                        TopShape = TOP_STRAIGHT_X;
-                    }
-                    case WEST -> {
-                        BottomDirection = BOTTOM_Z.move(3 / 16.0, 0, 0);
-                        TopShape = TOP_STRAIGHT_Z.move(11 / 16.0, 0, 0);
-                    }
-                    case EAST -> {
-                        BottomDirection = BOTTOM_Z;
-                        TopShape = TOP_STRAIGHT_Z;
-                    }
-                }
-            }
-            case OUTER_LEFT -> {
-                switch (state.getValue(FACING)) {
-                    case NORTH -> {
-                        BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 3 / 16.0);
-                        TopShape = TOP_STRAIGHT_S.move(11 / 16.0, 0, 11 / 16.0);
-                    }
-                    case SOUTH -> {
-                        BottomDirection = BOTTOM_S;
-                        TopShape = TOP_STRAIGHT_S;
-                    }
-                    case WEST -> {
-                        BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 0);
-                        TopShape = TOP_STRAIGHT_S.move(11 / 16.0, 0, 0);
-                    }
-                    case EAST -> {
-                        BottomDirection = BOTTOM_S.move(0, 0, 3 / 16.0);
-                        TopShape = TOP_STRAIGHT_S.move(0, 0, 11 / 16.0);
-                    }
-                }
-            }
-            case OUTER_RIGHT -> {
-                switch (state.getValue(FACING)) {
-                    case NORTH -> {
-                        BottomDirection = BOTTOM_S.move(0, 0, 3 / 16.0);
-                        TopShape = TOP_STRAIGHT_S.move(0, 0, 11 / 16.0);
-                    }
-                    case SOUTH -> {
-                        BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 0);
-                        TopShape = TOP_STRAIGHT_S.move(11 / 16.0, 0, 0);
-                    }
-                    case WEST -> {
-                        BottomDirection = BOTTOM_S.move(3 / 16.0, 0, 3 / 16.0);
-                        TopShape = TOP_STRAIGHT_S.move(11 / 16.0, 0, 11 / 16.0);
-                    }
-                    case EAST -> {
-                        BottomDirection = BOTTOM_S;
-                        TopShape = TOP_STRAIGHT_S;
-                    }
-                }
-            }
-        }
-        switch (state.getValue(SHAPE)) {
-            case INNER_LEFT -> {
-                switch (state.getValue(FACING)) {
-                    case NORTH -> TopShapeAdd = TOP_STRAIGHT_Z.move(11 / 16.0, 0, 0);
-                    case SOUTH -> TopShapeAdd = TOP_STRAIGHT_Z;
-                    case WEST -> TopShapeAdd = TOP_STRAIGHT_X;
-                    case EAST -> TopShapeAdd = TOP_STRAIGHT_X.move(0, 0, 11 / 16.0);
-                }
-            }
-            case INNER_RIGHT -> {
-                switch (state.getValue(FACING)) {
-                    case NORTH -> TopShapeAdd = TOP_STRAIGHT_Z;
-                    case SOUTH -> TopShapeAdd = TOP_STRAIGHT_Z.move(11 / 16.0, 0, 0);
-                    case WEST -> TopShapeAdd = TOP_STRAIGHT_X.move(0, 0, 11 / 16.0);
-                    case EAST -> TopShapeAdd = TOP_STRAIGHT_X;
-                }
-            }
-        }
-        return Shapes.or(BottomDirection, TopShape, TopShapeAdd);
+        VoxelShape shape = cache.get(state.getValue(SHAPE), state.getValue(FACING));
+        return shape == null ? BOTTOM_AABB : shape;
     }
 
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -201,6 +211,7 @@ public class SofaBlock extends ChairBlock {
         }
         return true;
     }
+
     private static Boolean getSofaRightEnd(BlockState state, BlockGetter level, BlockPos pos) {
         Direction direction = state.getValue(FACING);
         BlockState blockstate = level.getBlockState(pos.relative(direction.getCounterClockWise()));
