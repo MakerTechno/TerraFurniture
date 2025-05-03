@@ -1,6 +1,6 @@
 package org.confluence.terra_furniture.common.block.sittable;
 
-import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableTable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -22,19 +22,18 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.lib.util.LibUtils;
 
 public class SofaBlock extends ChairBlock {
-    public static final VoxelShape BOTTOM_AABB;
-    public static final VoxelShape BOTTOM_S, BOTTOM_X, BOTTOM_Z, TOP_STRAIGHT_S, TOP_STRAIGHT_X, TOP_STRAIGHT_Z;
-    private static final HashBasedTable<StairsShape, Direction, VoxelShape> cache = HashBasedTable.create();
+    private static final VoxelShape BOTTOM_AABB = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
+    private static final ImmutableTable<StairsShape, Direction, VoxelShape> cache;
 
     static {
-        BOTTOM_AABB = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
-        BOTTOM_X = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 13.0);
-        BOTTOM_Z = Block.box(0.0, 0.0, 0.0, 13.0, 8.0, 16.0);
-        BOTTOM_S = Block.box(0.0, 0.0, 0.0, 13.0, 8.0, 13.0);
-        TOP_STRAIGHT_X = Block.box(0.0, 8.0, 0.0, 16.0, 14.0, 5.0);
-        TOP_STRAIGHT_Z = Block.box(0.0, 8.0, 0.0, 5.0, 14.0, 16.0);
-        TOP_STRAIGHT_S = Block.box(0.0, 8.0, 0.0, 5.0, 14.0, 5.0);
+        VoxelShape BOTTOM_X = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 13.0);
+        VoxelShape BOTTOM_Z = Block.box(0.0, 0.0, 0.0, 13.0, 8.0, 16.0);
+        VoxelShape BOTTOM_S = Block.box(0.0, 0.0, 0.0, 13.0, 8.0, 13.0);
+        VoxelShape TOP_STRAIGHT_X = Block.box(0.0, 8.0, 0.0, 16.0, 14.0, 5.0);
+        VoxelShape TOP_STRAIGHT_Z = Block.box(0.0, 8.0, 0.0, 5.0, 14.0, 16.0);
+        VoxelShape TOP_STRAIGHT_S = Block.box(0.0, 8.0, 0.0, 5.0, 14.0, 5.0);
 
+        ImmutableTable.Builder<StairsShape, Direction, VoxelShape> builder = ImmutableTable.builder();
         for (StairsShape shape : StairsShape.values()) {
             for (Direction facing : LibUtils.HORIZONTAL) {
                 VoxelShape BottomDirection = BOTTOM_AABB;
@@ -120,9 +119,10 @@ public class SofaBlock extends ChairBlock {
                         }
                     }
                 }
-                cache.put(shape, facing, Shapes.or(BottomDirection, TopShape, TopShapeAdd));
+                builder.put(shape, facing, Shapes.or(BottomDirection, TopShape, TopShapeAdd));
             }
         }
+        cache = builder.build();
     }
 
     public static final EnumProperty<StairsShape> SHAPE = BlockStateProperties.STAIRS_SHAPE;
