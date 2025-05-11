@@ -114,15 +114,15 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "GGG",
                 " G "
         )), 0.1F, 200);
-//        glassKiln(recipeOutput, TFBlocks.GLASS_CLOCK.toStack(), ShapedRecipePattern.of(Map.of(
-//                'G', Ingredient.of(Items.GLASS),
-//                'I', AmountIngredient.of(2, Items.IRON_INGOT)
-//        ), List.of(
-//                " G ",
-//                "GIG",
-//                "GII",
-//                "GGG"
-//        )), 0.1F, 200);
+        glassKiln(recipeOutput, TFBlocks.GLASS_CLOCK.toStack(), ShapedRecipePattern.of(Map.of(
+                'G', AmountIngredient.of(2, Items.GLASS),
+                'I', Ingredient.of(Items.IRON_INGOT)
+        ), List.of(// 上面三格玻璃是时钟固有材料，下面五格在做其他钟时替换为其他材料.
+                "IGI",
+                "GIG",
+                "G G",
+                "GGG"
+        )), 0.1F, 200);
     }
 
     protected void glassKiln(RecipeOutput recipeOutput, ItemStack result, ShapedRecipePattern pattern, float experience, int cookingTime) {
