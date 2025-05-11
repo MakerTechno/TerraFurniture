@@ -49,7 +49,7 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.GLASS_LAMP.get(), "玻璃灯");
         add(TFBlocks.GLASS_CANDELABRAS.get(), "玻璃烛台");
         add(TFBlocks.GLASS_SINK.get(), "玻璃水槽");
-//        add(TFBlocks.GLASS_CLOCK.get(), "玻璃时钟");
+        add(TFBlocks.GLASS_CLOCK.get(), "玻璃时钟");
         add(TFBlocks.GLASS_BATHTUB.get(), "玻璃浴缸");
 
         add(TFBlocks.BLUE_BRICK_DOOR.get(), "蓝地牢门");
