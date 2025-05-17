@@ -1,11 +1,13 @@
 package org.confluence.terra_furniture.client.event;
 
+import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.PlasticChairModel;
 import org.confluence.terra_furniture.client.renderer.ClockRenderer;
@@ -32,5 +34,10 @@ public final class TFModClient {
         event.register(TFRegistries.GLASS_KILN_MENU.get(), GlassKilnScreen::new);
         event.register(TFRegistries.LIVING_LOOM_MENU.get(), LivingLoomScreen::new);
         event.register(TFRegistries.ICE_MACHINE_MENU.get(), IceMachineScreen::new);
+    }
+
+    @SubscribeEvent
+    public static void registerRecipeBookCategories(RegisterRecipeBookCategoriesEvent event) {
+        TFRegistries.RECIPE_TYPES.getEntries().forEach(holder -> event.registerRecipeCategoryFinder(holder.get(), recipeHolder -> RecipeBookCategories.UNKNOWN));
     }
 }
