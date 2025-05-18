@@ -11,6 +11,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.init.TFBlocks;
@@ -19,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 import static org.confluence.terra_furniture.integration.jei.TFJeiPlugin.addInput;
 
-public class IceMachineCategory implements IRecipeCategory<IceMachineRecipe> {
-    public static final RecipeType<IceMachineRecipe> TYPE = RecipeType.create(TerraFurniture.MODID, "ice_machine", IceMachineRecipe.class);
+public class IceMachineCategory implements IRecipeCategory<RecipeHolder<IceMachineRecipe>> {
+    public static final RecipeType<RecipeHolder<IceMachineRecipe>> TYPE = RecipeType.createRecipeHolderType(TerraFurniture.asResource("ice_machine"));
     private static final Component TITLE = Component.translatable("title.terra_furniture.ice_machine");
     private static final ResourceLocation BACKGROUND = TerraFurniture.asResource("textures/gui/ice_machine.png");
     private final IDrawable icon;
@@ -30,7 +31,7 @@ public class IceMachineCategory implements IRecipeCategory<IceMachineRecipe> {
     }
 
     @Override
-    public RecipeType<IceMachineRecipe> getRecipeType() {
+    public RecipeType<RecipeHolder<IceMachineRecipe>> getRecipeType() {
         return TYPE;
     }
 
@@ -55,25 +56,25 @@ public class IceMachineCategory implements IRecipeCategory<IceMachineRecipe> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, IceMachineRecipe recipe, IFocusGroup focuses) {
-        ShapedRecipePattern pattern = recipe.either.orThrow();
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<IceMachineRecipe> recipe, IFocusGroup focuses) {
+        ShapedRecipePattern pattern = recipe.value().either.orThrow();
         int width = pattern.width();
         int height = pattern.height();
         boolean symmetrical = pattern.symmetrical;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if (symmetrical) {
-                    addInput(builder, j * 18 + 6, i * 18 + 5, recipe.ingredients.get(width - j - 1 + i * width));
+                    addInput(builder, j * 18 + 6, i * 18 + 5, recipe.value().ingredients.get(width - j - 1 + i * width));
                 } else {
-                    addInput(builder, j * 18 + 6, i * 18 + 5, recipe.ingredients.get(j + i * width));
+                    addInput(builder, j * 18 + 6, i * 18 + 5, recipe.value().ingredients.get(j + i * width));
                 }
             }
         }
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 117, 33).addItemStack(recipe.getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 117, 33).addItemStack(recipe.value().getResultItem(null));
     }
 
     @Override
-    public void draw(IceMachineRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<IceMachineRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         guiGraphics.blit(BACKGROUND, 0, 0, 0, 0, 144, 80, 144, 80);
     }
 }

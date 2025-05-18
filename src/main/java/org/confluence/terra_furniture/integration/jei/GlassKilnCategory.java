@@ -11,6 +11,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.init.TFBlocks;
@@ -19,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 import static org.confluence.terra_furniture.integration.jei.TFJeiPlugin.addInput;
 
-public class GlassKilnCategory implements IRecipeCategory<GlassKilnRecipe> {
-    public static final RecipeType<GlassKilnRecipe> TYPE = RecipeType.create(TerraFurniture.MODID, "glass_kiln", GlassKilnRecipe.class);
+public class GlassKilnCategory implements IRecipeCategory<RecipeHolder<GlassKilnRecipe>> {
+    public static final RecipeType<RecipeHolder<GlassKilnRecipe>> TYPE = RecipeType.createRecipeHolderType(TerraFurniture.asResource("glass_kiln"));
     private static final Component TITLE = Component.translatable("title.terra_furniture.glass_kiln");
     private static final ResourceLocation BACKGROUND = TerraFurniture.asResource("textures/gui/glass_kiln.png");
     private final IDrawable icon;
@@ -30,7 +31,7 @@ public class GlassKilnCategory implements IRecipeCategory<GlassKilnRecipe> {
     }
 
     @Override
-    public RecipeType<GlassKilnRecipe> getRecipeType() {
+    public RecipeType<RecipeHolder<GlassKilnRecipe>> getRecipeType() {
         return TYPE;
     }
 
@@ -55,25 +56,25 @@ public class GlassKilnCategory implements IRecipeCategory<GlassKilnRecipe> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, GlassKilnRecipe recipe, IFocusGroup focuses) {
-        ShapedRecipePattern pattern = recipe.pattern;
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<GlassKilnRecipe> recipe, IFocusGroup focuses) {
+        ShapedRecipePattern pattern = recipe.value().pattern;
         int width = pattern.width();
         int height = pattern.height();
         boolean symmetrical = pattern.symmetrical;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if (symmetrical) {
-                    addInput(builder, j * 18 + 5, i * 18 + 5, recipe.ingredients.get(width - j - 1 + i * width));
+                    addInput(builder, j * 18 + 5, i * 18 + 5, recipe.value().ingredients.get(width - j - 1 + i * width));
                 } else {
-                    addInput(builder, j * 18 + 5, i * 18 + 5, recipe.ingredients.get(j + i * width));
+                    addInput(builder, j * 18 + 5, i * 18 + 5, recipe.value().ingredients.get(j + i * width));
                 }
             }
         }
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 9).addItemStack(recipe.getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 9).addItemStack(recipe.value().getResultItem(null));
     }
 
     @Override
-    public void draw(GlassKilnRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<GlassKilnRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         guiGraphics.blit(BACKGROUND, 0, 0, 0, 0, 142, 80, 142, 80);
     }
 }

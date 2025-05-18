@@ -14,7 +14,8 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeManager;
 import org.confluence.lib.common.recipe.AmountIngredient;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
@@ -22,8 +23,6 @@ import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
-
-import java.util.List;
 
 @JeiPlugin
 public final class TFJeiPlugin implements IModPlugin {
@@ -47,13 +46,9 @@ public final class TFJeiPlugin implements IModPlugin {
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null) return;
         RecipeManager recipeManager = level.getRecipeManager();
-        registration.addRecipes(LivingLoomCategory.TYPE, getAllRecipesFor(recipeManager, TFRegistries.LIVING_LOOM_RECIPE_TYPE.get()));
-        registration.addRecipes(GlassKilnCategory.TYPE, getAllRecipesFor(recipeManager, TFRegistries.GLASS_KILN_RECIPE_TYPE.get()));
-        registration.addRecipes(IceMachineCategory.TYPE, getAllRecipesFor(recipeManager, TFRegistries.ICE_MACHINE_RECIPE_TYPE.get()));
-    }
-
-    private static <I extends RecipeInput, T extends Recipe<I>> List<T> getAllRecipesFor(RecipeManager recipeManager, RecipeType<T> recipeType) {
-        return recipeManager.getAllRecipesFor(recipeType).stream().map(RecipeHolder::value).toList();
+        registration.addRecipes(LivingLoomCategory.TYPE, recipeManager.getAllRecipesFor(TFRegistries.LIVING_LOOM_RECIPE_TYPE.get()));
+        registration.addRecipes(GlassKilnCategory.TYPE, recipeManager.getAllRecipesFor(TFRegistries.GLASS_KILN_RECIPE_TYPE.get()));
+        registration.addRecipes(IceMachineCategory.TYPE, recipeManager.getAllRecipesFor(TFRegistries.ICE_MACHINE_RECIPE_TYPE.get()));
     }
 
     @Override
