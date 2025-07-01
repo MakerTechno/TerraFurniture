@@ -85,9 +85,11 @@ public class ClockBlock extends HorizontalDirectionalWithVerticalTwoPartBlock im
 
     public static class Entity extends BlockEntity implements GeoBlockEntity {
         private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+        public final boolean isBase;
 
         public Entity(BlockPos pos, BlockState blockState) {
             super(TFBlocks.CLOCK_ENTITY.get(), pos, blockState);
+            this.isBase = blockState.getValue(PART).isBase();
         }
 
         @Override
