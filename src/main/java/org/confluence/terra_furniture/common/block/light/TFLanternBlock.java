@@ -12,7 +12,11 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class TFLanternBlock extends SwitchableLightBlock{
 
     public static final MapCodec<TFLanternBlock> CODEC;
@@ -25,16 +29,16 @@ public class TFLanternBlock extends SwitchableLightBlock{
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (state.getValue(LIT)){
+        if (state.getValue(LIT) && this.flameParticle != null){
             level.addParticle(this.flameParticle, pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5, 0.0, 0.0, 0.0);
         }
     }
     @Override
-    protected VoxelShape getShape(BlockState p_304673_, BlockGetter p_304919_, BlockPos p_304930_, CollisionContext p_304757_) {
+    protected @NotNull VoxelShape getShape(BlockState p_304673_, BlockGetter p_304919_, BlockPos p_304930_, CollisionContext p_304757_) {
         return Block.box(5.0, 3.0, 5.0, 11.0, 11.0, 11.0);
     }
 
-    public MapCodec<? extends TFLanternBlock> codec() {
+    public @NotNull MapCodec<? extends TFLanternBlock> codec() {
         return CODEC;
     }
     static {

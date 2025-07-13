@@ -11,7 +11,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class ChandelierBlock extends SwitchableLightBlock{
 
     public static final MapCodec<ChandelierBlock> CODEC;
@@ -24,7 +28,7 @@ public class ChandelierBlock extends SwitchableLightBlock{
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (state.getValue(LIT)){
+        if (state.getValue(LIT) && this.flameParticle != null){
             level.addParticle(this.flameParticle, pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5, 0.0, 0.0, 0.0);
             for (int L = 1; L <=9; L++,L++){
                 for (int W = 1; W <=9; W++,W++){
@@ -57,11 +61,11 @@ public class ChandelierBlock extends SwitchableLightBlock{
         }
     }
     @Override
-    protected VoxelShape getShape(BlockState p_304673_, BlockGetter p_304919_, BlockPos p_304930_, CollisionContext p_304757_) {
+    protected @NotNull VoxelShape getShape(BlockState p_304673_, BlockGetter p_304919_, BlockPos p_304930_, CollisionContext p_304757_) {
         return Block.box(2.0, 2.0, 2.0, 14.0, 16.0, 14.0);
     }
 
-    public MapCodec<? extends ChandelierBlock> codec() {
+    public @NotNull MapCodec<? extends ChandelierBlock> codec() {
         return CODEC;
     }
     static {

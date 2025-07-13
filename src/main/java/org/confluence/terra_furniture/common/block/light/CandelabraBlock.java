@@ -2,9 +2,9 @@ package org.confluence.terra_furniture.common.block.light;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -23,6 +23,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class CandelabraBlock extends SwitchableLightBlock {
     public static final MapCodec<CandelabraBlock> CODEC;
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -54,7 +58,7 @@ public class CandelabraBlock extends SwitchableLightBlock {
         switch (state.getValue(FACING)){
             case WEST, EAST -> FacingWE = true;
         }
-        if (state.getValue(LIT)){
+        if (state.getValue(LIT) && this.flameParticle != null){
             level.addParticle(this.flameParticle, pos.getX() + 0.5, pos.getY() + 0.9, pos.getZ() + 0.5, 0.0, 0.0, 0.0);
             level.addParticle(this.flameParticle, pos.getX() + (!FacingWE ? 3.0/ 16.0 : 0.5) , pos.getY() + 0.8, pos.getZ() + (FacingWE ? 3.0/ 16.0 : 0.5), 0.0, 0.0, 0.0);
             level.addParticle(this.flameParticle, pos.getX() + (!FacingWE ? 13.0/ 16.0 : 0.5) , pos.getY() + 0.8, pos.getZ() + (FacingWE ? 13.0/ 16.0 : 0.5), 0.0, 0.0, 0.0);
@@ -72,6 +76,8 @@ public class CandelabraBlock extends SwitchableLightBlock {
     protected BlockState rotate(BlockState state, Rotation rot) {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
+
+    @SuppressWarnings("deprecation")
     protected BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
