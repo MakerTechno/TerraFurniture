@@ -1,7 +1,6 @@
 package org.confluence.terra_furniture.common.init;
 
 import com.mojang.datafixers.DSL;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BlockItem;
@@ -77,12 +76,11 @@ public final class TFBlocks {
 
     public static final DeferredBlock<DoorBlock> GLASS_DOOR = registerWithItem("glass_door", () -> new DoorBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
-    public static final DeferredBlock<TFCandleBlock> GLASS_CANDLE = registerWithItem("glass_candle", () -> new TFCandleBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<ChandelierBlock> GLASS_CHANDELIER = registerWithItem("glass_chandelier", () -> new ChandelierBlock(ParticleTypes.SOUL_FIRE_FLAME, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<ChandelierBlock> GLASS_CHANDELIER_NO_PARTICLE = registerWithItem("glass_chandelier_np", () -> new ChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<TFLanternBlock> GLASS_LANTERN = registerWithItem("glass_lantern", () -> new TFLanternBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<LampBlock> GLASS_LAMP = registerWithItem("glass_lamp", () -> new LampBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<CandelabraBlock> GLASS_CANDELABRAS = registerWithItem("glass_candelabras", () -> new CandelabraBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<TFCandleBlock> GLASS_CANDLE = registerWithItem("glass_candle", () -> new TFCandleBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<ChandelierBlock> GLASS_CHANDELIER = registerWithItem("glass_chandelier", () -> new ChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<TFLanternBlock> GLASS_LANTERN = registerWithItem("glass_lantern", () -> new TFLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<LampBlock> GLASS_LAMP = registerWithItem("glass_lamp", () -> new LampBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<CandelabraBlock> GLASS_CANDELABRAS = registerWithItem("glass_candelabras", () -> new CandelabraBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
     public static final DeferredBlock<ClockBlock> GLASS_CLOCK = registerClock("glass_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<BathtubBlock> GLASS_BATHTUB = registerWithItem("glass_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
 
@@ -93,11 +91,11 @@ public final class TFBlocks {
     public static final DeferredBlock<SinkBlock> BLUE_BRICK_SINK = registerSinkDiscardItem("blue_brick_sink", Blocks.STONE, properties -> {});
     public static final DeferredBlock<DoorBlock> BLUE_BRICK_DOOR = registerWithItem("blue_brick_door", () -> new DoorBlock(STONE, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<TableBlock> BLUE_BRICK_TABLE = registerWithItem("blue_brick_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
-    public static final DeferredBlock<TFCandleBlock> BLUE_BRICK_CANDLE = registerWithItem("blue_brick_candle", () -> new TFCandleBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<ChandelierBlock> BLUE_BRICK_CHANDELIER = registerWithItem("blue_brick_chandelier", () -> new ChandelierBlock(ParticleTypes.SOUL_FIRE_FLAME, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<TFLanternBlock> BLUE_BRICK_LANTERN = registerWithItem("blue_brick_lantern", () -> new TFLanternBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<LampBlock> BLUE_BRICK_LAMP = registerWithItem("blue_brick_lamp", () -> new LampBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<CandelabraBlock> BLUE_BRICK_CANDELABRAS = registerWithItem("blue_brick_candelabras", () -> new CandelabraBlock(ParticleTypes.END_ROD, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<TFCandleBlock> BLUE_BRICK_CANDLE = registerWithItem("blue_brick_candle", () -> new TFCandleBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<ChandelierBlock> BLUE_BRICK_CHANDELIER = registerWithItem("blue_brick_chandelier", () -> new ChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<TFLanternBlock> BLUE_BRICK_LANTERN = registerWithItem("blue_brick_lantern", () -> new TFLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<LampBlock> BLUE_BRICK_LAMP = registerWithItem("blue_brick_lamp", () -> new LampBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<CandelabraBlock> BLUE_BRICK_CANDELABRAS = registerWithItem("blue_brick_candelabras", () -> new CandelabraBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
     public static final DeferredBlock<ClockBlock> BLUE_BRICK_CLOCK = registerClock("blue_brick_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<BathtubBlock> BLUE_BRICK_BATHTUB = registerWithItem("blue_brick_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
 

@@ -1,11 +1,6 @@
 package org.confluence.terra_furniture.common.block.light;
 
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.Lifecycle;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -29,16 +24,8 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class SwitchableLightBlock extends CopperBulbBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    protected final SimpleParticleType flameParticle;
-    protected static final MapCodec<SimpleParticleType> PARTICLE_OPTIONS_FIELD;
-    public SwitchableLightBlock(SimpleParticleType flameParticle,BlockBehaviour.Properties properties) {
-        super(properties);
-        this.flameParticle = flameParticle;
-        this.registerDefaultState(stateDefinition.any().setValue(LIT, true).setValue(POWERED, false).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
-    }
     public SwitchableLightBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.flameParticle = null;
         this.registerDefaultState(stateDefinition.any().setValue(LIT, true).setValue(POWERED, false).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
     }
     @Override
@@ -82,14 +69,4 @@ public abstract class SwitchableLightBlock extends CopperBulbBlock implements Si
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    static {
-        PARTICLE_OPTIONS_FIELD = BuiltInRegistries.PARTICLE_TYPE
-            .byNameCodec()
-            .comapFlatMap(
-                particleType -> particleType instanceof SimpleParticleType simpleparticletype
-                    ? DataResult.success(simpleparticletype, Lifecycle.stable())
-                    : DataResult.error(() -> "Not a SimpleParticleType: " + particleType),
-                simpleParticleType -> simpleParticleType)
-            .fieldOf("particle_options");
-    }
 }
