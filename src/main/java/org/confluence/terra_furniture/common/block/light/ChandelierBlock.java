@@ -18,6 +18,9 @@ public class ChandelierBlock extends SwitchableLightBlock{
     public ChandelierBlock(SimpleParticleType flameParticle, Properties properties) {
         super(flameParticle,properties);
     }
+    public ChandelierBlock(Properties properties) {
+        super(properties);
+    }
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {

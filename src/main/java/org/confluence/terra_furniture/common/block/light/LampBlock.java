@@ -18,6 +18,9 @@ public class LampBlock extends SwitchableLightBlock{
     public LampBlock(SimpleParticleType flameParticle, Properties properties) {
         super(flameParticle,properties);
     }
+    public LampBlock(Properties properties) {
+        super(properties);
+    }
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {

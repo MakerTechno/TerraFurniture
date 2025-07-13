@@ -36,6 +36,11 @@ public abstract class SwitchableLightBlock extends CopperBulbBlock implements Si
         this.flameParticle = flameParticle;
         this.registerDefaultState(stateDefinition.any().setValue(LIT, true).setValue(POWERED, false).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
     }
+    public SwitchableLightBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+        this.flameParticle = null;
+        this.registerDefaultState(stateDefinition.any().setValue(LIT, true).setValue(POWERED, false).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
+    }
     @Override
     protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED,POWERED,LIT);

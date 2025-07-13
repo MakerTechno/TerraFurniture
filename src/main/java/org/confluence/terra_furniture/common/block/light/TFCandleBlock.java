@@ -20,6 +20,9 @@ public class TFCandleBlock extends SwitchableLightBlock {
     public TFCandleBlock(SimpleParticleType flameParticle, BlockBehaviour.Properties properties) {
         super(flameParticle,properties);
     }
+    public TFCandleBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
 
     @Override
     public void animateTick(@NotNull BlockState state, Level level, BlockPos pos, RandomSource random) {

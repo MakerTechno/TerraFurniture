@@ -19,6 +19,9 @@ public class TFLanternBlock extends SwitchableLightBlock{
     public TFLanternBlock(SimpleParticleType flameParticle, BlockBehaviour.Properties properties) {
         super(flameParticle,properties);
     }
+    public TFLanternBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+    }
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
