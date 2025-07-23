@@ -3,7 +3,6 @@ package org.confluence.terra_furniture.common.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.TerraFurniture;
@@ -48,6 +47,9 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .add(TFBlocks.BLUE_BRICK_CANDELABRAS.get())
                 .add(TFBlocks.BLUE_BRICK_CLOCK.get())
                 .add(TFBlocks.BLUE_BRICK_BATHTUB.get());
+        tag(TFTags.SINKS)
+                .add(TFBlocks.BLUE_BRICK_SINK.get())
+                .add(TFBlocks.GLASS_SINK.get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(TFBlocks.PLASTIC_CHAIR.get())
