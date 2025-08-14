@@ -1,6 +1,5 @@
 package org.confluence.terra_furniture.common.block.crafting;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -18,16 +17,10 @@ import org.confluence.terra_furniture.common.menu.LivingLoomMenu;
 import org.jetbrains.annotations.Nullable;
 
 public class LivingLoomBlock extends HorizontalDirectionalWithVerticalFourPartBlock {
-    public static final MapCodec<LivingLoomBlock> CODEC = simpleCodec(LivingLoomBlock::new);
     private static final VoxelShape SHAPE = box(4, 0, 4, 12, 16, 12);
 
     public LivingLoomBlock(Properties properties) {
         super(properties);
-    }
-
-    @Override
-    protected MapCodec<LivingLoomBlock> codec() {
-        return CODEC;
     }
 
     @Override

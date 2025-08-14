@@ -1,6 +1,5 @@
 package org.confluence.terra_furniture.common.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -27,7 +26,6 @@ import org.confluence.lib.common.block.StateProperties;
 import java.util.List;
 
 public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock {
-    public static final MapCodec<BathtubBlock> CODEC = simpleCodec(BathtubBlock::new);
     private static final VoxelShape SOUTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 0, 15, 8, 15), BooleanOp.ONLY_FIRST);
     private static final VoxelShape WEST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 1, 16, 8, 15), BooleanOp.ONLY_FIRST);
     private static final VoxelShape NORTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 1, 15, 8, 16), BooleanOp.ONLY_FIRST);
@@ -43,11 +41,6 @@ public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder.add(BlockStateProperties.OCCUPIED));
-    }
-
-    @Override
-    protected MapCodec<BathtubBlock> codec() {
-        return CODEC;
     }
 
     @Override

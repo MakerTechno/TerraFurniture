@@ -1,6 +1,5 @@
 package org.confluence.terra_furniture.common.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -36,16 +35,10 @@ import java.util.function.Consumer;
  * 落地大摆钟
  */
 public class ClockBlock extends HorizontalDirectionalWithVerticalTwoPartBlock implements EntityBlock {
-    public static final MapCodec<ClockBlock> CODEC = simpleCodec(ClockBlock::new);
     private static final VoxelShape SHAPE = box(1, 0, 1, 15, 16, 15);
 
     public ClockBlock(Properties properties) {
         super(properties);
-    }
-
-    @Override
-    protected MapCodec<ClockBlock> codec() {
-        return CODEC;
     }
 
     @Override
