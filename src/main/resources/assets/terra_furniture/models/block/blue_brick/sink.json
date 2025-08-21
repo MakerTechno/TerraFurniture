@@ -5,7 +5,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "terra_furniture:block/blue_brick_sink",
-		"particle": "terra_furniture:block/blue_brick_sink"
+		"particle": "terra_furniture:block/particle/blue_brick_sink_particle"
 	},
 	"elements": [
 		{
@@ -224,7 +224,7 @@
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"firstperson_lefthand": {
-			"rotation": [0, -135, 0],
+			"rotation": [0, 225, 0],
 			"scale": [0.4, 0.4, 0.4]
 		},
 		"ground": {
@@ -232,11 +232,12 @@
 			"scale": [0.25, 0.25, 0.25]
 		},
 		"gui": {
-			"rotation": [30, -135, 0],
+			"rotation": [30, 225, 0],
+			"translation": [0, -2, 0],
 			"scale": [0.625, 0.625, 0.625]
 		},
 		"fixed": {
-			"translation": [0, 0, -3],
+			"translation": [0, 0, -2.25],
 			"scale": [0.5, 0.5, 0.5]
 		}
 	},

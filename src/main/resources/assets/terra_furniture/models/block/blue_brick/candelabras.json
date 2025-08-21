@@ -5,7 +5,7 @@
 	"textures": {
 		"0": "terra_furniture:block/blue_brick_candelabras",
 		"1": "terra_furniture:block/blue_brick_candle_flames_anim",
-		"particle": "terra_furniture:block/blue_brick_candelabras"
+		"particle": "terra_furniture:block/particle/blue_brick_candelabras_particle"
 	},
 	"elements": [
 		{
