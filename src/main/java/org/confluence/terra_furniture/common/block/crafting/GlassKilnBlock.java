@@ -41,11 +41,11 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.confluence.lib.util.LibUtils;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
 import org.confluence.terra_furniture.common.menu.GlassKilnMenu;
 import org.confluence.terra_furniture.common.recipe.GlassKilnRecipe;
-import org.confluence.lib.util.LibUtils;
 import org.jetbrains.annotations.Nullable;
 
 import static org.confluence.terra_furniture.common.menu.GlassKilnMenu.*;
