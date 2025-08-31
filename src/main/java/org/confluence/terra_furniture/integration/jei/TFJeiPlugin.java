@@ -15,8 +15,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import org.confluence.lib.common.recipe.AmountIngredient;
+import org.confluence.lib.common.recipe.EitherAmountRecipe4x;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
@@ -73,5 +75,33 @@ public final class TFJeiPlugin implements IModPlugin {
                 builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(ingredient);
             }
         }
+    }
+
+    public static void setEitherRecipe4x(IRecipeLayoutBuilder builder, RecipeHolder<? extends EitherAmountRecipe4x<?>> recipe) {
+        recipe.value().either.ifLeft(shaped -> {
+            int width = shaped.width();
+            int height = shaped.height();
+            boolean symmetrical = shaped.symmetrical;
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (symmetrical) {
+                        addInput(builder, j * 18 + 6, i * 18 + 5, shaped.ingredients().get(width - j - 1 + i * width));
+                    } else {
+                        addInput(builder, j * 18 + 6, i * 18 + 5, shaped.ingredients().get(j + i * width));
+                    }
+                }
+            }
+        }).ifRight(shapeless -> {
+            builder.setShapeless();
+            int i = 0, j = 0;
+            for (Ingredient ingredient : shapeless) {
+                addInput(builder, j * 18 + 6, i * 18 + 5, ingredient);
+                if (++j >= 4) {
+                    j = 0;
+                    i++;
+                }
+            }
+        });
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 117, 33).addItemStack(recipe.value().getResultItem(null));
     }
 }
