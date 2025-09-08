@@ -55,5 +55,16 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .add(TFBlocks.PLASTIC_CHAIR.get())
                 .addTag(TFTags.GLASS_FURNITURE)
                 .addTag(TFTags.DUNGEON_FURNITURE);
+
+        tag(TFTags.HOUSE_CHAIR).add(
+                TFBlocks.GLASS_CHAIR.get(),
+                TFBlocks.BLUE_BRICK_CHAIR.get(),
+                TFBlocks.GLASS_SOFA.get(),
+                TFBlocks.BLUE_BRICK_SOFA.get(),
+                TFBlocks.PLASTIC_CHAIR.get());
+
+        tag(TFTags.HOUSE_TABLE).add(
+                TFBlocks.GLASS_TABLE.get(),
+                TFBlocks.BLUE_BRICK_TABLE.get());
     }
 }
