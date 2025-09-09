@@ -1,0 +1,7 @@
+{
+  "parent": "terra_furniture:block/template_table_leg",
+  "textures": {
+    "table_leg": "terra_furniture:block/blue_brick_table_leg",
+    "table_leg_layer": "terra_furniture:block/blue_brick_table_leg_layer"
+  }
+}

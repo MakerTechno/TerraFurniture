@@ -1,0 +1,35 @@
+{
+	"credit": "Made with Blockbench",
+	"render_type": "cutout",
+	"textures": {
+		"particle": "#table_leg",
+		"leg_layer": "#table_leg_layer",
+		"leg": "#table_leg"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 2],
+			"to": [4, 13, 4],
+			"faces": {
+				"north": {"uv": [6, 0, 8, 13], "texture": "#leg"},
+				"east": {"uv": [4, 0, 6, 13], "texture": "#leg"},
+				"south": {"uv": [2, 0, 4, 13], "texture": "#leg"},
+				"west": {"uv": [0, 0, 2, 13], "texture": "#leg"},
+				"up": {"uv": [0, 13, 2, 15], "texture": "#leg"},
+				"down": {"uv": [2, 13, 4, 15], "texture": "#leg"}
+			}
+		},
+		{
+			"from": [1.75, -0.25, 1.75],
+			"to": [4.25, 13.25, 4.25],
+			"faces": {
+				"north": {"uv": [6, 0, 8, 13], "texture": "#leg_layer"},
+				"east": {"uv": [4, 0, 6, 13], "texture": "#leg_layer"},
+				"south": {"uv": [2, 0, 4, 13], "texture": "#leg_layer"},
+				"west": {"uv": [0, 0, 2, 13], "texture": "#leg_layer"},
+				"up": {"uv": [0, 13, 2, 15], "texture": "#leg_layer"},
+				"down": {"uv": [2, 13, 4, 15], "texture": "#leg_layer"}
+			}
+		}
+	]
+}

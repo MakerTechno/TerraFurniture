@@ -1,0 +1,20 @@
+{
+	"credit": "Made with Blockbench",
+	"render_type": "cutout",
+	"textures": {
+		"corner": "#table_corner"
+	},
+	"elements": [
+		{
+			"from": [-0.5, 12.5, -0.5],
+			"to": [4.5, 16.5, 4.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 13, 0]},
+			"faces": {
+				"north": {"uv": [4, 0, 8, 3], "texture": "#corner"},
+				"west": {"uv": [4, 3, 8, 6], "texture": "#corner"},
+				"up": {"uv": [4, 4, 0, 0], "texture": "#corner"},
+				"down": {"uv": [4, 4, 0, 8], "texture": "#corner"}
+			}
+		}
+	]
+}
