@@ -15,6 +15,7 @@ import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.confluence.lib.util.WipNotDisplayOutput;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.menu.GlassKilnMenu;
 import org.confluence.terra_furniture.common.menu.IceMachineMenu;
@@ -45,8 +46,9 @@ public final class TFRegistries {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> FURNITURE = TABS.register("furniture", () -> CreativeModeTab.builder().icon(TFBlocks.PLASTIC_CHAIR::toStack)
             .title(Component.translatable("creativetab.terra_furniture"))
             .displayItems((parameters, output) -> {
-                TFItems.ITEMS.getEntries().forEach(item -> output.accept(item.get()));
-                TFBlocks.BLOCKS.getEntries().forEach(block -> output.accept(block.get()));
+                WipNotDisplayOutput wrappedOutput = new WipNotDisplayOutput(output);
+                TFItems.ITEMS.getEntries().forEach(item -> wrappedOutput.accept(item.get()));
+                TFBlocks.BLOCKS.getEntries().forEach(block -> wrappedOutput.accept(block.get()));
             })
             .withTabsAfter(ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath("confluence", "mechanical")))
             .withTabsBefore(ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath("confluence", "building_blocks")))
