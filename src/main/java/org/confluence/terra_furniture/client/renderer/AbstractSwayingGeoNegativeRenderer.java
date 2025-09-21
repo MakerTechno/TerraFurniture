@@ -11,11 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.model.GeoModel;
-import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
-public abstract class AbstractSwayingGeoRenderer<T extends BaseSwayingBE & GeoAnimatable> extends GeoBlockRenderer<T> {
+public abstract class AbstractSwayingGeoNegativeRenderer<T extends BaseSwayingBE & GeoAnimatable> extends GeoNegativeVolumeRenderer<T> {
 
-    public AbstractSwayingGeoRenderer(GeoModel<T> model) {
+    public AbstractSwayingGeoNegativeRenderer(GeoModel<T> model) {
         super(model);
     }
 

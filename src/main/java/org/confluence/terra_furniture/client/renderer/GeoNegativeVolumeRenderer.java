@@ -1,4 +1,4 @@
-/*
+
 package org.confluence.terra_furniture.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-*/
+
 /**
  * Geo负体积/局部发光 渲染器
  * <p>若需要定制渲染类型和复杂的骨骼，需要继承此类</p>
- *//*
+ */
 
 public class GeoNegativeVolumeRenderer<T extends BlockEntity & GeoAnimatable> extends GeoBlockRenderer<T> {
 
@@ -55,12 +55,10 @@ public class GeoNegativeVolumeRenderer<T extends BlockEntity & GeoAnimatable> ex
             }
         },
         COMPLEX{
-            final TriConsumer<BakedGeoModel, List<GeoBone>, List<String>> process = (model, addTo, groupNames)->{
-                groupNames.stream()
-                        .map(s->model.getBone(s).orElse(null))
-                        .filter(Objects::nonNull)
-                        .forEach(addTo::add);
-            };
+            final TriConsumer<BakedGeoModel, List<GeoBone>, List<String>> process = (model, addTo, groupNames)-> groupNames.stream()
+                    .map(s->model.getBone(s).orElse(null))
+                    .filter(Objects::nonNull)
+                    .forEach(addTo::add);
             @Override
             public void accept(BakedGeoModel model, GeoNegativeVolumeRenderer<?> renderer) {
                 process.accept(model, renderer.toHide, renderer.toHideGroupNames);
@@ -76,7 +74,7 @@ public class GeoNegativeVolumeRenderer<T extends BlockEntity & GeoAnimatable> ex
         this.addRenderLayer(new AutoGlowingGeoLayer<>(this){
             @Override
             protected RenderType getRenderType(T animatable, @Nullable MultiBufferSource bufferSource) {
-                return GeoNegativeVolumeRenderer.this.getGlowRenderType(animatable, this.getTextureResource(animatable));
+                return GeoNegativeVolumeRenderer.this.getGlowRenderType(this.getTextureResource(animatable));
             }
         });
     }
@@ -97,10 +95,10 @@ public class GeoNegativeVolumeRenderer<T extends BlockEntity & GeoAnimatable> ex
         super.preRender(poseStack, animatable, model, bufferSource, buffer, false, partialTick, packedLight, packedOverlay, colour);
     }
 
-    */
+
 /**
      * 如果需要定制化隐藏骨骼，需要重写此方法
-     *//*
+     */
 
     protected void processInit(BakedGeoModel model){
         if(this.initRunnable != null){
@@ -109,21 +107,17 @@ public class GeoNegativeVolumeRenderer<T extends BlockEntity & GeoAnimatable> ex
         }
     }
 
-    */
+
 /**
      * 默认不需要重新，重写上面的方法就行
-     *//*
+     */
 
     protected void processHide(boolean isReRender){
-        toHide.forEach(b -> {
-            b.setHidden(!isReRender);
-        });
-        notToHide.forEach(b -> {
-            b.setHidden(isReRender);
-        });
+        toHide.forEach(b -> b.setHidden(!isReRender));
+        notToHide.forEach(b -> b.setHidden(isReRender));
     }
 
-    protected RenderType getGlowRenderType(T animatable, ResourceLocation texture) {
+    protected RenderType getGlowRenderType(ResourceLocation texture) {
         // 发光部分
         return RenderType.eyes(texture);
     }
@@ -135,4 +129,4 @@ public class GeoNegativeVolumeRenderer<T extends BlockEntity & GeoAnimatable> ex
     }
 
 }
-*/
+

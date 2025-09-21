@@ -65,5 +65,7 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.BLUE_BRICK_SINK.get(), "蓝地牢水槽");
         add(TFBlocks.BLUE_BRICK_CLOCK.get(), "蓝地牢时钟");
         add(TFBlocks.BLUE_BRICK_BATHTUB.get(), "蓝地牢浴缸");
+
+        add(TFBlocks.BLUE_DUNGEON_CHANDELIER.get(), "蓝地牢大型吊灯");
     }
 }

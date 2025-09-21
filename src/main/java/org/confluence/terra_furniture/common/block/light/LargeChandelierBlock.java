@@ -44,17 +44,12 @@ public class LargeChandelierBlock extends HorizontalDirectionalWithHorizontalTen
 
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        return Shapes.empty();
+        return Shapes.block();
     }
 
     @Override
     protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Shapes.empty();
-    }
-
-    @Override
-    protected @NotNull VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
-        return Shapes.block();
     }
 
     @Override

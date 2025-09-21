@@ -8,7 +8,7 @@ import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.model.GeoModel;
 
-public class LargeChandelierBlockRenderer extends AbstractSwayingGeoRenderer<LargeChandelierBlock.BEntity> {
+public class LargeChandelierBlockRenderer extends AbstractSwayingGeoNegativeRenderer<LargeChandelierBlock.BEntity> {
     public static final ResourceLocation MODEL = TerraFurniture.asResource("geo/block/blue_dungeon_chandelier.geo.json");
     public static final ResourceLocation TEXTURE = TerraFurniture.asResource("textures/block/blue_dungeon_chandelier.png");
     public static final ResourceLocation ANIMATION = TerraFurniture.asResource("animations/block/blue_dungeon_chandelier.animation.json");
