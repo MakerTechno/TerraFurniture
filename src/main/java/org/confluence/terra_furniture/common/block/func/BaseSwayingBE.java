@@ -1,0 +1,52 @@
+package org.confluence.terra_furniture.common.block.func;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import org.confluence.terra_furniture.common.util.SwayingController;
+import org.jetbrains.annotations.NotNull;
+
+public abstract class BaseSwayingBE extends BlockEntity {
+    private static final float SMOOTHING_FACTOR = 0.03f;
+    private Vec3 delta = new Vec3(0, 0, 0);
+    private boolean changedLastTime = false;
+    private final SwayingController controller;
+
+    public BaseSwayingBE(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+        super(type, pos, blockState);
+        controller = new SwayingController();
+    }
+
+    public void applyDelta(@NotNull Vec3 input) {
+        input = compressDelta(input);
+        delta = delta.add(input.subtract(delta).scale(SMOOTHING_FACTOR));
+        changedLastTime = true;
+    }
+    private Vec3 compressDelta(Vec3 input) {
+        double length = input.length();
+        double damped = Math.tanh(length); // 非线性压缩
+        return input.normalize().scale(damped);
+    }
+
+    public void tickAtClient() {
+        if (!changedLastTime) delta = Vec3.ZERO;
+        changedLastTime = false;
+    }
+
+    public void trigController() {
+        controller.updateSwing(delta);
+    }
+
+    public float getSwingX() {
+        return controller.getSwingX();
+    }
+
+    public float getSwingZ() {
+        return controller.getSwingZ();
+    }
+
+    public abstract @NotNull Vec3 getAnchorPoint();
+
+}
