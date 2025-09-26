@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class IceMachineCategory implements IRecipeCategory<RecipeHolder<IceMachineRecipe>> {
     public static final RecipeType<RecipeHolder<IceMachineRecipe>> TYPE = RecipeType.createRecipeHolderType(TerraFurniture.asResource("ice_machine"));
-    private static final Component TITLE = Component.translatable("title.terra_furniture.ice_machine");
     private static final ResourceLocation BACKGROUND = TerraFurniture.asResource("textures/gui/ice_machine.png");
     private final IDrawable icon;
 
@@ -33,7 +32,7 @@ public class IceMachineCategory implements IRecipeCategory<RecipeHolder<IceMachi
 
     @Override
     public Component getTitle() {
-        return TITLE;
+        return Component.translatable("title.terra_furniture.ice_machine");
     }
 
     @Override

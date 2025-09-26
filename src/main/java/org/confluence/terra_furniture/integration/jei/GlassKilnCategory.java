@@ -22,7 +22,6 @@ import static org.confluence.terra_furniture.integration.jei.TFJeiPlugin.addInpu
 
 public class GlassKilnCategory implements IRecipeCategory<RecipeHolder<GlassKilnRecipe>> {
     public static final RecipeType<RecipeHolder<GlassKilnRecipe>> TYPE = RecipeType.createRecipeHolderType(TerraFurniture.asResource("glass_kiln"));
-    private static final Component TITLE = Component.translatable("title.terra_furniture.glass_kiln");
     private static final ResourceLocation BACKGROUND = TerraFurniture.asResource("textures/gui/glass_kiln.png");
     private final IDrawable icon;
 
@@ -37,7 +36,7 @@ public class GlassKilnCategory implements IRecipeCategory<RecipeHolder<GlassKiln
 
     @Override
     public Component getTitle() {
-        return TITLE;
+        return Component.translatable("title.terra_furniture.glass_kiln");
     }
 
     @Override
