@@ -6,7 +6,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.confluence.terra_furniture.common.util.SwayingController;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseSwayingBE extends BlockEntity {
     private static final float SMOOTHING_FACTOR = 0.03f;
@@ -19,7 +18,7 @@ public abstract class BaseSwayingBE extends BlockEntity {
         controller = new SwayingController();
     }
 
-    public void applyDelta(@NotNull Vec3 input) {
+    public void applyDelta(Vec3 input) {
         input = compressDelta(input);
         delta = delta.add(input.subtract(delta).scale(SMOOTHING_FACTOR));
         changedLastTime = true;
@@ -47,6 +46,6 @@ public abstract class BaseSwayingBE extends BlockEntity {
         return controller.getSwingZ();
     }
 
-    public abstract @NotNull Vec3 getAnchorPoint();
+    public abstract Vec3 getAnchorPoint();
 
 }

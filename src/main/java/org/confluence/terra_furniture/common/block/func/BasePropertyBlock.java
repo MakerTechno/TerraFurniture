@@ -18,7 +18,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public abstract class BasePropertyBlock<T extends BasePropertyBlock<T>> extends Block implements SimpleWaterloggedBlock, IVarietyBlock {
@@ -30,17 +30,17 @@ public abstract class BasePropertyBlock<T extends BasePropertyBlock<T>> extends 
     public final Block base;
     private final BlockState baseState;
 
-    public BasePropertyBlock(@NotNull BlockState state, Properties properties) {
+    public BasePropertyBlock(BlockState state, Properties properties) {
         super(properties);
         this.base = state.getBlock();
         this.baseState = state;
     }
     @Override
-    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return this.getOcclusionShape(state, getter, pos);
     }
     @Override
-    public @NotNull BlockState updateShape(@NotNull BlockState pState, @NotNull Direction pDirection, @NotNull BlockState pNeighborState, @NotNull LevelAccessor pLevel, @NotNull BlockPos pPos, @NotNull BlockPos pNeighborPos) {
+    public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pPos, BlockPos pNeighborPos) {
         if (pState.getValue(WATERLOGGED)) {
             pLevel.scheduleTick(pPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
         }
@@ -48,12 +48,12 @@ public abstract class BasePropertyBlock<T extends BasePropertyBlock<T>> extends 
     }
 
     @Override
-    public @NotNull FluidState getFluidState(BlockState pState) {
+    public FluidState getFluidState(BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }
 
     @Override
-    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState blockState = super.getStateForPlacement(context);
         return
             blockState == null ?
@@ -63,7 +63,7 @@ public abstract class BasePropertyBlock<T extends BasePropertyBlock<T>> extends 
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED);
     }
 
@@ -72,7 +72,7 @@ public abstract class BasePropertyBlock<T extends BasePropertyBlock<T>> extends 
         return this.base.getExplosionResistance();
     }
     @Override
-    public String textureName() {
+    public @Nullable String textureName() {
         return null;
     }
     @Override
@@ -81,11 +81,11 @@ public abstract class BasePropertyBlock<T extends BasePropertyBlock<T>> extends 
     }
 
     @Override
-    protected boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType pathComputationType) {
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
     @Override
-    protected @NotNull MapCodec<? extends Block> codec() {
+    protected MapCodec<? extends Block> codec() {
         return codec;
     }
     protected abstract BasePropertyBlock<T> getSelfNew(BlockState baseState, Properties properties);

@@ -21,13 +21,12 @@ import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.common.block.func.BaseSittableBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock> implements EntityBlock {
     public static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 8.0, 12.0);
 
-    public ChairBlock(@NotNull BlockState state, Properties properties) {
+    public ChairBlock(BlockState state, Properties properties) {
         super(state, properties);
     }
 
@@ -46,12 +45,12 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
     }
 
     @Override
-    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         InteractionResult resultA;
         if (!level.isClientSide) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
@@ -74,7 +73,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
     @Override
     @Nullable
-    public <E extends BlockEntity> BlockEntityTicker<E> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<E> blockEntityType) {
+    public <E extends BlockEntity> BlockEntityTicker<E> getTicker(Level level, BlockState state, BlockEntityType<E> blockEntityType) {
         return level.isClientSide() ? null : (level1, pos, blockState, t) -> {
             if (t instanceof BaseSittableBE<?> blockEntity) {
                 blockEntity.tickAtServer();

@@ -19,11 +19,11 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.block.*;
 import org.confluence.terra_furniture.common.block.crafting.GlassKilnBlock;
 import org.confluence.terra_furniture.common.block.crafting.IceMachineBlock;
 import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
 import org.confluence.terra_furniture.common.block.light.*;
+import org.confluence.terra_furniture.common.block.misc.*;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.SofaBlock;
@@ -100,14 +100,13 @@ public final class TFBlocks {
     public static final DeferredBlock<ClockBlock> BLUE_BRICK_CLOCK = registerClock("blue_brick_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<BathtubBlock> BLUE_BRICK_BATHTUB = registerWithItem("blue_brick_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
 
-    public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandeliers", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission()));
+    public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandeliers", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission().lightLevel(litBlockEmission(15))));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LargeChandelierBlock.BEntity>> LARGE_CHANDELIER_ENTITY = BLOCK_ENTITIES.register("large_chandelier_entity", () -> {
         BlockEntityType<LargeChandelierBlock.BEntity> entityType = BlockEntityType.Builder.of(LargeChandelierBlock.BEntity::new, largeChandelierBlocks.stream().map(DeferredBlock::get).toArray(Block[]::new)).build(DSL.remainderType());
         largeChandelierBlocks = null;
         return entityType;
     });
-
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChairBlock.Entity>> CHAIR_ENTITY = BLOCK_ENTITIES.register("chair_entity", () -> {
         BlockEntityType<ChairBlock.Entity> entityType = BlockEntityType.Builder.of(ChairBlock.Entity::new, chairBlocks.stream().map(DeferredBlock::get).toArray(Block[]::new)).build(DSL.remainderType());
@@ -211,6 +210,6 @@ public final class TFBlocks {
     }
 
     private static ToIntFunction<BlockState> litBlockEmission(int lightValue) {
-        return p_50763_ -> p_50763_.getValue(BlockStateProperties.LIT) ? lightValue : 0;
+        return blockState -> blockState.getValue(BlockStateProperties.LIT) ? lightValue : 0;
     }
 }

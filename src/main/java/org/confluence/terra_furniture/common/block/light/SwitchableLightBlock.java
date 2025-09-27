@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class SwitchableLightBlock extends CopperBulbBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -29,18 +28,18 @@ public abstract class SwitchableLightBlock extends CopperBulbBlock implements Si
         this.registerDefaultState(stateDefinition.any().setValue(LIT, true).setValue(POWERED, false).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
     }
     @Override
-    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED,POWERED,LIT);
     }
     @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         BlockState blockstate = state.cycle(LIT);
         level.playSound(null, pos, blockstate.getValue(LIT) ? SoundEvents.COPPER_BULB_TURN_ON : SoundEvents.COPPER_BULB_TURN_OFF, SoundSource.BLOCKS);
         level.setBlock(pos, blockstate, 3);
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
     @Override
-    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         LevelAccessor levelaccessor = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         return defaultBlockState()
@@ -49,13 +48,13 @@ public abstract class SwitchableLightBlock extends CopperBulbBlock implements Si
                 .setValue(LIT, true);
     }
     @Override
-    protected void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean movedByPiston) {
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         if (oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel) {
             this.checkAndFlip(state, serverlevel, pos);
         }
     }
     @Override
-    public void checkAndFlip(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos) {
+    public void checkAndFlip(BlockState state, ServerLevel level, BlockPos pos) {
         boolean flag = level.hasNeighborSignal(pos);
         if (flag != state.getValue(POWERED)) {
             BlockState blockstate = state.cycle(LIT);
@@ -65,7 +64,7 @@ public abstract class SwitchableLightBlock extends CopperBulbBlock implements Si
     }
 
     @Override
-    protected @NotNull FluidState getFluidState(@NotNull BlockState state) {
+    protected FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 

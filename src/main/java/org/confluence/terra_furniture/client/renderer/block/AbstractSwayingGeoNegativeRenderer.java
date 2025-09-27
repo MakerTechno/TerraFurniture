@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.client.renderer;
+package org.confluence.terra_furniture.client.renderer.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.model.GeoModel;
 
-public abstract class AbstractSwayingGeoNegativeRenderer<T extends BaseSwayingBE & GeoAnimatable> extends GeoNegativeVolumeRenderer<T> {
+public abstract class AbstractSwayingGeoNegativeRenderer<T extends BaseSwayingBE & GeoAnimatable> extends GeoNegativeVolumeBlockRenderer<T> {
 
     public AbstractSwayingGeoNegativeRenderer(GeoModel<T> model) {
         super(model);
@@ -30,6 +30,7 @@ public abstract class AbstractSwayingGeoNegativeRenderer<T extends BaseSwayingBE
         // 应用旋转（绕X和Z轴）
         poseStack.mulPose(Axis.XP.rotation(animatable.getSwingX()));
         poseStack.mulPose(Axis.ZP.rotation(animatable.getSwingZ()));
+
 
         // 平移回原点
         poseStack.translate(-anchor.x, -anchor.y, -anchor.z);
