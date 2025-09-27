@@ -11,6 +11,7 @@ import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.PlasticChairModel;
 import org.confluence.terra_furniture.client.renderer.block.ClockRenderer;
+import org.confluence.terra_furniture.client.renderer.block.HangingPotBER;
 import org.confluence.terra_furniture.client.renderer.block.LargeChandelierBlockRenderer;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
@@ -29,6 +30,7 @@ public final class TFModClient {
         event.registerBlockEntityRenderer(TFBlocks.PLASTIC_CHAIR_ENTITY.get(), context -> new GeoBlockRenderer<>(new PlasticChairModel()));
         event.registerBlockEntityRenderer(TFBlocks.CLOCK_ENTITY.get(), context -> new ClockRenderer());
         event.registerBlockEntityRenderer(TFBlocks.LARGE_CHANDELIER_ENTITY.get(), context -> new LargeChandelierBlockRenderer());
+        event.registerBlockEntityRenderer(TFBlocks.HANGING_POT_ENTITY.get(), context -> new HangingPotBER());
     }
 
     @SubscribeEvent
