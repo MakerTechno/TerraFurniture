@@ -34,7 +34,7 @@ import org.confluence.terra_furniture.client.renderer.block.LargeChandelierBlock
 import org.confluence.terra_furniture.client.renderer.item.NegativeGeoItemRendererProvider;
 import org.confluence.terra_furniture.common.block.func.BaseSwayingBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
-import org.confluence.terra_furniture.network.s2c.packet.PlayerCrossDeltaData;
+import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -81,7 +81,7 @@ public class LargeChandelierBlock extends HorizontalDirectionalWithHorizontalTen
         if (level.isClientSide && level.getBlockEntity(base) instanceof BEntity blockEntity) {
             blockEntity.applyDelta(entity.getDeltaMovement());
         } else if (!level.isClientSide && entity instanceof Player) {
-            PacketDistributor.sendToPlayersTrackingEntity(entity, new PlayerCrossDeltaData(entity.getPosition(1).subtract(entity.getPosition(0)), base));
+            PacketDistributor.sendToPlayersTrackingEntity(entity, new PlayerCrossDeltaS2C(entity.getPosition(1).subtract(entity.getPosition(0)), base));
         }
     }
 

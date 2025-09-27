@@ -9,8 +9,7 @@ import net.neoforged.neoforge.network.registration.HandlerThread;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.init.TFBlocks;
-import org.confluence.terra_furniture.network.s2c.PlayerVelocityHandler;
-import org.confluence.terra_furniture.network.s2c.packet.PlayerCrossDeltaData;
+import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
 import org.jetbrains.annotations.NotNull;
 
 @EventBusSubscriber(modid = TerraFurniture.MODID, bus = EventBusSubscriber.Bus.MOD)
@@ -19,9 +18,9 @@ public class TFCommonSetupEvents {
     public static void register(@NotNull RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1").executesOn(HandlerThread.NETWORK);
         registrar.playToClient(
-            PlayerCrossDeltaData.TYPE,
-            PlayerCrossDeltaData.STREAM_CODEC,
-            new PlayerVelocityHandler()
+            PlayerCrossDeltaS2C.TYPE,
+            PlayerCrossDeltaS2C.STREAM_CODEC,
+            PlayerCrossDeltaS2C::handle
         );
     }
 
