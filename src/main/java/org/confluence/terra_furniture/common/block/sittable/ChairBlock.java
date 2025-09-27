@@ -24,19 +24,18 @@ import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 
 public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock> implements EntityBlock {
-    public static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 8.0, 12.0);
+    public final VoxelShape shapeCollision;
+    private final float yOff;
 
-    public ChairBlock(BlockState state, Properties properties) {
+    public ChairBlock(BlockState state, Properties properties, float yOff) {
         super(state, properties);
-    }
-
-    protected double getYOffset() {
-        return 0.5;
+        this.yOff = yOff;
+        shapeCollision = Block.box(4.0, 0.0, 4.0, 12.0, 16 * yOff, 12.0);
     }
 
     @Override
     protected VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return SHAPE;
+        return shapeCollision;
     }
 
     @Override
@@ -68,7 +67,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new Entity(blockPos, blockState, getYOffset());
+        return new Entity(blockPos, blockState);
     }
 
     @Override
@@ -83,7 +82,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
     @Override
     protected BasePropertyHorizontalDirectionBlock<ChairBlock> createNewInstance(BlockState baseState, Properties properties) {
-        return new ChairBlock(baseState, properties);
+        return new ChairBlock(baseState, properties, yOff);
     }
 
     @Override
@@ -101,11 +100,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
         public Entity(BlockPos pos, BlockState blockState) {
             super(TFBlocks.CHAIR_ENTITY, pos, blockState);
-        }
-
-        public Entity(BlockPos pos, BlockState blockState, double yOffset) {
-            super(TFBlocks.CHAIR_ENTITY, pos, blockState);
-            this.yOffset = yOffset;
+            if (blockState.getBlock() instanceof ChairBlock chairBlock) yOffset = chairBlock.yOff;
         }
 
         @Override

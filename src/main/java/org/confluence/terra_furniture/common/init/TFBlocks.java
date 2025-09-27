@@ -63,7 +63,7 @@ public final class TFBlocks {
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
             SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON);
 
-    public static final DeferredBlock<ChairBlock> GLASS_CHAIR = registerChairDiscardItem("glass_chair", Blocks.GLASS, properties -> {});
+    public static final DeferredBlock<ChairBlock> GLASS_CHAIR = registerChairDiscardItem("glass_chair", Blocks.GLASS, properties -> {}, 0.5f);
     public static final DeferredBlock<SofaBlock> GLASS_SOFA = registerSofaDiscardItem("glass_sofa", Blocks.GLASS, properties -> {});
     public static final DeferredBlock<ToiletBlock> GLASS_TOILET = registerToiletDiscardItem("glass_toilet", Blocks.GLASS, properties -> {});
     public static final DeferredBlock<SinkBlock> GLASS_SINK = registerSinkDiscardItem("glass_sink", Blocks.GLASS, properties -> {});
@@ -86,7 +86,7 @@ public final class TFBlocks {
     public static final DeferredBlock<BathtubBlock> GLASS_BATHTUB = registerWithItem("glass_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
 
     //地牢
-    public static final DeferredBlock<ChairBlock> BLUE_BRICK_CHAIR = registerChairDiscardItem("blue_brick_chair", Blocks.STONE, properties -> {});
+    public static final DeferredBlock<ChairBlock> BLUE_BRICK_CHAIR = registerChairDiscardItem("blue_brick_chair", Blocks.STONE, properties -> {}, 0.5f);
     public static final DeferredBlock<SofaBlock> BLUE_BRICK_SOFA = registerSofaDiscardItem("blue_brick_sofa", Blocks.STONE, properties -> {});
     public static final DeferredBlock<ToiletBlock> BLUE_BRICK_TOILET = registerToiletDiscardItem("blue_brick_toilet", Blocks.STONE, properties -> {});
     public static final DeferredBlock<SinkBlock> BLUE_BRICK_SINK = registerSinkDiscardItem("blue_brick_sink", Blocks.STONE, properties -> {});
@@ -144,14 +144,14 @@ public final class TFBlocks {
         BLOCK_ENTITIES.register(eventBus);
     }
 
-    public static @NotNull DeferredBlock<ChairBlock> registerChair(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
+    public static @NotNull DeferredBlock<ChairBlock> registerChair(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp, float sitYOff) {
         BlockBehaviour.Properties properties1 = BlockBehaviour.Properties.ofFullCopy(asBlock);
         extraProp.accept(properties1);
-        return BLOCKS.register(id, () -> new ChairBlock(asBlock.defaultBlockState(), properties1));
+        return BLOCKS.register(id, () -> new ChairBlock(asBlock.defaultBlockState(), properties1, sitYOff));
     }
 
-    public static @NotNull DeferredBlock<ChairBlock> registerChairDiscardItem(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
-        DeferredBlock<ChairBlock> block = registerChair(id, asBlock, extraProp);
+    public static @NotNull DeferredBlock<ChairBlock> registerChairDiscardItem(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp, float sitYOff) {
+        DeferredBlock<ChairBlock> block = registerChair(id, asBlock, extraProp, sitYOff);
         chairBlocks.add(block);
         TFItems.BLOCK_ITEMS.registerSimpleBlockItem(block);
         return block;
@@ -160,7 +160,7 @@ public final class TFBlocks {
     public static @NotNull DeferredBlock<SofaBlock> registerSofa(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
         BlockBehaviour.Properties properties1 = BlockBehaviour.Properties.ofFullCopy(asBlock);
         extraProp.accept(properties1);
-        return BLOCKS.register(id, () -> new SofaBlock(asBlock.defaultBlockState(), properties1));
+        return BLOCKS.register(id, () -> new SofaBlock(asBlock.defaultBlockState(), properties1, 0.55f));
     }
 
     public static @NotNull DeferredBlock<SofaBlock> registerSofaDiscardItem(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
@@ -173,7 +173,7 @@ public final class TFBlocks {
     public static @NotNull DeferredBlock<ToiletBlock> registerToilet(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
         BlockBehaviour.Properties properties1 = BlockBehaviour.Properties.ofFullCopy(asBlock);
         extraProp.accept(properties1);
-        return BLOCKS.register(id, () -> new ToiletBlock(asBlock.defaultBlockState(), properties1));
+        return BLOCKS.register(id, () -> new ToiletBlock(asBlock.defaultBlockState(), properties1, 0.75f));
     }
 
     public static @NotNull DeferredBlock<ToiletBlock> registerToiletDiscardItem(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {

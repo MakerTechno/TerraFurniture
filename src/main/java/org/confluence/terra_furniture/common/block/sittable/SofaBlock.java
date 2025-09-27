@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.StairsShape;
-import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -129,17 +128,12 @@ public class SofaBlock extends ChairBlock {
     public static final BooleanProperty LEFT_END = BooleanProperty.create("left_end");
     public static final BooleanProperty RIGHT_END = BooleanProperty.create("right_end");
 
-    public SofaBlock(BlockState state, Properties properties) {
-        super(state, properties);
+    public SofaBlock(BlockState state, Properties properties, float yOff) {
+        super(state, properties, yOff);
         this.registerDefaultState(defaultBlockState()
                 .setValue(SHAPE, StairsShape.STRAIGHT)
                 .setValue(LEFT_END, true)
                 .setValue(RIGHT_END, true));
-    }
-
-    @Override
-    protected double getYOffset() {
-        return 0.55;
     }
 
     @Override
@@ -267,10 +261,4 @@ public class SofaBlock extends ChairBlock {
         super.createBlockStateDefinition(builder);
         builder.add(SHAPE, LEFT_END, RIGHT_END);
     }
-
-    @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
-        return false;
-    }
-
 }
