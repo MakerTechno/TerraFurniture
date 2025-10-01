@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
+import org.confluence.terra_furniture.common.block.func.be.BaseSwayingBE;
 import org.jetbrains.annotations.NotNull;
 
 public record PlayerCrossDeltaS2C(Vec3 delta, BlockPos pos) implements CustomPacketPayload {
@@ -28,7 +28,7 @@ public record PlayerCrossDeltaS2C(Vec3 delta, BlockPos pos) implements CustomPac
 
     public static void handle(@NotNull PlayerCrossDeltaS2C data, @NotNull IPayloadContext context) {
         context.enqueueWork(() ->{
-            if (context.player().level().getBlockEntity(data.pos) instanceof LargeChandelierBlock.BEntity cast) {
+            if (context.player().level().getBlockEntity(data.pos) instanceof BaseSwayingBE cast) {
                 cast.applyDelta(data.delta());
             }
         }).exceptionally(e -> null);

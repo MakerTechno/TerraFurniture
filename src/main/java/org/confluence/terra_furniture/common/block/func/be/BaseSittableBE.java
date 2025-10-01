@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.common.block.func;
+package org.confluence.terra_furniture.common.block.func.be;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

@@ -1,5 +1,11 @@
 package org.confluence.terra_furniture.common.block.misc;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,18 +19,34 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.network.PacketDistributor;
+import org.confluence.terra_furniture.client.renderer.block.IRenderFunctionHook;
+import org.confluence.terra_furniture.common.block.func.be.BaseSwayingBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
+import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Objects;
 
@@ -37,10 +59,37 @@ public class HangingPotBlock extends Block implements EntityBlock {
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new BEntity(blockPos, blockState);
     }
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.block();
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.empty();
+    }
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (level.isClientSide && level.getBlockEntity(pos) instanceof BEntity blockEntity) {
+            blockEntity.applyDelta(entity.getDeltaMovement());
+        } else if (!level.isClientSide && entity instanceof Player) {
+            PacketDistributor.sendToPlayersTrackingEntity(entity, new PlayerCrossDeltaS2C(entity.getPosition(1).subtract(entity.getPosition(0)), pos));
+        }
+    }
+
+    @Override
+    public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return level.isClientSide() ? (level1, pos, blockState, t) -> {
+            if (t instanceof BEntity blockEntity) {
+                blockEntity.tickAtClient();
+            }
+        } : null;
     }
 
     @Override
@@ -63,7 +112,8 @@ public class HangingPotBlock extends Block implements EntityBlock {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    public static final class BEntity extends BlockEntity {
+    public static final class BEntity extends BaseSwayingBE implements GeoBlockEntity {
+        private static final Vec3 ANCHOR = new Vec3(0.5, 1, 0.5);
         private final ItemStackHandler itemStackHandler = new ItemStackHandler(1){
             @Override
             protected void onContentsChanged(int slot) {
@@ -79,9 +129,18 @@ public class HangingPotBlock extends Block implements EntityBlock {
         };
         public BEntity(BlockPos pos, BlockState blockState) {
             super(TFBlocks.HANGING_POT_ENTITY.get(), pos, blockState);
+            controller.setDAMPING(0.96f);
+            SMOOTHING_FACTOR = 0.4f;
         }
+
+        @Override
+        protected Vec3 compressDelta(Vec3 input) {
+            return input;
+        }
+
         private Lazy<IItemHandler> lazyItemHandler = Lazy.of(() -> itemStackHandler);
         public static final String INVENTORY = "inventory";
+        private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
         /**You can't change this output */
         public ItemStack getFeatureStack() {
@@ -160,6 +219,62 @@ public class HangingPotBlock extends Block implements EntityBlock {
         @Override
         public void handleUpdateTag(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider lookupProvider) {
             super.handleUpdateTag(tag, lookupProvider);
+        }
+        @Override
+        public Vec3 getAnchorPoint() {
+            return ANCHOR;
+        }
+
+        @Override
+        public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+
+        }
+
+        @Override
+        public AnimatableInstanceCache getAnimatableInstanceCache() {
+            return cache;
+        }
+    }
+    public static final class AddedRenderer<T extends HangingPotBlock.BEntity> implements IRenderFunctionHook<T> {
+        @Override
+        public void processBefore(PoseStack poseStack, T animatable, MultiBufferSource bufferSource, @Nullable RenderType renderType, @Nullable VertexConsumer buffer, float yaw, float partialTick, int packedLight) {}
+        @Override
+        public void processAfter(PoseStack poseStack, T animatable, MultiBufferSource bufferSource, @Nullable RenderType renderType, @Nullable VertexConsumer buffer, float yaw, float partialTick, int packedLight) {
+            if (animatable.getFeatureStack().isEmpty()) return;
+            BlockState state = ((BlockItem)animatable.getFeatureStack().getItem()).getBlock().defaultBlockState();
+            if (state.getBlock() instanceof TorchBlock torchBlock) {
+                if (torchBlock.equals(Blocks.TORCH)) state = Blocks.FIRE.defaultBlockState();
+                else if (torchBlock.equals(Blocks.SOUL_TORCH)) state = Blocks.SOUL_FIRE.defaultBlockState();
+            }
+
+            if (state != Blocks.AIR.defaultBlockState()) {
+                poseStack.pushPose();
+                poseStack.translate(3.0/16,2.0/16, 3.0/16);
+                poseStack.pushPose();
+                poseStack.scale((float) 10.0 /16, (float) 4.1/16, (float) 10.0 /16);
+                Minecraft.getInstance().getBlockRenderer().renderSingleBlock(
+                    Blocks.DIRT.defaultBlockState(),
+                    poseStack,
+                    bufferSource,
+                    packedLight,
+                    OverlayTexture.NO_OVERLAY,
+                    ModelData.EMPTY,
+                    RenderType.CUTOUT
+                );
+                poseStack.popPose();
+                poseStack.translate(1.0/16, 4.1/16, 1.0/16);
+                poseStack.scale((float) 8.0/16,(float) 8.0 /16,(float) 8.0 /16);
+                Minecraft.getInstance().getBlockRenderer().renderSingleBlock(
+                    state,
+                    poseStack,
+                    bufferSource,
+                    packedLight,
+                    OverlayTexture.NO_OVERLAY,
+                    ModelData.EMPTY,
+                    RenderType.CUTOUT
+                );
+                poseStack.popPose();
+            }
         }
     }
 }

@@ -12,16 +12,16 @@ public class SwayingController {
     private float velocityZ = 0f;
 
     // 阻尼系数（越接近1越持久，越接近0越快衰减）
-    private static final float DAMPING = 0.98f;
+    private float DAMPING = 0.98f;
 
     // 回复力
-    private static final float RESTORE_FORCE = 0.005f;
+    private float RESTORE_FORCE = 0.005f;
 
     // 最大摇晃角度（弧度）
-    private static final float MAX_ANGLE = (float)Math.toRadians(30);
+    private float MAX_ANGLE = (float)Math.toRadians(30);
 
     // 映射加速度到角度的系数
-    private static final float ACCEL_TO_ANGLE = 0.016f;
+    private float ACCEL_TO_ANGLE = 0.016f;
 
     public void updateSwing(Vec3 delta) {
         // 将加速度映射为角速度
@@ -51,5 +51,21 @@ public class SwayingController {
 
     public float getSwingZ() {
         return swingZ;
+    }
+
+    public void setDAMPING(float DAMPING) {
+        this.DAMPING = DAMPING;
+    }
+
+    public void setRESTORE_FORCE(float RESTORE_FORCE) {
+        this.RESTORE_FORCE = RESTORE_FORCE;
+    }
+
+    public void setACCEL_TO_ANGLE(float ACCEL_TO_ANGLE) {
+        this.ACCEL_TO_ANGLE = ACCEL_TO_ANGLE;
+    }
+
+    public void setMAX_ANGLE(float MAX_ANGLE) {
+        this.MAX_ANGLE = MAX_ANGLE;
     }
 }

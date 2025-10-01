@@ -14,7 +14,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.client.model.PlasticChairModel;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
-import org.confluence.terra_furniture.common.block.func.BaseSittableBE;
+import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;

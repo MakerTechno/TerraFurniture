@@ -1,45 +1,24 @@
 package org.confluence.terra_furniture.client.renderer.item;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 
 public class SimpleGeoItemRendererProvider<T extends Item & GeoAnimatable> implements GeoRenderProvider {
-    protected final ResourceLocation model;
-    protected final ResourceLocation texture;
-    protected final @Nullable ResourceLocation animation;
+    protected final GeoModel<T> model;
     protected GeoItemRenderer<T> renderer;
 
-    public SimpleGeoItemRendererProvider(ResourceLocation model, ResourceLocation texture, @Nullable ResourceLocation animation) {
+    public SimpleGeoItemRendererProvider(GeoModel<T> model) {
         this.model = model;
-        this.texture = texture;
-        this.animation = animation;
     }
 
     @Override
     public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
         if (renderer == null) {
-            this.renderer = new GeoItemRenderer<>(new GeoModel<>() {
-                @Override
-                public ResourceLocation getModelResource(T animatable) {
-                    return model;
-                }
-
-                @Override
-                public ResourceLocation getTextureResource(T animatable) {
-                    return texture;
-                }
-
-                @Override
-                public @Nullable ResourceLocation getAnimationResource(T animatable) {
-                    return animation;
-                }
-            });
+            this.renderer = new GeoItemRenderer<>(model);
         }
         return renderer;
     }

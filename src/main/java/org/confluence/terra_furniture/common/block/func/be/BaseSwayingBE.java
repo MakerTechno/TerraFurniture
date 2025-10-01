@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.common.block.func;
+package org.confluence.terra_furniture.common.block.func.be;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -7,23 +7,23 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.confluence.terra_furniture.common.util.SwayingController;
 
-public abstract class BaseSwayingBE extends BlockEntity {
-    private static final float SMOOTHING_FACTOR = 0.03f;
+public abstract class BaseSwayingBE extends BlockEntity implements ISwayingBE {
+    protected float SMOOTHING_FACTOR = 0.03f;
     private Vec3 delta = new Vec3(0, 0, 0);
     private boolean changedLastTime = false;
-    private final SwayingController controller;
+    protected final SwayingController controller;
 
     public BaseSwayingBE(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
         controller = new SwayingController();
     }
-
+    @Override
     public void applyDelta(Vec3 input) {
         input = compressDelta(input);
         delta = delta.add(input.subtract(delta).scale(SMOOTHING_FACTOR));
         changedLastTime = true;
     }
-    private Vec3 compressDelta(Vec3 input) {
+    protected Vec3 compressDelta(Vec3 input) {
         double length = input.length();
         double damped = Math.tanh(length); // 非线性压缩
         return input.normalize().scale(damped);
@@ -38,14 +38,14 @@ public abstract class BaseSwayingBE extends BlockEntity {
         controller.updateSwing(delta);
     }
 
+    @Override
     public float getSwingX() {
         return controller.getSwingX();
     }
 
+    @Override
     public float getSwingZ() {
         return controller.getSwingZ();
     }
-
-    public abstract Vec3 getAnchorPoint();
 
 }

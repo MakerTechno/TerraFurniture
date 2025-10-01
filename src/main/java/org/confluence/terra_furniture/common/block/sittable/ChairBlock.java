@@ -19,7 +19,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
-import org.confluence.terra_furniture.common.block.func.BaseSittableBE;
+import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 
