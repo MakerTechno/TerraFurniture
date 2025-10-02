@@ -15,5 +15,7 @@ public class TFItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         simpleBlockItem(TFBlocks.GLASS_KILN.get());
         simpleBlockItem(TFBlocks.LIVING_LOOM.get());
+        simpleBlockItem(TFBlocks.EYE_OF_CTHULHU_RELIC.get());
+        simpleBlockItem(TFBlocks.KING_SLIME_RELIC.get());
     }
 }
