@@ -11,7 +11,6 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.client.model.CacheBlockModel;
 import org.confluence.terra_furniture.client.model.PlasticChairModel;
 import org.confluence.terra_furniture.client.renderer.block.*;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
@@ -52,8 +51,6 @@ public final class TFModClient {
                 .addRenderHook(new HangingPotBlock.AddedRenderer<>())
                 .build()
         );
-
-        event.registerBlockEntityRenderer(TFBlocks.RELIC_ENTITY.get(), context -> new GeoBlockRenderer<>(new CacheBlockModel<>()));
     }
 
     @SubscribeEvent

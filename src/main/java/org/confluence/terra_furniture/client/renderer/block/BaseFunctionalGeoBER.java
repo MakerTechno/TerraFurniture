@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
+import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.CacheBlockModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,7 +36,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             return new Builder<>(model, isNegative);
         }
         public static <O extends BlockEntity & GeoBlockEntity> Builder<O> of(boolean isNegative) {
-            return new Builder<>(new CacheBlockModel<>(), isNegative);
+            return new Builder<>(new CacheBlockModel<>(TerraFurniture::asResource), isNegative);
         }
         public Builder<B> addHideRule(int floor, Predicate<GeoBone> selector, BiPredicate<GeoBone, B> shouldHide) {
             renderer.addHideRule(new Pair<>(floor, selector), shouldHide);

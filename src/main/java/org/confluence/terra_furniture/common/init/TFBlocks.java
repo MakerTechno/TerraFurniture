@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -46,7 +45,6 @@ public final class TFBlocks {
     private static List<DeferredBlock<?>> chairBlocks = new LinkedList<>();
     private static List<DeferredBlock<ClockBlock>> clockBlocks = new LinkedList<>();
     private static List<DeferredBlock<LargeChandelierBlock>> largeChandelierBlocks = new LinkedList<>();
-    private static List<DeferredBlock<RelicBlock>> relicBlocks = new LinkedList<>();
 
     public static final DeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(BlockBehaviour.Properties.of().lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PlasticChairBlock.Entity>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register("plastic_chair_entity", () -> BlockEntityType.Builder.of(PlasticChairBlock.Entity::new, PLASTIC_CHAIR.get()).build(DSL.remainderType()));
@@ -103,8 +101,6 @@ public final class TFBlocks {
     public static final DeferredBlock<BathtubBlock> BLUE_BRICK_BATHTUB = registerWithItem("blue_brick_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandeliers", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission().lightLevel(litBlockEmission(15))));
 
-    public static final DeferredBlock<RelicBlock> KING_SLIME_RELIC = registerRelic("king_slime_relic");
-    public static final DeferredBlock<RelicBlock> EYE_OF_CTHULHU_RELIC = registerRelic("eye_of_cthulhu_relic");
 
     public static final DeferredBlock<HangingPotBlock> HANGING_POT = registerWithItem("hanging_pot", () -> new HangingPotBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT)));
 
@@ -130,11 +126,6 @@ public final class TFBlocks {
         return entityType;
     });
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RelicBlock.BEntity>> RELIC_ENTITY = BLOCK_ENTITIES.register("relic_entity", () -> {
-        BlockEntityType<RelicBlock.BEntity> entityType = BlockEntityType.Builder.of(RelicBlock.BEntity::new, relicBlocks.stream().map(DeferredBlock::get).toArray(Block[]::new)).build(DSL.remainderType());
-        relicBlocks = null;
-        return entityType;
-    });
 
 
     public static <B extends Block> DeferredBlock<B> registerWithItem(String id, Supplier<B> block) {
@@ -226,12 +217,7 @@ public final class TFBlocks {
         TFItems.BLOCK_ITEMS.register(id, () -> new LargeChandelierBlock.Item(deferredBlock.get(), new Item.Properties()));
         return deferredBlock;
     }
-    public static @NotNull DeferredBlock<RelicBlock> registerRelic(String id) {
-        DeferredBlock<RelicBlock> block = BLOCKS.register(id, () -> new RelicBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_CLUSTER).mapColor(MapColor.COLOR_YELLOW).lightLevel(state -> 7)));
-        relicBlocks.add(block);
-        TFItems.BLOCK_ITEMS.register(id,() -> new RelicBlock.BItem(block.get()));
-        return block;
-    }
+
 
     private static ToIntFunction<BlockState> litBlockEmission(int lightValue) {
         return blockState -> blockState.getValue(BlockStateProperties.LIT) ? lightValue : 0;

@@ -30,6 +30,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.confluence.lib.common.block.HorizontalDirectionalWithHorizontalTenPartBlock;
 import org.confluence.lib.common.block.StateProperties;
+import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.client.renderer.item.NegativeGeoItemRendererProvider;
 import org.confluence.terra_furniture.common.block.func.be.BaseSwayingBE;
@@ -191,7 +192,7 @@ public class LargeChandelierBlock extends HorizontalDirectionalWithHorizontalTen
 
         @Override
         public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-            consumer.accept(new NegativeGeoItemRendererProvider<Item>(new CacheItemRefBlockModel<>()){
+            consumer.accept(new NegativeGeoItemRendererProvider<Item>(new CacheItemRefBlockModel<>(TerraFurniture::asResource)){
                 @Override
                 public void process(BakedGeoModel model) {
                     model.topLevelBones().getFirst().getChildBones().stream()

@@ -68,7 +68,5 @@ public class TFChineseProvider extends LanguageProvider {
 
         add(TFBlocks.BLUE_DUNGEON_CHANDELIER.get(), "蓝地牢大型吊灯");
 
-        add(TFBlocks.KING_SLIME_RELIC.get(), "史莱姆王圣物");
-        add(TFBlocks.EYE_OF_CTHULHU_RELIC.get(), "克苏鲁之眼圣物");
     }
 }
