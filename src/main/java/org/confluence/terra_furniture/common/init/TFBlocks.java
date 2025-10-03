@@ -102,7 +102,7 @@ public final class TFBlocks {
     public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandeliers", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission().lightLevel(litBlockEmission(15))));
 
 
-    public static final DeferredBlock<HangingPotBlock> HANGING_POT = registerWithItem("hanging_pot", () -> new HangingPotBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT)));
+    public static final DeferredBlock<HangingPotBlock> HANGING_POT = registerWithItem("hanging_pot", () -> new HangingPotBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT).noCollission().lightLevel(litBlockEmission(15))));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HangingPotBlock.BEntity>> HANGING_POT_ENTITY = BLOCK_ENTITIES.register(
         "hanging_pot_entity",
