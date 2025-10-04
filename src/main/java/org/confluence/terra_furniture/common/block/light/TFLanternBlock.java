@@ -7,17 +7,13 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 public class TFLanternBlock extends SwitchableLightBlock{
     public TFLanternBlock(BlockBehaviour.Properties properties) {
         super(properties);
     }
     @Override
-    protected @NotNull VoxelShape getShape(BlockState p_304673_, BlockGetter p_304919_, BlockPos p_304930_, CollisionContext p_304757_) {
+    protected VoxelShape getShape(BlockState p_304673_, BlockGetter p_304919_, BlockPos p_304930_, CollisionContext p_304757_) {
         return Block.box(5.0, 3.0, 5.0, 11.0, 11.0, 11.0);
     }
 

@@ -36,6 +36,7 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.PUPFISH_BOWL.get(), "鳉鱼缸");
         add(TFBlocks.LAVA_SERPENT_BOWL.get(), "熔岩蛇缸");
         add(TFBlocks.TRASH_CAN.get(), "垃圾桶");
+        add(TFBlocks.HANGING_POT.get(), "吊挂盆");
 
         add(TFBlocks.PLASTIC_CHAIR.get(), "塑料椅");
         add(TFBlocks.GLASS_DOOR.get(), "玻璃门");
@@ -65,5 +66,8 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.BLUE_BRICK_SINK.get(), "蓝地牢水槽");
         add(TFBlocks.BLUE_BRICK_CLOCK.get(), "蓝地牢时钟");
         add(TFBlocks.BLUE_BRICK_BATHTUB.get(), "蓝地牢浴缸");
+
+        add(TFBlocks.BLUE_DUNGEON_CHANDELIER.get(), "蓝地牢大型吊灯");
+
     }
 }

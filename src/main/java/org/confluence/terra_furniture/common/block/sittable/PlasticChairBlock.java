@@ -14,7 +14,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.client.model.PlasticChairModel;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
-import org.confluence.terra_furniture.common.block.func.BaseSittableBE;
+import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -32,7 +32,7 @@ public class PlasticChairBlock extends ChairBlock {
     private static final VoxelShape SHAPE = Shapes.box(0.1875, 0.0, 0.1875, 0.8125, 0.8, 0.8125);
 
     public PlasticChairBlock(Properties properties) {
-        super(Blocks.BEDROCK.defaultBlockState(), properties);
+        super(Blocks.BEDROCK.defaultBlockState(), properties, 0.9f);
     }
 
     @Override

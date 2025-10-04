@@ -19,25 +19,23 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
-import org.confluence.terra_furniture.common.block.func.BaseSittableBE;
+import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock> implements EntityBlock {
-    public static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 8.0, 12.0);
+    public final VoxelShape shapeCollision;
+    private final float yOff;
 
-    public ChairBlock(@NotNull BlockState state, Properties properties) {
+    public ChairBlock(BlockState state, Properties properties, float yOff) {
         super(state, properties);
-    }
-
-    protected double getYOffset() {
-        return 0.5;
+        this.yOff = yOff;
+        shapeCollision = Block.box(4.0, 0.0, 4.0, 12.0, 16 * yOff, 12.0);
     }
 
     @Override
     protected VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return SHAPE;
+        return shapeCollision;
     }
 
     @Override
@@ -46,12 +44,12 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
     }
 
     @Override
-    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         InteractionResult resultA;
         if (!level.isClientSide) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
@@ -69,12 +67,12 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new Entity(blockPos, blockState, getYOffset());
+        return new Entity(blockPos, blockState);
     }
 
     @Override
     @Nullable
-    public <E extends BlockEntity> BlockEntityTicker<E> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<E> blockEntityType) {
+    public <E extends BlockEntity> BlockEntityTicker<E> getTicker(Level level, BlockState state, BlockEntityType<E> blockEntityType) {
         return level.isClientSide() ? null : (level1, pos, blockState, t) -> {
             if (t instanceof BaseSittableBE<?> blockEntity) {
                 blockEntity.tickAtServer();
@@ -84,7 +82,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
     @Override
     protected BasePropertyHorizontalDirectionBlock<ChairBlock> createNewInstance(BlockState baseState, Properties properties) {
-        return new ChairBlock(baseState, properties);
+        return new ChairBlock(baseState, properties, yOff);
     }
 
     @Override
@@ -102,11 +100,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
         public Entity(BlockPos pos, BlockState blockState) {
             super(TFBlocks.CHAIR_ENTITY, pos, blockState);
-        }
-
-        public Entity(BlockPos pos, BlockState blockState, double yOffset) {
-            super(TFBlocks.CHAIR_ENTITY, pos, blockState);
-            this.yOffset = yOffset;
+            if (blockState.getBlock() instanceof ChairBlock chairBlock) yOffset = chairBlock.yOff;
         }
 
         @Override

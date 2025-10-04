@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.common.block.func;
+package org.confluence.terra_furniture.common.block.func.be;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -12,13 +12,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.confluence.terra_furniture.common.entity.RideableEntityNull;
 import org.confluence.terra_furniture.common.init.TFEntities;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseSittableBE<T extends BaseSittableBE<T>> extends BlockEntity {
     public RideableEntityNull sit = null;
     public final BlockState containerBlock;
     private int count = 0;
-    public BaseSittableBE(@NotNull DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> type, BlockPos pos, BlockState blockState) {
+    public BaseSittableBE(DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> type, BlockPos pos, BlockState blockState) {
         super(type.get(), pos, blockState);
         containerBlock = blockState;
     }

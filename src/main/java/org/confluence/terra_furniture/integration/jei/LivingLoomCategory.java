@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class LivingLoomCategory implements IRecipeCategory<RecipeHolder<LivingLoomRecipe>> {
     public static final RecipeType<RecipeHolder<LivingLoomRecipe>> TYPE = RecipeType.createRecipeHolderType(TerraFurniture.asResource("living_loom"));
-    private static final Component TITLE = Component.translatable("title.terra_furniture.living_loom");
     private static final ResourceLocation BACKGROUND = TerraFurniture.asResource("textures/gui/living_loom.png");
     private final IDrawable icon;
 
@@ -33,7 +32,7 @@ public class LivingLoomCategory implements IRecipeCategory<RecipeHolder<LivingLo
 
     @Override
     public Component getTitle() {
-        return TITLE;
+        return Component.translatable("title.terra_furniture.living_loom");
     }
 
     @Override

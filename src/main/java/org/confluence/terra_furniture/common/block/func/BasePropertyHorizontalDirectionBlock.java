@@ -20,6 +20,7 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropertyHorizontalDirectionBlock<T>> extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, IVarietyBlock {
@@ -30,7 +31,7 @@ public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropert
     public final Block base;
     public final BlockState baseState;
 
-    public BasePropertyHorizontalDirectionBlock(@NotNull BlockState state, Properties properties) {
+    public BasePropertyHorizontalDirectionBlock(BlockState state, Properties properties) {
         super(properties);
         this.base = state.getBlock();
         this.baseState = state;
@@ -38,12 +39,12 @@ public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropert
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return this.getOcclusionShape(state, getter, pos);
     }
 
     @Override
-    protected @NotNull BlockState updateShape(@NotNull BlockState pState, @NotNull Direction pDirection, @NotNull BlockState pNeighborState, @NotNull LevelAccessor pLevel, @NotNull BlockPos pPos, @NotNull BlockPos pNeighborPos) {
+    protected BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pPos, BlockPos pNeighborPos) {
         if (pState.getValue(WATERLOGGED)) {
             pLevel.scheduleTick(pPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
         }
@@ -51,13 +52,13 @@ public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropert
     }
 
     @Override
-    protected @NotNull FluidState getFluidState(@NotNull BlockState pState) {
+    protected FluidState getFluidState(BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }
 
     @Override
     @NotNull
-    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState blockState = super.getStateForPlacement(context);
         blockState = blockState == null
                 ? defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite())
@@ -66,7 +67,7 @@ public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropert
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> pBuilder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(WATERLOGGED, FACING);
     }
 
@@ -76,7 +77,7 @@ public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropert
     }
 
     @Override
-    public String textureName() {
+    public @Nullable String textureName() {
         return null;
     }
 
@@ -86,12 +87,12 @@ public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropert
     }
 
     @Override
-    protected boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType pathComputationType) {
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
 
     @Override
-    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return codec;
     }
 
