@@ -7,6 +7,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+// 2025/10/4-22:06 TODO: Do we need this anymore? Only a shape define not make sense.
+@Deprecated
 public class ChandelierBlock extends SwitchableLightBlock{
     public ChandelierBlock(Properties properties) {
         super(properties);

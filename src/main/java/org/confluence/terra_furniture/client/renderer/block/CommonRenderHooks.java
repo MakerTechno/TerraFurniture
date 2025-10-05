@@ -12,6 +12,9 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 
 public final class CommonRenderHooks {
+    /**
+     * 摇晃渲染钩子
+     */
     public static final IRenderFunctionHook<? extends ISwayingBE> SWAYING = new SwayingHook<>();
 
     public static class SwayingHook<T extends BaseSwayingBE & GeoBlockEntity> implements IRenderFunctionHook<T> {

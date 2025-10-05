@@ -16,6 +16,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+// 2025/10/4-12:05 TODO: It should extend BasePropertyHorizontalDirectionalBlock, or further, BaseFurnitureNPropBlock, not exactly SwitchableLightBlock.
 public class CandelabraBlock extends SwitchableLightBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public CandelabraBlock(Properties properties) {
@@ -38,6 +39,7 @@ public class CandelabraBlock extends SwitchableLightBlock {
     }
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+        // 2025/10/4-12:02 TODO: resize shape box and make static.
         switch (state.getValue(FACING)){
             case WEST, EAST -> {
                 return Block.box(6.0, 0.0, 0.0, 10.0, 16.0, 16.0);
