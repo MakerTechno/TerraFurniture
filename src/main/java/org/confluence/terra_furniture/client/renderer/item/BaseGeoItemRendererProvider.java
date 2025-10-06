@@ -4,22 +4,26 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.Item;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
+import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 
-public class SimpleGeoItemRendererProvider<T extends Item & GeoAnimatable> implements GeoRenderProvider {
+public class BaseGeoItemRendererProvider<T extends Item & GeoAnimatable> implements GeoRenderProvider {
     protected final GeoModel<T> model;
     protected GeoItemRenderer<T> renderer;
+    private final boolean isNegative;
 
-    public SimpleGeoItemRendererProvider(GeoModel<T> model) {
+    public BaseGeoItemRendererProvider(GeoModel<T> model, boolean isNegative) {
         this.model = model;
+        this.isNegative = isNegative;
     }
 
     @Override
     public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
         if (renderer == null) {
-            this.renderer = new GeoItemRenderer<>(model);
+            this.renderer = new BaseGeoItemRenderer<>(model, this::process, isNegative);
         }
         return renderer;
     }
+    public void process(BakedGeoModel model) {}
 }

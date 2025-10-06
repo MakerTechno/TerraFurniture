@@ -18,9 +18,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 // 2025/10/4-12:05 TODO: It should extend BasePropertyHorizontalDirectionalBlock, or further, BaseFurnitureNPropBlock, not exactly SwitchableLightBlock.
 public class CandelabraBlock extends SwitchableLightBlock {
+    public static final VoxelShape SHAPE = Block.box(3, 0, 3, 13 , 16, 13);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public CandelabraBlock(Properties properties) {
-        super(properties);
+        super(properties, BlockShapeType.DEFAULT);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
     @Override
@@ -39,13 +40,7 @@ public class CandelabraBlock extends SwitchableLightBlock {
     }
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
-        // 2025/10/4-12:02 TODO: resize shape box and make static.
-        switch (state.getValue(FACING)){
-            case WEST, EAST -> {
-                return Block.box(6.0, 0.0, 0.0, 10.0, 16.0, 16.0);
-            }
-        }
-        return Block.box(0.0, 0.0, 6.0, 16.0, 16.0, 10.0);
+        return SHAPE;
     }
     protected BlockState rotate(BlockState state, Rotation rot) {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));

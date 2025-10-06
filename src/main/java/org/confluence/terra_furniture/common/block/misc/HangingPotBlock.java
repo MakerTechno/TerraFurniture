@@ -50,18 +50,24 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.confluence.lib.common.block.HorizontalDirectionalWithVerticalTwoPartBlock;
 import org.confluence.lib.common.block.StateProperties;
+import org.confluence.terra_furniture.TerraFurniture;
+import org.confluence.terra_furniture.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.client.renderer.block.IRenderFunctionHook;
+import org.confluence.terra_furniture.client.renderer.item.BaseGeoItemRendererProvider;
 import org.confluence.terra_furniture.common.block.func.be.BaseSwayingBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlock implements EntityBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -303,13 +309,30 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
         }
 
         @Override
-        public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
-        }
+        public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {}
 
         @Override
         public AnimatableInstanceCache getAnimatableInstanceCache() {
             return cache;
+        }
+    }
+    public static class BItem extends BlockItem implements GeoItem {
+        private final AnimatableInstanceCache CACHE = GeckoLibUtil.createInstanceCache(this);
+        public BItem(HangingPotBlock block, Properties properties) {
+            super(block, properties);
+        }
+
+        @Override
+        public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
+            consumer.accept(new BaseGeoItemRendererProvider<BItem>(new CacheItemRefBlockModel<>(TerraFurniture::asResource), false));
+        }
+
+        @Override
+        public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {}
+
+        @Override
+        public AnimatableInstanceCache getAnimatableInstanceCache() {
+            return CACHE;
         }
     }
     public static final class AddedRenderer<T extends HangingPotBlock.BEntity> implements IRenderFunctionHook<T> {
@@ -323,7 +346,6 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
                 if (torchBlock.equals(Blocks.TORCH)) state = Blocks.FIRE.defaultBlockState();
                 else if (torchBlock.equals(Blocks.SOUL_TORCH)) state = Blocks.SOUL_FIRE.defaultBlockState();
             }
-
             if (state != Blocks.AIR.defaultBlockState()) {
                 poseStack.pushPose();
                 poseStack.translate(2.0/16,7.001/16, 2.0/16);

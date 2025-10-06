@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.crafting.GlassKilnBlock;
@@ -77,10 +78,10 @@ public final class TFBlocks {
 
     public static final DeferredBlock<DoorBlock> GLASS_DOOR = registerWithItem("glass_door", () -> new DoorBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
-    public static final DeferredBlock<TFCandleBlock> GLASS_CANDLE = registerWithItem("glass_candle", () -> new TFCandleBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<ChandelierBlock> GLASS_CHANDELIER = registerWithItem("glass_chandelier", () -> new ChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<TFLanternBlock> GLASS_LANTERN = registerWithItem("glass_lantern", () -> new TFLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<LampBlock> GLASS_LAMP = registerWithItem("glass_lamp", () -> new LampBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<SwitchableLightBlock> GLASS_CANDLE = registerWithItem("glass_candle", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE));
+    public static final DeferredBlock<SwitchableLightBlock> GLASS_CHANDELIER = registerWithItem("glass_chandelier", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15)), BlockShapeType.CHANDELIER));
+    public static final DeferredBlock<SwitchableLightBlock> GLASS_LANTERN = registerWithItem("glass_lantern", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15)), BlockShapeType.LANTERN));
+    public static final DeferredBlock<SwitchableLightBlock> GLASS_LAMP = registerWithItem("glass_lamp", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15)), BlockShapeType.LAMP));
     public static final DeferredBlock<CandelabraBlock> GLASS_CANDELABRAS = registerWithItem("glass_candelabras", () -> new CandelabraBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
     public static final DeferredBlock<ClockBlock> GLASS_CLOCK = registerClock("glass_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<BathtubBlock> GLASS_BATHTUB = registerWithItem("glass_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
@@ -92,17 +93,18 @@ public final class TFBlocks {
     public static final DeferredBlock<SinkBlock> BLUE_BRICK_SINK = registerSinkDiscardItem("blue_brick_sink", Blocks.STONE, properties -> {});
     public static final DeferredBlock<DoorBlock> BLUE_BRICK_DOOR = registerWithItem("blue_brick_door", () -> new DoorBlock(STONE, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<TableBlock> BLUE_BRICK_TABLE = registerWithItem("blue_brick_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
-    public static final DeferredBlock<TFCandleBlock> BLUE_BRICK_CANDLE = registerWithItem("blue_brick_candle", () -> new TFCandleBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<ChandelierBlock> BLUE_BRICK_CHANDELIER = registerWithItem("blue_brick_chandelier", () -> new ChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<TFLanternBlock> BLUE_BRICK_LANTERN = registerWithItem("blue_brick_lantern", () -> new TFLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<LampBlock> BLUE_BRICK_LAMP = registerWithItem("blue_brick_lamp", () -> new LampBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<SwitchableLightBlock> BLUE_BRICK_CANDLE = registerWithItem("blue_brick_candle", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE));
+    public static final DeferredBlock<SwitchableLightBlock> BLUE_BRICK_CHANDELIER = registerWithItem("blue_brick_chandelier", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.CHANDELIER));
+    public static final DeferredBlock<SwitchableLightBlock> BLUE_BRICK_LANTERN = registerWithItem("blue_brick_lantern", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.LANTERN));
+    public static final DeferredBlock<SwitchableLightBlock> BLUE_BRICK_LAMP = registerWithItem("blue_brick_lamp", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.LAMP));
     public static final DeferredBlock<CandelabraBlock> BLUE_BRICK_CANDELABRAS = registerWithItem("blue_brick_candelabras", () -> new CandelabraBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
     public static final DeferredBlock<ClockBlock> BLUE_BRICK_CLOCK = registerClock("blue_brick_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<BathtubBlock> BLUE_BRICK_BATHTUB = registerWithItem("blue_brick_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandeliers", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission().lightLevel(litBlockEmission(15))));
 
 
-    public static final DeferredBlock<HangingPotBlock> HANGING_POT = registerWithItem("hanging_pot", () -> new HangingPotBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT).noCollission().lightLevel(litBlockEmission(15))));
+    public static final DeferredBlock<HangingPotBlock> HANGING_POT = registerWithoutItem("hanging_pot", () -> new HangingPotBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT).noCollission().lightLevel(litBlockEmission(15))));
+    public static final DeferredItem<HangingPotBlock.BItem> HANGING_POT_ITEM = TFItems.BLOCK_ITEMS.register("hanging_pot", () -> new HangingPotBlock.BItem(HANGING_POT.get(), new Item.Properties()));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HangingPotBlock.BEntity>> HANGING_POT_ENTITY = BLOCK_ENTITIES.register(
         "hanging_pot_entity",
@@ -214,7 +216,7 @@ public final class TFBlocks {
     public static DeferredBlock<LargeChandelierBlock> registerLargeChandelier(String id, Supplier<LargeChandelierBlock> block) {
         DeferredBlock<LargeChandelierBlock> deferredBlock = BLOCKS.register(id, block);
         largeChandelierBlocks.add(deferredBlock);
-        TFItems.BLOCK_ITEMS.register(id, () -> new LargeChandelierBlock.Item(deferredBlock.get(), new Item.Properties()));
+        TFItems.BLOCK_ITEMS.register(id, () -> new LargeChandelierBlock.BItem(deferredBlock.get(), new Item.Properties()));
         return deferredBlock;
     }
 

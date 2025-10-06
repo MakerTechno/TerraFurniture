@@ -15,11 +15,13 @@ import software.bernie.geckolib.renderer.GeoItemRenderer;
 
 import java.util.function.Consumer;
 
-public class GeoNegativeVolumeItemRenderer<T extends Item & GeoAnimatable> extends GeoItemRenderer<T> {
+public class BaseGeoItemRenderer<T extends Item & GeoAnimatable> extends GeoItemRenderer<T> {
     private final Consumer<BakedGeoModel> process;
-    public GeoNegativeVolumeItemRenderer(GeoModel<T> model, Consumer<BakedGeoModel> process) {
+    private final boolean isNegative;
+    public BaseGeoItemRenderer(GeoModel<T> model, Consumer<BakedGeoModel> process, boolean isNegative) {
         super(model);
         this.process = process;
+        this.isNegative = isNegative;
     }
 
     @Override
@@ -29,14 +31,10 @@ public class GeoNegativeVolumeItemRenderer<T extends Item & GeoAnimatable> exten
         super.preRender(poseStack, animatable, model, bufferSource, buffer, false, partialTick, packedLight, packedOverlay, colour);
     }
 
-    protected RenderType getGlowRenderType(ResourceLocation texture) {
-        return RenderType.text(texture);
-    }
-
     @Override
+    @Nullable
     public RenderType getRenderType(T animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        // 非发光部分不渲染阴影
-        return RenderType.text(texture);
+        return this.isNegative ? RenderType.text(texture) : super.getRenderType(animatable, texture, bufferSource, partialTick);
     }
 }
 
