@@ -12,7 +12,6 @@ import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
-import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 import java.util.function.Consumer;
 
@@ -20,12 +19,6 @@ public class GeoNegativeVolumeItemRenderer<T extends Item & GeoAnimatable> exten
     private final Consumer<BakedGeoModel> process;
     public GeoNegativeVolumeItemRenderer(GeoModel<T> model, Consumer<BakedGeoModel> process) {
         super(model);
-        this.addRenderLayer(new AutoGlowingGeoLayer<>(this){
-            @Override
-            protected RenderType getRenderType(T animatable, @Nullable MultiBufferSource bufferSource) {
-                return GeoNegativeVolumeItemRenderer.this.getGlowRenderType(this.getTextureResource(animatable));
-            }
-        });
         this.process = process;
     }
 

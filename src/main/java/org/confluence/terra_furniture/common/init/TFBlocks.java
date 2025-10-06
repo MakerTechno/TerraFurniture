@@ -182,7 +182,7 @@ public final class TFBlocks {
     public static @NotNull DeferredBlock<ToiletBlock> registerToilet(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
         BlockBehaviour.Properties properties1 = BlockBehaviour.Properties.ofFullCopy(asBlock);
         extraProp.accept(properties1);
-        return BLOCKS.register(id, () -> new ToiletBlock(asBlock.defaultBlockState(), properties1, 0.75f));
+        return BLOCKS.register(id, () -> new ToiletBlock(asBlock.defaultBlockState(), properties1, 11.0f/16));
     }
 
     public static @NotNull DeferredBlock<ToiletBlock> registerToiletDiscardItem(String id, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {

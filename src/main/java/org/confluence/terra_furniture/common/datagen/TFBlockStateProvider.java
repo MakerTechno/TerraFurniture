@@ -32,6 +32,7 @@ public class TFBlockStateProvider extends BlockStateProvider {
         getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder().modelFile(modelFile).rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360).build());
     }
 
+    // 2025/10/6-16:25 TODO: Test a generator method for tables.
     private void tables(Map<Block, Integer> tables) {
         ModelFile.ExistingModelFile modelFile = new ModelFile.ExistingModelFile(TerraFurniture.asResource("block/table"), helper);
     }

@@ -207,7 +207,7 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
         public BEntity(BlockPos pos, BlockState blockState) {
             super(TFBlocks.HANGING_POT_ENTITY.get(), pos, blockState);
             controller.setDAMPING(0.96f);
-            SMOOTHING_FACTOR = 0.4f;
+            smoothingFactor = 0.4f;
         }
 
         @Override
