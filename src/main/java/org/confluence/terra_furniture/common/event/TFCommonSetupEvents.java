@@ -12,7 +12,7 @@ import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
 import org.jetbrains.annotations.NotNull;
 
-@EventBusSubscriber(modid = TerraFurniture.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = TerraFurniture.MODID)
 public class TFCommonSetupEvents {
     @SubscribeEvent // on the mod event bus
     public static void register(@NotNull RegisterPayloadHandlersEvent event) {

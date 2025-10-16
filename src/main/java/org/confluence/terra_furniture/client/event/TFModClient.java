@@ -12,7 +12,10 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.PlasticChairModel;
-import org.confluence.terra_furniture.client.renderer.block.*;
+import org.confluence.terra_furniture.client.renderer.block.BaseFunctionalGeoBER;
+import org.confluence.terra_furniture.client.renderer.block.ClockRenderer;
+import org.confluence.terra_furniture.client.renderer.block.CommonRenderHooks;
+import org.confluence.terra_furniture.client.renderer.block.IRenderFunctionHook;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
@@ -24,7 +27,7 @@ import org.confluence.terra_furniture.common.init.TFRegistries;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 
-@EventBusSubscriber(modid = TerraFurniture.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TerraFurniture.MODID, value = Dist.CLIENT)
 public final class TFModClient {
     @SuppressWarnings("unchecked")
     @SubscribeEvent
