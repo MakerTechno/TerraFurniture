@@ -26,29 +26,30 @@ import org.confluence.terra_furniture.common.init.TFEntities;
 import org.confluence.terra_furniture.common.init.TFRegistries;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
-
+/**
+ * Register client-only events here, such as renderers and menus.
+ */
 @EventBusSubscriber(modid = TerraFurniture.MODID, value = Dist.CLIENT)
 public final class TFModClient {
     @SuppressWarnings("unchecked")
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        /*--entities--*/
         event.registerEntityRenderer(TFEntities.NULL_RIDE.get(), NoopRenderer::new);
 
+        /*--block entities--*/
         event.registerBlockEntityRenderer(TFBlocks.PLASTIC_CHAIR_ENTITY.get(), context -> new GeoBlockRenderer<>(new PlasticChairModel()));
         event.registerBlockEntityRenderer(TFBlocks.CLOCK_ENTITY.get(), context -> new ClockRenderer());
-        event.registerBlockEntityRenderer(
-                TFBlocks.LARGE_CHANDELIER_ENTITY.get(),
-                context -> BaseFunctionalGeoBER.Builder.<LargeChandelierBlock.BEntity>of(true)
-                        .addHideRule(3,
-                                geoBone -> geoBone.getName().startsWith("flame"),
-                                (geoBone, entity) -> !entity.getBlockState().getValue(BlockStateProperties.LIT)
-                        )
-                        .addRenderHook((IRenderFunctionHook<LargeChandelierBlock.BEntity>) CommonRenderHooks.SWAYING)
-                        .renderBox(pos -> new AABB(pos.getX() -1, pos.getY(), pos.getZ()-1, pos.getX() +1, pos.getY() -1, pos.getZ() +1))
-                        .build()
+        event.registerBlockEntityRenderer(TFBlocks.LARGE_CHANDELIER_ENTITY.get(), context -> BaseFunctionalGeoBER.Builder.<LargeChandelierBlock.BEntity>of(true)
+                .addHideRule(3,
+                    geoBone -> geoBone.getName().startsWith("flame"),
+                    (geoBone, entity) -> !entity.getBlockState().getValue(BlockStateProperties.LIT)
+                )
+                .addRenderHook((IRenderFunctionHook<LargeChandelierBlock.BEntity>) CommonRenderHooks.SWAYING)
+                .renderBox(pos -> new AABB(pos.getX() -1, pos.getY(), pos.getZ()-1, pos.getX() +1, pos.getY() -1, pos.getZ() +1))
+                .build()
         );
-        event.registerBlockEntityRenderer(
-            TFBlocks.HANGING_POT_ENTITY.get(),
+        event.registerBlockEntityRenderer(TFBlocks.HANGING_POT_ENTITY.get(),
             context -> BaseFunctionalGeoBER.Builder.<HangingPotBlock.BEntity>of(false)
                 .addRenderHook((IRenderFunctionHook<HangingPotBlock.BEntity>) CommonRenderHooks.SWAYING)
                 .addRenderHook(new HangingPotBlock.AddedRenderer<>())
