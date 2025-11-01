@@ -50,7 +50,6 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.confluence.lib.common.block.HorizontalDirectionalWithVerticalTwoPartBlock;
 import org.confluence.lib.common.block.StateProperties;
-import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.client.renderer.block.IRenderFunctionHook;
 import org.confluence.terra_furniture.client.renderer.item.BaseGeoItemRendererProvider;
@@ -324,7 +323,7 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
 
         @Override
         public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-            consumer.accept(new BaseGeoItemRendererProvider<BItem>(new CacheItemRefBlockModel<>(TerraFurniture::asResource), false));
+            consumer.accept(new BaseGeoItemRendererProvider<BItem>(new CacheItemRefBlockModel<>(), false));
         }
 
         @Override

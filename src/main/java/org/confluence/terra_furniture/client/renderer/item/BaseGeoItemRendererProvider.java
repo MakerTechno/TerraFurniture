@@ -8,6 +8,10 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 
+/**
+ * 简单Geo模型物品渲染提供器，提供一个{@link BaseGeoItemRenderer}
+ * @apiNote 可以重写process()方法以对模型操作
+ */
 public class BaseGeoItemRendererProvider<T extends Item & GeoAnimatable> implements GeoRenderProvider {
     protected final GeoModel<T> model;
     protected GeoItemRenderer<T> renderer;

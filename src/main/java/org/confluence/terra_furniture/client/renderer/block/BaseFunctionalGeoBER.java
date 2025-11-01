@@ -62,6 +62,9 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
      * @param <B> 方块实体类型，需同时实现 BlockEntity 与 GeoBlockEntity 接口
      */
     public static final class Builder<B extends BlockEntity & GeoBlockEntity> {
+        public static <O extends BlockEntity & GeoBlockEntity> BaseFunctionalGeoBER<O> simple(boolean isNegative) {
+            return Builder.<O>of(isNegative).build();
+        }
         private final BaseFunctionalGeoBER<B> renderer;
         private Builder(GeoModel<B> model, boolean isNegative) {
             renderer = new BaseFunctionalGeoBER<>(model, isNegative);
@@ -87,7 +90,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
          * @apiNote 默认使用 {@link CacheBlockModel} 实例，请明确已经知悉该类的相关注意事项
          */
         public static <O extends BlockEntity & GeoBlockEntity> Builder<O> of(boolean isNegative) {
-            return new Builder<>(new CacheBlockModel<>(TerraFurniture::asResource), isNegative);
+            return new Builder<>(new CacheBlockModel<>(), isNegative);
         }
         /**
          * 添加骨骼隐藏规则，用于在指定模型层根据选择器与实体状态决定是否隐藏骨骼。
@@ -181,7 +184,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
         maxFloor = rules.entrySet().stream()
             .max(Comparator.comparingInt(value -> value.getValue().selector.getFirst()))
             .map(ruleEntry -> ruleEntry.getValue().selector.getFirst())
-            .orElse(0);
+            .orElse(-1);
     }
 
     private void setupCacheAndProcess(BakedGeoModel model) {
@@ -207,7 +210,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     @Override
     public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
         if (!cachedBones.isEmpty()) cachedBones.forEach((bone, strategyId) -> bone.setHidden(rules.get(strategyId).shouldHide.test(bone, animatable)));
-        else setupCacheAndProcess(model);
+        else if (!rules.isEmpty()) setupCacheAndProcess(model);
         super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }
 

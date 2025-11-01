@@ -24,11 +24,16 @@ public class CacheBlockModel<T extends BlockEntity & GeoBlockEntity> extends Geo
      * "geo/block/[registry_id].geo.json"<p>
      * "textures/block/[registry_id].png"<p>
      * "animations/block/[registry_id].animation.json"
-     * @param pathApplier 位置处理器，负责处理目录字符串，并返回一个{@link ResourceLocation}
+     * @param pathApplier 位置处理器，负责处理目录字符串，并返回一个{@link ResourceLocation}<p>
+     *     比如...
+     * <pre>{@code
+     *     new CacheBlockModel(TerraFurniture::asResource);
+     * }</pre>
      */
     public CacheBlockModel(Function<String, ResourceLocation> pathApplier) {
         this.pathApplier = pathApplier;
     }
+
     public CacheBlockModel() {
         this.pathApplier = TerraFurniture::asResource;
     }

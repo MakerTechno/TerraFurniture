@@ -3,6 +3,7 @@ package org.confluence.terra_furniture.client.model;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import org.confluence.terra_furniture.TerraFurniture;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.model.GeoModel;
 
@@ -24,6 +25,9 @@ public class CacheItemRefBlockModel<T extends BlockItem & GeoItem> extends GeoMo
      */
     public CacheItemRefBlockModel(Function<String, ResourceLocation> pathApplier) {
         this.pathApplier = pathApplier;
+    }
+    public CacheItemRefBlockModel() {
+        this.pathApplier = TerraFurniture::asResource;
     }
     @Override
     public ResourceLocation getModelResource(T animatable) {

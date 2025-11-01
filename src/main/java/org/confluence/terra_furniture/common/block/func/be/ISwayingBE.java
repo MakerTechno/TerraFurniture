@@ -7,4 +7,5 @@ public interface ISwayingBE {
     float getSwingX();
     float getSwingZ();
     Vec3 getAnchorPoint();
+    void trigController();
 }

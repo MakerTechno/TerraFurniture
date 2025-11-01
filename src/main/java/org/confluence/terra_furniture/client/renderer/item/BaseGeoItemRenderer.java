@@ -15,6 +15,9 @@ import software.bernie.geckolib.renderer.GeoItemRenderer;
 
 import java.util.function.Consumer;
 
+/**
+ * 基础的Geo物品渲染器，提供默认的Geo可渲染物品手持显示，如Geo方块实体模型对应物
+ */
 public class BaseGeoItemRenderer<T extends Item & GeoAnimatable> extends GeoItemRenderer<T> {
     private final Consumer<BakedGeoModel> process;
     private final boolean isNegative;
