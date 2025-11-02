@@ -207,10 +207,10 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                                     }
                                 }
                             }
-                            shouldUpdate = assemble(recipeHolder.value().assembleAndExtract(new CraftingInput(4, 4, entity.cacheList), null), itemStacks, entity, recipeHolder);
+                            shouldUpdate |= assemble(recipeHolder.value().assembleAndExtract(new CraftingInput(4, 4, entity.cacheList), null), itemStacks, entity, recipeHolder);
                         }
                     } else {
-                        shouldUpdate = useFuel(entity, itemStacks, shouldUpdate);
+                        shouldUpdate |= useFuel(entity, itemStacks);
                     }
                 } else {
                     boolean matches = false;
@@ -229,10 +229,10 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                                         itemStacks.set(FUEL_SLOT, Items.WATER_BUCKET.getDefaultInstance());
                                     }
                                     stack.shrink(1);
-                                    shouldUpdate = assemble(recipeHolder1.value().assemble(recipeInput, level.registryAccess()), itemStacks, entity, recipeHolder1);
+                                    shouldUpdate |= assemble(recipeHolder1.value().assemble(recipeInput, level.registryAccess()), itemStacks, entity, recipeHolder1);
                                 }
                             } else {
-                                shouldUpdate = useFuel(entity, itemStacks, shouldUpdate);
+                                shouldUpdate |= useFuel(entity, itemStacks);
                             }
                             break;
                         }
@@ -266,12 +266,11 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             return true;
         }
 
-        private static boolean useFuel(Entity entity, NonNullList<ItemStack> itemStacks, boolean shouldUpdate) {
+        private static boolean useFuel(Entity entity, NonNullList<ItemStack> itemStacks) {
             ItemStack itemStack = itemStacks.get(FUEL_SLOT);
             entity.litDuration = entity.getBurnDuration(itemStack);
             entity.litTime = entity.litDuration;
             if (entity.isLit()) {
-                shouldUpdate = true;
                 if (itemStack.hasCraftingRemainingItem()) {
                     itemStacks.set(FUEL_SLOT, itemStack.getCraftingRemainingItem());
                 } else if (!itemStack.isEmpty()) {
@@ -280,8 +279,9 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                         itemStacks.set(FUEL_SLOT, itemStack.getCraftingRemainingItem());
                     }
                 }
+                return true;
             }
-            return shouldUpdate;
+            return false;
         }
 
         private void updateCache() {
@@ -297,7 +297,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             boolean neoStackOrStackOn = !stack.isEmpty() && ItemStack.isSameItemSameComponents(itemstack, stack);
             items.set(slot, stack);
             stack.limitSize(LibUtils.MAX_STACK_SIZE);
-            if (slot < FUEL_SLOT && !neoStackOrStackOn) {
+            if (slot < FUEL_SLOT && !neoStackOrStackOn && level != null) {
                 this.cookingTotalTime = getTotalCookTime(level);
                 this.cookingProgress = 0;
                 setChanged();

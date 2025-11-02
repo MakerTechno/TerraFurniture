@@ -51,6 +51,9 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.Collection;
 import java.util.function.Consumer;
 
+/**
+ * 庞大的多方块吊灯
+ */
 public class LargeChandelierBlock extends HorizontalDirectionalWithHorizontalTenPartBlock implements EntityBlock, SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;

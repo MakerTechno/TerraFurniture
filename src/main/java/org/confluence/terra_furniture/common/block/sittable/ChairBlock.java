@@ -1,11 +1,8 @@
 package org.confluence.terra_furniture.common.block.sittable;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -23,6 +20,9 @@ import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * 椅子方块基础类，提供乘坐的基本功能、乘坐位置调态和碰撞箱调态。
+ */
 public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock> implements EntityBlock {
     public final VoxelShape shapeCollision;
     private final float yOff;
@@ -37,16 +37,21 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
     protected VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return shapeCollision;
     }
+/* Seems not affected, could anyone explain that?
 
     @Override
     protected boolean useShapeForLightOcclusion(BlockState state) {
-        return true;
+        return false;
     }
+*/
+
+/*  When the behavior goes wrong, check if parent class still use this.
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
+*/
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {

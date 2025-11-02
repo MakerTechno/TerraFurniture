@@ -17,6 +17,9 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * 基础的多种材料属性的变体方块，有不少相关功能预留。
+ */
 @SuppressWarnings("deprecation")
 public abstract class BasePropertyBlock<T extends BasePropertyBlock<T>> extends Block implements SimpleWaterloggedBlock, IVarietyBlock {
     public final MapCodec<BasePropertyBlock<T>> codec = RecordCodecBuilder.mapCodec(

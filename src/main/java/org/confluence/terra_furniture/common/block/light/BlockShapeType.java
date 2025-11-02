@@ -8,6 +8,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * 部分失去独立类的方块的碰撞箱信息
+ */
 public enum BlockShapeType {
     LAMP, CANDLE, CHANDELIER, LANTERN, DEFAULT;
     public static final VoxelShape

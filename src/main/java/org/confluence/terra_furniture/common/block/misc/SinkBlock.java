@@ -34,6 +34,7 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
         };
     }
 
+    @SuppressWarnings("deprecation")
     protected @NotNull BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
         Direction direction = state.getValue(FACING);
         switch (mirror) {

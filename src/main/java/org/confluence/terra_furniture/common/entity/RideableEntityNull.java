@@ -13,6 +13,9 @@ import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * 一个仅用来乘坐的实体，与{@link BaseSittableBE}相互作用以确保自身在无乘客时卸载。
+ */
 public class RideableEntityNull extends VehicleEntity implements IEntityWithComplexSpawn {
     private BlockPos blockEntityPos;
     public RideableEntityNull(EntityType<? extends VehicleEntity> entityType, Level level) {
@@ -29,7 +32,7 @@ public class RideableEntityNull extends VehicleEntity implements IEntityWithComp
         verticalCollisionBelow = false;
     }
     @Override
-    protected @NotNull Item getDropItem() {
+    protected Item getDropItem() {
         return Items.AIR;
     }
     @Override

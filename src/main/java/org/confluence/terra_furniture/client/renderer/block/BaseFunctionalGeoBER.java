@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
-import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.CacheBlockModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +17,6 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
-import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -162,14 +160,6 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     private BaseFunctionalGeoBER(GeoModel<T> model, boolean isNegative) {
         super(model);
         this.isNegative = isNegative;
-        if (isNegative) {
-            this.addRenderLayer(new AutoGlowingGeoLayer<>(this){
-                @Override
-                protected RenderType getRenderType(T animatable, @Nullable MultiBufferSource bufferSource) {
-                    return RenderType.eyes(this.getTextureResource(animatable));
-                }
-            });
-        }
     }
 
     private void addHideRule(Pair<Integer, Predicate<GeoBone>> selector, BiPredicate<GeoBone, T> shouldHide) {

@@ -8,6 +8,8 @@ import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFEntities;
 import org.confluence.terra_furniture.common.init.TFItems;
 import org.confluence.terra_furniture.common.init.TFRegistries;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +25,8 @@ public class TerraFurniture {
         TFRegistries.register(modEventBus);
     }
 
-    public static ResourceLocation asResource(String path) {
+    @Contract("_ -> new")
+    public static @NotNull ResourceLocation asResource(String path) {
         return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 }

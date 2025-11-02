@@ -15,7 +15,6 @@ import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.renderer.block.BaseFunctionalGeoBER;
-import org.confluence.terra_furniture.client.renderer.block.ClockRenderer;
 import org.confluence.terra_furniture.client.renderer.block.CommonRenderHooks;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
@@ -43,7 +42,7 @@ public final class TFModClient {
 
         /*--block entities renderers--*/
         regSimpleGeoBER(event, TFBlocks.PLASTIC_CHAIR_ENTITY, false);
-        event.registerBlockEntityRenderer(TFBlocks.CLOCK_ENTITY.get(), context -> new ClockRenderer());
+        regSimpleGeoBER(event, TFBlocks.CLOCK_ENTITY, false);
         event.registerBlockEntityRenderer(TFBlocks.LARGE_CHANDELIER_ENTITY.get(),
             context ->  BaseFunctionalGeoBER.Builder.<LargeChandelierBlock.BEntity>of(true)
                     .addHideRule(3, FLAME, TFModClient::litControlled)

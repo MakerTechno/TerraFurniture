@@ -26,6 +26,9 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
 
+/**
+ * I AM THE STORM THAT IS APPROOOOOOOOOOOOOACHING~
+ */
 public class PlasticChairBlock extends ChairBlock {
     private static final VoxelShape SHAPE = Shapes.box(0.1875, 0.0, 0.1875, 0.8125, 0.8, 0.8125);
 
