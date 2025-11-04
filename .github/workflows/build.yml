@@ -43,14 +43,14 @@ jobs:
           # check ref exist
           TAG_EXISTS=$(echo "$RESPONSE" | jq -e '.ref' > /dev/null && echo "true" || echo "false")
 
-          echo "skip_release=$([ "$TAG_EXISTS" == "true" ] && echo "false" || echo "true")" >> $GITHUB_OUTPUT
+          echo "skip_release=$([ "$TAG_EXISTS" == "true" ] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
       
 
       - name: Create release if not already published
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && steps.version.outputs.skip_release == 'false'
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GH_TOKEN }}
           automatic_release_tag: ${{ steps.version.outputs.mod_version }}
           prerelease: true
           title: "EntityTrackerHUD Build ${{ steps.version.outputs.mod_version }}"
