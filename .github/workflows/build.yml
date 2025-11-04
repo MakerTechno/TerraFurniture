@@ -29,12 +29,23 @@ jobs:
         with:
           arguments: build -Pdev=false
 
+      - name: Generate release tag
+        id: version
+        run: |
+          MOD_VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
+          DATE=$(date +'%Y.%m.%d')
+          RUN_ID=${{ github.run_id }}
+          VERSION_TAG="${MOD_VERSION}-${DATE}-${RUN_ID}"
+          echo "version_tag=$VERSION_TAG" >> $GITHUB_OUTPUT
+          echo "Build version: $VERSION_TAG"
+
       - name: Create nightly release
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GH_TOKEN }}
-          automatic_release_tag: nightly
+          automatic_release_tag: ${{ steps.version.outputs.version_tag }}
           prerelease: true
-          title: "EntityTrackerHUD Automate Build :  ${{ github.ref_name }}"
+          title: "TerraFurniture Automate Build :  ${{ github.ref_name }}"
           files: |
             ./build/libs/*.jar
