@@ -153,7 +153,6 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    System.out.println(project.properties)
     if (dev) {
         implementation("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}")
         implementation(project(":Confluence-Magic-Lib"))
