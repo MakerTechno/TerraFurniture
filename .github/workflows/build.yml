@@ -37,7 +37,7 @@ jobs:
           echo "mod_version=$MOD_VERSION" >> $GITHUB_OUTPUT
 
           # get tag info
-          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/git/ref/tags/${MOD_VERSION})
 
           # check ref exist
