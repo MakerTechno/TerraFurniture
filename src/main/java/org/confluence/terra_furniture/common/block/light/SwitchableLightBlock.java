@@ -7,12 +7,13 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CopperBulbBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -20,13 +21,25 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class SwitchableLightBlock extends CopperBulbBlock implements SimpleWaterloggedBlock {
+public class SwitchableLightBlock extends CopperBulbBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public SwitchableLightBlock(BlockBehaviour.Properties properties) {
+
+    private final BlockShapeType shapeType;
+    public SwitchableLightBlock(Properties properties, BlockShapeType shapeType) {
         super(properties);
+        this.shapeType = shapeType;
         this.registerDefaultState(stateDefinition.any().setValue(LIT, true).setValue(POWERED, false).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
     }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return shapeType.getShape();
+    }
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED,POWERED,LIT);
@@ -39,13 +52,18 @@ public abstract class SwitchableLightBlock extends CopperBulbBlock implements Si
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
     @Override
+    @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        LevelAccessor levelaccessor = context.getLevel();
-        BlockPos blockpos = context.getClickedPos();
-        return defaultBlockState()
-                .setValue(WATERLOGGED, levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER)
-                .setValue(POWERED, false)
-                .setValue(LIT, true);
+        BlockState state = super.getStateForPlacement(context);
+        LevelAccessor level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        if (state != null && canSurvive(state, level, pos)) {
+            return state
+                    .setValue(WATERLOGGED, level.getFluidState(pos).getType() == Fluids.WATER)
+                    .setValue(POWERED, false)
+                    .setValue(LIT, true);
+        }
+        return null;
     }
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
@@ -68,4 +86,8 @@ public abstract class SwitchableLightBlock extends CopperBulbBlock implements Si
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
+    @Override
+    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        return shapeType.isSupported(state, level, pos);
+    }
 }

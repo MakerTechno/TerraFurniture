@@ -2,7 +2,6 @@ package org.confluence.terra_furniture.common.block.sittable;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
@@ -12,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.confluence.terra_furniture.client.model.PlasticChairModel;
+import org.confluence.terra_furniture.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
@@ -22,12 +21,14 @@ import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
 
+/**
+ * I AM THE STORM THAT IS APPROOOOOOOOOOOOOACHING~
+ */
 public class PlasticChairBlock extends ChairBlock {
     private static final VoxelShape SHAPE = Shapes.box(0.1875, 0.0, 0.1875, 0.8125, 0.8, 0.8125);
 
@@ -88,22 +89,7 @@ public class PlasticChairBlock extends ChairBlock {
                 @Override
                 public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
                     if (renderer == null) {
-                        this.renderer = new GeoItemRenderer<>(new GeoModel<>() {
-                            @Override
-                            public ResourceLocation getModelResource(PlasticChairBlock.Item animatable) {
-                                return PlasticChairModel.MODEL;
-                            }
-
-                            @Override
-                            public ResourceLocation getTextureResource(PlasticChairBlock.Item animatable) {
-                                return PlasticChairModel.TEXTURE;
-                            }
-
-                            @Override
-                            public @Nullable ResourceLocation getAnimationResource(PlasticChairBlock.Item animatable) {
-                                return null;
-                            }
-                        });
+                        this.renderer = new GeoItemRenderer<>(new CacheItemRefBlockModel<>());
                     }
                     return renderer;
                 }

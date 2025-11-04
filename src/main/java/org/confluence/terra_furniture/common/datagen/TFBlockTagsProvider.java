@@ -56,6 +56,7 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .addTag(TFTags.GLASS_FURNITURE)
                 .addTag(TFTags.DUNGEON_FURNITURE);
 
+        // 2025/11/2-19:07 TODO: Using inside sheets.
         tag(TFTags.HOUSE_CHAIR).add(
                 TFBlocks.GLASS_CHAIR.get(),
                 TFBlocks.BLUE_BRICK_CHAIR.get(),

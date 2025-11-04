@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -16,10 +15,11 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * 基础的多种材料属性的变体方块，有不少相关功能预留。
+ */
 @SuppressWarnings("deprecation")
 public abstract class BasePropertyBlock<T extends BasePropertyBlock<T>> extends Block implements SimpleWaterloggedBlock, IVarietyBlock {
     public final MapCodec<BasePropertyBlock<T>> codec = RecordCodecBuilder.mapCodec(
@@ -34,10 +34,6 @@ public abstract class BasePropertyBlock<T extends BasePropertyBlock<T>> extends 
         super(properties);
         this.base = state.getBlock();
         this.baseState = state;
-    }
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
-        return this.getOcclusionShape(state, getter, pos);
     }
     @Override
     public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pPos, BlockPos pNeighborPos) {

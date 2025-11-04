@@ -8,7 +8,7 @@ import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.misc.BathtubBlock;
 
-@EventBusSubscriber(modid = TerraFurniture.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = TerraFurniture.MODID)
 public final class TFGameEvents {
     @SubscribeEvent
     public static void canPlayerSleep(CanPlayerSleepEvent event) {

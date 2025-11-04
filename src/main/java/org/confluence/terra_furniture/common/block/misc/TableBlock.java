@@ -13,11 +13,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -27,7 +25,7 @@ public class TableBlock extends CrossCollisionBlock {
     private static final VoxelShape TABLE_LEG_SHAPE = Block.box(6.0, 0.0, 6.0, 10.0, 14.0, 10.0);
     private static final VoxelShape SHAPE = Shapes.or(TABLE_TOP_SHAPE, TABLE_LEG_SHAPE);
 
-    public @NotNull MapCodec<TableBlock> codec() {
+    public MapCodec<TableBlock> codec() {
         return CODEC;
     }
 
@@ -37,7 +35,7 @@ public class TableBlock extends CrossCollisionBlock {
     }
 
     @Override
-    protected @NotNull VoxelShape getOcclusionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
         if ((state.getValue(NORTH) && state.getValue(SOUTH)) || (state.getValue(WEST) && state.getValue(EAST))) {
             return TABLE_TOP_SHAPE;
         }
@@ -45,20 +43,16 @@ public class TableBlock extends CrossCollisionBlock {
     }
 
     @Override
-    public @NotNull VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return this.getOcclusionShape(pState, pLevel, pPos);
     }
 
     @Override
-    protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return this.getOcclusionShape(state, level, pos);
     }
 
-    protected boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType pathComputationType) {
-        return false;
-    }
-
-    public boolean connectsTo(@NotNull BlockState state, boolean isSideSolid) {
+    public boolean connectsTo(BlockState state, boolean isSideSolid) {
         return state.is(this);
     }
 

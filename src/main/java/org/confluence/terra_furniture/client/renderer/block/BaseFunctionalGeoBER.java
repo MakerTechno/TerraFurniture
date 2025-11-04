@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
-import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.CacheBlockModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,36 +17,122 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
-import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-
+/**
+ * 实验性渲染通用类，尝试减少多种方块实体在共同功能上的类数量开销。
+ * @author MakerTechno
+ */
 public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extends GeoBlockRenderer<T> {
+    /**
+     * 用于构建 {@link BaseFunctionalGeoBER} 实例的构建器。
+     * 支持注册渲染钩子、配置骨骼隐藏规则以及自定义渲染边界。
+     *
+     * <p>该构建器旨在减少多种方块实体在渲染逻辑上的类数量开销，
+     * 提供统一的注册入口以实现模块化、可扩展的渲染行为。</p>
+     *
+     * <p>使用示例：
+     * <pre>{@code
+     * event.registerBlockEntityRenderer(MY_BLOCK_ENTITY.get(),
+     *     Builder.<MyBlockEntity>of(model, false)  // This boolean controls the display model as "negative"
+     *             .addHideRule(
+     *                 1,  // The floor in a model. For e.g. 0 means top elements.
+     *                 bone -> bone.getName().equals("flame"),
+     *                 // Filter on the current floor, also produce parent floor(s).
+     *                 (bone, entity) -> !entity.getBlockState().getValue(BlockStateProperties.LIT)
+     *                 // Apply visibility rule on geoBone selected before.
+     *             )
+     *             .addRenderHook(INSTANCE)
+     *             // You can make an INSTANCE if the logic can be used statically
+     *             .addRenderHook(new AdditionalRenderHook())
+     *             //  Or else, create a new one. Notice that hook system is an ordered trigger.
+     *             .renderBox(pos -> new AABB(pos))
+     *             //  Define the render box, this will automatically disable render off screen.
+     *             .build()
+     * );
+     * }</pre>
+     * </p>
+     *
+     * @param <B> 方块实体类型，需同时实现 BlockEntity 与 GeoBlockEntity 接口
+     */
     public static final class Builder<B extends BlockEntity & GeoBlockEntity> {
+        public static <O extends BlockEntity & GeoBlockEntity> BaseFunctionalGeoBER<O> simple(boolean isNegative) {
+            return Builder.<O>of(isNegative).build();
+        }
         private final BaseFunctionalGeoBER<B> renderer;
         private Builder(GeoModel<B> model, boolean isNegative) {
             renderer = new BaseFunctionalGeoBER<>(model, isNegative);
         }
+        /**
+         * 构造一个 Builder 实例，绑定指定模型与渲染模式。
+         *
+         * @param model 渲染使用的模型
+         * @param isNegative 是否启用负体积渲染
+         * @param <O> 方块实体类型
+         * @return 构建器实例
+         */
         public static <O extends BlockEntity & GeoBlockEntity> Builder<O> of(GeoModel<O> model, boolean isNegative) {
             return new Builder<>(model, isNegative);
         }
+        /**
+         * 使用默认模型创建 Builder 实例，无需编辑自定义模型。
+         *
+         * @param isNegative 是否启用负体积渲染
+         * @param <O> 方块实体类型
+         * @return 构建器实例
+         *
+         * @apiNote 默认使用 {@link CacheBlockModel} 实例，请明确已经知悉该类的相关注意事项
+         */
         public static <O extends BlockEntity & GeoBlockEntity> Builder<O> of(boolean isNegative) {
-            return new Builder<>(new CacheBlockModel<>(TerraFurniture::asResource), isNegative);
+            return new Builder<>(new CacheBlockModel<>(), isNegative);
         }
+        /**
+         * 添加骨骼隐藏规则，用于在指定模型层根据选择器与实体状态决定是否隐藏骨骼。
+         *
+         * @param floor 模型的层级，0表示模型最顶层所有元素，1表示向下收集一层，以此类推
+         * @param selector 骨骼选择器，用于筛选目标骨骼
+         * @param shouldHide 是否隐藏选择的骨骼的判定逻辑，基于骨骼与实体状态，可在此对筛选的骨骼进行二次分类
+         * @return 构建器自身
+         */
         public Builder<B> addHideRule(int floor, Predicate<GeoBone> selector, BiPredicate<GeoBone, B> shouldHide) {
             renderer.addHideRule(new Pair<>(floor, selector), shouldHide);
             return this;
         }
+        /**
+         * 注册渲染钩子，可在默认渲染模型前后插入自定义逻辑。
+         * @apiNote 注意：该方法具有固定顺序的调用层，请按照逻辑顺序注册
+         *
+         * @param hook 渲染钩子接口实现
+         * @return 构建器自身
+         */
         public Builder<B> addRenderHook(IRenderFunctionHook<B> hook) {
             renderer.addRenderHook(hook);
             return this;
         }
+        /**
+         * 自定义渲染可见范围。
+         * @apiNote 使用此功能将会使shouldRendererOffScreen返回false
+         *
+         * @param applied 基于方块位置计算渲染边界的函数
+         * @return 构建器自身
+         */
         public Builder<B> renderBox(Function<BlockPos, AABB> applied) {
+            renderer.shouldRenderOffScreen = false;
             renderer.applied = applied;
+            return this;
+        }
+        /**
+         * 禁止离屏渲染。
+         * @apiNote 注意：已经调用{@link #renderBox(Function)}的构建器无需调用此方法
+         *
+         * @return 构建器自身
+         */
+        public Builder<B> shouldNotRenderOffScreen() {
+            renderer.shouldRenderOffScreen = false;
             return this;
         }
         public BaseFunctionalGeoBER<B> build() {
@@ -59,6 +144,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     private final Map<GeoBone, Integer> cachedBones = new HashMap<>();
     private final List<IRenderFunctionHook<T>> hooks = new ArrayList<>();
     private final boolean isNegative;
+    private boolean shouldRenderOffScreen = true;
     private Function<BlockPos, AABB> applied = null;
     private int maxFloor = 0;
 
@@ -74,14 +160,6 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     private BaseFunctionalGeoBER(GeoModel<T> model, boolean isNegative) {
         super(model);
         this.isNegative = isNegative;
-        if (isNegative) {
-            this.addRenderLayer(new AutoGlowingGeoLayer<>(this){
-                @Override
-                protected RenderType getRenderType(T animatable, @Nullable MultiBufferSource bufferSource) {
-                    return BaseFunctionalGeoBER.this.getGlowRenderType(this.getTextureResource(animatable));
-                }
-            });
-        }
     }
 
     private void addHideRule(Pair<Integer, Predicate<GeoBone>> selector, BiPredicate<GeoBone, T> shouldHide) {
@@ -96,7 +174,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
         maxFloor = rules.entrySet().stream()
             .max(Comparator.comparingInt(value -> value.getValue().selector.getFirst()))
             .map(ruleEntry -> ruleEntry.getValue().selector.getFirst())
-            .orElse(0);
+            .orElse(-1);
     }
 
     private void setupCacheAndProcess(BakedGeoModel model) {
@@ -119,14 +197,10 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
         }
     }
 
-    protected RenderType getGlowRenderType(ResourceLocation texture) {
-        return RenderType.eyes(texture);
-    }
-
     @Override
     public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
         if (!cachedBones.isEmpty()) cachedBones.forEach((bone, strategyId) -> bone.setHidden(rules.get(strategyId).shouldHide.test(bone, animatable)));
-        else setupCacheAndProcess(model);
+        else if (!rules.isEmpty()) setupCacheAndProcess(model);
         super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }
 
@@ -148,7 +222,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
 
     @Override
     public boolean shouldRenderOffScreen(T blockEntity) {
-        return true;
+        return shouldRenderOffScreen;
     }
 
     @Override

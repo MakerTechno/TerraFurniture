@@ -13,6 +13,11 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import org.confluence.terra_furniture.common.entity.RideableEntityNull;
 import org.confluence.terra_furniture.common.init.TFEntities;
 
+/**
+ * 可乘坐方块实体基类，提供一个座椅并在有乘客时阻止其他人乘坐。
+ * @apiNote 记得手动触发tickAtServer
+ * @apiNote 当玩家交互时，正常检测后直接调用useAct即可
+ */
 public abstract class BaseSittableBE<T extends BaseSittableBE<T>> extends BlockEntity {
     public RideableEntityNull sit = null;
     public final BlockState containerBlock;
@@ -30,6 +35,9 @@ public abstract class BaseSittableBE<T extends BaseSittableBE<T>> extends BlockE
             ++this.count;
         }
     }
+    /**
+     * @apiNote 不提供空值检查等基础功能，需由外部包装。
+     */
     public InteractionResult useAct(Level level, BlockPos pos, Player player) {
         if (this.sit == null) {
             this.count = 0;

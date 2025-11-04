@@ -18,6 +18,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.lib.common.block.HorizontalDirectionalWithVerticalTwoPartBlock;
 import org.confluence.terra_furniture.common.init.TFBlocks;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
@@ -34,6 +35,7 @@ import java.util.function.Consumer;
 /**
  * 落地大摆钟
  */
+// 2025/10/6-10:29 TODO: Change the displays in hand, it's too big.
 public class ClockBlock extends HorizontalDirectionalWithVerticalTwoPartBlock implements EntityBlock {
     private static final VoxelShape SHAPE = box(1, 0, 1, 15, 16, 15);
 
@@ -60,8 +62,9 @@ public class ClockBlock extends HorizontalDirectionalWithVerticalTwoPartBlock im
     }
 
     @Override
+    @Nullable
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new Entity(pos, state);
+        return state.getValue(PART).isBase() ? new Entity(pos, state) : null;
     }
 
     private static Component wrapMinute(long dayTime) {
@@ -78,11 +81,9 @@ public class ClockBlock extends HorizontalDirectionalWithVerticalTwoPartBlock im
 
     public static class Entity extends BlockEntity implements GeoBlockEntity {
         private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-        public final boolean isBase;
 
         public Entity(BlockPos pos, BlockState blockState) {
             super(TFBlocks.CLOCK_ENTITY.get(), pos, blockState);
-            this.isBase = blockState.getValue(PART).isBase();
         }
 
         @Override

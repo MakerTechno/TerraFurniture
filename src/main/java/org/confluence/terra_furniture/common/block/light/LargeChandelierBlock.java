@@ -30,9 +30,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.confluence.lib.common.block.HorizontalDirectionalWithHorizontalTenPartBlock;
 import org.confluence.lib.common.block.StateProperties;
-import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.model.CacheItemRefBlockModel;
-import org.confluence.terra_furniture.client.renderer.item.NegativeGeoItemRendererProvider;
+import org.confluence.terra_furniture.client.renderer.item.BaseGeoItemRendererProvider;
 import org.confluence.terra_furniture.common.block.func.be.BaseSwayingBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
@@ -52,10 +51,13 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.Collection;
 import java.util.function.Consumer;
 
+/**
+ * 庞大的多方块吊灯
+ */
 public class LargeChandelierBlock extends HorizontalDirectionalWithHorizontalTenPartBlock implements EntityBlock, SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    
+
     public LargeChandelierBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(PART, StateProperties.HorizontalTenPart.UP).setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE).setValue(LIT, Boolean.TRUE));
@@ -184,15 +186,15 @@ public class LargeChandelierBlock extends HorizontalDirectionalWithHorizontalTen
         public AnimatableInstanceCache getAnimatableInstanceCache() {return this.cache;}
     }
 
-    public static class Item extends BlockItem implements GeoItem {
+    public static class BItem extends BlockItem implements GeoItem {
         private final AnimatableInstanceCache CACHE = GeckoLibUtil.createInstanceCache(this);
-        public Item(LargeChandelierBlock block, Properties properties) {
+        public BItem(LargeChandelierBlock block, Properties properties) {
             super(block, properties);
         }
 
         @Override
         public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-            consumer.accept(new NegativeGeoItemRendererProvider<Item>(new CacheItemRefBlockModel<>(TerraFurniture::asResource)){
+            consumer.accept(new BaseGeoItemRendererProvider<BItem>(new CacheItemRefBlockModel<>(), true){
                 @Override
                 public void process(BakedGeoModel model) {
                     model.topLevelBones().getFirst().getChildBones().stream()

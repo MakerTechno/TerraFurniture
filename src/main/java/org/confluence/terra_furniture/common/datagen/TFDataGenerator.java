@@ -11,7 +11,7 @@ import org.confluence.terra_furniture.TerraFurniture;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = TerraFurniture.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = TerraFurniture.MODID)
 public final class TFDataGenerator {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
