@@ -11,3 +11,6 @@
 MIT
 ### 仓库管理
 MakerTechno
+### 依赖
+[Confluence-Magic-Lib](https://github.com/Magic-team-jvav/Confluence-Magic-Lib/)
+[Geckolib](https://github.com/bernie-g/geckolib)
