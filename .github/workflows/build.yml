@@ -53,6 +53,6 @@ jobs:
           repo_token: ${{ secrets.GH_TOKEN }}
           automatic_release_tag: ${{ steps.version.outputs.mod_version }}
           prerelease: true
-          title: "EntityTrackerHUD Build ${{ steps.version.outputs.mod_version }}"
+          title: "TerraFurniture Build ${{ steps.version.outputs.mod_version }}"
           files: |
             ./build/libs/*.jar
