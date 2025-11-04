@@ -30,21 +30,21 @@ jobs:
         with:
           arguments: build -Pdev=false
 
-      - name: Extract mod version and check tag exists
+      - name: Extract mod_version and check if tag exists
         id: version
         run: |
           MOD_VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
           echo "mod_version=$MOD_VERSION" >> $GITHUB_OUTPUT
 
-          TAG_EXISTS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${MOD_VERSION} | jq -r .ref)
+          # get tag info
+          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/git/ref/tags/${MOD_VERSION})
 
-          if [ "$TAG_EXISTS" != "null" ]; then
-            echo "Tag $MOD_VERSION already exists. Skipping release."
-            echo "skip_release=true" >> $GITHUB_OUTPUT
-          else
-            echo "skip_release=false" >> $GITHUB_OUTPUT
-          fi
+          # check ref exist
+          TAG_EXISTS=$(echo "$RESPONSE" | jq -e '.ref' > /dev/null && echo "true" || echo "false")
+
+          echo "skip_release=$([ "$TAG_EXISTS" == "true" ] && echo "false" || echo "true")" >> $GITHUB_OUTPUT
+      
 
       - name: Create release if not already published
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && steps.version.outputs.skip_release == 'false'
