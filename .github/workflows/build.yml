@@ -17,8 +17,24 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: "gradle"
+
+      - name: Generate assets
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          arguments: runData -Pdev=false
 
       - name: Build with Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          arguments: build
+          arguments: build -Pdev=false
+
+      - name: Create nightly release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GH_TOKEN }}
+          automatic_release_tag: nightly
+          prerelease: true
+          title: "EntityTrackerHUD Automate Build :  ${{ github.ref_name }}"
+          files: |
+            ./build/libs/*.jar
