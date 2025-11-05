@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,8 +18,41 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: "gradle"
+
+      - name: Generate assets
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          arguments: runData -Pdev=false
 
       - name: Build with Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          arguments: build
+          arguments: build -Pdev=false
+
+      - name: Extract mod_version and check if tag exists
+        id: version
+        run: |
+          MOD_VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
+          echo "mod_version=$MOD_VERSION" >> $GITHUB_OUTPUT
+
+          # get tag info
+          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/git/ref/tags/${MOD_VERSION})
+
+          # check ref exist
+          TAG_EXISTS=$(echo "$RESPONSE" | jq -e '.ref' > /dev/null && echo "true" || echo "false")
+
+          echo "skip_release=$([ "$TAG_EXISTS" == "true" ] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
+      
+
+      - name: Create release if not already published
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && steps.version.outputs.skip_release == 'false'
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GH_TOKEN }}
+          automatic_release_tag: ${{ steps.version.outputs.mod_version }}
+          prerelease: true
+          title: "TerraFurniture Build ${{ steps.version.outputs.mod_version }}"
+          files: |
+            ./build/libs/*.jar
