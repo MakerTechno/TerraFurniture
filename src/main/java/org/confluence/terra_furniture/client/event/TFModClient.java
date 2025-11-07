@@ -1,6 +1,7 @@
 package org.confluence.terra_furniture.client.event;
 
 import net.minecraft.client.RecipeBookCategories;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -16,6 +17,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.client.renderer.block.BaseFunctionalGeoBER;
 import org.confluence.terra_furniture.client.renderer.block.CommonRenderHooks;
+import org.confluence.terra_furniture.client.renderer.block.MultiRenderTypeGeoBER;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
@@ -34,6 +36,7 @@ import java.util.function.Predicate;
  */
 @EventBusSubscriber(modid = TerraFurniture.MODID, value = Dist.CLIENT)
 public final class TFModClient {
+    /** 选择层中以flame起始的名字*/
     public static final Predicate<GeoBone> FLAME = geoBone -> geoBone.getName().startsWith("flame");
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -44,8 +47,11 @@ public final class TFModClient {
         regSimpleGeoBER(event, TFBlocks.PLASTIC_CHAIR_ENTITY, false);
         regSimpleGeoBER(event, TFBlocks.CLOCK_ENTITY, false);
         event.registerBlockEntityRenderer(TFBlocks.LARGE_CHANDELIER_ENTITY.get(),
-            context ->  BaseFunctionalGeoBER.Builder.<LargeChandelierBlock.BEntity>of(true)
+            context ->  MultiRenderTypeGeoBER.Builder.<LargeChandelierBlock.BEntity>ofMRT()
                     .addHideRule(3, FLAME, TFModClient::litControlled)
+                    .setDefaultRenderType(RenderType::entityCutout)
+                    .addRenderRule(3, FLAME, RenderType::text)
+                    .addGlowingLayerBindRule(3, FLAME)
                     .addRenderHook(CommonRenderHooks.swaying())
                     .renderBox(pos -> new AABB(pos.getX() -1, pos.getY(), pos.getZ()-1, pos.getX() +1, pos.getY() -1, pos.getZ() +1))
                     .build()
@@ -58,6 +64,10 @@ public final class TFModClient {
         );
     }
 
+    /**
+     * 由对应方块中的LIT属性控制亮灭。</p>
+     * <b>注意: 只能应用在具有LIT属性的方块的方块实体上</b>
+     */
     public static <O extends BlockEntity & GeoBlockEntity> boolean litControlled(GeoBone bone, O entity) {
         return !entity.getBlockState().getValue(BlockStateProperties.LIT);
     }

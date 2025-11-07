@@ -19,9 +19,7 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 
 /**
  * 实验性渲染通用类，尝试减少多种方块实体在共同功能上的类数量开销。
@@ -38,7 +36,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
      * <p>使用示例：
      * <pre>{@code
      * event.registerBlockEntityRenderer(MY_BLOCK_ENTITY.get(),
-     *     Builder.<MyBlockEntity>of(model, false)  // This boolean controls the display model as "negative"
+     *     Builder.<MyBlockEntity>of(model, false)  // This boolean controls the render type as "negative model"
      *             .addHideRule(
      *                 1,  // The floor in a model. For e.g. 0 means top elements.
      *                 bone -> bone.getName().equals("flame"),
@@ -52,90 +50,94 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
      *             //  Or else, create a new one. Notice that hook system is an ordered trigger.
      *             .renderBox(pos -> new AABB(pos))
      *             //  Define the render box, this will automatically disable render off screen.
+     *             ...
      *             .build()
      * );
      * }</pre>
      * </p>
      *
      * @param <B> 方块实体类型，需同时实现 BlockEntity 与 GeoBlockEntity 接口
+     * @param <T> 任意{@link BaseFunctionalGeoBER}或其子类
      */
-    public static final class Builder<B extends BlockEntity & GeoBlockEntity> {
+    public static class Builder<B extends BlockEntity & GeoBlockEntity, T extends BaseFunctionalGeoBER<B>> {
         public static <O extends BlockEntity & GeoBlockEntity> BaseFunctionalGeoBER<O> simple(boolean isNegative) {
             return Builder.<O>of(isNegative).build();
         }
-        private final BaseFunctionalGeoBER<B> renderer;
-        private Builder(GeoModel<B> model, boolean isNegative) {
-            renderer = new BaseFunctionalGeoBER<>(model, isNegative);
+        protected final T renderer;
+        protected Builder(Supplier<T> constructor) {
+            renderer = constructor.get();
         }
         /**
          * 构造一个 Builder 实例，绑定指定模型与渲染模式。
          *
          * @param model 渲染使用的模型
-         * @param isNegative 是否启用负体积渲染
+         * @param isNegative 是否启用负体积渲染(RenderType:entityCutout)
          * @param <O> 方块实体类型
          * @return 构建器实例
          */
-        public static <O extends BlockEntity & GeoBlockEntity> Builder<O> of(GeoModel<O> model, boolean isNegative) {
-            return new Builder<>(model, isNegative);
+        public static <O extends BlockEntity & GeoBlockEntity> Builder<O, BaseFunctionalGeoBER<O>> of(GeoModel<O> model, boolean isNegative) {
+            return new Builder<>(() -> new BaseFunctionalGeoBER<>(model, isNegative));
         }
         /**
-         * 使用默认模型创建 Builder 实例，无需编辑自定义模型。
+         * 使用默认模型创建 Builder 实例，无需编辑自定义模型。</p>
+         * <b>注意: 默认使用 {@link CacheBlockModel} 实例，请明确已经知悉该类的相关注意事项</b>
          *
-         * @param isNegative 是否启用负体积渲染
+         * @param isNegative 是否启用负体积渲染(RenderType:entityCutout)
          * @param <O> 方块实体类型
          * @return 构建器实例
-         *
-         * @apiNote 默认使用 {@link CacheBlockModel} 实例，请明确已经知悉该类的相关注意事项
          */
-        public static <O extends BlockEntity & GeoBlockEntity> Builder<O> of(boolean isNegative) {
-            return new Builder<>(new CacheBlockModel<>(), isNegative);
+        public static <O extends BlockEntity & GeoBlockEntity> Builder<O, BaseFunctionalGeoBER<O>> of(boolean isNegative) {
+            return new Builder<>(() -> new BaseFunctionalGeoBER<>(new CacheBlockModel<>(), isNegative));
         }
         /**
          * 添加骨骼隐藏规则，用于在指定模型层根据选择器与实体状态决定是否隐藏骨骼。
          *
-         * @param floor 模型的层级，0表示模型最顶层所有元素，1表示向下收集一层，以此类推
+         * @param floor 模型的层级，0表示模型最顶层所有元素，1表示向下的一层，以此类推
          * @param selector 骨骼选择器，用于筛选目标骨骼
          * @param shouldHide 是否隐藏选择的骨骼的判定逻辑，基于骨骼与实体状态，可在此对筛选的骨骼进行二次分类
          * @return 构建器自身
          */
-        public Builder<B> addHideRule(int floor, Predicate<GeoBone> selector, BiPredicate<GeoBone, B> shouldHide) {
+        public Builder<B, T> addHideRule(int floor, Predicate<GeoBone> selector, BiPredicate<GeoBone, B> shouldHide) {
             renderer.addHideRule(new Pair<>(floor, selector), shouldHide);
             return this;
         }
         /**
-         * 注册渲染钩子，可在默认渲染模型前后插入自定义逻辑。
-         * @apiNote 注意：该方法具有固定顺序的调用层，请按照逻辑顺序注册
+         * 注册渲染钩子，可在默认渲染模型前后插入自定义逻辑。</p>
+         * <b>注意: 该方法具有固定顺序的调用层，请按照逻辑顺序注册</b>
          *
          * @param hook 渲染钩子接口实现
          * @return 构建器自身
          */
-        public Builder<B> addRenderHook(IRenderFunctionHook<B> hook) {
+        public Builder<B, T> addRenderHook(IRenderFunctionHook<B> hook) {
             renderer.addRenderHook(hook);
             return this;
         }
         /**
-         * 自定义渲染可见范围。
-         * @apiNote 使用此功能将会使shouldRendererOffScreen返回false
+         * 自定义渲染可见范围(仅仅是可能有效)。</p>
+         * <b>使用此功能将会使shouldRendererOffScreen返回false</b>
          *
          * @param applied 基于方块位置计算渲染边界的函数
          * @return 构建器自身
          */
-        public Builder<B> renderBox(Function<BlockPos, AABB> applied) {
-            renderer.shouldRenderOffScreen = false;
-            renderer.applied = applied;
+        public Builder<B, T> renderBox(Function<BlockPos, AABB> applied) {
+            renderer.disableRenderOffScreen();
+            renderer.setApplied(applied);
             return this;
         }
         /**
-         * 禁止离屏渲染。
-         * @apiNote 注意：已经调用{@link #renderBox(Function)}的构建器无需调用此方法
+         * 禁止离屏渲染(仅仅是可能有效)。</p>
+         * <b>注意：已经调用本构造器的{@link #renderBox(Function)}的构建器无需调用此方法</b>
          *
          * @return 构建器自身
          */
-        public Builder<B> shouldNotRenderOffScreen() {
-            renderer.shouldRenderOffScreen = false;
+        public Builder<B, T> shouldNotRenderOffScreen() {
+            renderer.disableRenderOffScreen();
             return this;
         }
-        public BaseFunctionalGeoBER<B> build() {
+        /**
+         * 结束构建。
+         */
+        public T build() {
             renderer.processMaxFloor();
             return renderer;
         }
@@ -157,44 +159,59 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
         }
     }
 
-    private BaseFunctionalGeoBER(GeoModel<T> model, boolean isNegative) {
+    protected BaseFunctionalGeoBER(GeoModel<T> model, boolean isNegative) {
         super(model);
         this.isNegative = isNegative;
     }
 
-    private void addHideRule(Pair<Integer, Predicate<GeoBone>> selector, BiPredicate<GeoBone, T> shouldHide) {
+    void addHideRule(Pair<Integer, Predicate<GeoBone>> selector, BiPredicate<GeoBone, T> shouldHide) {
         rules.put(rules.size(), new VisibilityRule(selector, shouldHide));
     }
 
-    private void addRenderHook(IRenderFunctionHook<T> hook) {
+    void addRenderHook(IRenderFunctionHook<T> hook) {
         hooks.add(hook);
     }
 
-    private void processMaxFloor() {
+    void setApplied(Function<BlockPos, AABB> applied) {
+        this.applied = applied;
+    }
+
+    void disableRenderOffScreen() {
+        this.shouldRenderOffScreen = false;
+    }
+
+    void processMaxFloor() {
         maxFloor = rules.entrySet().stream()
             .max(Comparator.comparingInt(value -> value.getValue().selector.getFirst()))
             .map(ruleEntry -> ruleEntry.getValue().selector.getFirst())
             .orElse(-1);
     }
 
-    private void setupCacheAndProcess(BakedGeoModel model) {
+    void setupCacheAndProcess(BakedGeoModel model) {
         for (GeoBone root : model.topLevelBones()) {
-            computeBone(root, 0, maxFloor);
+            computeBone(root, 0, maxFloor, (bone, depth) -> {
+                Optional<Map.Entry<Integer, VisibilityRule>> matched = rules.entrySet().stream()
+                        .filter(ruleEntry -> ruleEntry.getValue().selector.getFirst().equals(depth))
+                        .filter(ruleEntry -> ruleEntry.getValue().selector.getSecond().test(bone))
+                        .findFirst();
+
+                matched.ifPresent(ruleEntry -> cachedBones.put(bone, ruleEntry.getKey()));
+
+                return matched.isPresent();
+            });
         }
     }
 
-    private void computeBone(GeoBone bone, int depth, int maxFloor) {
+
+    public static void computeBone(GeoBone bone, int depth, int maxFloor, BiFunction<GeoBone, Integer, Boolean> task) {
         if (depth > maxFloor) return;
 
-        rules.entrySet().stream()
-            .filter(ruleEntry -> ruleEntry.getValue().selector.getFirst().equals(depth))
-            .findFirst()
-            .filter(ruleEntry -> ruleEntry.getValue().selector.getSecond().test(bone))
-            .ifPresent(ruleEntry -> cachedBones.put(bone, ruleEntry.getKey()));
+        if (task.apply(bone, depth)) return;
 
         for (GeoBone child : bone.getChildBones()) {
-            computeBone(child, depth + 1, maxFloor);
+            computeBone(child, depth + 1, maxFloor, task);
         }
+
     }
 
     @Override
@@ -217,7 +234,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
 
     @Override
     public @Nullable RenderType getRenderType(T animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
-        return isNegative ? RenderType.text(texture) : super.getRenderType(animatable, texture, bufferSource, partialTick);
+        return isNegative ? RenderType.entityCutout(texture) : super.getRenderType(animatable, texture, bufferSource, partialTick);
     }
 
     @Override
