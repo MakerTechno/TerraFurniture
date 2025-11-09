@@ -1,15 +1,6 @@
 {
 	"credit": "Made with Blockbench",
 	"render_type": "cutout",
-	"textures": {
-		"top": "#texture_top",
-		"corner": "#table_corner",
-		"layer_only": "#table_layer_only",
-		"leg": "#table_leg",
-		"leg_layer": "#table_leg_layer",
-		"side": "#texture_side",
-		"bottom": "#texture_bottom"
-	},
 	"elements": [
 		{
 			"from": [-0.5, 12.5, -0.5],

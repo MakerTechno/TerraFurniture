@@ -1,8 +1,0 @@
-{
-  "parent": "terra_furniture:block/template_table_top",
-  "textures": {
-    "texture_top": "terra_furniture:block/blue_brick_table_top",
-    "texture_side": "terra_furniture:block/blue_brick_table_top",
-    "texture_bottom": "terra_furniture:block/blue_brick_table_top"
-  }
-}

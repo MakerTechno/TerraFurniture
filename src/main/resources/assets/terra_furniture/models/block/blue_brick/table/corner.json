@@ -1,6 +1,0 @@
-{
-  "parent": "terra_furniture:block/template_table_corner",
-  "textures": {
-    "table_corner": "terra_furniture:block/blue_brick_table_corner"
-  }
-}

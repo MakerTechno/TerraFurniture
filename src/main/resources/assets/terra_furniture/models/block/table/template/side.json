@@ -1,9 +1,6 @@
 {
 	"credit": "Made with Blockbench",
 	"render_type": "cutout",
-	"textures": {
-		"side": "#table_side"
-	},
 	"elements": [
 		{
 			"from": [-0.25, 12.75, -0.25],

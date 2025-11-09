@@ -2,8 +2,7 @@
 	"credit": "Made with Blockbench",
 	"render_type": "cutout",
 	"textures": {
-		"particle": "#table_layer_corner",
-		"layer_corner": "#table_layer_corner"
+		"particle": "#layer_corner"
 	},
 	"elements": [
 		{
