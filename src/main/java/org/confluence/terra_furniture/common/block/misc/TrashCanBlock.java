@@ -53,7 +53,6 @@ public class TrashCanBlock extends Block implements EntityBlock {
             super(TFBlocks.TRASH_CAN_ENTITY.get(), pos, blockState);
         }
 
-        // 2025/10/6-15:10 TODO: The key not translated properly.
         @Override
         protected Component getDefaultName() {
             return Component.translatable("container.terra_furniture.trash_can");

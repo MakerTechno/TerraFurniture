@@ -35,7 +35,6 @@ import java.util.function.Consumer;
 /**
  * 落地大摆钟
  */
-// 2025/10/6-10:29 TODO: Change the displays in hand, it's too big.
 public class ClockBlock extends HorizontalDirectionalWithVerticalTwoPartBlock implements EntityBlock {
     private static final VoxelShape SHAPE = box(1, 0, 1, 15, 16, 15);
 

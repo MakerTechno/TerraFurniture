@@ -22,7 +22,6 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
         super(state, pProperties);
     }
 
-    // 2025/10/6-15:03 TODO: Make static, although NeoForge has a cache of this, compiling when join world still cost much.
     @Override
     protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return switch (state.getValue(FACING)) {
