@@ -1,0 +1,6 @@
+{
+    "parent": "builtin/entity",
+    "textures": {
+        "particle": "terra_furniture:block/pin_wheel"
+    }
+}

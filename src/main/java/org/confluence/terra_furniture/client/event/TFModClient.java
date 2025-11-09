@@ -46,6 +46,7 @@ public final class TFModClient {
         /*--block entities renderers--*/
         regSimpleGeoBER(event, TFBlocks.PLASTIC_CHAIR_ENTITY, false);
         regSimpleGeoBER(event, TFBlocks.CLOCK_ENTITY, false);
+        regSimpleGeoBER(event, TFBlocks.SIMPLE_GEO_BE, false);
         event.registerBlockEntityRenderer(TFBlocks.LARGE_CHANDELIER_ENTITY.get(),
             context ->  MultiRenderTypeGeoBER.Builder.<LargeChandelierBlock.BEntity>ofMRT()
                     .addHideRule(3, FLAME, TFModClient::litControlled)
