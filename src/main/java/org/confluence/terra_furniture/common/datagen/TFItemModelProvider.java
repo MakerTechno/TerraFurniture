@@ -4,6 +4,8 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.TerraFurniture;
+import org.confluence.terra_furniture.common.block.misc.TableBlock;
+import org.confluence.terra_furniture.common.datagen.sub.SubTableProviderStatic;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 
 public class TFItemModelProvider extends ItemModelProvider {
@@ -15,5 +17,13 @@ public class TFItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         simpleBlockItem(TFBlocks.GLASS_KILN.get());
         simpleBlockItem(TFBlocks.LIVING_LOOM.get());
+        genTableModel1(TFBlocks.BLUE_BRICK_TABLE.get());
+        /*TFBlocks.BLOCKS.getEntries().forEach(holder -> {
+            if (holder.get() instanceof TableBlock block && !SubTableProviderStatic.path(block).contains("glass")) genTableModel1(block);
+        });*/
+    }
+
+    public void genTableModel1(TableBlock block) {
+        SubTableProviderStatic.buildTemplate1Item(block, false, this);
     }
 }

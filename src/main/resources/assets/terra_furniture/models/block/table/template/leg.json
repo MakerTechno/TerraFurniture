@@ -2,9 +2,7 @@
 	"credit": "Made with Blockbench",
 	"render_type": "cutout",
 	"textures": {
-		"particle": "#table_leg",
-		"leg_layer": "#table_leg_layer",
-		"leg": "#table_leg"
+		"particle": "#leg"
 	},
 	"elements": [
 		{

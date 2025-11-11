@@ -2,10 +2,7 @@
 	"credit": "Made with Blockbench",
 	"render_type": "cutout",
 	"textures": {
-		"particle": "#texture_top",
-		"top": "#texture_top",
-		"side": "#texture_side",
-		"bottom": "#texture_bottom"
+		"particle": "#top"
 	},
 	"elements": [
 		{

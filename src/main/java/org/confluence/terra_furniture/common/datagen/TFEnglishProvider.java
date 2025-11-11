@@ -20,6 +20,7 @@ public class TFEnglishProvider extends LanguageProvider {
         add("container.terra_furniture.glass_kiln", "Glass Kiln");
         add("container.terra_furniture.living_loom", "Living Loom");
         add("container.terra_furniture.ice_machine", "Ice Machine");
+        add("container.terra_furniture.trash_can", "Trash Can");
 
         add("title.terra_furniture.glass_kiln", "Glass Kiln");
         add("title.terra_furniture.living_loom", "Living Loom");

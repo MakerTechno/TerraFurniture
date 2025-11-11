@@ -23,6 +23,7 @@ import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.crafting.GlassKilnBlock;
 import org.confluence.terra_furniture.common.block.crafting.IceMachineBlock;
 import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
+import org.confluence.terra_furniture.common.block.func.be.SimpleModelGeoBE;
 import org.confluence.terra_furniture.common.block.light.BlockShapeType;
 import org.confluence.terra_furniture.common.block.light.CandelabraBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
@@ -32,6 +33,7 @@ import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.SofaBlock;
 import org.confluence.terra_furniture.common.item.FishBowlItem;
+import org.confluence.terra_furniture.common.item.SimpleGeoRenderedItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
@@ -79,6 +81,7 @@ public final class TFBlocks {
     public static final DeferredBlock<TrashCanBlock> TRASH_CAN = registerWithItem("trash_can", () -> new TrashCanBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BARS)));
     public static final Supplier<BlockEntityType<TrashCanBlock.Entity>> TRASH_CAN_ENTITY = BLOCK_ENTITIES.register("trash_can_entity", () -> BlockEntityType.Builder.of(TrashCanBlock.Entity::new, TRASH_CAN.get()).build(DSL.remainderType()));
 
+    // 玻璃
     public static final DeferredBlock<DoorBlock> GLASS_DOOR = registerWithItem("glass_door", () -> new DoorBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<SwitchableLightBlock> GLASS_CANDLE = registerWithItem("glass_candle", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(14)), BlockShapeType.CANDLE));
@@ -89,7 +92,7 @@ public final class TFBlocks {
     public static final DeferredBlock<ClockBlock> GLASS_CLOCK = registerClock("glass_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<BathtubBlock> GLASS_BATHTUB = registerWithItem("glass_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
 
-    //地牢
+    // 地牢
     public static final DeferredBlock<ChairBlock> BLUE_BRICK_CHAIR = registerChairDiscardItem("blue_brick_chair", Blocks.STONE, properties -> {}, 0.5f);
     public static final DeferredBlock<SofaBlock> BLUE_BRICK_SOFA = registerSofaDiscardItem("blue_brick_sofa", Blocks.STONE, properties -> {});
     public static final DeferredBlock<ChairBlock> BLUE_BRICK_TOILET = registerToiletDiscardItem("blue_brick_toilet", Blocks.STONE, properties -> {});
@@ -105,13 +108,19 @@ public final class TFBlocks {
     public static final DeferredBlock<BathtubBlock> BLUE_BRICK_BATHTUB = registerWithItem("blue_brick_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandeliers", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission().lightLevel(litBlockEmission(15))));
 
+    public static final DeferredBlock<PinWheel> PIN_WHEEL = registerWithoutItem("pin_wheel", () -> new PinWheel(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO).noCollission()));
+    public static final DeferredItem<SimpleGeoRenderedItem> PIN_WHEEL_ITEM = TFItems.BLOCK_ITEMS.register("pin_wheel", () -> new SimpleGeoRenderedItem(PIN_WHEEL.get(), new Item.Properties()));
 
     public static final DeferredBlock<HangingPotBlock> HANGING_POT = registerWithoutItem("hanging_pot", () -> new HangingPotBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT).noCollission().lightLevel(litBlockEmission(15))));
     public static final DeferredItem<HangingPotBlock.BItem> HANGING_POT_ITEM = TFItems.BLOCK_ITEMS.register("hanging_pot", () -> new HangingPotBlock.BItem(HANGING_POT.get(), new Item.Properties()));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HangingPotBlock.BEntity>> HANGING_POT_ENTITY = BLOCK_ENTITIES.register(
-        "hanging_pot_entity",
-        () -> BlockEntityType.Builder.of(HangingPotBlock.BEntity::new, HANGING_POT.get()).build(DSL.remainderType())
+            "hanging_pot_entity",
+            () -> BlockEntityType.Builder.of(HangingPotBlock.BEntity::new, HANGING_POT.get()).build(DSL.remainderType())
+    );
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SimpleModelGeoBE>> SIMPLE_GEO_BE = BLOCK_ENTITIES.register(
+            "simple_geo_be",
+            () -> BlockEntityType.Builder.of(SimpleModelGeoBE::new, PIN_WHEEL.get()).build(DSL.remainderType())
     );
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LargeChandelierBlock.BEntity>> LARGE_CHANDELIER_ENTITY = BLOCK_ENTITIES.register("large_chandelier_entity", () -> {
