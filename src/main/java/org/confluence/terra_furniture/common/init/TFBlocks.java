@@ -23,7 +23,6 @@ import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.crafting.GlassKilnBlock;
 import org.confluence.terra_furniture.common.block.crafting.IceMachineBlock;
 import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
-import org.confluence.terra_furniture.common.block.func.be.SimpleModelGeoBE;
 import org.confluence.terra_furniture.common.block.light.BlockShapeType;
 import org.confluence.terra_furniture.common.block.light.CandelabraBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
@@ -109,7 +108,7 @@ public final class TFBlocks {
     public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandeliers", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission().lightLevel(litBlockEmission(15))));
 
     public static final DeferredBlock<PinWheel> PIN_WHEEL = registerWithoutItem("pin_wheel", () -> new PinWheel(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO).noCollission()));
-    public static final DeferredItem<SimpleGeoRenderedItem> PIN_WHEEL_ITEM = TFItems.BLOCK_ITEMS.register("pin_wheel", () -> new SimpleGeoRenderedItem(PIN_WHEEL.get(), new Item.Properties()));
+    public static final DeferredItem<SimpleGeoRenderedItem> PIN_WHEEL_ITEM = TFItems.BLOCK_ITEMS.register("pin_wheel", () -> new SimpleGeoRenderedItem(PIN_WHEEL.get(), new Item.Properties(), false));
 
     public static final DeferredBlock<HangingPotBlock> HANGING_POT = registerWithoutItem("hanging_pot", () -> new HangingPotBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT).noCollission().lightLevel(litBlockEmission(15))));
     public static final DeferredItem<HangingPotBlock.BItem> HANGING_POT_ITEM = TFItems.BLOCK_ITEMS.register("hanging_pot", () -> new HangingPotBlock.BItem(HANGING_POT.get(), new Item.Properties()));
@@ -118,9 +117,13 @@ public final class TFBlocks {
             "hanging_pot_entity",
             () -> BlockEntityType.Builder.of(HangingPotBlock.BEntity::new, HANGING_POT.get()).build(DSL.remainderType())
     );
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SimpleModelGeoBE>> SIMPLE_GEO_BE = BLOCK_ENTITIES.register(
+    /*public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SimpleModelGeoBE>> SIMPLE_GEO_BE = BLOCK_ENTITIES.register(
             "simple_geo_be",
             () -> BlockEntityType.Builder.of(SimpleModelGeoBE::new, PIN_WHEEL.get()).build(DSL.remainderType())
+    );*/
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PinWheel.BEntity>> PIN_WHEEL_ENTITY = BLOCK_ENTITIES.register(
+            "pin_wheel_entity",
+            () -> BlockEntityType.Builder.of(PinWheel.BEntity::new, PIN_WHEEL.get()).build(DSL.remainderType())
     );
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LargeChandelierBlock.BEntity>> LARGE_CHANDELIER_ENTITY = BLOCK_ENTITIES.register("large_chandelier_entity", () -> {

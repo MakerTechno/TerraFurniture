@@ -23,6 +23,7 @@ import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
+import org.confluence.terra_furniture.common.block.misc.PinWheel;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFEntities;
 import org.confluence.terra_furniture.common.init.TFRegistries;
@@ -46,22 +47,28 @@ public final class TFModClient {
         /*--block entities renderers--*/
         regSimpleGeoBER(event, TFBlocks.PLASTIC_CHAIR_ENTITY, false);
         regSimpleGeoBER(event, TFBlocks.CLOCK_ENTITY, false);
-        regSimpleGeoBER(event, TFBlocks.SIMPLE_GEO_BE, false);
+        event.registerBlockEntityRenderer(TFBlocks.PIN_WHEEL_ENTITY.get(),
+                context -> BaseFunctionalGeoBER.Builder.<PinWheel.BEntity>of(false)
+                        .addOperationBindRule(0, geoBone -> geoBone.getName().equals("bone"),
+                                (geoBone, bEntity) ->  geoBone.setRotZ(bEntity.getStepNext())
+                        )
+                        .build()
+        );
         event.registerBlockEntityRenderer(TFBlocks.LARGE_CHANDELIER_ENTITY.get(),
-            context ->  MultiRenderTypeGeoBER.Builder.<LargeChandelierBlock.BEntity>ofMRT()
-                    .addHideRule(3, FLAME, TFModClient::litControlled)
-                    .setDefaultRenderType(RenderType::entityCutout)
-                    .addRenderRule(3, FLAME, RenderType::text)
-                    .addGlowingLayerBindRule(3, FLAME)
-                    .addRenderHook(CommonRenderHooks.swaying())
-                    .renderBox(pos -> new AABB(pos.getX() -1, pos.getY(), pos.getZ()-1, pos.getX() +1, pos.getY() -1, pos.getZ() +1))
-                    .build()
+                context ->  MultiRenderTypeGeoBER.Builder.<LargeChandelierBlock.BEntity>ofMRT()
+                        .addOperationBindRule(3, FLAME, TFModClient::litControlledHide)
+                        .setDefaultRenderType(RenderType::entityCutout)
+                        .addRenderRule(3, FLAME, RenderType::text)
+                        .addGlowingLayerBindRule(3, FLAME)
+                        .addRenderHook(CommonRenderHooks.swaying())
+                        .renderBox(pos -> new AABB(pos.getX() -1, pos.getY(), pos.getZ()-1, pos.getX() +1, pos.getY() -1, pos.getZ() +1))
+                        .build()
         );
         event.registerBlockEntityRenderer(TFBlocks.HANGING_POT_ENTITY.get(),
-            context -> BaseFunctionalGeoBER.Builder.<HangingPotBlock.BEntity>of(false)
-                    .addRenderHook(CommonRenderHooks.swaying())
-                    .addRenderHook(new HangingPotBlock.AddedRenderer<>())
-                    .build()
+                context -> BaseFunctionalGeoBER.Builder.<HangingPotBlock.BEntity>of(false)
+                        .addRenderHook(CommonRenderHooks.swaying())
+                        .addRenderHook(new HangingPotBlock.AddedRenderer<>())
+                        .build()
         );
     }
 
@@ -69,8 +76,8 @@ public final class TFModClient {
      * 由对应方块中的LIT属性控制亮灭。</p>
      * <b>注意: 只能应用在具有LIT属性的方块的方块实体上</b>
      */
-    public static <O extends BlockEntity & GeoBlockEntity> boolean litControlled(GeoBone bone, O entity) {
-        return !entity.getBlockState().getValue(BlockStateProperties.LIT);
+    public static <O extends BlockEntity & GeoBlockEntity> void litControlledHide(GeoBone bone, O entity) {
+        bone.setHidden(!entity.getBlockState().getValue(BlockStateProperties.LIT));
     }
 
     public static <O extends BlockEntity & GeoBlockEntity> void regSimpleGeoBER(EntityRenderersEvent.RegisterRenderers event, DeferredHolder<BlockEntityType<?>, BlockEntityType<O>> holder, boolean isNegativeModel) {

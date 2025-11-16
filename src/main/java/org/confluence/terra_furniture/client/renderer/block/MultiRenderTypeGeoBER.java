@@ -21,10 +21,7 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public class MultiRenderTypeGeoBER<T extends BlockEntity & GeoBlockEntity> extends BaseFunctionalGeoBER<T> {
     public static class Builder<B extends BlockEntity & GeoBlockEntity, T extends MultiRenderTypeGeoBER<B>> extends BaseFunctionalGeoBER.Builder<B, T> {
@@ -40,8 +37,8 @@ public class MultiRenderTypeGeoBER<T extends BlockEntity & GeoBlockEntity> exten
         }
 
         @Override
-        public Builder<B, T> addHideRule(int floor, Predicate<GeoBone> selector, BiPredicate<GeoBone, B> shouldHide) {
-            return (Builder<B, T>) super.addHideRule(floor, selector, shouldHide);
+        public Builder<B, T> addOperationBindRule(int floor, Predicate<GeoBone> selector, BiConsumer<GeoBone, B> operation) {
+            return (Builder<B, T>) super.addOperationBindRule(floor, selector, operation);
         }
 
         @Override
