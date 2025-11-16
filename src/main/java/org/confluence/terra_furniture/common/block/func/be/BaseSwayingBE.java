@@ -8,9 +8,9 @@ import net.minecraft.world.phys.Vec3;
 import org.confluence.terra_furniture.common.util.SwayingController;
 
 public abstract class BaseSwayingBE extends BlockEntity implements ISwayingBE {
-    protected float smoothingFactor = 0.03f;
+    protected float movingFactor = 0.06f;
     private Vec3 delta = new Vec3(0, 0, 0);
-    private boolean changedLastTime = false;
+    private Vec3 lastDelta = new Vec3(0, 0, 0);
     protected final SwayingController controller;
 
     public BaseSwayingBE(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
@@ -19,23 +19,20 @@ public abstract class BaseSwayingBE extends BlockEntity implements ISwayingBE {
     }
     @Override
     public void applyDelta(Vec3 input) {
-        input = compressDelta(input);
-        delta = delta.add(input.subtract(delta).scale(smoothingFactor));
-        changedLastTime = true;
+        delta = delta.add(input);
     }
-    protected Vec3 compressDelta(Vec3 input) {
-        double length = input.length();
-        double damped = Math.tanh(length); // 非线性压缩
-        return input.normalize().scale(damped);
+
+    public void applyMovingAffectedDelta(Vec3 input) {
+        applyDelta(input.scale(movingFactor));
     }
 
     public void tickAtClient() {
-        if (!changedLastTime) delta = Vec3.ZERO;
-        changedLastTime = false;
+        lastDelta = delta;
+        if (!delta.equals(Vec3.ZERO)) delta = Vec3.ZERO;
     }
 
     public void trigController() {
-        controller.updateSwing(delta);
+        controller.updateSwing(lastDelta);
     }
 
     @Override
