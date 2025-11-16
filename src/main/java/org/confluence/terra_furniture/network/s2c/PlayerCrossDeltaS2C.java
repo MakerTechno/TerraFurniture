@@ -33,7 +33,7 @@ public record PlayerCrossDeltaS2C(Vec3 delta, BlockPos pos) implements CustomPac
     public static void handle(@NotNull PlayerCrossDeltaS2C data, @NotNull IPayloadContext context) {
         context.enqueueWork(() ->{
             if (context.player().level().getBlockEntity(data.pos) instanceof BaseSwayingBE cast) {
-                cast.applyDelta(data.delta());
+                cast.applyMovingAffectedDelta(data.delta());
             }
         }).exceptionally(e -> null);
     }
