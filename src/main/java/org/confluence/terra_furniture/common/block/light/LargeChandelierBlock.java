@@ -82,7 +82,7 @@ public class LargeChandelierBlock extends HorizontalDirectionalWithHorizontalTen
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         BlockPos base = state.getValue(PART).toBase(pos, state.getValue(FACING), false);
         if (level.isClientSide && level.getBlockEntity(base) instanceof BEntity blockEntity) {
-            blockEntity.applyDelta(entity.getDeltaMovement());
+            blockEntity.applyMovingAffectedDelta(entity.getDeltaMovement());
         } else if (!level.isClientSide && entity instanceof Player) {
             PacketDistributor.sendToPlayersTrackingEntity(entity, new PlayerCrossDeltaS2C(entity.getPosition(1).subtract(entity.getPosition(0)), base));
         }

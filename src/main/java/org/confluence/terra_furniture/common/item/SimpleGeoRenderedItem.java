@@ -16,13 +16,15 @@ import java.util.function.Consumer;
 
 public class SimpleGeoRenderedItem extends BlockItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    public SimpleGeoRenderedItem(Block block, Properties properties) {
+    private final boolean isNegative;
+    public SimpleGeoRenderedItem(Block block, Properties properties, boolean isNegative) {
         super(block, properties);
+        this.isNegative = isNegative;
     }
 
     @Override
     public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-        consumer.accept(new BaseGeoItemRendererProvider<>(new CacheItemRefBlockModel<>(), false));
+        consumer.accept(new BaseGeoItemRendererProvider<>(new CacheItemRefBlockModel<>(), isNegative));
     }
 
     @Override

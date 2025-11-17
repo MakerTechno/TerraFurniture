@@ -28,7 +28,7 @@ import java.util.function.*;
 public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extends GeoBlockRenderer<T> {
     /**
      * 用于构建 {@link BaseFunctionalGeoBER} 实例的构建器。
-     * 支持注册渲染钩子、配置骨骼隐藏规则以及自定义渲染边界。
+     * 支持注册渲染钩子、配置骨骼功能以及自定义渲染边界。
      *
      * <p>该构建器旨在减少多种方块实体在渲染逻辑上的类数量开销，
      * 提供统一的注册入口以实现模块化、可扩展的渲染行为。</p>
@@ -37,11 +37,11 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
      * <pre>{@code
      * event.registerBlockEntityRenderer(MY_BLOCK_ENTITY.get(),
      *     Builder.<MyBlockEntity>of(model, false)  // This boolean controls the render type as "negative model"
-     *             .addHideRule(
+     *             .addOperationBindRule(
      *                 1,  // The floor in a model. For e.g. 0 means top elements.
      *                 bone -> bone.getName().equals("flame"),
      *                 // Filter on the current floor, also produce parent floor(s).
-     *                 (bone, entity) -> !entity.getBlockState().getValue(BlockStateProperties.LIT)
+     *                 (bone, entity) -> bone.setHidden(entity.getBlockState().getValue(BlockStateProperties.LIT))
      *                 // Apply visibility rule on geoBone selected before.
      *             )
      *             .addRenderHook(INSTANCE)
@@ -90,15 +90,15 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             return new Builder<>(() -> new BaseFunctionalGeoBER<>(new CacheBlockModel<>(), isNegative));
         }
         /**
-         * 添加骨骼隐藏规则，用于在指定模型层根据选择器与实体状态决定是否隐藏骨骼。
+         * 添加骨骼隐藏规则，用于在指定模型层根据选择器与实体状态决定是否对骨骼操作。
          *
          * @param floor 模型的层级，0表示模型最顶层所有元素，1表示向下的一层，以此类推
          * @param selector 骨骼选择器，用于筛选目标骨骼
-         * @param shouldHide 是否隐藏选择的骨骼的判定逻辑，基于骨骼与实体状态，可在此对筛选的骨骼进行二次分类
+         * @param operation 对骨骼进行的操作。基于骨骼与实体状态，可在此对筛选的骨骼进行二次分类
          * @return 构建器自身
          */
-        public Builder<B, T> addHideRule(int floor, Predicate<GeoBone> selector, BiPredicate<GeoBone, B> shouldHide) {
-            renderer.addHideRule(new Pair<>(floor, selector), shouldHide);
+        public Builder<B, T> addOperationBindRule(int floor, Predicate<GeoBone> selector, BiConsumer<GeoBone, B> operation) {
+            renderer.addBoneOp(new Pair<>(floor, selector), operation);
             return this;
         }
         /**
@@ -142,7 +142,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             return renderer;
         }
     }
-    private final Map<Integer, VisibilityRule> rules = new HashMap<>();
+    private final Map<Integer, GeoBoneOp> op = new HashMap<>();
     private final Map<GeoBone, Integer> cachedBones = new HashMap<>();
     private final List<IRenderFunctionHook<T>> hooks = new ArrayList<>();
     private final boolean isNegative;
@@ -150,12 +150,12 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     private Function<BlockPos, AABB> applied = null;
     private int maxFloor = 0;
 
-    private class VisibilityRule {
+    private class GeoBoneOp {
         final Pair<Integer, Predicate<GeoBone>> selector;
-        final BiPredicate<GeoBone, T> shouldHide;
-        VisibilityRule(Pair<Integer, Predicate<GeoBone>> selector, BiPredicate<GeoBone, T> shouldHide) {
+        final BiConsumer<GeoBone, T> operation;
+        GeoBoneOp(Pair<Integer, Predicate<GeoBone>> selector, BiConsumer<GeoBone, T> operation) {
             this.selector = selector;
-            this.shouldHide = shouldHide;
+            this.operation = operation;
         }
     }
 
@@ -164,8 +164,8 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
         this.isNegative = isNegative;
     }
 
-    void addHideRule(Pair<Integer, Predicate<GeoBone>> selector, BiPredicate<GeoBone, T> shouldHide) {
-        rules.put(rules.size(), new VisibilityRule(selector, shouldHide));
+    void addBoneOp(Pair<Integer, Predicate<GeoBone>> selector, BiConsumer<GeoBone, T> operation) {
+        op.put(op.size(), new GeoBoneOp(selector, operation));
     }
 
     void addRenderHook(IRenderFunctionHook<T> hook) {
@@ -181,7 +181,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     }
 
     void processMaxFloor() {
-        maxFloor = rules.entrySet().stream()
+        maxFloor = op.entrySet().stream()
             .max(Comparator.comparingInt(value -> value.getValue().selector.getFirst()))
             .map(ruleEntry -> ruleEntry.getValue().selector.getFirst())
             .orElse(-1);
@@ -190,7 +190,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     void setupCacheAndProcess(BakedGeoModel model) {
         for (GeoBone root : model.topLevelBones()) {
             computeBone(root, 0, maxFloor, (bone, depth) -> {
-                Optional<Map.Entry<Integer, VisibilityRule>> matched = rules.entrySet().stream()
+                Optional<Map.Entry<Integer, GeoBoneOp>> matched = op.entrySet().stream()
                         .filter(ruleEntry -> ruleEntry.getValue().selector.getFirst().equals(depth))
                         .filter(ruleEntry -> ruleEntry.getValue().selector.getSecond().test(bone))
                         .findFirst();
@@ -216,8 +216,8 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
 
     @Override
     public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
-        if (!cachedBones.isEmpty()) cachedBones.forEach((bone, strategyId) -> bone.setHidden(rules.get(strategyId).shouldHide.test(bone, animatable)));
-        else if (!rules.isEmpty()) setupCacheAndProcess(model);
+        if (!cachedBones.isEmpty()) cachedBones.forEach((bone, opId) -> op.get(opId).operation.accept(bone, animatable));
+        else if (!op.isEmpty()) setupCacheAndProcess(model);
         super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }
 
