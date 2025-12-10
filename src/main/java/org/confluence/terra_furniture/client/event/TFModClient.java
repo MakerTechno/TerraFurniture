@@ -73,8 +73,8 @@ public final class TFModClient {
     }
 
     /**
-     * 由对应方块中的LIT属性控制亮灭。</p>
-     * <b>注意: 只能应用在具有LIT属性的方块的方块实体上</b>
+     * 由对应方块中的LIT属性控制亮灭。
+     * <p><b>注意: 只能应用在具有LIT属性的方块的方块实体上</b></p>
      */
     public static <O extends BlockEntity & GeoBlockEntity> void litControlledHide(GeoBone bone, O entity) {
         bone.setHidden(!entity.getBlockState().getValue(BlockStateProperties.LIT));

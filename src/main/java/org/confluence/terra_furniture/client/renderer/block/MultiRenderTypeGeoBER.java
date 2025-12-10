@@ -24,6 +24,18 @@ import java.util.*;
 import java.util.function.*;
 
 public class MultiRenderTypeGeoBER<T extends BlockEntity & GeoBlockEntity> extends BaseFunctionalGeoBER<T> {
+    /**
+     * 用于构建 {@link MultiRenderTypeGeoBER} 实例的构建器。
+     * 支持注册渲染钩子、配置骨骼功能以及自定义渲染边界。
+     *
+     * <p>该构建器旨在减少多种方块实体在渲染逻辑上的类数量开销，
+     * 提供统一的注册入口以实现模块化、可扩展的渲染行为。</p>
+     *
+     * <p>使用示例请参照{@link BaseFunctionalGeoBER.Builder}</p>
+     *
+     * @param <B> 方块实体类型，需同时实现 BlockEntity 与 GeoBlockEntity 接口
+     * @param <T> 任意{@link MultiRenderTypeGeoBER}或其子类
+     */
     public static class Builder<B extends BlockEntity & GeoBlockEntity, T extends MultiRenderTypeGeoBER<B>> extends BaseFunctionalGeoBER.Builder<B, T> {
         protected Builder(Supplier<T> constructor) {
             super(constructor);
@@ -82,8 +94,8 @@ public class MultiRenderTypeGeoBER<T extends BlockEntity & GeoBlockEntity> exten
         }
 
         /**
-         * 设置默认的渲染类型。</p>
-         * <b>注意: 该方法只需调用一次，多次调用只会取最后一次填入的参数</b>
+         * 设置默认的渲染类型。
+         * <p><b>注意: 该方法只需调用一次，多次调用只会取最后一次填入的参数</b></p>
          *
          * @param defaultRenderType 默认的渲染类型
          * @return 构建器自身

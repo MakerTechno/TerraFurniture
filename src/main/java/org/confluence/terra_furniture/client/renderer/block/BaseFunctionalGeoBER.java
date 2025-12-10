@@ -79,8 +79,8 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             return new Builder<>(() -> new BaseFunctionalGeoBER<>(model, isNegative));
         }
         /**
-         * 使用默认模型创建 Builder 实例，无需编辑自定义模型。</p>
-         * <b>注意: 默认使用 {@link CacheBlockModel} 实例，请明确已经知悉该类的相关注意事项</b>
+         * 使用默认模型创建 Builder 实例，无需编辑自定义模型。
+         * <p><b>注意: 默认使用 {@link CacheBlockModel} 实例，请明确已经知悉该类的相关注意事项</b></p>
          *
          * @param isNegative 是否启用负体积渲染(RenderType:entityCutout)
          * @param <O> 方块实体类型
@@ -102,8 +102,8 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             return this;
         }
         /**
-         * 注册渲染钩子，可在默认渲染模型前后插入自定义逻辑。</p>
-         * <b>注意: 该方法具有固定顺序的调用层，请按照逻辑顺序注册</b>
+         * 注册渲染钩子，可在默认渲染模型前后插入自定义逻辑。
+         * <p><b>注意: 该方法具有固定顺序的调用层，请按照逻辑顺序注册</b></p>
          *
          * @param hook 渲染钩子接口实现
          * @return 构建器自身
@@ -113,8 +113,8 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             return this;
         }
         /**
-         * 自定义渲染可见范围(仅仅是可能有效)。</p>
-         * <b>使用此功能将会使shouldRendererOffScreen返回false</b>
+         * 自定义渲染可见范围(仅仅是可能有效)。
+         * <p><b>使用此功能将会使shouldRendererOffScreen返回false</b></p>
          *
          * @param applied 基于方块位置计算渲染边界的函数
          * @return 构建器自身
@@ -125,8 +125,8 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             return this;
         }
         /**
-         * 禁止离屏渲染(仅仅是可能有效)。</p>
-         * <b>注意：已经调用本构造器的{@link #renderBox(Function)}的构建器无需调用此方法</b>
+         * 禁止离屏渲染(仅仅是可能有效)。
+         * <p><b>注意：已经调用本构造器的{@link #renderBox(Function)}的构建器无需调用此方法</b></p>
          *
          * @return 构建器自身
          */
