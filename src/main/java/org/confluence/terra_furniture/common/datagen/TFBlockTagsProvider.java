@@ -53,6 +53,7 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(TFBlocks.PLASTIC_CHAIR.get())
+                .add(TFBlocks.TRASH_CAN.get())
                 .addTag(TFTags.GLASS_FURNITURE)
                 .addTag(TFTags.DUNGEON_FURNITURE);
 
