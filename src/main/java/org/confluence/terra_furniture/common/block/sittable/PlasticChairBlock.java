@@ -11,9 +11,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.confluence.terra_furniture.client.model.CacheItemRefBlockModel;
+import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
-import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -27,7 +26,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.function.Consumer;
 
 /**
- * I AM THE STORM THAT IS APPROOOOOOOOOOOOOACHING~
+ * I AM THE STORM THAT IS APPROOOOOOOOOOOOOACHIIIIIIIIIING~
  */
 public class PlasticChairBlock extends ChairBlock {
     private static final VoxelShape SHAPE = Shapes.box(0.1875, 0.0, 0.1875, 0.8125, 0.8, 0.8125);
@@ -49,7 +48,7 @@ public class PlasticChairBlock extends ChairBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new Entity(blockPos, blockState);
+        return new PlasticChairBE(blockPos, blockState);
     }
 
     @Override
@@ -57,11 +56,13 @@ public class PlasticChairBlock extends ChairBlock {
         return new PlasticChairBlock(properties);
     }
 
-    public static class Entity extends BaseSittableBE<Entity> implements GeoBlockEntity {
+    public static class PlasticChairBE extends ChairBE implements GeoBlockEntity {
         private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-        public Entity(BlockPos pPos, BlockState pBlockState) {
-            super(TFBlocks.PLASTIC_CHAIR_ENTITY, pPos, pBlockState);
+
+        public PlasticChairBE(BlockPos pos, BlockState blockState) {
+            super(TFBlocks.PLASTIC_CHAIR_ENTITY.get(), pos, blockState);
         }
+
         @Override
         public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {}
 

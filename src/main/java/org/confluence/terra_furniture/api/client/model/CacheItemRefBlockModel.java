@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.client.model;
+package org.confluence.terra_furniture.api.client.model;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

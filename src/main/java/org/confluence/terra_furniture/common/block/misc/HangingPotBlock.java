@@ -50,9 +50,9 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.confluence.lib.common.block.HorizontalDirectionalWithVerticalTwoPartBlock;
 import org.confluence.lib.common.block.StateProperties;
-import org.confluence.terra_furniture.client.model.CacheItemRefBlockModel;
-import org.confluence.terra_furniture.client.renderer.block.IRenderFunctionHook;
-import org.confluence.terra_furniture.client.renderer.item.BaseGeoItemRendererProvider;
+import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
+import org.confluence.terra_furniture.api.client.renderer.block.IRenderFunctionHook;
+import org.confluence.terra_furniture.api.client.renderer.item.BaseGeoItemRendererProvider;
 import org.confluence.terra_furniture.common.block.func.be.BaseSwayingBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
@@ -190,8 +190,12 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.is(newState.getBlock())) return;
-        level.destroyBlock(pos.relative(StateProperties.VerticalTwoPart.getConnectedDirection(state)), false);
-        if (state.hasBlockEntity()) level.removeBlockEntity(pos);
+        BlockPos relative = toBase(state, pos);
+        level.destroyBlock(relative, false);
+        if (state.hasBlockEntity()) {
+            if (level.getBlockEntity(pos) instanceof BEntity bEntity) bEntity.drops();
+            level.removeBlockEntity(pos);
+        }
     }
 
     public static final class BEntity extends BaseSwayingBE implements GeoBlockEntity {

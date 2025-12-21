@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.client.renderer.block;
+package org.confluence.terra_furniture.api.client.renderer.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -9,7 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
-import org.confluence.terra_furniture.client.model.CacheBlockModel;
+import org.confluence.terra_furniture.api.client.model.CacheBlockModel;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

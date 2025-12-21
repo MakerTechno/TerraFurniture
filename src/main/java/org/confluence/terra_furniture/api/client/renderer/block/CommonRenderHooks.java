@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.client.renderer.block;
+package org.confluence.terra_furniture.api.client.renderer.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

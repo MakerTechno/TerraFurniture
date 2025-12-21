@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.client.renderer.item;
+package org.confluence.terra_furniture.api.client.renderer.item;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.Item;

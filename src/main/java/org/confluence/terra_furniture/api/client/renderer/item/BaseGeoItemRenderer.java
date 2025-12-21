@@ -1,5 +1,5 @@
 
-package org.confluence.terra_furniture.client.renderer.item;
+package org.confluence.terra_furniture.api.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

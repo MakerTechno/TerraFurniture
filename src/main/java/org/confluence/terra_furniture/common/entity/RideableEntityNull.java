@@ -14,7 +14,9 @@ import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 一个仅用来乘坐的实体，与{@link BaseSittableBE}相互作用以确保自身在无乘客时卸载。
+ * 一个仅用来乘坐的实体，与{@link BaseSittableBE}相互作用以确保自身在无乘客时卸载。<p>
+ * 当对应方块实体存在，应通过方块实体卸载本实体。<p>
+ * 当对应方块实体脱离访问范围，实体应卸载自己。
  */
 public class RideableEntityNull extends VehicleEntity implements IEntityWithComplexSpawn {
     private BlockPos blockEntityPos;
@@ -43,21 +45,6 @@ public class RideableEntityNull extends VehicleEntity implements IEntityWithComp
             this.remove(RemovalReason.DISCARDED);
         } else {
             if (canAddPassenger(this)) cast.cleanSeat();
-        }
-    }
-    private int count;
-    @Override
-    public void baseTick() {
-        super.baseTick();
-        if (count ==50) {
-            BlockEntity blockEntity = level().getBlockEntity(blockEntityPos);
-            if (!(blockEntity instanceof BaseSittableBE<?> cast)){
-                this.remove(RemovalReason.DISCARDED);
-            } else {
-                if (canAddPassenger(this)) cast.cleanSeat();
-            }
-        } else {
-            count++;
         }
     }
     @Override

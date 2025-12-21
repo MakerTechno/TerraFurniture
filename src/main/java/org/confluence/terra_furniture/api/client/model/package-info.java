@@ -1,3 +1,3 @@
 @javax.annotation.ParametersAreNonnullByDefault
 @net.minecraft.MethodsReturnNonnullByDefault
-package org.confluence.terra_furniture.client.renderer.item;
+package org.confluence.terra_furniture.api.client.model;
