@@ -18,7 +18,7 @@ public class TFItemModelProvider extends ItemModelProvider {
         simpleBlockItem(TFBlocks.GLASS_KILN.get());
         simpleBlockItem(TFBlocks.LIVING_LOOM.get());
         TFBlocks.BLOCKS.getEntries().forEach(holder -> {
-            if (holder.get() instanceof TableBlock block && !SubTableProviderStatic.path(block).contains("glass")) genTableModel1(block);
+            if (holder.get() instanceof TableBlock block) genTableModel1(block);
         });
     }
 

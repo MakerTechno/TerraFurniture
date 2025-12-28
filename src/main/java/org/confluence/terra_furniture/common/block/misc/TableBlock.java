@@ -60,7 +60,7 @@ public class TableBlock extends CrossCollisionBlock {
     }
 
     public boolean connectsTo(BlockState state, boolean isSideSolid) {
-        return state.is(this);
+        return state.getBlock() instanceof TableBlock;
     }
 
     public BlockState getStateForPlacement(BlockPlaceContext context) {
