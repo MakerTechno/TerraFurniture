@@ -14,49 +14,26 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 给牢枕的桌子模板组单独写的工具类，生成各种桌子，不过你得把贴图传对了，不然会变成默认贴图的<p>
- * <b>注意，所有贴图必须位于<font color="green">textures/block/方块注册id/</font>下</b><p>
- * 检查一下你是不是按命名规范把贴图塞好了:
- * <ul>
- *     <li>corner.png</li>
- *     <li>layer.png</li>
- *     <li>layer_corner.png</li>
- *     <li>layer_only.png</li>
- *     <li>leg.png</li>
- *     <li>leg_layer.png</li>
- *     <li>side.png</li>
- * </ul>
- * 并且:
- * <ul>
- *     <li>当isStrict为false时，你得加上<b>top.png</b></li>
- *     <li>
- *         当isStrict为true时，你得加上:
- *         <ul>
- *             <li>texture_top.png</li>
- *             <li>texture_side.png</li>
- *             <li>texture_bottom.png</li>
- *         </ul>
- *     </li>
- * </ul>
+ * 给牢枕的桌子模板组单独写的工具类，生成各种桌子。我大修了模型，所以现在只需一张图就好。你知道吗？曾经每个桌子需要8张贴图！
  */
 public class SubTableProviderStatic {
     public static final String TABLE_RES = "table";
     public static void buildTemplate1(TableBlock block, boolean isStrict, BlockModelProvider provider, MultiPartBlockStateBuilder builder) {
-        ModelFile top = isStrict
-                ? buildTableModelForBlock(provider, block, "/top", Pair.of("top", "texture_top"), Pair.of("side", "texture_side"), Pair.of("bottom", "texture_bottom"))
-                : buildTableModelForBlock(provider, block, "/top", Pair.of("top", "top"), Pair.of("side", "top"), Pair.of("bottom", "top"));
-        ModelFile side = buildTableModelForBlock(provider, block, "/side", "side");
-        ModelFile leg = buildTableModelForBlock(provider, block, "/leg", "leg", "leg_layer");
-        ModelFile corner = buildTableModelForBlock(provider, block, "/corner", "corner");
-        ModelFile layer = buildTableModelForBlock(provider, block, "/layer", "layer");
-        ModelFile layerCorner = buildTableModelForBlock(provider, block, "/layer_corner", "layer_corner");
-        ModelFile layerCornerY = buildTableModelForBlock(provider, block, "/layer_corner_y", "layer_corner");
-        ModelFile layerOnly = buildTableModelForBlock(provider, block, "/layer_only", "layer_only");
+        ModelFile top =  buildTableModelForBlock(provider, block, "top");
+        ModelFile side = buildTableModelForBlock(provider, block, "side");
+        ModelFile leg = buildTableModelForBlock(provider, block, "leg");
+        ModelFile leg_layer = buildTableModelForBlock(provider, block, "leg_layer");
+        ModelFile corner = buildTableModelForBlock(provider, block, "corner");
+        ModelFile layer = buildTableModelForBlock(provider, block, "layer");
+        ModelFile layerCorner = buildTableModelForBlock(provider, block, "layer_corner");
+        ModelFile layerCornerY = buildTableModelForBlock(provider, block, "layer_corner_y");
+        ModelFile layerOnly = buildTableModelForBlock(provider, block, "layer_only");
 
         builder.part().modelFile(top).addModel();
         processStepFacing(builder, side);
         processStepFacingBi(builder, corner);
         processStepFacingBi(builder, leg);
+        processStepFacingBi(builder, leg_layer);
         processStepFacingTri(builder, layerOnly, false, false);
         processStepFacingTri(builder, layer, true, true);
         processStepFacingTri(builder, layerCorner, true, false);
@@ -65,54 +42,32 @@ public class SubTableProviderStatic {
 
     @SuppressWarnings("unchecked")
     public static void buildTemplate1Item(TableBlock block, boolean isStrict, ItemModelProvider provider) {
-        List<Pair<String,String>> impl = new ArrayList<>();
-        if (isStrict) {
-            impl.add(Pair.of("top", "texture_top"));
-            impl.add(Pair.of("side", "texture_side"));
-            impl.add(Pair.of("bottom", "texture_bottom"));
-        } else {
-            impl.add(Pair.of("top", "top"));
-            impl.add(Pair.of("side", "top"));
-            impl.add(Pair.of("bottom", "top"));
-        }
-        impl.add(Pair.of("corner", "corner"));
-        impl.add(Pair.of("leg", "leg"));
-        impl.add(Pair.of("leg_layer", "leg_layer"));
-        impl.add(Pair.of("layer_only", "layer_only"));
-
-        buildTableModelForItem(provider, block, impl.toArray(Pair[]::new));
+        buildTableModelForItem(provider, block);
     }
 
-    @SuppressWarnings("unchecked")
-    public static ModelFile buildTableModelForBlock(BlockModelProvider provider, TableBlock block, String prefix, String ...keys) {
-        BlockModelBuilder builder = provider.withExistingParent(ModelProvider.BLOCK_FOLDER + "/" + TABLE_RES + "/" + path(block) + prefix, asModBlock("table/template" + prefix));
-        return buildTableModel(builder, block, Arrays.stream(keys).map(s -> new Pair<>(s, s)).toArray(Pair[]::new));
+    public static ModelFile buildTableModelForBlock(BlockModelProvider provider, TableBlock block, String prefix) {
+        BlockModelBuilder builder = provider.withExistingParent(
+                ModelProvider.BLOCK_FOLDER + "/" + TABLE_RES + "/" + path(block) + "/" + prefix,
+                asModBlock(TABLE_RES + "/" + "template" + "/" + prefix)
+        );
+        return buildTableModelTexture(builder, block);
     }
 
-    @SafeVarargs
-    public static ModelFile buildTableModelForBlock(BlockModelProvider provider, TableBlock block, String prefix, Pair<String, String> ...keys) {
-        BlockModelBuilder builder = provider.withExistingParent(ModelProvider.BLOCK_FOLDER + "/" + TABLE_RES + "/" + path(block) + prefix, asModBlock("table/template" + prefix));
-        return buildTableModel(builder, block, keys);
-    }
-
-    @SafeVarargs
-    public static void buildTableModelForItem(ItemModelProvider provider, TableBlock block, Pair<String, String> ...keys) {
+    public static void buildTableModelForItem(ItemModelProvider provider, TableBlock block) {
         ItemModelBuilder builder = provider.withExistingParent(ModelProvider.ITEM_FOLDER + "/" + path(block), asModItem("template_table"));
-        buildTableModel(builder, block, keys);
+        buildTableModelTexture(builder, block);
     }
 
-    @SafeVarargs
-    public static <T extends ModelBuilder<T>> ModelFile buildTableModel(ModelBuilder<T> builder, TableBlock block, Pair<String, String> ...keys) {
-        for (Pair<String, String> key : keys) {
+    public static <T extends ModelBuilder<T>> ModelFile buildTableModelTexture(ModelBuilder<T> builder, TableBlock block) {
+        String path = path(block);
+        try {
+            builder.texture("particle", asModBlock(TABLE_RES + "/" + path));
+        } catch (IllegalArgumentException ignore) {
+            warn(path(block), path);
             try {
-                builder.texture(key.getFirst(), asModBlock(TABLE_RES + "/" + path(block) + "/" + key.getSecond()));
-            } catch (IllegalArgumentException ignore) {
-                warn(path(block), key.getSecond());
-                try {
-                    builder.texture(key.getFirst(), asModBlock(TABLE_RES + "/default/" + key.getSecond()));
-                } catch (IllegalArgumentException e) {
-                    report(key.getSecond(), e);
-                }
+                builder.texture("particle", asModBlock(TABLE_RES + "/texture_default"));
+            } catch (IllegalArgumentException e) {
+                report(path, e);
             }
         }
         return builder;
