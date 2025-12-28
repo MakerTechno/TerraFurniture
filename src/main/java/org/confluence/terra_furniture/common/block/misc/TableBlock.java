@@ -21,9 +21,11 @@ import java.util.Objects;
 
 public class TableBlock extends CrossCollisionBlock {
     public static final MapCodec<TableBlock> CODEC = simpleCodec(TableBlock::new);
-    private static final VoxelShape TABLE_TOP_SHAPE = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
-    private static final VoxelShape TABLE_LEG_SHAPE = Block.box(6.0, 0.0, 6.0, 10.0, 14.0, 10.0);
-    private static final VoxelShape SHAPE = Shapes.or(TABLE_TOP_SHAPE, TABLE_LEG_SHAPE);
+    private static final VoxelShape TOP_SHAPE = Shapes.box(0, 0.8125, 0, 1, 1, 1);
+    private static final VoxelShape LEG_NE_SHAPE = Shapes.box(0.75, 0, 0.125, 0.875, 0.8125, 0.25);
+    private static final VoxelShape LEG_ES_SHAPE = Shapes.box(0.75, 0, 0.75, 0.875, 0.8125, 0.875);
+    private static final VoxelShape LEG_SW_SHAPE = Shapes.box(0.125, 0, 0.75, 0.25, 0.8125, 0.875);
+    private static final VoxelShape LEG_WN_SHAPE = Shapes.box(0.125, 0, 0.125, 0.25, 0.8125, 0.25);
 
     public MapCodec<TableBlock> codec() {
         return CODEC;
@@ -34,12 +36,17 @@ public class TableBlock extends CrossCollisionBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(WATERLOGGED, false));
     }
 
+    /**
+     * Since BlockStateBase.Cache exist, we needn't prepare more static values to return.
+     */
     @Override
     protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
-        if ((state.getValue(NORTH) && state.getValue(SOUTH)) || (state.getValue(WEST) && state.getValue(EAST))) {
-            return TABLE_TOP_SHAPE;
-        }
-        return SHAPE;
+        VoxelShape buildShape = TOP_SHAPE;
+        if (!state.getValue(NORTH) && !state.getValue(EAST)) buildShape = Shapes.or(buildShape, LEG_NE_SHAPE);
+        if (!state.getValue(EAST) && !state.getValue(SOUTH)) buildShape = Shapes.or(buildShape, LEG_ES_SHAPE);
+        if (!state.getValue(SOUTH) && !state.getValue(WEST)) buildShape = Shapes.or(buildShape, LEG_SW_SHAPE);
+        if (!state.getValue(WEST) && !state.getValue(NORTH)) buildShape = Shapes.or(buildShape, LEG_WN_SHAPE);
+        return buildShape;
     }
 
     @Override
