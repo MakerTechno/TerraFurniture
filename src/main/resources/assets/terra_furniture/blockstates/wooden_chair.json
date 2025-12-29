@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "terra_furniture:block/wooden/chair"
+    },
+    "facing=south": {
+      "model": "terra_furniture:block/wooden/chair",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "terra_furniture:block/wooden/chair",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "terra_furniture:block/wooden/chair",
+      "y": 270
+    }
+  }
+}

@@ -110,6 +110,8 @@ public final class TFBlocks {
     public static final DeferredBlock<BathtubBlock> BLUE_BRICK_BATHTUB = registerWithItem("blue_brick_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandeliers", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission().lightLevel(litBlockEmission(15))));
 
+    // 木质
+    public static final DeferredBlock<ChairBlock> WOODEN_CHAIR = registerChairDiscardItem("wooden_chair", Blocks.OAK_PLANKS, properties -> {}, 0.5f);
     public static final DeferredBlock<TableBlock> WOODEN_TABLE = registerWithItem("wooden_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
     public static final DeferredBlock<TableBlock> BONE_TABLE = registerWithItem("bone_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BONE_BLOCK)));
     public static final DeferredBlock<TableBlock> BAMBOO_TABLE = registerWithItem("bamboo_table", () -> new TableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS)));

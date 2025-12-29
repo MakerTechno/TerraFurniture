@@ -47,6 +47,9 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .add(TFBlocks.BLUE_BRICK_CANDELABRAS.get())
                 .add(TFBlocks.BLUE_BRICK_CLOCK.get())
                 .add(TFBlocks.BLUE_BRICK_BATHTUB.get());
+        tag(TFTags.WOODEN_FURNITURE)
+                .add(TFBlocks.WOODEN_TABLE.get())
+                .add(TFBlocks.WOODEN_CHAIR.get());
         tag(TFTags.SINKS)
                 .add(TFBlocks.BLUE_BRICK_SINK.get())
                 .add(TFBlocks.GLASS_SINK.get());
@@ -57,16 +60,21 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .addTag(TFTags.GLASS_FURNITURE)
                 .addTag(TFTags.DUNGEON_FURNITURE);
 
+        tag(BlockTags.MINEABLE_WITH_AXE)
+                .addTag(TFTags.WOODEN_FURNITURE);
+
         // 2025/11/2-19:07 TODO: Using inside sheets.
         tag(TFTags.HOUSE_CHAIR).add(
                 TFBlocks.GLASS_CHAIR.get(),
                 TFBlocks.BLUE_BRICK_CHAIR.get(),
+                TFBlocks.WOODEN_CHAIR.get(),
                 TFBlocks.GLASS_SOFA.get(),
                 TFBlocks.BLUE_BRICK_SOFA.get(),
                 TFBlocks.PLASTIC_CHAIR.get());
 
         tag(TFTags.HOUSE_TABLE).add(
                 TFBlocks.GLASS_TABLE.get(),
+                TFBlocks.WOODEN_TABLE.get(),
                 TFBlocks.BLUE_BRICK_TABLE.get());
     }
 }
