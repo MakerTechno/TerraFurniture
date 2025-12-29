@@ -23,10 +23,9 @@ public class TFBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         horizontalDirectional(TFBlocks.GLASS_KILN.get());
         horizontalDirectional(TFBlocks.LIVING_LOOM.get());
-        genTableModel1(TFBlocks.BLUE_BRICK_TABLE.get());
-        /*TFBlocks.BLOCKS.getEntries().forEach(holder -> {
-            if (holder.get() instanceof TableBlock block && !SubTableProviderStatic.path(block).contains("glass")) genTableModel1(block);
-        });*/
+        TFBlocks.BLOCKS.getEntries().forEach(holder -> {
+            if (holder.get() instanceof TableBlock block) genTableModel1(block);
+        });
     }
 
     private void horizontalDirectional(Block block) {

@@ -1,6 +1,7 @@
 package org.confluence.terra_furniture.common.block.sittable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -37,13 +38,11 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
     protected VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return shapeCollision;
     }
-/* Seems not affected, could anyone explain that?
 
     @Override
     protected boolean useShapeForLightOcclusion(BlockState state) {
-        return false;
+        return true;
     }
-*/
 
 /*  When the behavior goes wrong, check if parent class still use this.
 
@@ -55,33 +54,25 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        InteractionResult resultA;
-        if (!level.isClientSide) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof BaseSittableBE<?> chairBlock) {
-                resultA = chairBlock.useAct(level, pos, player);
-            } else {
-                TerraFurniture.LOGGER.error("Sittable block entity is missing, it's an unexpected state.");
-                resultA = InteractionResult.FAIL;
-            }
-        } else {
-            resultA = InteractionResult.PASS;
+        if (level.isClientSide) return InteractionResult.PASS;
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (!(blockEntity instanceof ChairBE chairBlock)) {
+            TerraFurniture.LOGGER.error("ChairBE block entity is missing, it's an unexpected state.");
+            return InteractionResult.FAIL;
         }
-        return resultA;
+        return chairBlock.useAct(level, pos, player);
     }
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new Entity(blockPos, blockState);
+        return new ChairBE(blockPos, blockState);
     }
 
     @Override
     @Nullable
     public <E extends BlockEntity> BlockEntityTicker<E> getTicker(Level level, BlockState state, BlockEntityType<E> blockEntityType) {
         return level.isClientSide() ? null : (level1, pos, blockState, t) -> {
-            if (t instanceof BaseSittableBE<?> blockEntity) {
-                blockEntity.tickAtServer();
-            }
+            if (t instanceof BaseSittableBE<?> blockEntity) blockEntity.tickAtServer();
         };
     }
 
@@ -92,19 +83,23 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
 
     @Override
     public String getSpecificName() {
-        return "";
+        return BuiltInRegistries.BLOCK.getKey(base).getPath();
     }
 
     @Override
     public String parentName() {
-        return "";
+        return "chair";
     }
 
-    public static class Entity extends BaseSittableBE<Entity> {
+    public static class ChairBE extends BaseSittableBE<ChairBE> {
         private double yOffset = 0.0;
 
-        public Entity(BlockPos pos, BlockState blockState) {
-            super(TFBlocks.CHAIR_ENTITY, pos, blockState);
+        public ChairBE(BlockEntityType<? extends ChairBE> type, BlockPos pos, BlockState blockState) {
+            super(type, pos, blockState);
+            if (blockState.getBlock() instanceof ChairBlock chairBlock) yOffset = chairBlock.yOff;
+        }
+        public ChairBE(BlockPos pos, BlockState blockState) {
+            super(TFBlocks.CHAIR_ENTITY.get(), pos, blockState);
             if (blockState.getBlock() instanceof ChairBlock chairBlock) yOffset = chairBlock.yOff;
         }
 

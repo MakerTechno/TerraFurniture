@@ -2,8 +2,8 @@ package org.confluence.terra_furniture.common.item;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
-import org.confluence.terra_furniture.client.model.CacheItemRefBlockModel;
-import org.confluence.terra_furniture.client.renderer.item.BaseGeoItemRendererProvider;
+import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
+import org.confluence.terra_furniture.api.client.renderer.item.BaseGeoItemRendererProvider;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;

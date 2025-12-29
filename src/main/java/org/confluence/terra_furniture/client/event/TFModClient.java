@@ -15,9 +15,9 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.client.renderer.block.BaseFunctionalGeoBER;
-import org.confluence.terra_furniture.client.renderer.block.CommonRenderHooks;
-import org.confluence.terra_furniture.client.renderer.block.MultiRenderTypeGeoBER;
+import org.confluence.terra_furniture.api.client.renderer.block.BaseFunctionalGeoBER;
+import org.confluence.terra_furniture.api.client.renderer.block.CommonRenderHooks;
+import org.confluence.terra_furniture.api.client.renderer.block.MultiRenderTypeGeoBER;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
@@ -73,8 +73,8 @@ public final class TFModClient {
     }
 
     /**
-     * 由对应方块中的LIT属性控制亮灭。</p>
-     * <b>注意: 只能应用在具有LIT属性的方块的方块实体上</b>
+     * 由对应方块中的LIT属性控制亮灭。
+     * <p><b>注意: 只能应用在具有LIT属性的方块的方块实体上</b></p>
      */
     public static <O extends BlockEntity & GeoBlockEntity> void litControlledHide(GeoBone bone, O entity) {
         bone.setHidden(!entity.getBlockState().getValue(BlockStateProperties.LIT));
