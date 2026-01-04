@@ -9,6 +9,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -75,5 +76,10 @@ public class GlassKilnCategory implements IRecipeCategory<RecipeHolder<GlassKiln
     @Override
     public void draw(RecipeHolder<GlassKilnRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         guiGraphics.blit(BACKGROUND, 0, 0, 0, 0, 142, 80, 142, 80);
+    }
+
+    @Override
+    public @Nullable ResourceLocation getRegistryName(RecipeHolder<GlassKilnRecipe> recipe) {
+        return ResourceLocation.fromNamespaceAndPath(TerraFurniture.MODID, recipe.value().getGroup() + "/" + BuiltInRegistries.ITEM.getKey(recipe.value().getResultItem(null).getItem()).getPath());
     }
 }

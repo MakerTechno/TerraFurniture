@@ -8,6 +8,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -58,5 +59,10 @@ public class IceMachineCategory implements IRecipeCategory<RecipeHolder<IceMachi
     @Override
     public void draw(RecipeHolder<IceMachineRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         guiGraphics.blit(BACKGROUND, 0, 0, 0, 0, 144, 80, 144, 80);
+    }
+
+    @Override
+    public @Nullable ResourceLocation getRegistryName(RecipeHolder<IceMachineRecipe> recipe) {
+        return ResourceLocation.fromNamespaceAndPath(TerraFurniture.MODID, recipe.value().getGroup() + "/" + BuiltInRegistries.ITEM.getKey(recipe.value().getResultItem(null).getItem()).getPath());
     }
 }
