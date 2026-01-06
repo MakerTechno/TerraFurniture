@@ -63,6 +63,6 @@ public class IceMachineCategory implements IRecipeCategory<RecipeHolder<IceMachi
 
     @Override
     public @Nullable ResourceLocation getRegistryName(RecipeHolder<IceMachineRecipe> recipe) {
-        return ResourceLocation.fromNamespaceAndPath(TerraFurniture.MODID, recipe.value().getGroup() + "/" + BuiltInRegistries.ITEM.getKey(recipe.value().getResultItem(null).getItem()).getPath());
+        return TerraFurniture.asResource(recipe.value().getGroup() + "/" + BuiltInRegistries.ITEM.getKey(recipe.value().getResultItem(null).getItem()).getPath());
     }
 }
