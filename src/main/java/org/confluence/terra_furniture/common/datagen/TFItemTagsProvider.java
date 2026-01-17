@@ -17,6 +17,6 @@ public class TFItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-
+        TFDataGenerator.GENERATORS.forEach((block, blockDataGenerator) -> blockDataGenerator.getRegItemTags(this).forEach(tagKey -> tag(tagKey).add(block.asItem())));
     }
 }

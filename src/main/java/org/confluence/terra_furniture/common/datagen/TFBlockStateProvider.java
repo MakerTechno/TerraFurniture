@@ -7,8 +7,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.block.misc.TableBlock;
-import org.confluence.terra_furniture.common.datagen.sub.SubTableProviderStatic;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 
 public class TFBlockStateProvider extends BlockStateProvider {
@@ -23,9 +22,7 @@ public class TFBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         horizontalDirectional(TFBlocks.GLASS_KILN.get());
         horizontalDirectional(TFBlocks.LIVING_LOOM.get());
-        TFBlocks.BLOCKS.getEntries().forEach(holder -> {
-            if (holder.get() instanceof TableBlock block) genTableModel1(block);
-        });
+        TFDataGenerator.GENERATORS.forEach((block, blockDataGenerator) -> invokeGenerator(block, blockDataGenerator, this));
     }
 
     private void horizontalDirectional(Block block) {
@@ -33,9 +30,10 @@ public class TFBlockStateProvider extends BlockStateProvider {
         getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder().modelFile(modelFile).rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360).build());
     }
 
-    private void genTableModel1(TableBlock block) {
-        MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
-        SubTableProviderStatic.buildTemplate1(block, false, models(), builder);
+    @SuppressWarnings("unchecked")
+    private <T extends Block> void invokeGenerator(Block block, BlockDataGenerator<?> generator, BlockStateProvider provider) {
+        BlockDataGenerator<T> typedGenerator = (BlockDataGenerator<T>) generator;
+        typedGenerator.buildBlockWithTemplate((T) block, provider, helper);
     }
 
 }

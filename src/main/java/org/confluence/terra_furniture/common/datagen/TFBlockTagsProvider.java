@@ -19,6 +19,7 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        TFDataGenerator.GENERATORS.forEach((block, blockDataGenerator) -> blockDataGenerator.getRegBlockTags(this).forEach(tagKey -> tag(tagKey).add(block)));
         tag(TFTags.GLASS_FURNITURE)
                 .add(TFBlocks.GLASS_CHAIR.get())
                 .add(TFBlocks.GLASS_SOFA.get())
@@ -27,31 +28,29 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .add(TFBlocks.GLASS_DOOR.get())
                 .add(TFBlocks.GLASS_TABLE.get())
                 .add(TFBlocks.GLASS_CANDLE.get())
-                .add(TFBlocks.GLASS_CHANDELIER.get())
                 .add(TFBlocks.GLASS_LANTERN.get())
                 .add(TFBlocks.GLASS_LAMP.get())
                 .add(TFBlocks.GLASS_CANDELABRAS.get())
                 .add(TFBlocks.GLASS_CLOCK.get())
                 .add(TFBlocks.GLASS_BATHTUB.get());
         tag(TFTags.DUNGEON_FURNITURE)
-                .add(TFBlocks.BLUE_BRICK_CHAIR.get())
-                .add(TFBlocks.BLUE_BRICK_SOFA.get())
-                .add(TFBlocks.BLUE_BRICK_TOILET.get())
-                .add(TFBlocks.BLUE_BRICK_SINK.get())
-                .add(TFBlocks.BLUE_BRICK_DOOR.get())
-                .add(TFBlocks.BLUE_BRICK_TABLE.get())
-                .add(TFBlocks.BLUE_BRICK_CANDLE.get())
-                .add(TFBlocks.BLUE_BRICK_CHANDELIER.get())
-                .add(TFBlocks.BLUE_BRICK_LANTERN.get())
-                .add(TFBlocks.BLUE_BRICK_LAMP.get())
-                .add(TFBlocks.BLUE_BRICK_CANDELABRAS.get())
-                .add(TFBlocks.BLUE_BRICK_CLOCK.get())
-                .add(TFBlocks.BLUE_BRICK_BATHTUB.get());
+                .add(TFBlocks.BLUE_DUNGEON_CHAIR.get())
+                .add(TFBlocks.BLUE_DUNGEON_SOFA.get())
+                .add(TFBlocks.BLUE_DUNGEON_TOILET.get())
+                .add(TFBlocks.BLUE_DUNGEON_SINK.get())
+                .add(TFBlocks.BLUE_DUNGEON_DOOR.get())
+                .add(TFBlocks.BLUE_DUNGEON_TABLE.get())
+                .add(TFBlocks.BLUE_DUNGEON_CANDLE.get())
+                .add(TFBlocks.BLUE_DUNGEON_LANTERN.get())
+                .add(TFBlocks.BLUE_DUNGEON_LAMP.get())
+                .add(TFBlocks.BLUE_DUNGEON_CANDELABRAS.get())
+                .add(TFBlocks.BLUE_DUNGEON_CLOCK.get())
+                .add(TFBlocks.BLUE_DUNGEON_BATHTUB.get());
         tag(TFTags.WOODEN_FURNITURE)
                 .add(TFBlocks.WOODEN_TABLE.get())
                 .add(TFBlocks.WOODEN_CHAIR.get());
         tag(TFTags.SINKS)
-                .add(TFBlocks.BLUE_BRICK_SINK.get())
+                .add(TFBlocks.BLUE_DUNGEON_SINK.get())
                 .add(TFBlocks.GLASS_SINK.get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -66,15 +65,15 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
         // 2025/11/2-19:07 TODO: Using inside sheets.
         tag(TFTags.HOUSE_CHAIR).add(
                 TFBlocks.GLASS_CHAIR.get(),
-                TFBlocks.BLUE_BRICK_CHAIR.get(),
+                TFBlocks.BLUE_DUNGEON_CHAIR.get(),
                 TFBlocks.WOODEN_CHAIR.get(),
                 TFBlocks.GLASS_SOFA.get(),
-                TFBlocks.BLUE_BRICK_SOFA.get(),
+                TFBlocks.BLUE_DUNGEON_SOFA.get(),
                 TFBlocks.PLASTIC_CHAIR.get());
 
         tag(TFTags.HOUSE_TABLE).add(
                 TFBlocks.GLASS_TABLE.get(),
                 TFBlocks.WOODEN_TABLE.get(),
-                TFBlocks.BLUE_BRICK_TABLE.get());
+                TFBlocks.BLUE_DUNGEON_TABLE.get());
     }
 }

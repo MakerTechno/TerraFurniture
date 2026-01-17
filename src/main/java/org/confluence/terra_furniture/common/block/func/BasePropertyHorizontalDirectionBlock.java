@@ -1,92 +1,53 @@
 package org.confluence.terra_furniture.common.block.func;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("deprecation")
-public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropertyHorizontalDirectionBlock<T>> extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, IVarietyBlock {
-    public final MapCodec<BasePropertyHorizontalDirectionBlock<T>> codec = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BlockState.CODEC.fieldOf("base_state").forGetter(block -> block.baseState), propertiesCodec()
-    ).apply(instance, this::createNewInstance));
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public final Block base;
-    public final BlockState baseState;
+import java.util.function.Consumer;
 
-    public BasePropertyHorizontalDirectionBlock(BlockState state, Properties properties) {
-        super(properties);
-        this.base = state.getBlock();
-        this.baseState = state;
-        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, false));
+public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropertyHorizontalDirectionBlock<T>> extends BasePropertyExtendedBlock<T> implements SimpleWaterloggedBlock {
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
+    public BasePropertyHorizontalDirectionBlock(BlockSetType type, BlockState state, Consumer<Properties> extraProperties) {
+        super(type, state, extraProperties);
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
-    @Override
-    protected BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pPos, BlockPos pNeighborPos) {
-        if (pState.getValue(WATERLOGGED)) {
-            pLevel.scheduleTick(pPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
-        }
-        return super.updateShape(pState, pDirection, pNeighborState, pLevel, pPos, pNeighborPos);
-    }
-
-    @Override
-    protected FluidState getFluidState(BlockState pState) {
-        return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+    /**
+     * 仅供给CODEC使用
+     */
+    public BasePropertyHorizontalDirectionBlock(BlockSetType type, BlockState state, Properties properties) {
+        super(type, state, properties);
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
     @Override
     @NotNull
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        BlockState blockState = super.getStateForPlacement(context);
-        blockState = blockState == null
-                ? defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite())
-                : blockState.setValue(FACING, context.getHorizontalDirection().getOpposite());
-        return blockState.setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
+        return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(WATERLOGGED, FACING);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(FACING);
     }
 
     @Override
-    public float getExplosionResistance() {
-        return this.base.getExplosionResistance();
+    protected BlockState rotate(BlockState state, Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public @Nullable String textureName() {
-        return null;
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
-
-    @Override
-    public String textureKey() {
-        return "particle";
-    }
-
-    @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
-        return false;
-    }
-
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return codec;
-    }
-
-    protected abstract BasePropertyHorizontalDirectionBlock<T> createNewInstance(BlockState baseState, Properties properties);
 }

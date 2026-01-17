@@ -11,14 +11,15 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.properties.StairsShape;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.lib.util.LibUtils;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Consumer;
 
 public class SofaBlock extends ChairBlock {
     private static final VoxelShape BOTTOM_AABB = Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
@@ -128,8 +129,16 @@ public class SofaBlock extends ChairBlock {
     public static final BooleanProperty LEFT_END = BooleanProperty.create("left_end");
     public static final BooleanProperty RIGHT_END = BooleanProperty.create("right_end");
 
-    public SofaBlock(BlockState state, Properties properties, float yOff) {
-        super(state, properties, yOff);
+    public SofaBlock(BlockSetType type, BlockState state, Consumer<Properties> properties, float yOff) {
+        super(type, state, properties, yOff);
+        this.registerDefaultState(defaultBlockState()
+                .setValue(SHAPE, StairsShape.STRAIGHT)
+                .setValue(LEFT_END, true)
+                .setValue(RIGHT_END, true));
+    }
+
+    public SofaBlock(BlockSetType type, BlockState state, Properties properties, float yOff) {
+        super(type, state, properties, yOff);
         this.registerDefaultState(defaultBlockState()
                 .setValue(SHAPE, StairsShape.STRAIGHT)
                 .setValue(LEFT_END, true)
@@ -152,7 +161,7 @@ public class SofaBlock extends ChairBlock {
     }
 
     @Override
-    protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
         BlockState state1 = super.updateShape(state, facing, facingState, level, currentPos, facingPos);
         return facing.getAxis().isHorizontal()
                 ? state1
@@ -260,5 +269,10 @@ public class SofaBlock extends ChairBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(SHAPE, LEFT_END, RIGHT_END);
+    }
+
+    @Override
+    public @Nullable BlockDataGenerator<? super ChairBlock> getGenerator() {
+        return null;
     }
 }

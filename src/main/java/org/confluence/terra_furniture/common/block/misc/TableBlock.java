@@ -8,31 +8,39 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CrossCollisionBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.confluence.terra_furniture.client.generators.TableBDG;
+import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
+import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class TableBlock extends CrossCollisionBlock {
-    public static final MapCodec<TableBlock> CODEC = simpleCodec(TableBlock::new);
+public class TableBlock extends CrossCollisionBlock implements AutoGenBlockData<TableBlock>, BlockSetGetter<TableBlock> {
     private static final VoxelShape TOP_SHAPE = Shapes.box(0, 0.8125, 0, 1, 1, 1);
     private static final VoxelShape LEG_NE_SHAPE = Shapes.box(0.75, 0, 0.125, 0.875, 0.8125, 0.25);
     private static final VoxelShape LEG_ES_SHAPE = Shapes.box(0.75, 0, 0.75, 0.875, 0.8125, 0.875);
     private static final VoxelShape LEG_SW_SHAPE = Shapes.box(0.125, 0, 0.75, 0.25, 0.8125, 0.875);
     private static final VoxelShape LEG_WN_SHAPE = Shapes.box(0.125, 0, 0.125, 0.25, 0.8125, 0.25);
 
+    private final BlockSetType type;
+    public final MapCodec<TableBlock> codec = simpleCodec(properties1 -> new TableBlock(getType(), properties1));
+
     public MapCodec<TableBlock> codec() {
-        return CODEC;
+        return codec;
     }
 
-    public TableBlock(BlockBehaviour.Properties properties) {
+    public TableBlock(BlockSetType type, Properties properties) {
         super(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, properties);
+        this.type = type;
         this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(WATERLOGGED, false));
     }
 
@@ -88,5 +96,25 @@ public class TableBlock extends CrossCollisionBlock {
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(NORTH, EAST, WEST, SOUTH, WATERLOGGED);
+    }
+
+    @Override
+    public @Nullable BlockDataGenerator<? super TableBlock> getGenerator() {
+        return new TableBDG() {
+            @Override
+            public String getTemplateType(TableBlock block) {
+                return "table";
+            }
+        };
+    }
+
+    @Override
+    public boolean hasParticle(TableBlock block) {
+        return false;
+    }
+
+    @Override
+    public BlockSetType getType() {
+        return type;
     }
 }
