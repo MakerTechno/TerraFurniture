@@ -8,11 +8,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.phys.BlockHitResult;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.api.utils.DelayableTaskMgr;
 import org.confluence.terra_furniture.api.utils.DelayableConsumerTask;
+import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.confluence.terra_furniture.common.entity.RideableEntityNull;
 import org.confluence.terra_furniture.common.init.TFBlocks;
@@ -27,11 +27,11 @@ import java.util.function.Supplier;
 public class ToiletBlock extends ChairBlock{
     public static final int TICKS_TO_POOP = 60;
 
-    public ToiletBlock(BlockSetType type, BlockState state, Consumer<Properties> properties, float yOff) {
+    public ToiletBlock(TFBlockSetType type, BlockState state, Consumer<Properties> properties, float yOff) {
         super(type, state, properties, yOff);
     }
 
-    public ToiletBlock(BlockSetType type, BlockState state, Properties properties, float yOff) {
+    public ToiletBlock(TFBlockSetType type, BlockState state, Properties properties, float yOff) {
         super(type, state, properties, yOff);
     }
 

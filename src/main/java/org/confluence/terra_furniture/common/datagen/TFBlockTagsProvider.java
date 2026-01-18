@@ -3,9 +3,11 @@ package org.confluence.terra_furniture.common.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.TerraFurniture;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFTags;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +21,7 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        TFDataGenerator.GENERATORS.forEach((block, blockDataGenerator) -> blockDataGenerator.getRegBlockTags(this).forEach(tagKey -> tag(tagKey).add(block)));
+        TFDataGenerator.GENERATORS.forEach((block, blockDataGenerator) -> invokeGenerator(block, blockDataGenerator, this));
         tag(TFTags.GLASS_FURNITURE)
                 .add(TFBlocks.GLASS_CHAIR.get())
                 .add(TFBlocks.GLASS_SOFA.get())
@@ -75,5 +77,11 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 TFBlocks.GLASS_TABLE.get(),
                 TFBlocks.WOODEN_TABLE.get(),
                 TFBlocks.BLUE_DUNGEON_TABLE.get());
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends Block> void invokeGenerator(Block block, BlockDataGenerator<?> generator, BlockTagsProvider provider) {
+        BlockDataGenerator<T> typedGenerator = (BlockDataGenerator<T>) generator;
+        typedGenerator.getRegBlockTags((T) block, provider).forEach(tagKey -> tag(tagKey).add(block));
     }
 }

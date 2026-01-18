@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CrossCollisionBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -18,6 +17,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.client.generators.TableBDG;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
+import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.jetbrains.annotations.Nullable;
@@ -31,14 +31,14 @@ public class TableBlock extends CrossCollisionBlock implements AutoGenBlockData<
     private static final VoxelShape LEG_SW_SHAPE = Shapes.box(0.125, 0, 0.75, 0.25, 0.8125, 0.875);
     private static final VoxelShape LEG_WN_SHAPE = Shapes.box(0.125, 0, 0.125, 0.25, 0.8125, 0.25);
 
-    private final BlockSetType type;
+    private final TFBlockSetType type;
     public final MapCodec<TableBlock> codec = simpleCodec(properties1 -> new TableBlock(getType(), properties1));
 
     public MapCodec<TableBlock> codec() {
         return codec;
     }
 
-    public TableBlock(BlockSetType type, Properties properties) {
+    public TableBlock(TFBlockSetType type, Properties properties) {
         super(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, properties);
         this.type = type;
         this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(WATERLOGGED, false));
@@ -114,7 +114,7 @@ public class TableBlock extends CrossCollisionBlock implements AutoGenBlockData<
     }
 
     @Override
-    public BlockSetType getType() {
+    public TFBlockSetType getType() {
         return type;
     }
 }

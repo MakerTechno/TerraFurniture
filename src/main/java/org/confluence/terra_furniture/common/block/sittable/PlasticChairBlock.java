@@ -8,13 +8,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.confluence.terra_furniture.common.init.TFBlockSetTypes;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -34,11 +34,11 @@ public class PlasticChairBlock extends ChairBlock {
     private static final VoxelShape SHAPE = Shapes.box(0.1875, 0.0, 0.1875, 0.8125, 0.8, 0.8125);
 
     public PlasticChairBlock(Consumer<Properties> propApplier) {
-        super(new BlockSetType("bedrock"), Blocks.BEDROCK.defaultBlockState(), propApplier, 0.9f);
+        super(TFBlockSetTypes.UNBREAKABLE, Blocks.BEDROCK.defaultBlockState(), propApplier, 0.9f);
     }
 
     public PlasticChairBlock(Properties properties) {
-        super(new BlockSetType("bedrock"), Blocks.BEDROCK.defaultBlockState(), properties, 0.9f);
+        super(TFBlockSetTypes.UNBREAKABLE, Blocks.BEDROCK.defaultBlockState(), properties, 0.9f);
     }
 
     @Override

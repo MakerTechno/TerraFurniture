@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
@@ -35,7 +34,7 @@ public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBl
 
     public final Block base;
     private final BlockState baseState;
-    private final BlockSetType type;
+    private final TFBlockSetType type;
 
     @SuppressWarnings("deprecation")
     public static Properties calcProperties(Block block, Consumer<Properties> extraPropApplier) {
@@ -44,7 +43,7 @@ public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBl
         return newProp;
     }
 
-    public BasePropertyExtendedBlock(BlockSetType type, BlockState state, Consumer<Properties> extraProperties) {
+    public BasePropertyExtendedBlock(TFBlockSetType type, BlockState state, Consumer<Properties> extraProperties) {
         super(calcProperties(state.getBlock(), extraProperties));
         this.type = type;
         this.base = state.getBlock();
@@ -55,7 +54,7 @@ public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBl
     /**
      * 仅供给CODEC使用
      */
-    public BasePropertyExtendedBlock(BlockSetType type, BlockState state, Properties properties) {
+    public BasePropertyExtendedBlock(TFBlockSetType type, BlockState state, Properties properties) {
         super(properties);
         this.type = type;
         this.base = state.getBlock();
@@ -115,7 +114,7 @@ public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBl
 
     protected abstract BasePropertyExtendedBlock<T> createNewInstance(BlockState baseState, Properties properties);
 
-    public BlockSetType getType() {
+    public TFBlockSetType getType() {
         return type;
     }
 }

@@ -22,7 +22,7 @@ public interface BlockDataGenerator<T extends Block> {
 
     String getTemplateType(T block);
 
-    List<TagKey<Block>> getRegBlockTags(BlockTagsProvider provider);
+    List<TagKey<Block>> getRegBlockTags(T block, BlockTagsProvider provider);
 
     List<TagKey<Item>> getRegItemTags(ItemTagsProvider provider);
 

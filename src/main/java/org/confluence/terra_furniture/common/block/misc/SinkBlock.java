@@ -7,11 +7,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
+import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,11 +23,11 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
     protected static final VoxelShape SINK_Z;
     protected static final VoxelShape PIPE;
 
-    public SinkBlock(BlockSetType type, BlockState state, Consumer<Properties> extraProperties) {
+    public SinkBlock(TFBlockSetType type, BlockState state, Consumer<Properties> extraProperties) {
         super(type, state, extraProperties);
     }
 
-    public SinkBlock(BlockSetType type, BlockState state, Properties properties) {
+    public SinkBlock(TFBlockSetType type, BlockState state, Properties properties) {
         super(type, state, properties);
     }
 

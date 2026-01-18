@@ -154,8 +154,8 @@ public abstract class DefaultBlockDataGenerator<T extends Block & BlockSetGetter
     }
 
     @Override
-    public List<TagKey<Block>> getRegBlockTags(BlockTagsProvider provider) {
-        return List.of();
+    public List<TagKey<Block>> getRegBlockTags(T block, BlockTagsProvider provider) {
+        return block.getType().getTagKeys().get();
     }
 
     @Override

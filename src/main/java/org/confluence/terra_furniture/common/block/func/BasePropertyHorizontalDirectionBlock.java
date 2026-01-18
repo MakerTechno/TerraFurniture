@@ -5,7 +5,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +14,7 @@ import java.util.function.Consumer;
 public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropertyHorizontalDirectionBlock<T>> extends BasePropertyExtendedBlock<T> implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public BasePropertyHorizontalDirectionBlock(BlockSetType type, BlockState state, Consumer<Properties> extraProperties) {
+    public BasePropertyHorizontalDirectionBlock(TFBlockSetType type, BlockState state, Consumer<Properties> extraProperties) {
         super(type, state, extraProperties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
@@ -23,7 +22,7 @@ public abstract class BasePropertyHorizontalDirectionBlock<T extends BasePropert
     /**
      * 仅供给CODEC使用
      */
-    public BasePropertyHorizontalDirectionBlock(BlockSetType type, BlockState state, Properties properties) {
+    public BasePropertyHorizontalDirectionBlock(TFBlockSetType type, BlockState state, Properties properties) {
         super(type, state, properties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }

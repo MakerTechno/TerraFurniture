@@ -16,6 +16,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.lib.util.LibUtils;
+import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.jetbrains.annotations.Nullable;
 
@@ -129,7 +130,7 @@ public class SofaBlock extends ChairBlock {
     public static final BooleanProperty LEFT_END = BooleanProperty.create("left_end");
     public static final BooleanProperty RIGHT_END = BooleanProperty.create("right_end");
 
-    public SofaBlock(BlockSetType type, BlockState state, Consumer<Properties> properties, float yOff) {
+    public SofaBlock(TFBlockSetType type, BlockState state, Consumer<Properties> properties, float yOff) {
         super(type, state, properties, yOff);
         this.registerDefaultState(defaultBlockState()
                 .setValue(SHAPE, StairsShape.STRAIGHT)
@@ -137,7 +138,7 @@ public class SofaBlock extends ChairBlock {
                 .setValue(RIGHT_END, true));
     }
 
-    public SofaBlock(BlockSetType type, BlockState state, Properties properties, float yOff) {
+    public SofaBlock(TFBlockSetType type, BlockState state, Properties properties, float yOff) {
         super(type, state, properties, yOff);
         this.registerDefaultState(defaultBlockState()
                 .setValue(SHAPE, StairsShape.STRAIGHT)

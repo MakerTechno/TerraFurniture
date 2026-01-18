@@ -11,13 +11,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.client.generators.HorizontalBDG;
+import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
 import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.confluence.terra_furniture.common.init.TFBlocks;
@@ -32,7 +32,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
     public final VoxelShape shapeCollision;
     private final float yOff;
 
-    public ChairBlock(BlockSetType type, BlockState state, Consumer<Properties> extraProperties, float yOff) {
+    public ChairBlock(TFBlockSetType type, BlockState state, Consumer<Properties> extraProperties, float yOff) {
         super(type, state, extraProperties);
         this.yOff = yOff;
         shapeCollision = Block.box(4.0, 0.0, 4.0, 12.0, 16 * yOff, 12.0);
@@ -41,7 +41,7 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
     /**
      * 仅供给CODEC使用
      */
-    public ChairBlock(BlockSetType type, BlockState state, Properties properties, float yOff) {
+    public ChairBlock(TFBlockSetType type, BlockState state, Properties properties, float yOff) {
         super(type, state, properties);
         this.yOff = yOff;
         shapeCollision = Block.box(4.0, 0.0, 4.0, 12.0, 16 * yOff, 12.0);
