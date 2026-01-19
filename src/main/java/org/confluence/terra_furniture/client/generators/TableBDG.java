@@ -1,33 +1,24 @@
 package org.confluence.terra_furniture.client.generators;
 
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.common.block.misc.TableBlock;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class TableBDG extends DefaultBlockDataGenerator<TableBlock> {
 
-    public <B extends ModelBuilder<B>, P extends ModelProvider<B>> @Nullable B processTogether(TableBlock block, P provider, ExistingFileHelper helper, @Nullable String part) {
-        Pair<ResourceState, B> mb = processModel(block, provider, helper, part, AccessType.BLOCK);
-        if (mb.getFirst().equals(ResourceState.NOT_EXIST)) return null;
-        mb = processTexture(block, mb.getSecond(), null, AccessType.BLOCK);
-        if (!mb.getFirst().equals(ResourceState.EXIST)) isBlockValid = false;
-        return mb.getSecond();
-    }
 
     public void buildTemplate1(TableBlock block, BlockModelProvider provider, MultiPartBlockStateBuilder builder, ExistingFileHelper helper) {
-        isBlockValid = true;
-        BlockModelBuilder top =  processTogether(block, provider, helper, "top");
-        BlockModelBuilder side = processTogether(block, provider, helper, "side");
-        BlockModelBuilder leg = processTogether(block, provider, helper, "leg");
-        BlockModelBuilder leg_layer = processTogether(block, provider, helper, "leg_layer");
-        BlockModelBuilder corner = processTogether(block, provider, helper, "corner");
-        BlockModelBuilder layer = processTogether(block, provider, helper, "layer");
-        BlockModelBuilder layer_corner = processTogether(block, provider, helper, "layer_corner");
-        BlockModelBuilder layer_corner_y = processTogether(block, provider, helper, "layer_corner_y");
-        BlockModelBuilder layer_only = processTogether(block, provider, helper, "layer_only");
+        isBlockValid = true; // Reversed state
+        BlockModelBuilder top =  processTogether(block, provider, helper, "top", true);
+        BlockModelBuilder side = processTogether(block, provider, helper, "side", true);
+        BlockModelBuilder leg = processTogether(block, provider, helper, "leg", true);
+        BlockModelBuilder leg_layer = processTogether(block, provider, helper, "leg_layer", true);
+        BlockModelBuilder corner = processTogether(block, provider, helper, "corner", true);
+        BlockModelBuilder layer = processTogether(block, provider, helper, "layer", true);
+        BlockModelBuilder layer_corner = processTogether(block, provider, helper, "layer_corner", true);
+        BlockModelBuilder layer_corner_y = processTogether(block, provider, helper, "layer_corner_y", true);
+        BlockModelBuilder layer_only = processTogether(block, provider, helper, "layer_only", true);
 
         if (
                 top == null || side == null || leg == null || leg_layer == null || corner == null ||layer == null || layer_corner == null

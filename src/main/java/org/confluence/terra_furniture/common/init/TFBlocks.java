@@ -82,7 +82,7 @@ public final class TFBlocks {
     public static final DeferredBlock<SwitchableLightBlock> GLASS_LAMP = registerWithItem("glass_lamp", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15)), BlockShapeType.LAMP));
     public static final DeferredBlock<CandelabraBlock> GLASS_CANDELABRAS = registerWithItem("glass_candelabras", () -> new CandelabraBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
     public static final DeferredBlock<ClockBlock> GLASS_CLOCK = registerClock("glass_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
-    public static final DeferredBlock<BathtubBlock> GLASS_BATHTUB = registerWithItem("glass_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
+    public static final DeferredBlock<BathtubBlock> GLASS_BATHTUB = registerWithItem("glass_bathtub", () -> new BathtubBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
 
     // 蓝地牢
     public static final DeferredBlock<ChairBlock> BLUE_DUNGEON_CHAIR = registerChairDiscardItem("blue_dungeon_chair", BLUE_DUNGEON, Blocks.STONE, properties -> {}, 0.5f);
@@ -96,7 +96,7 @@ public final class TFBlocks {
     public static final DeferredBlock<SwitchableLightBlock> BLUE_DUNGEON_LAMP = registerWithItem("blue_dungeon_lamp", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.LAMP));
     public static final DeferredBlock<CandelabraBlock> BLUE_DUNGEON_CANDELABRAS = registerWithItem("blue_dungeon_candelabras", () -> new CandelabraBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
     public static final DeferredBlock<ClockBlock> BLUE_DUNGEON_CLOCK = registerClock("blue_dungeon_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
-    public static final DeferredBlock<BathtubBlock> BLUE_DUNGEON_BATHTUB = registerWithItem("blue_dungeon_bathtub", () -> new BathtubBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredBlock<BathtubBlock> BLUE_DUNGEON_BATHTUB = registerWithItem("blue_dungeon_bathtub", () -> new BathtubBlock(BLUE_DUNGEON, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandelier", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission().lightLevel(litBlockEmission(15))));
 
     // 木质

@@ -22,10 +22,16 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.lib.common.block.HorizontalDirectionalWithForwardTwoPartBlock;
 import org.confluence.lib.common.block.StateProperties;
+import org.confluence.terra_furniture.client.generators.BiForwardBDG;
+import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
+import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
+import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock {
+public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock implements AutoGenBlockData<BathtubBlock>, BlockSetGetter<BathtubBlock> {
     private static final VoxelShape SOUTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 0, 15, 8, 15), BooleanOp.ONLY_FIRST);
     private static final VoxelShape WEST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 1, 16, 8, 15), BooleanOp.ONLY_FIRST);
     private static final VoxelShape NORTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 1, 15, 8, 16), BooleanOp.ONLY_FIRST);
@@ -33,8 +39,10 @@ public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock {
     private static final VoxelShape[] BASE_SHAPES = new VoxelShape[]{SOUTH_SHAPE, WEST_SHAPE, NORTH_SHAPE, EAST_SHAPE};
     private static final VoxelShape[] FORWARD_SHAPES = new VoxelShape[]{NORTH_SHAPE, EAST_SHAPE, SOUTH_SHAPE, WEST_SHAPE};
 
-    public BathtubBlock(Properties properties) {
+    private final TFBlockSetType type;
+    public BathtubBlock(TFBlockSetType type, Properties properties) {
         super(properties);
+        this.type = type;
         registerDefaultState(defaultBlockState().setValue(BlockStateProperties.OCCUPIED, false));
     }
 
@@ -96,5 +104,25 @@ public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock {
             list.getFirst().stopSleeping();
             return true;
         }
+    }
+
+    @Override
+    public @Nullable BlockDataGenerator<? super BathtubBlock> getGenerator() {
+        return new BiForwardBDG<>() {
+            @Override
+            public String getTemplateType(BathtubBlock block) {
+                return "bathtub";
+            }
+        };
+    }
+
+    @Override
+    public TFBlockSetType getType() {
+        return type;
+    }
+
+    @Override
+    public boolean hasParticle(BathtubBlock block) {
+        return true;
     }
 }

@@ -42,15 +42,15 @@ public interface BlockDataGenerator<T extends Block> {
         return BuiltInRegistries.BLOCK.getKey(block).getPath();
     }
 
-    default void warn(String targetId, String id) {
-        TerraFurniture.LOGGER.warn("Can't get {} for {} ! Using default texture!", targetId, id);
+    default void warnTexture(String targetLoc, String blockId) {
+        TerraFurniture.LOGGER.warn("Can't get {} for {} ! Using default texture!", targetLoc, blockId);
     }
 
-    default void report(String targetId) {
-        TerraFurniture.LOGGER.error("I can't find target {} for default usage!", targetId); // TODO: location
+    default void reportModel(String targetLoc, String blockId, String typeId) {
+        TerraFurniture.LOGGER.error("Can't find {} for {} with {} type usage!", targetLoc, blockId, typeId);
     }
-    default void report(String targetId, Exception e) {
-        TerraFurniture.LOGGER.error("I can't find target {} for default usage!", targetId, e); // TODO: location
+    default void reportTexture(String targetId, Exception e) {
+        TerraFurniture.LOGGER.error("Can't find target {} with default texture for usage!", targetId, e);
     }
 
     enum AccessType {

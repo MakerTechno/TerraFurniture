@@ -93,7 +93,7 @@ public abstract class DefaultBlockDataGenerator<T extends Block & BlockSetGetter
         B mb = provider.getBuilder(type.equals(AccessType.ITEM) ? prefix(blockPath, type) : prefix(getOutputLoc(block), type) + part);
 
         // 存在特制变体模型
-        ResourceLocation location = toResourceLocation(prefix(withTypeName(block, getTemplateType(block)), type));
+        ResourceLocation location = toResourceLocation(prefix(withTypeName(block, getTemplateType(block) + part), type));
         if (helper.exists(location, MODEL)) {
             return Pair.of(ResourceState.EXIST, mb.parent(provider.getExistingFile(location)));
         }
@@ -106,14 +106,16 @@ public abstract class DefaultBlockDataGenerator<T extends Block & BlockSetGetter
 
         // 对物品额外进行默认检测或方块父获取
         if (type.equals(AccessType.ITEM)) {
-            location = toResourceLocation(prefix(getOutputLoc(block), type));
+            location = toResourceLocation(prefix(getOutputLoc(block) + part, type));
             if (helper.exists(location, MODEL)) return Pair.of(ResourceState.NOT_EXIST, null);
-            location = toResourceLocation(prefix(getOutputLoc(block), AccessType.BLOCK));
-            return Pair.of(ResourceState.NOT_EXIST, mb.parent(provider.getExistingFile(location)));
+            location = toResourceLocation(prefix(getOutputLoc(block) + part, AccessType.BLOCK));
+            if (helper.exists(location, MODEL)) {
+                return Pair.of(ResourceState.NOT_EXIST, mb.parent(provider.getExistingFile(location)));
+            }
         }
 
-        // 错误: 不存在对应的模板模型或变体, 是否应该考虑从自动生成器中将其剔除?
-        report(blockPath);
+        // 错误: 不存在对应的模板模型或变体, 可能存在错误的纳入范围, 是否应该考虑从自动生成器中将其剔除?
+        reportModel(prefix(getTemplateLoc(block) + part, type), blockPath, typeName(block));
         return Pair.of(ResourceState.NOT_EXIST, null);
     }
 
@@ -125,14 +127,22 @@ public abstract class DefaultBlockDataGenerator<T extends Block & BlockSetGetter
             // 如果存在变体图片，添加该图片
             return Pair.of(ResourceState.EXIST, mb.texture(hasParticle ? "0" : "particle", toResourceLocation(prefix(withTypeName(block, blockPath), type))));
         } catch (IllegalArgumentException ignore) {
-            warn(prefix(withTypeName(block, blockPath), type), blockPath); // 警告: 变体图片在实际环境中是必须的
+            warnTexture(prefix(withTypeName(block, blockPath), type), blockPath); // 警告: 变体图片在实际环境中是必须的
             try {
                 return Pair.of(ResourceState.TEMPLATE, mb.texture(hasParticle ? "0" : "particle", toResourceLocation(prefix(getTemplateLoc(block) + name, type))));
             } catch (IllegalArgumentException exception) {
-                report(blockPath, exception); // 错误: 不存在这个模板的WIP贴图
+                reportTexture(blockPath, exception); // 错误: 不存在这个模板的WIP贴图
                 return Pair.of(ResourceState.NOT_EXIST, null);
             }
         }
+    }
+
+    public <B extends ModelBuilder<B>, P extends ModelProvider<B>> @Nullable B processTogether(T block, P provider, ExistingFileHelper helper, @Nullable String part, boolean singleTexture) {
+        Pair<ResourceState, B> mb = processModel(block, provider, helper, part, AccessType.BLOCK);
+        if (mb.getFirst().equals(ResourceState.NOT_EXIST)) return null;
+        mb = processTexture(block, mb.getSecond(), singleTexture ? null : part, AccessType.BLOCK);
+        if (!mb.getFirst().equals(ResourceState.EXIST)) isBlockValid = false;
+        return mb.getSecond();
     }
 
     @Override
