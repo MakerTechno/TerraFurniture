@@ -1,5 +1,6 @@
 package org.confluence.terra_furniture.client.generators;
 
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
@@ -8,21 +9,27 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.lib.common.block.StateProperties;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
+import org.confluence.terra_furniture.common.block.func.MulStateGetter;
 
-public abstract class BiForwardBDG<T extends Block & BlockSetGetter<T>> extends HorizontalBDG<T> {
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class SingleMulStateBDG<S extends Enum<S> & StringRepresentable, T extends Block & BlockSetGetter<T> & MulStateGetter<S>> extends HorizontalBDG<T> {
     @Override
     public void buildBlockWithTemplate(T block, BlockStateProvider builderProvider, ExistingFileHelper helper) {
         isBlockValid = true; // Reversed state
-        ModelFile base = processTogether(block, builderProvider.models(), helper, StateProperties.ForwardTwoPart.BASE.getSerializedName(), true);
-        ModelFile forward = processTogether(block, builderProvider.models(), helper, StateProperties.ForwardTwoPart.FORWARD.getSerializedName(), true);
-
-        if (base == null || forward == null) {
-            isBlockValid = false;
-            return;
+        Map<S, ModelFile> propModelMap = new HashMap<>();
+        for (S prop : block.getEnumPropertyObjects()) {
+            propModelMap.put(prop, processTogether(block, builderProvider.models(), helper, prop.getSerializedName(), true));
         }
 
+        propModelMap.values().forEach(modelFile -> {
+            if (modelFile == null) isBlockValid = false;
+        });
+        if (!isBlockValid) return;
+
         forAllStates(builderProvider.getVariantBuilder(block), state -> ConfiguredModel.builder()
-                .modelFile(isBase(state) ? base : forward)
+                .modelFile(propModelMap.get(state.getValue(block.getContainer())))
                 .rotationY(toY(state))
                 .build()
         );

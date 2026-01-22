@@ -3,6 +3,7 @@ package org.confluence.terra_furniture.common.block.misc;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Villager;
@@ -14,28 +15,33 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import org.confluence.lib.common.block.HorizontalDirectionalWithForwardTwoPartBlock;
 import org.confluence.lib.common.block.StateProperties;
-import org.confluence.terra_furniture.client.generators.BiForwardBDG;
+import org.confluence.terra_furniture.client.generators.SingleMulStateBDG;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
+import org.confluence.terra_furniture.common.block.func.MulStateGetter;
 import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.confluence.terra_furniture.common.init.TFTags;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
 
-public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock implements AutoGenBlockData<BathtubBlock>, BlockSetGetter<BathtubBlock> {
-    private static final VoxelShape SOUTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 0, 15, 8, 15), BooleanOp.ONLY_FIRST);
-    private static final VoxelShape WEST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 1, 16, 8, 15), BooleanOp.ONLY_FIRST);
-    private static final VoxelShape NORTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(1, 1, 1, 15, 8, 16), BooleanOp.ONLY_FIRST);
-    private static final VoxelShape EAST_SHAPE = Shapes.join(box(0, 0, 0, 16, 8, 16), box(0, 1, 1, 15, 8, 15), BooleanOp.ONLY_FIRST);
+public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock implements AutoGenBlockData<BathtubBlock>, BlockSetGetter<BathtubBlock>, MulStateGetter<StateProperties.ForwardTwoPart> {
+    private static final VoxelShape SOUTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 12, 16), box(1, 1, 0, 15, 12, 15), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape WEST_SHAPE = Shapes.join(box(0, 0, 0, 16, 12, 16), box(1, 1, 1, 16, 12, 15), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape NORTH_SHAPE = Shapes.join(box(0, 0, 0, 16, 12, 16), box(1, 1, 1, 15, 12, 16), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape EAST_SHAPE = Shapes.join(box(0, 0, 0, 16, 12, 16), box(0, 1, 1, 15, 12, 15), BooleanOp.ONLY_FIRST);
     private static final VoxelShape[] BASE_SHAPES = new VoxelShape[]{SOUTH_SHAPE, WEST_SHAPE, NORTH_SHAPE, EAST_SHAPE};
     private static final VoxelShape[] FORWARD_SHAPES = new VoxelShape[]{NORTH_SHAPE, EAST_SHAPE, SOUTH_SHAPE, WEST_SHAPE};
 
@@ -108,10 +114,16 @@ public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock i
 
     @Override
     public @Nullable BlockDataGenerator<? super BathtubBlock> getGenerator() {
-        return new BiForwardBDG<>() {
+        return new SingleMulStateBDG<>() {
             @Override
             public String getTemplateType(BathtubBlock block) {
                 return "bathtub";
+            }
+
+            @Override
+            public void addBlockTags(BathtubBlock block, BlockTagsProvider provider, HashSet<TagKey<Block>> keys) {
+                super.addBlockTags(block, provider, keys);
+                keys.add(TFTags.BATHTUBS);
             }
         };
     }
@@ -124,5 +136,10 @@ public class BathtubBlock extends HorizontalDirectionalWithForwardTwoPartBlock i
     @Override
     public boolean hasParticle(BathtubBlock block) {
         return true;
+    }
+
+    @Override
+    public EnumProperty<StateProperties.ForwardTwoPart> getContainer() {
+        return PART;
     }
 }

@@ -3,6 +3,7 @@ package org.confluence.terra_furniture.common.block.misc;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -15,13 +16,16 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import org.confluence.terra_furniture.client.generators.TableBDG;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
 import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.confluence.terra_furniture.common.init.TFTags;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.Objects;
 
 public class TableBlock extends CrossCollisionBlock implements AutoGenBlockData<TableBlock>, BlockSetGetter<TableBlock> {
@@ -104,6 +108,12 @@ public class TableBlock extends CrossCollisionBlock implements AutoGenBlockData<
             @Override
             public String getTemplateType(TableBlock block) {
                 return "table";
+            }
+
+            @Override
+            public void addBlockTags(TableBlock block, BlockTagsProvider provider, HashSet<TagKey<Block>> keys) {
+                super.addBlockTags(block, provider, keys);
+                keys.add(TFTags.HOUSE_TABLE);
             }
         };
     }

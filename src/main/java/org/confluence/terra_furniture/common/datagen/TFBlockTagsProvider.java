@@ -28,26 +28,21 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .add(TFBlocks.GLASS_TOILET.get())
                 .add(TFBlocks.GLASS_SINK.get())
                 .add(TFBlocks.GLASS_DOOR.get())
-                .add(TFBlocks.GLASS_TABLE.get())
                 .add(TFBlocks.GLASS_CANDLE.get())
                 .add(TFBlocks.GLASS_LANTERN.get())
                 .add(TFBlocks.GLASS_LAMP.get())
                 .add(TFBlocks.GLASS_CANDELABRAS.get())
-                .add(TFBlocks.GLASS_CLOCK.get())
-                .add(TFBlocks.GLASS_BATHTUB.get());
+                .add(TFBlocks.GLASS_CLOCK.get());
         tag(TFTags.DUNGEON_FURNITURE)
-                .add(TFBlocks.BLUE_DUNGEON_CHAIR.get())
                 .add(TFBlocks.BLUE_DUNGEON_SOFA.get())
                 .add(TFBlocks.BLUE_DUNGEON_TOILET.get())
                 .add(TFBlocks.BLUE_DUNGEON_SINK.get())
                 .add(TFBlocks.BLUE_DUNGEON_DOOR.get())
-                .add(TFBlocks.BLUE_DUNGEON_TABLE.get())
                 .add(TFBlocks.BLUE_DUNGEON_CANDLE.get())
                 .add(TFBlocks.BLUE_DUNGEON_LANTERN.get())
                 .add(TFBlocks.BLUE_DUNGEON_LAMP.get())
                 .add(TFBlocks.BLUE_DUNGEON_CANDELABRAS.get())
-                .add(TFBlocks.BLUE_DUNGEON_CLOCK.get())
-                .add(TFBlocks.BLUE_DUNGEON_BATHTUB.get());
+                .add(TFBlocks.BLUE_DUNGEON_CLOCK.get());
         tag(TFTags.WOODEN_FURNITURE)
                 .add(TFBlocks.WOODEN_TABLE.get())
                 .add(TFBlocks.WOODEN_CHAIR.get());
@@ -73,10 +68,6 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 TFBlocks.BLUE_DUNGEON_SOFA.get(),
                 TFBlocks.PLASTIC_CHAIR.get());
 
-        tag(TFTags.HOUSE_TABLE).add(
-                TFBlocks.GLASS_TABLE.get(),
-                TFBlocks.WOODEN_TABLE.get(),
-                TFBlocks.BLUE_DUNGEON_TABLE.get());
     }
 
     @SuppressWarnings("unchecked")

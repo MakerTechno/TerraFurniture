@@ -15,6 +15,7 @@ import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -73,7 +74,7 @@ public abstract class DefaultBlockDataGenerator<T extends Block & BlockSetGetter
     public static final ExistingFileHelper.ResourceType MODEL = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".json", "models");
 
     public boolean isBlockValid = false;
-    public boolean isItemValid = true;
+    public boolean isItemValid = false;
 
     public String getOutputLoc(T block) {
         return block.getType().name() + "/" + getBlockPath(block);
@@ -160,17 +161,17 @@ public abstract class DefaultBlockDataGenerator<T extends Block & BlockSetGetter
         Pair<ResourceState, ItemModelBuilder> buildResult = processModel(block, provider, helper, null, AccessType.ITEM);
         if (buildResult.getFirst().equals(ResourceState.NOT_EXIST)) return;
         buildResult = processTexture(block, buildResult.getSecond(), null, AccessType.BLOCK);
-        if (!buildResult.getFirst().equals(ResourceState.EXIST)) isItemValid = false;
+        if (buildResult.getFirst().equals(ResourceState.EXIST)) isItemValid = true;
     }
 
     @Override
-    public List<TagKey<Block>> getRegBlockTags(T block, BlockTagsProvider provider) {
-        return block.getType().getTagKeys().get();
+    public void addBlockTags(T block, BlockTagsProvider provider, HashSet<TagKey<Block>> keys) {
+        keys.addAll(block.getType().getTagKeys().get());
     }
 
     @Override
-    public List<TagKey<Item>> getRegItemTags(ItemTagsProvider provider) {
-        return isBlockValid && isItemValid ? List.of() : List.of(LibTags.Items.WIP);
+    public void addItemTags(T block, ItemTagsProvider provider, HashSet<TagKey<Item>> keys) {
+        keys.addAll(isBlockValid && isItemValid ? List.of() : List.of(LibTags.Items.WIP));
     }
 
     public enum ResourceState {

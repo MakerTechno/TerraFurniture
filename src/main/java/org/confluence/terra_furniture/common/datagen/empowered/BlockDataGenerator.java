@@ -11,7 +11,7 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.TerraFurniture;
 
-import java.util.List;
+import java.util.HashSet;
 
 public interface BlockDataGenerator<T extends Block> {
     String TEMPLATE_FOLDER = "templates";
@@ -22,9 +22,21 @@ public interface BlockDataGenerator<T extends Block> {
 
     String getTemplateType(T block);
 
-    List<TagKey<Block>> getRegBlockTags(T block, BlockTagsProvider provider);
+    default HashSet<TagKey<Block>> getRegBlockTags(T block, BlockTagsProvider provider) {
+        HashSet<TagKey<Block>> keys = new HashSet<>();
+        addBlockTags(block, provider, keys);
+        return keys;
+    }
 
-    List<TagKey<Item>> getRegItemTags(ItemTagsProvider provider);
+    void addBlockTags(T block, BlockTagsProvider provider, HashSet<TagKey<Block>> keys);
+
+    default HashSet<TagKey<Item>> getRegItemTags(T block, ItemTagsProvider provider) {
+        HashSet<TagKey<Item>> keys = new HashSet<>();
+        addItemTags(block, provider, keys);
+        return keys;
+    }
+
+    void addItemTags(T block, ItemTagsProvider provider, HashSet<TagKey<Item>> keys);
 
     default String getTemplateLoc(T block) {
         return TEMPLATE_FOLDER + "/" + getTemplateType(block);
