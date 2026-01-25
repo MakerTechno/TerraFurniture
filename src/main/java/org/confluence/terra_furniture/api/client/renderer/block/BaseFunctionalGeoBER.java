@@ -15,8 +15,10 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.cache.texture.GeoAbstractTexture;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
+import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 import java.util.*;
 import java.util.function.*;
@@ -112,6 +114,17 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             renderer.addRenderHook(hook);
             return this;
         }
+
+        /**
+         * 声明骨骼拥有发光层。
+         * 你需要在对应贴图的同一位置额外放一个带_glowmask的图片
+         *
+         * @return 构建器自身
+         */
+        public Builder<B, T> canGlow() {
+            renderer.addGlowingLayer();
+            return this;
+        }
         /**
          * 自定义渲染可见范围(仅仅是可能有效)。
          * <p><b>使用此功能将会使shouldRendererOffScreen返回false</b></p>
@@ -146,6 +159,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     private final Map<GeoBone, Integer> cachedBones = new HashMap<>();
     private final List<IRenderFunctionHook<T>> hooks = new ArrayList<>();
     private final boolean isNegative;
+    private boolean bindGlowing = false;
     private boolean shouldRenderOffScreen = true;
     private Function<BlockPos, AABB> applied = null;
     private int maxFloor = 0;
@@ -166,6 +180,18 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
 
     void addBoneOp(Pair<Integer, Predicate<GeoBone>> selector, BiConsumer<GeoBone, T> operation) {
         op.put(op.size(), new GeoBoneOp(selector, operation));
+    }
+
+    void addGlowingLayer() {
+        if (!bindGlowing) {
+            addRenderLayer(new AutoGlowingGeoLayer<>(this) {
+                @Override
+                protected RenderType getRenderType(T animatable, @Nullable MultiBufferSource bufferSource) {
+                    return RenderType.eyes(GeoAbstractTexture.appendToPath(getTextureLocation(animatable), "_glowmask"));
+                }
+            });
+            bindGlowing = true;
+        }
     }
 
     void addRenderHook(IRenderFunctionHook<T> hook) {
