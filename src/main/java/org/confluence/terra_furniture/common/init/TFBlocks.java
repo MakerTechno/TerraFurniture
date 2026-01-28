@@ -74,7 +74,7 @@ public final class TFBlocks {
     public static final Supplier<BlockEntityType<TrashCanBlock.Entity>> TRASH_CAN_ENTITY = BLOCK_ENTITIES.register("trash_can_entity", () -> BlockEntityType.Builder.of(TrashCanBlock.Entity::new, TRASH_CAN.get()).build(DSL.remainderType()));
 
     // 玻璃
-    public static final DeferredBlock<DoorBlock> GLASS_DOOR = registerWithItem("glass_door", () -> new DoorBlock(GLASS.getType(), BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
+    public static final DeferredBlock<DoorBlock> GLASS_DOOR = registerWithItem("glass_door", () -> new TFDoorBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
     public static final DeferredBlock<SwitchableLightBlock> GLASS_CANDLE = registerWithItem("glass_candle", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(14)), BlockShapeType.CANDLE));
     public static final DeferredBlock<SwitchableLightBlock> GLASS_CHANDELIER = registerWithItem("glass_chandelier", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(14)), BlockShapeType.CHANDELIER));
@@ -89,7 +89,7 @@ public final class TFBlocks {
     public static final DeferredBlock<SofaBlock> BLUE_DUNGEON_SOFA = registerSofaDiscardItem("blue_dungeon_sofa", BLUE_DUNGEON, Blocks.STONE, properties -> {});
     public static final DeferredBlock<ToiletBlock> BLUE_DUNGEON_TOILET = registerToiletDiscardItem("blue_dungeon_toilet", BLUE_DUNGEON, Blocks.STONE, properties -> {});
     public static final DeferredBlock<SinkBlock> BLUE_DUNGEON_SINK = registerSinkDiscardItem("blue_dungeon_sink", BLUE_DUNGEON, Blocks.STONE, properties -> {});
-    public static final DeferredBlock<DoorBlock> BLUE_DUNGEON_DOOR = registerWithItem("blue_dungeon_door", () -> new DoorBlock(STONE.getType(), BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredBlock<DoorBlock> BLUE_DUNGEON_DOOR = registerWithItem("blue_dungeon_door", () -> new TFDoorBlock(BLUE_DUNGEON, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<TableBlock> BLUE_DUNGEON_TABLE = registerWithItem("blue_dungeon_table", () -> new TableBlock(BLUE_DUNGEON, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
     public static final DeferredBlock<SwitchableLightBlock> BLUE_DUNGEON_CANDLE = registerWithItem("blue_dungeon_candle", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE));
     public static final DeferredBlock<SwitchableLightBlock> BLUE_DUNGEON_LANTERN = registerWithItem("blue_dungeon_lantern", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.LANTERN));

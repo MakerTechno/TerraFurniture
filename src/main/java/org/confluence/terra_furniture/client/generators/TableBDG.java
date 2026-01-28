@@ -10,15 +10,15 @@ public abstract class TableBDG extends DefaultBlockDataGenerator<TableBlock> {
 
     public void buildTemplate1(TableBlock block, BlockModelProvider provider, MultiPartBlockStateBuilder builder, ExistingFileHelper helper) {
         isBlockValid = true; // Reversed state
-        BlockModelBuilder top =  processTogether(block, provider, helper, "top", true);
-        BlockModelBuilder side = processTogether(block, provider, helper, "side", true);
-        BlockModelBuilder leg = processTogether(block, provider, helper, "leg", true);
-        BlockModelBuilder leg_layer = processTogether(block, provider, helper, "leg_layer", true);
-        BlockModelBuilder corner = processTogether(block, provider, helper, "corner", true);
-        BlockModelBuilder layer = processTogether(block, provider, helper, "layer", true);
-        BlockModelBuilder layer_corner = processTogether(block, provider, helper, "layer_corner", true);
-        BlockModelBuilder layer_corner_y = processTogether(block, provider, helper, "layer_corner_y", true);
-        BlockModelBuilder layer_only = processTogether(block, provider, helper, "layer_only", true);
+        BlockModelBuilder top =  fullGenBlock(block, provider, helper, "top", true);
+        BlockModelBuilder side = fullGenBlock(block, provider, helper, "side", true);
+        BlockModelBuilder leg = fullGenBlock(block, provider, helper, "leg", true);
+        BlockModelBuilder leg_layer = fullGenBlock(block, provider, helper, "leg_layer", true);
+        BlockModelBuilder corner = fullGenBlock(block, provider, helper, "corner", true);
+        BlockModelBuilder layer = fullGenBlock(block, provider, helper, "layer", true);
+        BlockModelBuilder layer_corner = fullGenBlock(block, provider, helper, "layer_corner", true);
+        BlockModelBuilder layer_corner_y = fullGenBlock(block, provider, helper, "layer_corner_y", true);
+        BlockModelBuilder layer_only = fullGenBlock(block, provider, helper, "layer_only", true);
 
         if (
                 top == null || side == null || leg == null || leg_layer == null || corner == null ||layer == null || layer_corner == null

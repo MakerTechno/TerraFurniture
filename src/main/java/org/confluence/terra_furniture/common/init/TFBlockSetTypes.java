@@ -1,8 +1,10 @@
 package org.confluence.terra_furniture.common.init;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
 
 import java.util.List;
@@ -15,35 +17,35 @@ public class TFBlockSetTypes {
 
     /* 已在原版定义的, 但是家具扩展了BST功能所以你只应使用家具的扩展版 */
     /** 橡木(就是普通木头) */
-    public static final TFBlockSetType OAK = new TFBlockSetType(BlockSetType.OAK, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.OAK_FURNITURE));
+    public static final TFBlockSetType OAK = new TFBlockSetType(BlockSetType.OAK, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.OAK_FURNITURE), ResourceLocation.withDefaultNamespace("block/oak_planks"));
     /** 云杉木(可能是针叶木, 如果单做了再说的) */
-    public static final TFBlockSetType SPRUCE = new TFBlockSetType(BlockSetType.SPRUCE, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.SPRUCE_FURNITURE));
+    public static final TFBlockSetType SPRUCE = new TFBlockSetType(BlockSetType.SPRUCE, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.SPRUCE_FURNITURE), ResourceLocation.withDefaultNamespace("block/spruce_planks"));
     /** 白桦木 */
-    public static final TFBlockSetType BIRCH = new TFBlockSetType(BlockSetType.BIRCH, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.BIRCH_FURNITURE));
+    public static final TFBlockSetType BIRCH = new TFBlockSetType(BlockSetType.BIRCH, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.BIRCH_FURNITURE), ResourceLocation.withDefaultNamespace("block/birch_planks"));
     /** 金合欢木 */
-    public static final TFBlockSetType ACACIA = new TFBlockSetType(BlockSetType.ACACIA, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.ACACIA_FURNITURE));
+    public static final TFBlockSetType ACACIA = new TFBlockSetType(BlockSetType.ACACIA, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.ACACIA_FURNITURE), ResourceLocation.withDefaultNamespace("block/acacia_planks"));
     /** 樱花木 */
-    public static final TFBlockSetType CHERRY = new TFBlockSetType(BlockSetType.CHERRY, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.CHERRY_FURNITURE));
+    public static final TFBlockSetType CHERRY = new TFBlockSetType(BlockSetType.CHERRY, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.CHERRY_FURNITURE), ResourceLocation.withDefaultNamespace("block/cherry_planks"));
     /** 丛林木 */
-    public static final TFBlockSetType JUNGLE = new TFBlockSetType(BlockSetType.JUNGLE, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.JUNGLE_FURNITURE));
+    public static final TFBlockSetType JUNGLE = new TFBlockSetType(BlockSetType.JUNGLE, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.JUNGLE_FURNITURE), ResourceLocation.withDefaultNamespace("block/jungle_planks"));
     /** 深色橡木 */
-    public static final TFBlockSetType DARK_OAK = new TFBlockSetType(BlockSetType.DARK_OAK, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.DARK_OAK_FURNITURE));
+    public static final TFBlockSetType DARK_OAK = new TFBlockSetType(BlockSetType.DARK_OAK, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.DARK_OAK_FURNITURE), ResourceLocation.withDefaultNamespace("block/dark_oak_planks"));
     /** 绯红木 */
-    public static final TFBlockSetType CRIMSON = new TFBlockSetType(BlockSetType.CRIMSON, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.CRIMSON_FURNITURE));
+    public static final TFBlockSetType CRIMSON = new TFBlockSetType(BlockSetType.CRIMSON, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.CRIMSON_FURNITURE), ResourceLocation.withDefaultNamespace("block/crimson_planks"));
     /** 诡异木 */
-    public static final TFBlockSetType WARPED = new TFBlockSetType(BlockSetType.WARPED, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.WARPED_FURNITURE));
+    public static final TFBlockSetType WARPED = new TFBlockSetType(BlockSetType.WARPED, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.WARPED_FURNITURE), ResourceLocation.withDefaultNamespace("block/warped_planks"));
     /** 红树木 */
-    public static final TFBlockSetType MANGROVE = new TFBlockSetType(BlockSetType.MANGROVE, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.MANGROVE_FURNITURE));
+    public static final TFBlockSetType MANGROVE = new TFBlockSetType(BlockSetType.MANGROVE, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.MANGROVE_FURNITURE), ResourceLocation.withDefaultNamespace("block/mangrove_planks"));
     /** 竹木(就当竹子用的) */
-    public static final TFBlockSetType BAMBOO = new TFBlockSetType(BlockSetType.BAMBOO, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.BAMBOO_FURNITURE));
+    public static final TFBlockSetType BAMBOO = new TFBlockSetType(BlockSetType.BAMBOO, () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.BAMBOO_FURNITURE), ResourceLocation.withDefaultNamespace("block/bamboo_planks"));
     /** 铁 */
     public static final TFBlockSetType IRON = new TFBlockSetType(BlockSetType.IRON, () -> List.of(TFTags.IRON_FURNITURE));
     /** 铜 */
     public static final TFBlockSetType COPPER = new TFBlockSetType(BlockSetType.COPPER, () -> List.of(TFTags.COPPER_FURNITURE));
     /** 金(泰拉中无法制作，只能通过海盗事件获得的系列) */
-    public static final TFBlockSetType GOLD = new TFBlockSetType(BlockSetType.GOLD, () -> List.of(TFTags.GOLD_FURNITURE));
+    public static final TFBlockSetType GOLD = new TFBlockSetType(BlockSetType.GOLD, () -> List.of(TFTags.GOLD_FURNITURE), ResourceLocation.withDefaultNamespace("block/gold_block"));
     /** 石头(注意不是圆石) */
-    public static final TFBlockSetType STONE = new TFBlockSetType(BlockSetType.STONE, () -> List.of(TFTags.STONE_FURNITURE));
+    public static final TFBlockSetType STONE = new TFBlockSetType(BlockSetType.STONE, () -> List.of(TFTags.STONE_FURNITURE), ResourceLocation.withDefaultNamespace("block/stone"));
     /** 磨制黑石 */
     public static final TFBlockSetType POLISHED_BLACKSTONE = new TFBlockSetType(BlockSetType.POLISHED_BLACKSTONE, () -> List.of(TFTags.POLISHED_BLACKSTONE_FURNITURE));
 
@@ -64,7 +66,8 @@ public class TFBlockSetTypes {
             SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
             SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON,
-            () -> List.of(TFTags.DUNGEON_FURNITURE, TFTags.BLUE_DUNGEON_FURNITURE)
+            () -> List.of(TFTags.DUNGEON_FURNITURE, TFTags.BLUE_DUNGEON_FURNITURE),
+            TerraFurniture.asResource("block/particle/blue_dungeon_sink_particle")
     );
     /** 绿地牢砖 */
     public static final TFBlockSetType GREEN_DUNGEON = new TFBlockSetType(
@@ -122,7 +125,8 @@ public class TFBlockSetTypes {
             SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
             SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON,
-            () -> List.of(TFTags.GLASS_FURNITURE)
+            () -> List.of(TFTags.GLASS_FURNITURE),
+            ResourceLocation.withDefaultNamespace("block/glass")
     );
     /** 蜂蜜 */
     public static final TFBlockSetType HONEY = new TFBlockSetType("honey", () -> List.of(TFTags.HONEY_FURNITURE));
