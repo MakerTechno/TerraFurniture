@@ -13,6 +13,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.confluence.terra_furniture.common.init.TFBlockSetTypes;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -31,8 +33,12 @@ import java.util.function.Consumer;
 public class PlasticChairBlock extends ChairBlock {
     private static final VoxelShape SHAPE = Shapes.box(0.1875, 0.0, 0.1875, 0.8125, 0.8, 0.8125);
 
+    public PlasticChairBlock(Consumer<Properties> propApplier) {
+        super(TFBlockSetTypes.UNBREAKABLE, Blocks.BEDROCK.defaultBlockState(), propApplier, 0.9f);
+    }
+
     public PlasticChairBlock(Properties properties) {
-        super(Blocks.BEDROCK.defaultBlockState(), properties, 0.9f);
+        super(TFBlockSetTypes.UNBREAKABLE, Blocks.BEDROCK.defaultBlockState(), properties, 0.9f);
     }
 
     @Override
@@ -54,6 +60,11 @@ public class PlasticChairBlock extends ChairBlock {
     @Override
     protected BasePropertyHorizontalDirectionBlock<ChairBlock> createNewInstance(BlockState baseState, Properties properties) {
         return new PlasticChairBlock(properties);
+    }
+
+    @Override
+    public @Nullable BlockDataGenerator<? super ChairBlock> getGenerator() {
+        return null;
     }
 
     public static class PlasticChairBE extends ChairBE implements GeoBlockEntity {

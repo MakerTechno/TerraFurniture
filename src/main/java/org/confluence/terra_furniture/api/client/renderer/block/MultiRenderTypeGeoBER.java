@@ -11,14 +11,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import org.confluence.terra_furniture.api.client.model.CacheBlockModel;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
-import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
-import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.*;
 import java.util.function.*;
@@ -82,18 +78,6 @@ public class MultiRenderTypeGeoBER<T extends BlockEntity & GeoBlockEntity> exten
         }
 
         /**
-         * 添加骨骼发光层规则，用于在指定模型层根据选择器对目标骨骼添加发光层。
-         *
-         * @param floor 模型的层级，0表示模型最顶层所有元素，1表示向下的一层，以此类推
-         * @param selector 骨骼选择器，用于筛选目标骨骼
-         * @return 构建器自身
-         */
-        public Builder<B, T> addGlowingLayerBindRule(Integer floor, Predicate<GeoBone> selector) {
-            renderer.addGlowingBindRule(new Pair<>(floor, selector));
-            return this;
-        }
-
-        /**
          * 设置默认的渲染类型。
          * <p><b>注意: 该方法只需调用一次，多次调用只会取最后一次填入的参数</b></p>
          *
@@ -111,11 +95,8 @@ public class MultiRenderTypeGeoBER<T extends BlockEntity & GeoBlockEntity> exten
         }
     }
     private final Map<GeoBone, RenderType> targetRTBones = new HashMap<>();
-    private final Set<GeoBone> targetGlowingBones = new HashSet<>();
     private final Map<Pair<Integer, Predicate<GeoBone>>, Function<ResourceLocation, RenderType>> renderRules = new HashMap<>();
-    private final Set<Pair<Integer, Predicate<GeoBone>>> glowingRules = new HashSet<>();
     private int maxRenderFloor;
-    private boolean bindGlowing = false;
     private Function<ResourceLocation, RenderType> defaultRenderType = null;
 
     protected MultiRenderTypeGeoBER(GeoModel<T> model) {
@@ -124,19 +105,6 @@ public class MultiRenderTypeGeoBER<T extends BlockEntity & GeoBlockEntity> exten
 
     void addRenderRule(Pair<Integer, Predicate<GeoBone>> selector, Function<ResourceLocation, RenderType> renderType) {
         renderRules.put(selector, renderType);
-    }
-
-    void addGlowingBindRule(Pair<Integer, Predicate<GeoBone>> selector) {
-        if (!bindGlowing) {
-            addRenderLayer(new AutoGlowingGeoLayer<>(this) {
-                @Override
-                protected RenderType getRenderType(T animatable, @Nullable MultiBufferSource bufferSource) {
-                    return RenderType.eyes(getTextureResource(animatable));
-                }
-            });
-            bindGlowing = true;
-        }
-        glowingRules.add(selector);
     }
 
     void setDefaultRenderType(Function<ResourceLocation, RenderType> defaultRenderType) {
@@ -158,50 +126,28 @@ public class MultiRenderTypeGeoBER<T extends BlockEntity & GeoBlockEntity> exten
                 for (Map.Entry<Pair<Integer, Predicate<GeoBone>>, Function<ResourceLocation, RenderType>> entry :renderRules.entrySet()) {
                     if (entry.getKey().getFirst().equals(integer) && entry.getKey().getSecond().test(geoBone)) targetRTBones.put(geoBone, entry.getValue().apply(texture));
                 }
-                for (Pair<Integer, Predicate<GeoBone>> content : glowingRules) {
-                    if (content.getFirst().equals(integer) && content.getSecond().test(geoBone)) targetGlowingBones.add(geoBone);
-                }
                 return false;
             });
         }
         renderRules.clear();
-        glowingRules.clear();
     }
 
     @Override
     public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
-        if (!renderRules.isEmpty() || !glowingRules.isEmpty()) processRenderFunc(model, animatable);
+        if (!renderRules.isEmpty()) processRenderFunc(model, animatable);
         super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }
 
     @Override
     public void renderRecursively(PoseStack poseStack, T animatable, GeoBone bone, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
-        if (isReRender) {
-            if (bindGlowing && targetGlowingBones.contains(bone)) super.renderRecursively(poseStack, animatable, bone, renderType, bufferSource, buffer, true, partialTick, packedLight, packedOverlay, colour);
-            else {
-                /* Imitate GeoBlockRenderer */
-                if (bone.isTrackingMatrices()) {
-                    Matrix4f poseState = new Matrix4f(poseStack.last().pose());
-                    Matrix4f localMatrix = RenderUtil.invertAndMultiplyMatrices(poseState, this.blockRenderTranslations);
-                    Matrix4f worldState = new Matrix4f(localMatrix);
-                    BlockPos pos = this.animatable.getBlockPos();
-
-                    bone.setModelSpaceMatrix(RenderUtil.invertAndMultiplyMatrices(poseState, this.modelRenderTranslations));
-                    bone.setLocalSpaceMatrix(localMatrix);
-                    bone.setWorldSpaceMatrix(worldState.translate(new Vector3f(pos.getX(), pos.getY(), pos.getZ())));
-                }
-                /* Imitate GeoRenderer */
-                poseStack.pushPose();
-                RenderUtil.prepMatrixForBone(poseStack, bone);
-                renderChildBones(poseStack, animatable, bone, renderType, bufferSource, buffer, true, partialTick, packedLight, packedOverlay, colour);
-                poseStack.popPose();
-                /* Imitate GeoRenderer end. */
-                /* Imitate GeoBlockRenderer end. */
-            }
-        } else {
+        if (!isReRender) {
             RenderType type = targetRTBones.getOrDefault(bone, renderType);
+            // Only add when the render order is not correct
+            /*if (bufferSource instanceof MultiBufferSource.BufferSource source) {
+                source.endBatch();
+            }*/
             super.renderRecursively(poseStack, animatable, bone, type, bufferSource, bufferSource.getBuffer(type), false, partialTick, packedLight, packedOverlay, colour);
-        }
+        } else super.renderRecursively(poseStack, animatable, bone, renderType, bufferSource, buffer, true, partialTick, packedLight, packedOverlay, colour);
     }
 
     @Override

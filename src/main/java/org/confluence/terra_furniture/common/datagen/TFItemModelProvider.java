@@ -1,11 +1,11 @@
 package org.confluence.terra_furniture.common.datagen;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.block.misc.TableBlock;
-import org.confluence.terra_furniture.common.datagen.sub.SubTableProviderStatic;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 
 public class TFItemModelProvider extends ItemModelProvider {
@@ -17,12 +17,12 @@ public class TFItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         simpleBlockItem(TFBlocks.GLASS_KILN.get());
         simpleBlockItem(TFBlocks.LIVING_LOOM.get());
-        TFBlocks.BLOCKS.getEntries().forEach(holder -> {
-            if (holder.get() instanceof TableBlock block) genTableModel1(block);
-        });
+        TFDataGenerator.GENERATORS.forEach((block, blockDataGenerator) -> invokeGenerator(block, blockDataGenerator, this));
     }
 
-    public void genTableModel1(TableBlock block) {
-        SubTableProviderStatic.buildTemplate1Item(block, false, this);
+    @SuppressWarnings("unchecked")
+    private <T extends Block> void invokeGenerator(Block block, BlockDataGenerator<?> generator, ItemModelProvider provider) {
+        BlockDataGenerator<T> typedGenerator = (BlockDataGenerator<T>) generator;
+        typedGenerator.buildItemWithTemplate((T) block, provider, existingFileHelper);
     }
 }

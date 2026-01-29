@@ -59,11 +59,12 @@ public final class TFModClient {
                         .addOperationBindRule(3, FLAME, TFModClient::litControlledHide)
                         .setDefaultRenderType(RenderType::entityCutout)
                         .addRenderRule(3, FLAME, RenderType::text)
-                        .addGlowingLayerBindRule(3, FLAME)
+                        .canGlow()
                         .addRenderHook(CommonRenderHooks.swaying())
                         .renderBox(pos -> new AABB(pos.getX() -1, pos.getY(), pos.getZ()-1, pos.getX() +1, pos.getY() -1, pos.getZ() +1))
                         .build()
         );
+        //event.registerBlockEntityRenderer(TFBlocks.LARGE_CHANDELIER_ENTITY.get(), context -> new TestGlow());
         event.registerBlockEntityRenderer(TFBlocks.HANGING_POT_ENTITY.get(),
                 context -> BaseFunctionalGeoBER.Builder.<HangingPotBlock.BEntity>of(false)
                         .addRenderHook(CommonRenderHooks.swaying())

@@ -11,15 +11,24 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
+import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Consumer;
 
 public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
     protected static final VoxelShape SINK_X;
     protected static final VoxelShape SINK_Z;
     protected static final VoxelShape PIPE;
 
-    public SinkBlock(BlockState state, Properties pProperties) {
-        super(state, pProperties);
+    public SinkBlock(TFBlockSetType type, BlockState state, Consumer<Properties> extraProperties) {
+        super(type, state, extraProperties);
+    }
+
+    public SinkBlock(TFBlockSetType type, BlockState state, Properties properties) {
+        super(type, state, properties);
     }
 
     @Override
@@ -53,7 +62,7 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
 
     @Override
     protected BasePropertyHorizontalDirectionBlock<SinkBlock> createNewInstance(BlockState baseState, Properties properties) {
-        return new SinkBlock(baseState, properties);
+        return new SinkBlock(getType(), baseState, properties);
     }
 
     static {
@@ -63,12 +72,17 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
     }
 
     @Override
-    public String getSpecificName() {
-        return "";
+    public @Nullable BlockDataGenerator<? super SinkBlock> getGenerator() {
+        return null;/* new HorizontalBDG<>() {
+            @Override
+            public String getTemplateType(SinkBlock block) {
+                return "sink";
+            }
+        };*/
     }
 
     @Override
-    public String parentName() {
-        return "";
+    public boolean hasParticle(SinkBlock block) {
+        return false;
     }
 }
