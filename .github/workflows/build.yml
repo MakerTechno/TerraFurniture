@@ -1,6 +1,14 @@
 name: Build
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '*'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   build:
@@ -30,29 +38,34 @@ jobs:
         with:
           arguments: build -Pdev=false
 
+      - name: Make scripts executable
+        run: chmod +x .github/workflows/scripts/*.sh
+
       - name: Extract mod_version and check if tag exists
         id: version
-        run: |
-          MOD_VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2)
-          echo "mod_version=$MOD_VERSION" >> $GITHUB_OUTPUT
+        run: .github/workflows/scripts/extract_version.sh
 
-          # get tag info
-          RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/git/ref/tags/${MOD_VERSION})
-
-          # check ref exist
-          TAG_EXISTS=$(echo "$RESPONSE" | jq -e '.ref' > /dev/null && echo "true" || echo "false")
-
-          echo "skip_release=$([ "$TAG_EXISTS" == "true" ] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
-      
-
-      - name: Create release if not already published
+      # Official release (only master/main branch)
+      - name: Create official release if not already published
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && steps.version.outputs.skip_release == 'false'
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GH_TOKEN }}
-          automatic_release_tag: ${{ steps.version.outputs.mod_version }}
-          prerelease: true
+          automatic_release_tag: release-${{ steps.version.outputs.mod_version }}
+          prerelease: false
           title: "TerraFurniture Build ${{ steps.version.outputs.mod_version }}"
-          files: |
-            ./build/libs/*.jar
+          files: ./build/libs/*.jar
+          body: |
+            ### Changes since last version
+            ${{ steps.version.outputs.changelog }}
+
+      # Latest build (master/main/test)
+      - name: Always update latest build
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/test')
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GH_TOKEN }}
+          automatic_release_tag: latest-build
+          prerelease: true
+          title: "TerraFurniture Latest Build(TestOnly)"
+          files: ./build/libs/*.jar
