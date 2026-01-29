@@ -64,7 +64,7 @@ jobs:
             ### Changes since last version
             ${{ steps.version.outputs.changelog }}
 
-      # Latest build (只在 master/main)
+      # Latest build (master/main/test)
       - name: Always update latest build
         if: (github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')) || (github.event_name == 'push' && github.ref == 'refs/heads/test')
         uses: marvinpinto/action-automatic-releases@latest
