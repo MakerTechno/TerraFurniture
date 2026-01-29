@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
+    if: startsWith(github.ref, 'refs/heads/')
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +30,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           arguments: build -Pdev=false
+
       - name: Make scripts executable
         run: chmod +x .github/workflows/scripts/*.sh
 
