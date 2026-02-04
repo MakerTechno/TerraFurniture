@@ -190,7 +190,7 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.is(newState.getBlock())) return;
-        BlockPos relative = toBase(state, pos);
+        BlockPos relative = state.getValue(PART).isBase()? pos.above() : pos.below();
         level.destroyBlock(relative, false);
         if (state.hasBlockEntity()) {
             if (level.getBlockEntity(pos) instanceof BEntity bEntity) bEntity.drops();
