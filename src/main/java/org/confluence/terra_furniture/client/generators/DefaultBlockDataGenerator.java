@@ -151,7 +151,7 @@ public abstract class DefaultBlockDataGenerator<T extends Block & BlockSetGetter
      */
     public <B extends ModelBuilder<B>> Pair<ResourceState, B> processTexture(T block, B mb, @Nullable String name, AccessType type) {
         boolean hasParticle = block.hasParticle(block) && !type.equals(AccessType.ITEM);
-        if (hasParticle && ! block.isSpecialParticleTexture()) {
+        if (hasParticle && ! block.isSpecialParticleTexture(block)) {
             try {
                 mb.texture("particle", block.getType().getParticle());
             } catch (IllegalArgumentException e) {

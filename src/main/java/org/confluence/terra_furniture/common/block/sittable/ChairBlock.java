@@ -30,7 +30,7 @@ import java.util.function.Consumer;
  */
 public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock> implements EntityBlock {
     public final VoxelShape shapeCollision;
-    private final float yOff;
+    protected final float yOff;
 
     public ChairBlock(TFBlockSetType type, BlockState state, Consumer<Properties> extraProperties, float yOff) {
         super(type, state, extraProperties);
@@ -103,9 +103,13 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
         return new HorizontalBDG<>() {
             @Override
             public String getTemplateType(ChairBlock block) {
-                return "chair";
+                return getTypeName();
             }
         };
+    }
+
+    public String getTypeName() {
+        return "chair";
     }
 
     @Override

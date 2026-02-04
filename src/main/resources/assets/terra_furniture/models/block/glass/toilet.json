@@ -3,10 +3,6 @@
 	"parent": "block/block",
 	"render_type": "minecraft:cutout",
 	"texture_size": [32, 32],
-	"textures": {
-		"0": "terra_furniture:block/glass_furniture",
-		"particle": "minecraft:block/glass"
-	},
 	"elements": [
 		{
 			"from": [3, 8, 2],

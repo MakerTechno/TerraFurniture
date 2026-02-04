@@ -12,9 +12,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.api.utils.DelayableTaskMgr;
 import org.confluence.terra_furniture.api.utils.DelayableConsumerTask;
+import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
-import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.confluence.terra_furniture.common.entity.RideableEntityNull;
+import org.confluence.terra_furniture.common.init.TFBlockSetTypes;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.references.TFConfluenceRefs;
 import org.jetbrains.annotations.Nullable;
@@ -84,7 +85,22 @@ public class ToiletBlock extends ChairBlock{
     }
 
     @Override
-    public @Nullable BlockDataGenerator<? super ChairBlock> getGenerator() {
-        return null;
+    public String getTypeName() {
+        return "toilet";
+    }
+
+    @Override
+    public boolean hasParticle(ChairBlock block) {
+        return true;
+    }
+
+    @Override
+    public boolean isSpecialParticleTexture(ChairBlock block) {
+        return block.getType().equals(TFBlockSetTypes.BLUE_DUNGEON);
+    }
+
+    @Override
+    protected BasePropertyHorizontalDirectionBlock<ChairBlock> createNewInstance(BlockState baseState, Properties properties) {
+        return new ToiletBlock(getType(), baseState, properties, yOff);
     }
 }

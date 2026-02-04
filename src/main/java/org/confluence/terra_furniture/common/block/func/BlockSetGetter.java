@@ -8,7 +8,7 @@ public interface BlockSetGetter<T extends Block> {
      */
     TFBlockSetType getType();
     boolean hasParticle(T block);
-    default boolean isSpecialParticleTexture() {
+    default boolean isSpecialParticleTexture(T block) {
         return false;
     }
     default boolean isLayeredItemTexture() {

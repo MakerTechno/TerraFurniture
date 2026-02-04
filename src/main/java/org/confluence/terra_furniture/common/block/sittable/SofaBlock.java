@@ -16,6 +16,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.lib.util.LibUtils;
+import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.jetbrains.annotations.Nullable;
@@ -270,6 +271,11 @@ public class SofaBlock extends ChairBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(SHAPE, LEFT_END, RIGHT_END);
+    }
+
+    @Override
+    protected BasePropertyHorizontalDirectionBlock<ChairBlock> createNewInstance(BlockState baseState, Properties properties) {
+        return new SofaBlock(getType(), baseState, properties, yOff);
     }
 
     @Override
