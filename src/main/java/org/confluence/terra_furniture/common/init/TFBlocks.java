@@ -102,8 +102,23 @@ public final class TFBlocks {
     // 木质
     public static final DeferredBlock<ChairBlock> WOODEN_CHAIR = registerChairDiscardItem("wooden_chair", OAK, Blocks.OAK_PLANKS, properties -> {}, 0.5f);
     public static final DeferredBlock<TableBlock> WOODEN_TABLE = registerWithItem("wooden_table", () -> new TableBlock(OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
-    public static final DeferredBlock<TableBlock> BONE_TABLE = registerWithItem("bone_table", () -> new TableBlock(BONE, BlockBehaviour.Properties.ofFullCopy(Blocks.BONE_BLOCK)));
+    public static final DeferredBlock<TableBlock> ACACIA_TABLE = registerWithItem("acacia_table", () -> new TableBlock(ACACIA, BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_PLANKS)));
     public static final DeferredBlock<TableBlock> BAMBOO_TABLE = registerWithItem("bamboo_table", () -> new TableBlock(BAMBOO, BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS)));
+    public static final DeferredBlock<TableBlock> BIRCH_TABLE = registerWithItem("birch_table", () -> new TableBlock(BIRCH, BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_PLANKS)));
+    public static final DeferredBlock<TableBlock> CHERRY_TABLE = registerWithItem("cherry_table", () -> new TableBlock(CHERRY, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS)));
+    public static final DeferredBlock<TableBlock> CRIMSON_TABLE = registerWithItem("crimson_table", () -> new TableBlock(CRIMSON, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_PLANKS)));
+    public static final DeferredBlock<TableBlock> DARK_OAK_TABLE = registerWithItem("dark_oak_table", () -> new TableBlock(DARK_OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_PLANKS)));
+    public static final DeferredBlock<TableBlock> GOLD_TABLE = registerWithItem("gold_table", () -> new TableBlock(GOLD, BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_BLOCK)));
+    public static final DeferredBlock<TableBlock> JUNGLE_TABLE = registerWithItem("jungle_table", () -> new TableBlock(JUNGLE, BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_PLANKS)));
+    public static final DeferredBlock<TableBlock> MANGROVE_TABLE = registerWithItem("mangrove_table", () -> new TableBlock(MANGROVE, BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_PLANKS)));
+    public static final DeferredBlock<TableBlock> OBSIDIAN_TABLE = registerWithItem("obsidian_table", () -> new TableBlock(OBSIDIAN, BlockBehaviour.Properties.ofFullCopy(Blocks.OBSIDIAN)));
+    public static final DeferredBlock<TableBlock> PINE_TABLE = registerWithItem("pine_table", () -> new TableBlock(PINE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)));
+    public static final DeferredBlock<TableBlock> POLISHED_BLACKSTONE_TABLE = registerWithItem("polished_blackstone_table", () -> new TableBlock(POLISHED_BLACKSTONE, BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE)));
+    public static final DeferredBlock<TableBlock> SPRUCE_TABLE = registerWithItem("spruce_table", () -> new TableBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)));
+    public static final DeferredBlock<TableBlock> STONE_TABLE = registerWithItem("stone_table", () -> new TableBlock(STONE, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredBlock<TableBlock> WARPED_TABLE = registerWithItem("warped_table", () -> new TableBlock(WARPED, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_PLANKS)));
+
+    public static final DeferredBlock<TableBlock> BONE_TABLE = registerWithItem("bone_table", () -> new TableBlock(BONE, BlockBehaviour.Properties.ofFullCopy(Blocks.BONE_BLOCK)));
     public static final DeferredBlock<TableBlock> CACTUS_TABLE = registerWithItem("cactus_table", () -> new TableBlock(CACTUS, BlockBehaviour.Properties.ofFullCopy(Blocks.CACTUS)));
 
     public static final DeferredBlock<PinWheel> PIN_WHEEL = registerWithoutItem("pin_wheel", () -> new PinWheel(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO).noCollission()));

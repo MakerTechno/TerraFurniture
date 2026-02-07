@@ -13,7 +13,7 @@ import java.util.function.Function;
  * 简化Geo物品渲染中提供方块实体模型的通用类，将会向{@link CacheBlockModel}缓存对应的模型、贴图与动画。
  */
 public class CacheItemRefBlockModel<T extends BlockItem & GeoItem> extends GeoModel<T> {
-    private final Function<String, ResourceLocation> pathApplier;
+    protected final Function<String, ResourceLocation> pathApplier;
     /**
      * 创建一个缓存的Geo模型
      * @apiNote 使用该类的物品(一般逻辑上只能是方块物品)id必须对应一系列存在于由提供的位置处理器所处理的对应位置的文件:<p>

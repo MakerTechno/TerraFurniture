@@ -65,6 +65,23 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.BLUE_DUNGEON_CLOCK.get(), "蓝地牢时钟");
         add(TFBlocks.BLUE_DUNGEON_BATHTUB.get(), "蓝地牢浴缸");
 
+        add(TFBlocks.ACACIA_TABLE.get(), "金合欢木桌");
+        add(TFBlocks.BAMBOO_TABLE.get(), "竹桌");
+        add(TFBlocks.BIRCH_TABLE.get(), "白桦木桌");
+        add(TFBlocks.CHERRY_TABLE.get(), "樱花木桌");
+        add(TFBlocks.CRIMSON_TABLE.get(), "绯红木桌");
+        add(TFBlocks.DARK_OAK_TABLE.get(), "深色橡木桌");
+        add(TFBlocks.GOLD_TABLE.get(), "金桌");
+        add(TFBlocks.JUNGLE_TABLE.get(), "丛林木桌");
+        add(TFBlocks.MANGROVE_TABLE.get(), "红木桌");
+        add(TFBlocks.OBSIDIAN_TABLE.get(), "黑曜石桌");
+        add(TFBlocks.PINE_TABLE.get(), "松木桌");
+        add(TFBlocks.POLISHED_BLACKSTONE_TABLE.get(), "磨制黑石桌");
+        add(TFBlocks.SPRUCE_TABLE.get(), "云杉木桌");
+        add(TFBlocks.STONE_TABLE.get(), "石桌");
+        add(TFBlocks.WARPED_TABLE.get(), "诡异木桌");
+
+
         add(TFBlocks.WOODEN_CHAIR.get(), "木椅");
         add(TFBlocks.WOODEN_TABLE.get(), "木桌");
 

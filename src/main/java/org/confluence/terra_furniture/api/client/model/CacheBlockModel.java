@@ -14,10 +14,10 @@ import java.util.function.Function;
  * 简化Geo方块实体模型提供的通用类，将会缓存对应的模型、贴图与动画。
  */
 public class CacheBlockModel<T extends BlockEntity & GeoBlockEntity> extends GeoModel<T> {
-    private final Function<String, ResourceLocation> pathApplier;
-    protected static final ConcurrentHashMap<String, ResourceLocation> MODEL = new ConcurrentHashMap<>();
-    protected static final ConcurrentHashMap<String, ResourceLocation> TEXTURE = new ConcurrentHashMap<>();
-    protected static final ConcurrentHashMap<String, ResourceLocation> ANIMATION = new ConcurrentHashMap<>();
+    protected final Function<String, ResourceLocation> pathApplier;
+    public static final ConcurrentHashMap<String, ResourceLocation> MODEL = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, ResourceLocation> TEXTURE = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, ResourceLocation> ANIMATION = new ConcurrentHashMap<>();
     /**
      * 创建一个缓存的Geo模型
      * @apiNote 使用该类的方块id必须对应一系列存在于由提供的位置处理器所处理的对应位置的文件:<p>
