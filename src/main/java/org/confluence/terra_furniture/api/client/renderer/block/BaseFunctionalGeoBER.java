@@ -15,10 +15,8 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
-import software.bernie.geckolib.cache.texture.GeoAbstractTexture;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
-import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 import java.util.*;
 import java.util.function.*;
@@ -70,7 +68,8 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             renderer = constructor.get();
         }
         /**
-         * 构造一个 Builder 实例，绑定指定模型与渲染模式。
+         * 构造一个 Builder 实例，绑定指定模型与渲染模式。<p>
+         * 注意: 静态化获取, 需要注意每个子类都有其独特的获取方法, 而非一味使用该方法。
          *
          * @param model 渲染使用的模型
          * @param isNegative 是否启用负体积渲染(RenderType:entityCutout)
@@ -82,7 +81,8 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
         }
         /**
          * 使用默认模型创建 Builder 实例，无需编辑自定义模型。
-         * <p><b>注意: 默认使用 {@link CacheBlockModel} 实例，请明确已经知悉该类的相关注意事项</b></p>
+         * <p><b>注意: 默认使用 {@link CacheBlockModel} 实例，请明确已经知悉该类的相关注意事项</b></p><p>
+         * 注意: 静态化获取, 需要注意每个子类都有其独特的获取方法, 而非一味使用该方法。
          *
          * @param isNegative 是否启用负体积渲染(RenderType:entityCutout)
          * @param <O> 方块实体类型
@@ -112,17 +112,6 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
          */
         public Builder<B, T> addRenderHook(IRenderFunctionHook<B> hook) {
             renderer.addRenderHook(hook);
-            return this;
-        }
-
-        /**
-         * 声明骨骼拥有发光层。
-         * 你需要在对应贴图的同一位置额外放一个带_glowmask的图片
-         *
-         * @return 构建器自身
-         */
-        public Builder<B, T> canGlow() {
-            renderer.addGlowingLayer();
             return this;
         }
         /**
@@ -156,10 +145,9 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
         }
     }
     private final Map<Integer, GeoBoneOp> op = new HashMap<>();
-    private final Map<GeoBone, Integer> cachedBones = new HashMap<>();
+    private final Map<GeoBone, Integer> cachedBones = new HashMap<>(); // bone -> operation index
     private final List<IRenderFunctionHook<T>> hooks = new ArrayList<>();
     private final boolean isNegative;
-    private boolean bindGlowing = false;
     private boolean shouldRenderOffScreen = true;
     private Function<BlockPos, AABB> applied = null;
     private int maxFloor = 0;
@@ -180,18 +168,6 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
 
     void addBoneOp(Pair<Integer, Predicate<GeoBone>> selector, BiConsumer<GeoBone, T> operation) {
         op.put(op.size(), new GeoBoneOp(selector, operation));
-    }
-
-    void addGlowingLayer() {
-        if (!bindGlowing) {
-            addRenderLayer(new AutoGlowingGeoLayer<>(this) {
-                @Override
-                protected RenderType getRenderType(T animatable, @Nullable MultiBufferSource bufferSource) {
-                    return RenderType.eyes(GeoAbstractTexture.appendToPath(getTextureLocation(animatable), "_glowmask"));
-                }
-            });
-            bindGlowing = true;
-        }
     }
 
     void addRenderHook(IRenderFunctionHook<T> hook) {

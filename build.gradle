@@ -18,6 +18,12 @@ repositories {
         }
     }
     maven {
+        url = "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
         // location of the maven that hosts JEI files since January 2023
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
@@ -166,15 +172,15 @@ dependencies {
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
 
-    //compileOnly "curse.maven:irisshaders-455508:6661598"
-    //runtimeOnly "curse.maven:irisshaders-455508:6661598"
+    compileOnly "curse.maven:irisshaders-455508:6661598"
+    runtimeOnly "curse.maven:irisshaders-455508:6661598"
 
     // sodium
-    //compileOnly "curse.maven:sodium-394468:6382651"
-    //runtimeOnly "curse.maven:sodium-394468:6382651"
+    compileOnly "curse.maven:sodium-394468:6382651"
+    runtimeOnly "curse.maven:sodium-394468:6382651"
 
-    //compileOnly "curse.maven:dynamiclights-reforged-551736:5807536"
-    //runtimeOnly "curse.maven:dynamiclights-reforged-551736:5807536"
+    compileOnly "curse.maven:dynamiclights-reforged-551736:5807536"
+    runtimeOnly "curse.maven:dynamiclights-reforged-551736:5807536"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

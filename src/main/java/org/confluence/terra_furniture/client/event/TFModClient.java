@@ -15,6 +15,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.confluence.terra_furniture.TerraFurniture;
+import org.confluence.terra_furniture.api.client.renderer.TFRenderType;
 import org.confluence.terra_furniture.api.client.renderer.block.BaseFunctionalGeoBER;
 import org.confluence.terra_furniture.api.client.renderer.block.CommonRenderHooks;
 import org.confluence.terra_furniture.api.client.renderer.block.MultiRenderTypeGeoBER;
@@ -58,8 +59,8 @@ public final class TFModClient {
                 context ->  MultiRenderTypeGeoBER.Builder.<LargeChandelierBlock.BEntity>ofMRT()
                         .addOperationBindRule(3, FLAME, TFModClient::litControlledHide)
                         .setDefaultRenderType(RenderType::entityCutout)
-                        .addRenderRule(3, FLAME, RenderType::text)
-                        .canGlow()
+                        .addRenderRule(3, FLAME, TFRenderType::entityCutoutNoShadow)
+                        .addGlowingLayerBindRule(3, FLAME)
                         .addRenderHook(CommonRenderHooks.swaying())
                         .renderBox(pos -> new AABB(pos.getX() -1, pos.getY(), pos.getZ()-1, pos.getX() +1, pos.getY() -1, pos.getZ() +1))
                         .build()
