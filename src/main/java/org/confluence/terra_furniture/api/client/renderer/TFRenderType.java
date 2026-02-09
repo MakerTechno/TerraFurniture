@@ -22,7 +22,7 @@ public class TFRenderType {
                 .setShaderState(RENDERTYPE_ENTITY_CUTOUT_SHADER)
                 .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                 .setTransparencyState(NO_TRANSPARENCY)
-                .setLightmapState(new RenderStateShard.LightmapStateShard(false)) // 关键：禁用光照贴图
+                .setLightmapState(NO_LIGHTMAP)
                 .setOverlayState(OVERLAY)
                 .createCompositeState(true);
 
@@ -31,8 +31,8 @@ public class TFRenderType {
                 DefaultVertexFormat.NEW_ENTITY,
                 VertexFormat.Mode.QUADS,
                 1536,
-                true,  // affects culling
-                false, // no depth sorting
+                true,
+                false,
                 compositeState
         );
     });
