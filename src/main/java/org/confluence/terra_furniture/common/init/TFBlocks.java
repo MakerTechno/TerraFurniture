@@ -30,6 +30,8 @@ import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.SofaBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
+import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
+import org.confluence.terra_furniture.common.block.sleep.TFBedBlock;
 import org.confluence.terra_furniture.common.item.FishBowlItem;
 import org.confluence.terra_furniture.common.item.SimpleGeoRenderedItem;
 import org.jetbrains.annotations.NotNull;
@@ -60,6 +62,7 @@ public final class TFBlocks {
     public static final DeferredBlock<LivingLoomBlock> LIVING_LOOM = registerWithItem("living_loom", () -> new LivingLoomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LOOM)));
     public static final DeferredBlock<IceMachineBlock> ICE_MACHINE = registerWithItem("ice_machine", () -> new IceMachineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRINDSTONE)));
 
+    public static final DeferredBlock<TFBedBlock> BED = registerWithItem("flinx_fur_bed", () -> new TFBedBlock(OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
 
     public static final DeferredBlock<ChairBlock> GLASS_CHAIR = registerChairDiscardItem("glass_chair", GLASS, Blocks.GLASS, properties -> {}, 0.5f);
     public static final DeferredBlock<SofaBlock> GLASS_SOFA = registerSofaDiscardItem("glass_sofa", GLASS, Blocks.GLASS, properties -> {});

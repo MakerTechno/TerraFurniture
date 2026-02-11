@@ -6,7 +6,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.CanContinueSleepingEvent;
 import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.block.misc.BathtubBlock;
+import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
 
 @EventBusSubscriber(modid = TerraFurniture.MODID)
 public final class TFGameEvents {

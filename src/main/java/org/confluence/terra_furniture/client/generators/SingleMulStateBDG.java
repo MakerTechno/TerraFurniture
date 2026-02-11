@@ -20,7 +20,7 @@ public abstract class SingleMulStateBDG<S extends Enum<S> & StringRepresentable,
         isBlockValid = true; // Reversed state
         Map<S, ModelFile> propModelMap = new HashMap<>();
         for (S prop : block.getEnumPropertyObjects()) {
-            propModelMap.put(prop, fullGenBlock(block, builderProvider.models(), helper, prop.getSerializedName(), true));
+            propModelMap.put(prop, fullGenBlock(block, builderProvider.models(), helper, prop.getSerializedName(), isSingleTexture()));
         }
 
         propModelMap.values().forEach(modelFile -> {
@@ -37,5 +37,9 @@ public abstract class SingleMulStateBDG<S extends Enum<S> & StringRepresentable,
 
     public static boolean isBase(BlockState state) {
         return state.getValue(StateProperties.FORWARD_TWO_PART).isBase();
+    }
+
+    public boolean isSingleTexture() {
+        return true;
     }
 }
