@@ -34,8 +34,8 @@
 		},
 		{
 			"name": "bedwood",
-			"from": [0, 9, 16],
-			"to": [16, 16, 16],
+			"from": [0, 9, 15.991],
+			"to": [16, 16, 15.991],
 			"rotation": {"angle": 0, "axis": "y", "origin": [13, 9, 13]},
 			"faces": {
 				"north": {"uv": [12, 0, 16, 1.75], "texture": "#particle"},
