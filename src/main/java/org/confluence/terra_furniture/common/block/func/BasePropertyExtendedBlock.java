@@ -16,7 +16,11 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
+import org.confluence.terra_furniture.common.init.TFBlockSetTypes;
 
 import java.util.function.Consumer;
 
@@ -72,7 +76,7 @@ public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBl
 
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
-        return !state.getValue(WATERLOGGED);
+        return getType().equals(TFBlockSetTypes.GLASS) || super.propagatesSkylightDown(state, reader, pos);
     }
 
     @Override
@@ -117,4 +121,16 @@ public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBl
     public TFBlockSetType getType() {
         return type;
     }
+
+
+    @Override
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return getType().equals(TFBlockSetTypes.GLASS) ? Shapes.empty() : super.getVisualShape(state, level, pos, context);
+    }
+
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+        return getType().equals(TFBlockSetTypes.GLASS) ? 1.0F : super.getShadeBrightness(state, level, pos);
+    }
+
 }
