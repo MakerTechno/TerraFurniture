@@ -10,7 +10,8 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.init.TFTags;
 
 import java.util.HashSet;
@@ -44,8 +45,8 @@ public class BathtubBlock extends TFBedBlock {
     }
 
     @Override
-    public String getBlockTypeName() {
-        return "bathtub";
+    public TFBlockType<? extends BathtubBlock> getBlockType() {
+        return TFBlockType.BATHTUB;
     }
 
     @Override

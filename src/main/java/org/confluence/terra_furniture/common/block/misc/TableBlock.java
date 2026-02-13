@@ -19,7 +19,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import org.confluence.terra_furniture.client.generators.TableBDG;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
-import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.confluence.terra_furniture.common.init.TFTags;
@@ -106,8 +107,8 @@ public class TableBlock extends CrossCollisionBlock implements AutoGenBlockData<
     public @Nullable BlockDataGenerator<? super TableBlock> getGenerator() {
         return new TableBDG() {
             @Override
-            public String getTemplateType(TableBlock block) {
-                return "table";
+            public TFBlockType<TableBlock> getTemplateType(TableBlock block) {
+                return TFBlockType.TABLE;
             }
 
             @Override

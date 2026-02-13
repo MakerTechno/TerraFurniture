@@ -6,7 +6,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,55 +19,41 @@ import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.crafting.GlassKilnBlock;
 import org.confluence.terra_furniture.common.block.crafting.IceMachineBlock;
 import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
-import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
-import org.confluence.terra_furniture.common.block.light.BlockShapeType;
-import org.confluence.terra_furniture.common.block.light.CandelabraBlock;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSet;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
-import org.confluence.terra_furniture.common.block.light.SwitchableLightBlock;
 import org.confluence.terra_furniture.common.block.misc.*;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
-import org.confluence.terra_furniture.common.block.sittable.SofaBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
-import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
-import org.confluence.terra_furniture.common.block.sleep.TFBedBlock;
 import org.confluence.terra_furniture.common.item.FishBowlItem;
 import org.confluence.terra_furniture.common.item.SimpleGeoRenderedItem;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
+import java.util.stream.Stream;
 
 import static org.confluence.terra_furniture.common.init.TFBlockSetTypes.*;
 
 @SuppressWarnings("unused")
 public final class TFBlocks {
+    /* The Registers */
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(TerraFurniture.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, TerraFurniture.MODID);
-    private static List<DeferredBlock<?>> chairBlocks = new LinkedList<>();
-    private static List<DeferredBlock<?>> toiletBlocks = new LinkedList<>();
-    private static List<DeferredBlock<ClockBlock>> clockBlocks = new LinkedList<>();
-    private static List<DeferredBlock<LargeChandelierBlock>> largeChandelierBlocks = new LinkedList<>();
 
-    public static final DeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(property -> property.lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PlasticChairBlock.PlasticChairBE>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register("plastic_chair_entity", () -> BlockEntityType.Builder.of(PlasticChairBlock.PlasticChairBE::new, PLASTIC_CHAIR.get()).build(DSL.remainderType()));
 
+    /* Working machines for crafting furniture */
     public static final DeferredBlock<GlassKilnBlock> GLASS_KILN = registerWithItem("glass_kiln", () -> new GlassKilnBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE)));
     public static final Supplier<BlockEntityType<GlassKilnBlock.Entity>> GLASS_KILN_ENTITY = BLOCK_ENTITIES.register("glass_kiln_entity", () -> BlockEntityType.Builder.of(GlassKilnBlock.Entity::new, GLASS_KILN.get()).build(DSL.remainderType()));
     public static final DeferredBlock<LivingLoomBlock> LIVING_LOOM = registerWithItem("living_loom", () -> new LivingLoomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LOOM)));
     public static final DeferredBlock<IceMachineBlock> ICE_MACHINE = registerWithItem("ice_machine", () -> new IceMachineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRINDSTONE)));
 
-    public static final DeferredBlock<TFBedBlock> BED = registerWithItem("flinx_fur_bed", () -> new TFBedBlock(OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+    /* I AM THE STORM THAT IS APPROACHING!! */
+    public static final DeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(property -> property.lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PlasticChairBlock.PlasticChairBE>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register("plastic_chair_entity", () -> BlockEntityType.Builder.of(PlasticChairBlock.PlasticChairBE::new, PLASTIC_CHAIR.get()).build(DSL.remainderType()));
 
-    public static final DeferredBlock<ChairBlock> GLASS_CHAIR = registerChairDiscardItem("glass_chair", GLASS, Blocks.GLASS, properties -> {}, 0.5f);
-    public static final DeferredBlock<SofaBlock> GLASS_SOFA = registerSofaDiscardItem("glass_sofa", GLASS, Blocks.GLASS, properties -> {});
-    public static final DeferredBlock<ToiletBlock> GLASS_TOILET = registerToiletDiscardItem("glass_toilet", GLASS, Blocks.GLASS, properties -> {});
-    public static final DeferredBlock<SinkBlock> GLASS_SINK = registerSinkDiscardItem("glass_sink", GLASS, Blocks.GLASS, properties -> {});
-
+    /* Special furniture, not belongs to any furniture set */
     public static final DeferredBlock<Block> FISH_BOWL = registerWithItem("fish_bowl", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final DeferredBlock<Block> GOLD_FISH_BOWL = registerWithItem("gold_fish_bowl", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final DeferredBlock<Block> PUPFISH_BOWL = registerWithItem("pupfish_bowl", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
@@ -76,53 +61,119 @@ public final class TFBlocks {
     public static final DeferredBlock<TrashCanBlock> TRASH_CAN = registerWithItem("trash_can", () -> new TrashCanBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BARS)));
     public static final Supplier<BlockEntityType<TrashCanBlock.Entity>> TRASH_CAN_ENTITY = BLOCK_ENTITIES.register("trash_can_entity", () -> BlockEntityType.Builder.of(TrashCanBlock.Entity::new, TRASH_CAN.get()).build(DSL.remainderType()));
 
+    /*
+        Furniture sets.
+        Use Simplified Chinese to label each type.
+        It is strongly recommended to sort these in the same order as TFBlockSetTypes.
+        TODO: Sort all these sets
+    */
+
     // 玻璃
-    public static final DeferredBlock<DoorBlock> GLASS_DOOR = registerWithItem("glass_door", () -> new TFDoorBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
-    public static final DeferredBlock<TableBlock> GLASS_TABLE = registerWithItem("glass_table", () -> new TableBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
-    public static final DeferredBlock<SwitchableLightBlock> GLASS_CANDLE = registerWithItem("glass_candle", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(14)), BlockShapeType.CANDLE));
-    public static final DeferredBlock<SwitchableLightBlock> GLASS_CHANDELIER = registerWithItem("glass_chandelier", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(14)), BlockShapeType.CHANDELIER));
-    public static final DeferredBlock<SwitchableLightBlock> GLASS_LANTERN = registerWithItem("glass_lantern", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15)), BlockShapeType.LANTERN));
-    public static final DeferredBlock<SwitchableLightBlock> GLASS_LAMP = registerWithItem("glass_lamp", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15)), BlockShapeType.LAMP));
-    public static final DeferredBlock<CandelabraBlock> GLASS_CANDELABRAS = registerWithItem("glass_candelabras", () -> new CandelabraBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<ClockBlock> GLASS_CLOCK = registerClock("glass_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
-    public static final DeferredBlock<BathtubBlock> GLASS_BATHTUB = registerWithItem("glass_bathtub", () -> new BathtubBlock(GLASS, BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)));
+    public static final TFBlockSet GLASS_SET = new TFBlockSet.Builder(GLASS, Blocks.GLASS, true)
+            .disableVanilla()
+            .setAvailabilityFor(TFBlockType.BED, false)
+            .setAvailabilityFor(TFBlockType.LARGE_CHANDELIER, false)
+            .doLightSetup(14, 14, 15, 15, 15)
+            .build();
+
+    // 橡木
+    public static final TFBlockSet OAK_SET = new TFBlockSet.Builder(OAK, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.CHAIR, true)
+            .setSpecialIdFor(TFBlockType.CHAIR, "wooden_chair")
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .setSpecialIdFor(TFBlockType.TABLE, "wooden_table")
+            .build();
 
     // 蓝地牢
-    public static final DeferredBlock<ChairBlock> BLUE_DUNGEON_CHAIR = registerChairDiscardItem("blue_dungeon_chair", BLUE_DUNGEON, Blocks.STONE, properties -> {}, 0.5f);
-    public static final DeferredBlock<SofaBlock> BLUE_DUNGEON_SOFA = registerSofaDiscardItem("blue_dungeon_sofa", BLUE_DUNGEON, Blocks.STONE, properties -> {});
-    public static final DeferredBlock<ToiletBlock> BLUE_DUNGEON_TOILET = registerToiletDiscardItem("blue_dungeon_toilet", BLUE_DUNGEON, Blocks.STONE, properties -> {});
-    public static final DeferredBlock<SinkBlock> BLUE_DUNGEON_SINK = registerSinkDiscardItem("blue_dungeon_sink", BLUE_DUNGEON, Blocks.STONE, properties -> {});
-    public static final DeferredBlock<DoorBlock> BLUE_DUNGEON_DOOR = registerWithItem("blue_dungeon_door", () -> new TFDoorBlock(BLUE_DUNGEON, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
-    public static final DeferredBlock<TableBlock> BLUE_DUNGEON_TABLE = registerWithItem("blue_dungeon_table", () -> new TableBlock(BLUE_DUNGEON, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
-    public static final DeferredBlock<SwitchableLightBlock> BLUE_DUNGEON_CANDLE = registerWithItem("blue_dungeon_candle", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE));
-    public static final DeferredBlock<SwitchableLightBlock> BLUE_DUNGEON_LANTERN = registerWithItem("blue_dungeon_lantern", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.LANTERN));
-    public static final DeferredBlock<SwitchableLightBlock> BLUE_DUNGEON_LAMP = registerWithItem("blue_dungeon_lamp", () -> new SwitchableLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15)), BlockShapeType.LAMP));
-    public static final DeferredBlock<CandelabraBlock> BLUE_DUNGEON_CANDELABRAS = registerWithItem("blue_dungeon_candelabras", () -> new CandelabraBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).lightLevel(litBlockEmission(15))));
-    public static final DeferredBlock<ClockBlock> BLUE_DUNGEON_CLOCK = registerClock("blue_dungeon_clock", () -> new ClockBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
-    public static final DeferredBlock<BathtubBlock> BLUE_DUNGEON_BATHTUB = registerWithItem("blue_dungeon_bathtub", () -> new BathtubBlock(BLUE_DUNGEON, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
-    public static final DeferredBlock<LargeChandelierBlock> BLUE_DUNGEON_CHANDELIER = registerLargeChandelier("blue_dungeon_chandelier", () -> new LargeChandelierBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noCollission().lightLevel(litBlockEmission(15))));
+    public static final TFBlockSet BLUE_DUNGEON_SET = new TFBlockSet.Builder(BLUE_DUNGEON, Blocks.STONE, true)
+            .disableVanilla()
+            .setAvailabilityFor(TFBlockType.BED, false)
+            .setAvailabilityFor(TFBlockType.CHANDELIER, false) // Only Large Chandelier, this two has the same id
+            .doLightSetup(14, 14, 15, 15, 15)
+            .build();
 
-    // 木质
-    public static final DeferredBlock<ChairBlock> WOODEN_CHAIR = registerChairDiscardItem("wooden_chair", OAK, Blocks.OAK_PLANKS, properties -> {}, 0.5f);
-    public static final DeferredBlock<TableBlock> WOODEN_TABLE = registerWithItem("wooden_table", () -> new TableBlock(OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
-    public static final DeferredBlock<TableBlock> ACACIA_TABLE = registerWithItem("acacia_table", () -> new TableBlock(ACACIA, BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_PLANKS)));
-    public static final DeferredBlock<TableBlock> BAMBOO_TABLE = registerWithItem("bamboo_table", () -> new TableBlock(BAMBOO, BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS)));
-    public static final DeferredBlock<TableBlock> BIRCH_TABLE = registerWithItem("birch_table", () -> new TableBlock(BIRCH, BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_PLANKS)));
-    public static final DeferredBlock<TableBlock> CHERRY_TABLE = registerWithItem("cherry_table", () -> new TableBlock(CHERRY, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS)));
-    public static final DeferredBlock<TableBlock> CRIMSON_TABLE = registerWithItem("crimson_table", () -> new TableBlock(CRIMSON, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_PLANKS)));
-    public static final DeferredBlock<TableBlock> DARK_OAK_TABLE = registerWithItem("dark_oak_table", () -> new TableBlock(DARK_OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_PLANKS)));
-    public static final DeferredBlock<TableBlock> GOLD_TABLE = registerWithItem("gold_table", () -> new TableBlock(GOLD, BlockBehaviour.Properties.ofFullCopy(Blocks.GOLD_BLOCK)));
-    public static final DeferredBlock<TableBlock> JUNGLE_TABLE = registerWithItem("jungle_table", () -> new TableBlock(JUNGLE, BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_PLANKS)));
-    public static final DeferredBlock<TableBlock> MANGROVE_TABLE = registerWithItem("mangrove_table", () -> new TableBlock(MANGROVE, BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_PLANKS)));
-    public static final DeferredBlock<TableBlock> OBSIDIAN_TABLE = registerWithItem("obsidian_table", () -> new TableBlock(OBSIDIAN, BlockBehaviour.Properties.ofFullCopy(Blocks.OBSIDIAN)));
-    public static final DeferredBlock<TableBlock> PINE_TABLE = registerWithItem("pine_table", () -> new TableBlock(PINE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)));
-    public static final DeferredBlock<TableBlock> POLISHED_BLACKSTONE_TABLE = registerWithItem("polished_blackstone_table", () -> new TableBlock(POLISHED_BLACKSTONE, BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE)));
-    public static final DeferredBlock<TableBlock> SPRUCE_TABLE = registerWithItem("spruce_table", () -> new TableBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)));
-    public static final DeferredBlock<TableBlock> STONE_TABLE = registerWithItem("stone_table", () -> new TableBlock(STONE, BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
-    public static final DeferredBlock<TableBlock> WARPED_TABLE = registerWithItem("warped_table", () -> new TableBlock(WARPED, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_PLANKS)));
+    public static final TFBlockSet ACACIA_SET = new TFBlockSet.Builder(ACACIA, Blocks.ACACIA_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
 
-    public static final DeferredBlock<TableBlock> BONE_TABLE = registerWithItem("bone_table", () -> new TableBlock(BONE, BlockBehaviour.Properties.ofFullCopy(Blocks.BONE_BLOCK)));
-    public static final DeferredBlock<TableBlock> CACTUS_TABLE = registerWithItem("cactus_table", () -> new TableBlock(CACTUS, BlockBehaviour.Properties.ofFullCopy(Blocks.CACTUS)));
+    public static final TFBlockSet CACTUS_SET = new TFBlockSet.Builder(CACTUS, Blocks.CACTUS, false)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet BAMBOO_SET = new TFBlockSet.Builder(BAMBOO, Blocks.BAMBOO_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet BIRCH_SET = new TFBlockSet.Builder(BIRCH, Blocks.BIRCH_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet CHERRY_SET = new TFBlockSet.Builder(CHERRY, Blocks.CHERRY_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet CRIMSON_SET = new TFBlockSet.Builder(CRIMSON, Blocks.CRIMSON_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet DARK_OAK_SET = new TFBlockSet.Builder(DARK_OAK, Blocks.DARK_OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet GOLD_SET = new TFBlockSet.Builder(GOLD, Blocks.GOLD_BLOCK, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet JUNGLE_SET = new TFBlockSet.Builder(JUNGLE, Blocks.JUNGLE_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet MANGROVE_SET = new TFBlockSet.Builder(MANGROVE, Blocks.MANGROVE_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet OBSIDIAN_SET = new TFBlockSet.Builder(OBSIDIAN, Blocks.OBSIDIAN, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet PINE_SET = new TFBlockSet.Builder(PINE, Blocks.SPRUCE_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet POLISHED_BLACKSTONE_SET = new TFBlockSet.Builder(POLISHED_BLACKSTONE, Blocks.POLISHED_BLACKSTONE, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet SPRUCE_SET = new TFBlockSet.Builder(SPRUCE, Blocks.SPRUCE_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet STONE_SET = new TFBlockSet.Builder(STONE, Blocks.STONE, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet WARPED_SET = new TFBlockSet.Builder(WARPED, Blocks.WARPED_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet BONE_SET = new TFBlockSet.Builder(BONE, Blocks.BONE_BLOCK, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet FLINX_FUR_SET = new TFBlockSet.Builder(FLINX_FUR, Blocks.WHITE_WOOL, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.BED, true)
+            .build();
+    public static final TFBlockSet MARBLE_SET = new TFBlockSet.Builder(MARBLE, Blocks.GRANITE, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet BALLOON_SET = new TFBlockSet.Builder(BALLOON, Blocks.DIRT, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
 
     public static final DeferredBlock<PinWheel> PIN_WHEEL = registerWithoutItem("pin_wheel", () -> new PinWheel(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO).noCollission()));
     public static final DeferredItem<SimpleGeoRenderedItem> PIN_WHEEL_ITEM = TFItems.BLOCK_ITEMS.register("pin_wheel", () -> new SimpleGeoRenderedItem(PIN_WHEEL.get(), new Item.Properties(), false));
@@ -139,27 +190,37 @@ public final class TFBlocks {
             () -> BlockEntityType.Builder.of(PinWheel.BEntity::new, PIN_WHEEL.get()).build(DSL.remainderType())
     );
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LargeChandelierBlock.BEntity>> LARGE_CHANDELIER_ENTITY = BLOCK_ENTITIES.register("large_chandelier_entity", () -> {
-        BlockEntityType<LargeChandelierBlock.BEntity> entityType = BlockEntityType.Builder.of(LargeChandelierBlock.BEntity::new, largeChandelierBlocks.stream().map(DeferredBlock::get).toArray(Block[]::new)).build(DSL.remainderType());
-        largeChandelierBlocks = null;
-        return entityType;
-    });
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LargeChandelierBlock.BEntity>> LARGE_CHANDELIER_ENTITY = BLOCK_ENTITIES.register(
+            "large_chandelier_entity",
+            () -> BlockEntityType.Builder.of(
+                    LargeChandelierBlock.BEntity::new,
+                    TFBlockType.LARGE_CHANDELIER.getAll().stream().map(DeferredBlock::get).toArray(Block[]::new)
+            ).build(DSL.remainderType())
+    );
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChairBlock.ChairBE>> CHAIR_ENTITY = BLOCK_ENTITIES.register("chair_entity", () -> {
-        BlockEntityType<ChairBlock.ChairBE> entityType = BlockEntityType.Builder.of(ChairBlock.ChairBE::new, chairBlocks.stream().map(DeferredBlock::get).toArray(Block[]::new)).build(DSL.remainderType());
-        chairBlocks = null;
-        return entityType;
-    });
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ToiletBlock.ToiletBE>> TOILET_ENTITY = BLOCK_ENTITIES.register("toilet_entity", () -> {
-        BlockEntityType<ToiletBlock.ToiletBE> entityType = BlockEntityType.Builder.of(ToiletBlock.ToiletBE::new, toiletBlocks.stream().map(DeferredBlock::get).toArray(Block[]::new)).build(DSL.remainderType());
-        toiletBlocks = null;
-        return entityType;
-    });
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ClockBlock.Entity>> CLOCK_ENTITY = BLOCK_ENTITIES.register("clock_entity", () -> {
-        BlockEntityType<ClockBlock.Entity> entityType = BlockEntityType.Builder.of(ClockBlock.Entity::new, clockBlocks.stream().map(DeferredBlock::get).toArray(Block[]::new)).build(DSL.remainderType());
-        clockBlocks = null;
-        return entityType;
-    });
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChairBlock.ChairBE>> CHAIR_ENTITY = BLOCK_ENTITIES.register(
+            "chair_entity",
+            () -> BlockEntityType.Builder.of(
+                    ChairBlock.ChairBE::new,
+                    Stream.concat(TFBlockType.CHAIR.getAll().stream(), TFBlockType.SOFA.getAll().stream()).map(DeferredBlock::get).toArray(Block[]::new)
+            ).build(DSL.remainderType())
+    );
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ToiletBlock.ToiletBE>> TOILET_ENTITY = BLOCK_ENTITIES.register(
+            "toilet_entity",
+            () -> BlockEntityType.Builder.of(
+                    ToiletBlock.ToiletBE::new,
+                    TFBlockType.TOILET.getAll().stream().map(DeferredBlock::get).toArray(Block[]::new)
+            ).build(DSL.remainderType())
+    );
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ClockBlock.Entity>> CLOCK_ENTITY = BLOCK_ENTITIES.register(
+            "clock_entity",
+            () -> BlockEntityType.Builder.of(
+                    ClockBlock.Entity::new,
+                    TFBlockType.CLOCK.getAll().stream().map(DeferredBlock::get).toArray(Block[]::new)
+            ).build(DSL.remainderType())
+    );
 
 
 
@@ -188,68 +249,14 @@ public final class TFBlocks {
         BLOCK_ENTITIES.register(eventBus);
     }
 
-    public static @NotNull DeferredBlock<ChairBlock> registerChair(String id, TFBlockSetType type, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp, float sitYOff) {
-        DeferredBlock<ChairBlock> block = BLOCKS.register(id, () -> new ChairBlock(type, asBlock.defaultBlockState(), extraProp, sitYOff));
-        chairBlocks.add(block);
-        return block;
-    }
-
-    public static @NotNull DeferredBlock<ChairBlock> registerChairDiscardItem(String id, TFBlockSetType type, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp, float sitYOff) {
-        DeferredBlock<ChairBlock> block = registerChair(id, type, asBlock, extraProp, sitYOff);
-        TFItems.BLOCK_ITEMS.registerSimpleBlockItem(block);
-        return block;
-    }
-
-    public static @NotNull DeferredBlock<SofaBlock> registerSofa(String id, TFBlockSetType type, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
-        DeferredBlock<SofaBlock> block = BLOCKS.register(id, () -> new SofaBlock(type, asBlock.defaultBlockState(), extraProp, 0.55f));
-        chairBlocks.add(block);
-        return block;
-    }
-
-    public static @NotNull DeferredBlock<SofaBlock> registerSofaDiscardItem(String id, TFBlockSetType type, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
-        DeferredBlock<SofaBlock> block = registerSofa(id, type, asBlock, extraProp);
-        TFItems.BLOCK_ITEMS.registerSimpleBlockItem(block);
-        return block;
-    }
-
-    public static @NotNull DeferredBlock<ToiletBlock> registerToilet(String id, TFBlockSetType type, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
-        DeferredBlock<ToiletBlock> block = BLOCKS.register(id, () -> new ToiletBlock(type, asBlock.defaultBlockState(), extraProp, 11.0f/16));
-        toiletBlocks.add(block);
-        return block;
-    }
-
-    public static @NotNull DeferredBlock<ToiletBlock> registerToiletDiscardItem(String id, TFBlockSetType type, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
-        DeferredBlock<ToiletBlock> block = registerToilet(id, type, asBlock, extraProp);
-        TFItems.BLOCK_ITEMS.registerSimpleBlockItem(block);
-        return block;
-    }
-
-    public static @NotNull DeferredBlock<SinkBlock> registerSink(String id, TFBlockSetType type, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
-        return BLOCKS.register(id, () -> new SinkBlock(type, asBlock.defaultBlockState(), extraProp));
-    }
-
-    public static @NotNull DeferredBlock<SinkBlock> registerSinkDiscardItem(String id, TFBlockSetType type, Block asBlock, @NotNull Consumer<BlockBehaviour.Properties> extraProp) {
-        DeferredBlock<SinkBlock> block = registerSink(id, type, asBlock, extraProp);
-        TFItems.BLOCK_ITEMS.registerSimpleBlockItem(block);
-        return block;
-    }
-
-    public static DeferredBlock<ClockBlock> registerClock(String id, Supplier<ClockBlock> block) {
-        DeferredBlock<ClockBlock> deferredBlock = BLOCKS.register(id, block);
-        clockBlocks.add(deferredBlock);
-        TFItems.BLOCK_ITEMS.register(id, () -> new ClockBlock.Item(deferredBlock.get(), new Item.Properties()));
-        return deferredBlock;
-    }
-
     public static DeferredBlock<LargeChandelierBlock> registerLargeChandelier(String id, Supplier<LargeChandelierBlock> block) {
         DeferredBlock<LargeChandelierBlock> deferredBlock = BLOCKS.register(id, block);
-        largeChandelierBlocks.add(deferredBlock);
         TFItems.BLOCK_ITEMS.register(id, () -> new LargeChandelierBlock.BItem(deferredBlock.get(), new Item.Properties()));
         return deferredBlock;
     }
 
 
-    private static ToIntFunction<BlockState> litBlockEmission(int lightValue) {
+    public static ToIntFunction<BlockState> litBlockEmission(int lightValue) {
         return blockState -> blockState.getValue(BlockStateProperties.LIT) ? lightValue : 0;
     }
 }

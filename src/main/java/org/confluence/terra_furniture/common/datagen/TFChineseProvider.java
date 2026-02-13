@@ -39,55 +39,57 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.HANGING_POT.get(), "吊挂盆");
 
         add(TFBlocks.PLASTIC_CHAIR.get(), "塑料椅");
-        add(TFBlocks.GLASS_DOOR.get(), "玻璃门");
-        add(TFBlocks.GLASS_CHAIR.get(), "玻璃椅");
-        add(TFBlocks.GLASS_TOILET.get(), "玻璃马桶");
-        add(TFBlocks.GLASS_TABLE.get(), "玻璃桌");
-        add(TFBlocks.GLASS_CANDLE.get(), "玻璃蜡烛");
-        add(TFBlocks.GLASS_LANTERN.get(), "玻璃灯笼");
-        add(TFBlocks.GLASS_SOFA.get(), "玻璃沙发");
-        add(TFBlocks.GLASS_LAMP.get(), "玻璃灯");
-        add(TFBlocks.GLASS_CANDELABRAS.get(), "玻璃烛台");
-        add(TFBlocks.GLASS_SINK.get(), "玻璃水槽");
-        add(TFBlocks.GLASS_CLOCK.get(), "玻璃时钟");
-        add(TFBlocks.GLASS_BATHTUB.get(), "玻璃浴缸");
+        add(TFBlocks.GLASS_SET.DOOR.get(), "玻璃门");
+        add(TFBlocks.GLASS_SET.CHAIR.get(), "玻璃椅");
+        add(TFBlocks.GLASS_SET.TOILET.get(), "玻璃马桶");
+        add(TFBlocks.GLASS_SET.TABLE.get(), "玻璃桌");
+        add(TFBlocks.GLASS_SET.CANDLE.get(), "玻璃蜡烛");
+        add(TFBlocks.GLASS_SET.LANTERN.get(), "玻璃灯笼");
+        add(TFBlocks.GLASS_SET.SOFA.get(), "玻璃沙发");
+        add(TFBlocks.GLASS_SET.LAMP.get(), "玻璃灯");
+        add(TFBlocks.GLASS_SET.CANDELABRAS.get(), "玻璃烛台");
+        add(TFBlocks.GLASS_SET.SINK.get(), "玻璃水槽");
+        add(TFBlocks.GLASS_SET.CLOCK.get(), "玻璃时钟");
+        add(TFBlocks.GLASS_SET.BATHTUB.get(), "玻璃浴缸");
 
-        add(TFBlocks.BLUE_DUNGEON_DOOR.get(), "蓝地牢门");
-        add(TFBlocks.BLUE_DUNGEON_CHAIR.get(), "蓝地牢椅");
-        add(TFBlocks.BLUE_DUNGEON_TOILET.get(), "蓝地牢马桶");
-        add(TFBlocks.BLUE_DUNGEON_TABLE.get(), "蓝地牢桌");
-        add(TFBlocks.BLUE_DUNGEON_CANDLE.get(), "蓝地牢蜡烛");
-        add(TFBlocks.BLUE_DUNGEON_LANTERN.get(), "蓝地牢灯笼");
-        add(TFBlocks.BLUE_DUNGEON_SOFA.get(), "蓝地牢沙发");
-        add(TFBlocks.BLUE_DUNGEON_LAMP.get(), "蓝地牢灯");
-        add(TFBlocks.BLUE_DUNGEON_CANDELABRAS.get(), "蓝地牢烛台");
-        add(TFBlocks.BLUE_DUNGEON_SINK.get(), "蓝地牢水槽");
-        add(TFBlocks.BLUE_DUNGEON_CLOCK.get(), "蓝地牢时钟");
-        add(TFBlocks.BLUE_DUNGEON_BATHTUB.get(), "蓝地牢浴缸");
+        add(TFBlocks.BLUE_DUNGEON_SET.DOOR.get(), "蓝地牢门");
+        add(TFBlocks.BLUE_DUNGEON_SET.CHAIR.get(), "蓝地牢椅");
+        add(TFBlocks.BLUE_DUNGEON_SET.TOILET.get(), "蓝地牢马桶");
+        add(TFBlocks.BLUE_DUNGEON_SET.TABLE.get(), "蓝地牢桌");
+        add(TFBlocks.BLUE_DUNGEON_SET.CANDLE.get(), "蓝地牢蜡烛");
+        add(TFBlocks.BLUE_DUNGEON_SET.LANTERN.get(), "蓝地牢灯笼");
+        add(TFBlocks.BLUE_DUNGEON_SET.SOFA.get(), "蓝地牢沙发");
+        add(TFBlocks.BLUE_DUNGEON_SET.LAMP.get(), "蓝地牢灯");
+        add(TFBlocks.BLUE_DUNGEON_SET.CANDELABRAS.get(), "蓝地牢烛台");
+        add(TFBlocks.BLUE_DUNGEON_SET.SINK.get(), "蓝地牢水槽");
+        add(TFBlocks.BLUE_DUNGEON_SET.CLOCK.get(), "蓝地牢时钟");
+        add(TFBlocks.BLUE_DUNGEON_SET.BATHTUB.get(), "蓝地牢浴缸");
 
-        add(TFBlocks.ACACIA_TABLE.get(), "金合欢木桌");
-        add(TFBlocks.BAMBOO_TABLE.get(), "竹桌");
-        add(TFBlocks.BIRCH_TABLE.get(), "白桦木桌");
-        add(TFBlocks.CHERRY_TABLE.get(), "樱花木桌");
-        add(TFBlocks.CRIMSON_TABLE.get(), "绯红木桌");
-        add(TFBlocks.DARK_OAK_TABLE.get(), "深色橡木桌");
-        add(TFBlocks.GOLD_TABLE.get(), "金桌");
-        add(TFBlocks.JUNGLE_TABLE.get(), "丛林木桌");
-        add(TFBlocks.MANGROVE_TABLE.get(), "红木桌");
-        add(TFBlocks.OBSIDIAN_TABLE.get(), "黑曜石桌");
-        add(TFBlocks.PINE_TABLE.get(), "松木桌");
-        add(TFBlocks.POLISHED_BLACKSTONE_TABLE.get(), "磨制黑石桌");
-        add(TFBlocks.SPRUCE_TABLE.get(), "云杉木桌");
-        add(TFBlocks.STONE_TABLE.get(), "石桌");
-        add(TFBlocks.WARPED_TABLE.get(), "诡异木桌");
+        add(TFBlocks.ACACIA_SET.TABLE.get(), "金合欢木桌");
+        add(TFBlocks.BAMBOO_SET.TABLE.get(), "竹桌");
+        add(TFBlocks.BIRCH_SET.TABLE.get(), "白桦木桌");
+        add(TFBlocks.CHERRY_SET.TABLE.get(), "樱花木桌");
+        add(TFBlocks.CRIMSON_SET.TABLE.get(), "绯红木桌");
+        add(TFBlocks.DARK_OAK_SET.TABLE.get(), "深色橡木桌");
+        add(TFBlocks.GOLD_SET.TABLE.get(), "金桌");
+        add(TFBlocks.JUNGLE_SET.TABLE.get(), "丛林木桌");
+        add(TFBlocks.MANGROVE_SET.TABLE.get(), "红木桌");
+        add(TFBlocks.OBSIDIAN_SET.TABLE.get(), "黑曜石桌");
+        add(TFBlocks.PINE_SET.TABLE.get(), "松木桌");
+        add(TFBlocks.POLISHED_BLACKSTONE_SET.TABLE.get(), "磨制黑石桌");
+        add(TFBlocks.SPRUCE_SET.TABLE.get(), "云杉木桌");
+        add(TFBlocks.STONE_SET.TABLE.get(), "石桌");
+        add(TFBlocks.WARPED_SET.TABLE.get(), "诡异木桌");
+        add(TFBlocks.MARBLE_SET.TABLE.get(), "大理石桌");
+        add(TFBlocks.BALLOON_SET.TABLE.get(), "气球桌");
 
 
-        add(TFBlocks.WOODEN_CHAIR.get(), "木椅");
-        add(TFBlocks.WOODEN_TABLE.get(), "木桌");
+        add(TFBlocks.OAK_SET.CHAIR.get(), "木椅");
+        add(TFBlocks.OAK_SET.TABLE.get(), "木桌");
 
         add(TFBlocks.PIN_WHEEL.get(), "风车");
 
-        add(TFBlocks.BLUE_DUNGEON_CHANDELIER.get(), "蓝地牢大型吊灯");
+        add(TFBlocks.BLUE_DUNGEON_SET.LARGE_CHANDELIER.get(), "蓝地牢大型吊灯");
 
     }
 }

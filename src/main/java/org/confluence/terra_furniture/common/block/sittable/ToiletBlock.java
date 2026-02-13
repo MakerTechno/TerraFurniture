@@ -13,7 +13,8 @@ import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.api.utils.DelayableTaskMgr;
 import org.confluence.terra_furniture.api.utils.DelayableConsumerTask;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
-import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.entity.RideableEntityNull;
 import org.confluence.terra_furniture.common.init.TFBlockSetTypes;
 import org.confluence.terra_furniture.common.init.TFBlocks;
@@ -85,8 +86,8 @@ public class ToiletBlock extends ChairBlock{
     }
 
     @Override
-    public String getTypeName() {
-        return "toilet";
+    public TFBlockType<? extends ToiletBlock> getBlockType() {
+        return TFBlockType.TOILET;
     }
 
     @Override

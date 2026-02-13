@@ -5,7 +5,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 
 import java.util.List;
 
@@ -89,16 +89,6 @@ public class TFBlockSetTypes {
             SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON,
             () -> List.of(TFTags.DUNGEON_FURNITURE, TFTags.PINK_DUNGEON_FURNITURE)
     );
-    /** 哥特 */
-    public static final TFBlockSetType GOTHIC = new TFBlockSetType(
-            "gothic", true, true, true,
-            BlockSetType.PressurePlateSensitivity.MOBS, SoundType.BONE_BLOCK,
-            SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
-            SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
-            SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
-            SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON,
-            () -> List.of(TFTags.GOTHIC_FURNITURE)
-    );
 
 
 
@@ -113,6 +103,19 @@ public class TFBlockSetTypes {
             SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON,
             () -> List.of(TFTags.BONE_FURNITURE)
     );
+
+    /** 哥特 */
+    public static final TFBlockSetType GOTHIC = new TFBlockSetType(
+            "gothic", true, true, true,
+            BlockSetType.PressurePlateSensitivity.MOBS, SoundType.BONE_BLOCK,
+            SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
+            SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
+            SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
+            SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON,
+            () -> List.of(TFTags.GOTHIC_FURNITURE)
+    );
+    /** 书卷 */
+    public static final TFBlockSetType LIBRARIAN = new TFBlockSetType("librarian", () -> List.of(TFTags.LIBRARIAN_FURNITURE));
     /** 病变 */
     public static final TFBlockSetType LESION = new TFBlockSetType("lesion", () -> List.of(TFTags.LESION_FURNITURE));
     /** 血肉 */
@@ -128,9 +131,11 @@ public class TFBlockSetTypes {
             () -> List.of(TFTags.GLASS_FURNITURE),
             ResourceLocation.withDefaultNamespace("block/glass")
     );
+    /** 巨石 */
+    public static final TFBlockSetType BOULDER = new TFBlockSetType("boulder", () -> List.of(TFTags.BOULDER_FURNITURE));
     /** 蜂蜜 */
     public static final TFBlockSetType HONEY = new TFBlockSetType("honey", () -> List.of(TFTags.HONEY_FURNITURE));
-    /** 冰冻(冰雪) */
+    /** 冰冻 */
     public static final TFBlockSetType FROZEN = new TFBlockSetType(
             "frozen", true, true, true,
             BlockSetType.PressurePlateSensitivity.MOBS, SoundType.GLASS,
@@ -140,30 +145,56 @@ public class TFBlockSetTypes {
             SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON,
             () -> List.of(TFTags.FROZEN_FURNITURE)
     );
-    /** 丛林蜥蜴砖(官方维基就这么拼的) */
+    /** 雪 */
+    public static final TFBlockSetType SNOW = new TFBlockSetType("snow", () -> List.of(TFTags.SNOW_FURNITURE));
+    /** 丛林蜥蜴 */
     public static final TFBlockSetType LIHZAHRD = new TFBlockSetType("lihzahrd", () -> List.of(TFTags.LIHZAHRD_FURNITURE));
+    /** 仙灵木 */
+    public static final TFBlockSetType FEYWOOD = new TFBlockSetType("feywood", () -> List.of(TFTags.FAYWOOD_FURNITURE, TFTags.WOODEN_FURNITURE));
     /** 生命木 */
     public static final TFBlockSetType LIVING_WOOD = new TFBlockSetType("living_wood", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.LIVING_WOOD_FURNITURE));
+    /** 云 */
+    public static final TFBlockSetType CLOUD = new TFBlockSetType("cloud", () -> List.of(TFTags.CLOUD_FURNITURE));
+    /** 暮色(月盘块) */
+    public static final TFBlockSetType DUSKWARE = new TFBlockSetType("duskware", () -> List.of(TFTags.DUSKWARE_FURNITURE));
+    /** 鸟妖 */
+    public static final TFBlockSetType HARPY = new TFBlockSetType("harpy", () -> List.of(TFTags.HARPY_FURNITURE));
     /** 天域(日盘块) */
     public static final TFBlockSetType SKYWARE = new TFBlockSetType("skyware", () -> List.of(TFTags.SKYWARE_FURNITURE));
     /** 史莱姆 */
     public static final TFBlockSetType SLIME = new TFBlockSetType("slime", () -> List.of(TFTags.SLIME_FURNITURE));
     /** 蒸汽朋克(齿轮) */
     public static final TFBlockSetType STEAMPUNK = new TFBlockSetType("steampunk", () -> List.of(TFTags.STEAMPUNK_FURNITURE));
+    /** 以太 */
+    public static final TFBlockSetType AETHERIUM = new TFBlockSetType("aetherium", () -> List.of(TFTags.AETHERIUM_FURNITURE));
     /** 灰烬木 */
     public static final TFBlockSetType ASH_WOOD = new TFBlockSetType("ash_wood", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.ASH_WOOD_FURNITURE));
     /** 气球 */
     public static final TFBlockSetType BALLOON = new TFBlockSetType("balloon", () -> List.of(TFTags.BALLOON_FURNITURE));
     /** 仙人掌 */
     public static final TFBlockSetType CACTUS = new TFBlockSetType("cactus", () -> List.of(TFTags.CACTUS_FURNITURE));
+    /** 猩红矿 */
+    public static final TFBlockSetType CRIMTANE = new TFBlockSetType("crimtanre", () -> List.of(TFTags.CRIMTAIN_FURNITURE));
     /** 水晶(水晶块) */
     public static final TFBlockSetType CRYSTAL = new TFBlockSetType("crystal", () -> List.of(TFTags.CRYSTAL_FURNITURE));
+    /** 魔矿 */
+    public static final TFBlockSetType DEMONITE = new TFBlockSetType("demonite", () -> List.of(TFTags.DEMONITE_FURNITURE));
     /** 王朝木 */
     public static final TFBlockSetType DYNASTY = new TFBlockSetType("dynasty", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.DYNASTY_FURNITURE));
+    /** 复活节 */
+    public static final TFBlockSetType EASTER = new TFBlockSetType("easter", () -> List.of(TFTags.EASTER_FURNITURE));
     /** 乌木 */
     public static final TFBlockSetType EBONWOOD = new TFBlockSetType("ebonwood", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.EBONWOOD_FURNITURE));
+    /** 坠落之星 */
+    public static final TFBlockSetType FALLEN_STAR = new TFBlockSetType("fallen_star", () -> List.of(TFTags.FALLEN_STAR_FURNITURE));
+    /** 小雪怪皮毛 */
+    public static final TFBlockSetType FLINX_FUR = new TFBlockSetType("flinx_fur", () -> List.of(TFTags.FLINX_FUR_FURNITURE));
+    /** 禁戒 */
+    public static final TFBlockSetType FORBIDDEN = new TFBlockSetType("forbidden", () -> List.of(TFTags.FORBIDDEN_FURNITURE));
     /** 花岗岩 */
     public static final TFBlockSetType GRANITE = new TFBlockSetType("granite", () -> List.of(TFTags.GRANITE_FURNITURE));
+    /** 神圣 */
+    public static final TFBlockSetType HALLOWED = new TFBlockSetType("hallowed", () -> List.of(TFTags.HALLOWED_FURNITURE));
     /** 大理石 */
     public static final TFBlockSetType MARBLE = new TFBlockSetType("marble", () -> List.of(TFTags.MARBLE_FURNITURE));
     /** 火星(火星管道护板) */
@@ -172,6 +203,8 @@ public class TFBlockSetTypes {
     public static final TFBlockSetType METEORITE = new TFBlockSetType("meteorite", () -> List.of(TFTags.METEORITE_FURNITURE));
     /** 蘑菇 */
     public static final TFBlockSetType MUSHROOM = new TFBlockSetType("mushroom", () -> List.of(TFTags.MUSHROOM_FURNITURE));
+    /** 办公 */
+    public static final TFBlockSetType OFFICE = new TFBlockSetType("office", () -> List.of(TFTags.OFFICE_FURNITURE));
     /** 棕榈木 */
     public static final TFBlockSetType PALM_WOOD = new TFBlockSetType("palm_wood", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.PALM_WOOD_FURNITURE));
     /** 珍珠木 */
@@ -188,6 +221,8 @@ public class TFBlockSetTypes {
     public static final TFBlockSetType SHADEWOOD = new TFBlockSetType("shadewood", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.SHADEWOOD_FURNITURE));
     /** 蜘蛛(蜘蛛窝块) */
     public static final TFBlockSetType SPIDER = new TFBlockSetType("spider", () -> List.of(TFTags.SPIDER_FURNITURE));
+    /** 斯派克(bushi)尖刺 */
+    public static final TFBlockSetType SPIKE = new TFBlockSetType("spike", () -> List.of(TFTags.SPIKE_FURNITURE));
     /** 阴森木 */
     public static final TFBlockSetType SPOOKY = new TFBlockSetType("spooky", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.SPOOKY_FURNITURE));
 

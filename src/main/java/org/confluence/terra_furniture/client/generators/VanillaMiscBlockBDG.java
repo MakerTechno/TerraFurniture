@@ -5,6 +5,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 
 /**
  * 处理门板子的类
@@ -12,10 +13,9 @@ import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
  * 注意：多种方块已被增强。
  */
 public abstract class VanillaMiscBlockBDG<T extends Block & BlockSetGetter<T>> extends DefaultBlockDataGenerator<T> {
-    public static final String DOOR = "door";
     @Override
     public void buildBlockWithTemplate(T block, BlockStateProvider builderProvider, ExistingFileHelper helper) {
-        if (getTemplateType(block).equals(DOOR)) door(block, builderProvider, helper);
+        if (getTemplateType(block).equals(TFBlockType.DOOR)) door(block, builderProvider, helper);
     }
 
     public void door(T block, BlockStateProvider provider, ExistingFileHelper helper) {

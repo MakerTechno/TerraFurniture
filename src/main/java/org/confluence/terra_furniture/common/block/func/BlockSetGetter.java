@@ -1,6 +1,7 @@
 package org.confluence.terra_furniture.common.block.func;
 
 import net.minecraft.world.level.block.Block;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 
 public interface BlockSetGetter<T extends Block> {
     /**

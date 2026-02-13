@@ -31,7 +31,8 @@ import org.confluence.lib.common.block.StateProperties;
 import org.confluence.terra_furniture.client.generators.SingleMulStateBDG;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
 import org.confluence.terra_furniture.common.block.func.MulStateGetter;
-import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.jetbrains.annotations.Nullable;
@@ -162,8 +163,8 @@ public class TFBedBlock extends HorizontalDirectionalWithForwardTwoPartBlock imp
         return PART;
     }
 
-    public String getBlockTypeName() {
-        return "bed";
+    public TFBlockType<? extends TFBedBlock> getBlockType() {
+        return TFBlockType.BED;
     }
 
     public boolean isSingleTexture() {
@@ -176,8 +177,8 @@ public class TFBedBlock extends HorizontalDirectionalWithForwardTwoPartBlock imp
     public @Nullable BlockDataGenerator<? super TFBedBlock> getGenerator() {
         return new SingleMulStateBDG<>() {
             @Override
-            public String getTemplateType(TFBedBlock block) {
-                return getBlockTypeName();
+            public TFBlockType<? extends TFBedBlock> getTemplateType(TFBedBlock block) {
+                return getBlockType();
             }
 
             @Override

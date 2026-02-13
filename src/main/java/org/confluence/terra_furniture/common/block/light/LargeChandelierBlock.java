@@ -59,7 +59,7 @@ public class LargeChandelierBlock extends HorizontalDirectionalWithHorizontalTen
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public LargeChandelierBlock(Properties properties) {
-        super(properties);
+        super(properties.noCollission().lightLevel(state -> state.getValue(LIT) ? 15 : 0));
         registerDefaultState(stateDefinition.any().setValue(PART, StateProperties.HorizontalTenPart.UP).setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE).setValue(LIT, Boolean.TRUE));
     }
 

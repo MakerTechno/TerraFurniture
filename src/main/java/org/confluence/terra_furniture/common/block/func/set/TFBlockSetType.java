@@ -1,4 +1,4 @@
-package org.confluence.terra_furniture.common.block.func;
+package org.confluence.terra_furniture.common.block.func.set;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;

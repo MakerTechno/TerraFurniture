@@ -30,42 +30,42 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput, HolderLookup.Provider holderLookup) {
         Ingredient glass = Ingredient.of(Tags.Items.GLASS_BLOCKS_COLORLESS);
-        glassKiln(recipeOutput, TFBlocks.GLASS_DOOR.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.DOOR.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass
         ), List.of(
                 "GG",
                 "GG",
                 "GG"
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_CHAIR.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.CHAIR.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass
         ), List.of(
                 "G  ",
                 "GGG",
                 "G G"
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_TOILET.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.TOILET.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass
         ), List.of(
                 "G  ",
                 "G G",
                 "GG "
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_TABLE.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.TABLE.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass,
                 'A', AmountIngredient.of(2, Items.GLASS)
         ), List.of(
                 "GGGG",
                 " AA "
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_SOFA.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.SOFA.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass,
                 'A', Ingredient.of(ItemTags.WOOL)
         ), List.of(
                 "GAAG",
                 "GGGG"
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_SINK.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.SINK.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass,
                 'A', Ingredient.of(Items.WATER_BUCKET)
         ), List.of(
@@ -73,14 +73,14 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "GAG",
                 " G "
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_CANDLE.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.CANDLE.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass,
                 'A', Ingredient.of(Items.TORCH)
         ), List.of(
                 " G ",
                 "GAG"
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_LANTERN.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.LANTERN.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass,
                 'A', Ingredient.of(Items.TORCH)
         ), List.of(
@@ -88,7 +88,7 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "GAG",
                 "GGG"
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_LAMP.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.LAMP.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass,
                 'A', Ingredient.of(Items.TORCH)
         ), List.of(
@@ -97,7 +97,7 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "G",
                 "G"
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_CANDELABRAS.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.CANDELABRAS.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', glass,
                 'A', AmountIngredient.of(2, Items.TORCH)
         ), List.of(
@@ -105,7 +105,7 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "GGG",
                 " G "
         )), 0.1F, 200);
-        glassKiln(recipeOutput, TFBlocks.GLASS_CLOCK.toStack(), ShapedRecipePattern.of(Map.of(
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.CLOCK.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', AmountIngredient.of(2, Items.GLASS),
                 'I', Ingredient.of(Items.IRON_INGOT)
         ), List.of(// 上面三格玻璃是时钟固有材料，下面五格在做其他钟时替换为其他材料.

@@ -11,6 +11,7 @@ import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.TerraFurniture;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 
 import java.util.HashSet;
 
@@ -32,7 +33,7 @@ public interface BlockDataGenerator<T extends Block> {
     /**
      * 对应方块的模板类型
      */
-    String getTemplateType(T block);
+    TFBlockType<? extends T> getTemplateType(T block);
 
     /**
      * 生成方块标签，在现有基础上添加标签请用{@link #addBlockTags(Block, BlockTagsProvider, HashSet)}

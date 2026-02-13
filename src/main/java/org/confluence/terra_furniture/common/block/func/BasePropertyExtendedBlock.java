@@ -19,6 +19,7 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
 import org.confluence.terra_furniture.common.init.TFBlockSetTypes;
 

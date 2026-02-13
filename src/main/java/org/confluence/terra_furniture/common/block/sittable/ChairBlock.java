@@ -17,8 +17,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.client.generators.HorizontalBDG;
-import org.confluence.terra_furniture.common.block.func.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
@@ -97,19 +98,19 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
     @Override
     public @Nullable BlockDataGenerator<? super ChairBlock> getGenerator() {
         if (
-                this.equals(TFBlocks.GLASS_CHAIR.get())
+                this.equals(TFBlocks.GLASS_SET.CHAIR.get())
                 // || ...
         ) return null;
         return new HorizontalBDG<>() {
             @Override
-            public String getTemplateType(ChairBlock block) {
-                return getTypeName();
+            public TFBlockType<? extends ChairBlock> getTemplateType(ChairBlock block) {
+                return getBlockType();
             }
         };
     }
 
-    public String getTypeName() {
-        return "chair";
+    public TFBlockType<? extends ChairBlock> getBlockType() {
+        return TFBlockType.CHAIR;
     }
 
     @Override
