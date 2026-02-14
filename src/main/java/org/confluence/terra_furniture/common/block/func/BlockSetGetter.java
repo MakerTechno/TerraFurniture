@@ -15,4 +15,7 @@ public interface BlockSetGetter<T extends Block> {
     default boolean isLayeredItemTexture() {
         return false;
     }
+    default boolean needItemTexture() {
+        return true;
+    }
 }

@@ -82,6 +82,7 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.WARPED_SET.TABLE.get(), "诡异木桌");
         add(TFBlocks.MARBLE_SET.TABLE.get(), "大理石桌");
         add(TFBlocks.BALLOON_SET.TABLE.get(), "气球桌");
+        add(TFBlocks.FLINX_FUR_SET.BED.get(), "小雪怪皮毛床");
 
 
         add(TFBlocks.OAK_SET.CHAIR.get(), "木椅");

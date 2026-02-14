@@ -210,8 +210,10 @@ public abstract class DefaultBlockDataGenerator<T extends Block & BlockSetGetter
             return;
         }
         if (buildResult.getFirst().equals(ResourceState.NOT_EXIST) || buildResult.getSecond() == null) return;
-        buildResult = processTexture(block, buildResult.getSecond(), null, buildResult.getFirst().equals(ResourceState.LAYERED) ? "layer0" : "particle", block.isLayeredItemTexture() ? AccessType.ITEM : AccessType.BLOCK);
-        if (buildResult.getFirst().equals(ResourceState.EXIST)) isItemValid = true;
+        if (block.needItemTexture()) {
+            buildResult = processTexture(block, buildResult.getSecond(), null, buildResult.getFirst().equals(ResourceState.LAYERED) ? "layer0" : "particle", block.isLayeredItemTexture() ? AccessType.ITEM : AccessType.BLOCK);
+        }
+        if (buildResult.getFirst().equals(ResourceState.EXIST) || !block.needItemTexture()) isItemValid = true;
     }
 
     @Override

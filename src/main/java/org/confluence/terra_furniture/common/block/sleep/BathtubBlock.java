@@ -64,4 +64,9 @@ public class BathtubBlock extends TFBedBlock {
     public boolean hasParticle(TFBedBlock block) {
         return true;
     }
+
+    @Override
+    public boolean needItemTexture() {
+        return true;
+    }
 }

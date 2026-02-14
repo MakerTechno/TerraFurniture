@@ -41,14 +41,18 @@ import java.util.HashSet;
 import java.util.List;
 
 public class TFBedBlock extends HorizontalDirectionalWithForwardTwoPartBlock implements AutoGenBlockData<TFBedBlock>, BlockSetGetter<TFBedBlock>, MulStateGetter<StateProperties.ForwardTwoPart> {
-    public static final VoxelShape PANE = Shapes.box(0, 0.1875, 0, 1, 0.5625, 1);
-    public static final VoxelShape FORWARD_LEG1 = Shapes.box(0, 0, 0.8125, 0.1875, 0.1875, 1);
-    public static final VoxelShape FORWARD_LEG2 = Shapes.box(0, 0, 0.8125, 0.1875, 0.1875, 1);
-    public static final VoxelShape BASE_LEG1 = Shapes.box(0, 0, 0, 0.1875, 0.1875, 0.1875);
-    public static final VoxelShape BASE_LEG2 = Shapes.box(0.8125, 0, 0, 1, 0.1875, 0.1875);
+    private static final VoxelShape PANE = Shapes.box(0, 0.1875, 0, 1, 0.5625, 1);
+    private static final VoxelShape SOUTH_WEST_LEG = Shapes.box(0, 0, 0.8125, 0.1875, 0.1875, 1);
+    private static final VoxelShape SOUTH_EAST_LEG = Shapes.box(0.8125, 0, 0.8125, 1, 0.1875, 1);
+    private static final VoxelShape NORTH_EAST_LEG = Shapes.box(0.8125, 0, 0, 1, 0.1875, 0.1875);
+    private static final VoxelShape NORTH_WEST_LEG = Shapes.box(0, 0, 0, 0.1875, 0.1875, 0.1875);
 
-    public static final VoxelShape FORWARD = Shapes.or(PANE, FORWARD_LEG1, FORWARD_LEG2);
-    public static final VoxelShape BASE = Shapes.or(PANE, BASE_LEG1, BASE_LEG2);
+    private static final VoxelShape[] SHAPES = {
+            Shapes.or(PANE, NORTH_WEST_LEG, NORTH_EAST_LEG),
+            Shapes.or(PANE, NORTH_EAST_LEG, SOUTH_EAST_LEG),
+            Shapes.or(PANE, SOUTH_EAST_LEG, SOUTH_WEST_LEG),
+            Shapes.or(PANE, SOUTH_WEST_LEG, NORTH_WEST_LEG),
+    };
 
     public static final BooleanProperty OCCUPIED = BlockStateProperties.OCCUPIED;
 
@@ -61,7 +65,13 @@ public class TFBedBlock extends HorizontalDirectionalWithForwardTwoPartBlock imp
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return state.getValue(PART).isBase() ? BASE : FORWARD;
+        boolean isForward = state.getValue(PART).isForward();
+        return switch (state.getValue(FACING)) {
+            case SOUTH -> isForward ? SHAPES[0] : SHAPES[2];
+            case WEST -> isForward ? SHAPES[1] : SHAPES[3];
+            case EAST -> isForward ? SHAPES[3] : SHAPES[1];
+            default -> isForward ? SHAPES[2] : SHAPES[0];
+        };
     }
 
     @Override
@@ -193,5 +203,10 @@ public class TFBedBlock extends HorizontalDirectionalWithForwardTwoPartBlock imp
                 return TFBedBlock.this.isSingleTexture();
             }
         };
+    }
+
+    @Override
+    public boolean needItemTexture() {
+        return false;
     }
 }
