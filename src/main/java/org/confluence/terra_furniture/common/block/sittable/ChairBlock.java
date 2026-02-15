@@ -1,6 +1,7 @@
 package org.confluence.terra_furniture.common.block.sittable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.client.generators.HorizontalBDG;
@@ -22,8 +24,10 @@ import org.confluence.terra_furniture.common.block.func.be.BaseSittableBE;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.confluence.terra_furniture.common.init.TFBlocks;
+import org.confluence.terra_furniture.common.init.TFTags;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.function.Consumer;
 
 /**
@@ -105,6 +109,12 @@ public class ChairBlock extends BasePropertyHorizontalDirectionBlock<ChairBlock>
             @Override
             public TFBlockType<? extends ChairBlock> getTemplateType(ChairBlock block) {
                 return getBlockType();
+            }
+
+            @Override
+            public void addBlockTags(ChairBlock block, BlockTagsProvider provider, HashSet<TagKey<Block>> keys) {
+                super.addBlockTags(block, provider, keys);
+                keys.add(TFTags.HOUSE_CHAIR);
             }
         };
     }
