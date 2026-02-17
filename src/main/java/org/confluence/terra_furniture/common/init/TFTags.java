@@ -42,6 +42,7 @@ public class TFTags {
     public static final TagKey<Block> LIHZAHRD_FURNITURE = register("lihzahrd_furniture");
     public static final TagKey<Block> FAYWOOD_FURNITURE = register("faywood_furniture");
     public static final TagKey<Block> LIVING_WOOD_FURNITURE = register("living_wood_furniture");
+    public static final TagKey<Block> LIVING_MAHOGANY_FURNITURE = register("living_mahogany_furniture");
     public static final TagKey<Block> CLOUD_FURNITURE = register("cloud_furniture");
     public static final TagKey<Block> DUSKWARE_FURNITURE = register("duskware_furniture");
     public static final TagKey<Block> HARPY_FURNITURE = register("harpy_furniture");
@@ -84,6 +85,7 @@ public class TFTags {
     public static final TagKey<Block> VORTEX_FURNITURE = register("vortex_furniture");
     public static final TagKey<Block> DUNGEON_FURNITURE = register("dungeon_furniture");
     public static final TagKey<Block> WOODEN_FURNITURE = register("wooden_furniture");
+    public static final TagKey<Block> BAOBAB_FURNITURE = register("baobab_furniture");
 
 
 

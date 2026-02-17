@@ -76,6 +76,17 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.MANGROVE_SET.TABLE.get(), "红木桌");
         add(TFBlocks.OBSIDIAN_SET.TABLE.get(), "黑曜石桌");
         add(TFBlocks.PINE_SET.TABLE.get(), "松木桌");
+        add(TFBlocks.ASH_WOOD_SET.TABLE.get(), "灰烬木桌");
+        add(TFBlocks.BAOBAB_SET.TABLE.get(), "猴面包木桌");
+        add(TFBlocks.DYNASTY_SET.TABLE.get(), "王朝木桌");
+        add(TFBlocks.EBONWOOD_SET.TABLE.get(), "乌木桌");
+        add(TFBlocks.FEYWOOD_SET.TABLE.get(), "仙灵木桌");
+        add(TFBlocks.MUSHROOM_SET.TABLE.get(), "蘑菇桌");
+        add(TFBlocks.PEARLWOOD_SET.TABLE.get(), "珍珠木桌");
+        add(TFBlocks.SHADEWOOD_SET.TABLE.get(), "暗影木桌");
+        add(TFBlocks.SKYWARE_SET.TABLE.get(), "天域桌");
+        add(TFBlocks.DUSKWARE_SET.TABLE.get(), "暮色桌");
+        add(TFBlocks.SPOOKY_SET.TABLE.get(), "阴森木桌");
         add(TFBlocks.POLISHED_BLACKSTONE_SET.TABLE.get(), "磨制黑石桌");
         add(TFBlocks.SPRUCE_SET.TABLE.get(), "云杉木桌");
         add(TFBlocks.STONE_SET.TABLE.get(), "石桌");

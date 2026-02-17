@@ -174,6 +174,51 @@ public final class TFBlocks {
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .build();
+    public static final TFBlockSet ASH_WOOD_SET = new TFBlockSet.Builder(ASH_WOOD, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet BAOBAB_SET = new TFBlockSet.Builder(BAOBAB, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet DYNASTY_SET = new TFBlockSet.Builder(DYNASTY, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet EBONWOOD_SET = new TFBlockSet.Builder(EBONWOOD, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet FEYWOOD_SET = new TFBlockSet.Builder(FEYWOOD, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet MUSHROOM_SET = new TFBlockSet.Builder(MUSHROOM, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet PEARLWOOD_SET = new TFBlockSet.Builder(PEARLWOOD, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet SHADEWOOD_SET = new TFBlockSet.Builder(SHADEWOOD, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet SKYWARE_SET = new TFBlockSet.Builder(SKYWARE, Blocks.STONE, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet DUSKWARE_SET = new TFBlockSet.Builder(DUSKWARE, Blocks.STONE, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet SPOOKY_SET = new TFBlockSet.Builder(SPOOKY, Blocks.OAK_PLANKS, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+
 
     public static final DeferredBlock<PinWheel> PIN_WHEEL = registerWithoutItem("pin_wheel", () -> new PinWheel(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO).noCollission()));
     public static final DeferredItem<SimpleGeoRenderedItem> PIN_WHEEL_ITEM = TFItems.BLOCK_ITEMS.register("pin_wheel", () -> new SimpleGeoRenderedItem(PIN_WHEEL.get(), new Item.Properties(), false));

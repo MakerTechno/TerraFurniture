@@ -153,6 +153,8 @@ public class TFBlockSetTypes {
     public static final TFBlockSetType FEYWOOD = new TFBlockSetType("feywood", () -> List.of(TFTags.FAYWOOD_FURNITURE, TFTags.WOODEN_FURNITURE));
     /** 生命木 */
     public static final TFBlockSetType LIVING_WOOD = new TFBlockSetType("living_wood", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.LIVING_WOOD_FURNITURE));
+    /** 生命红木 */
+    public static final TFBlockSetType LIVING_MAHOGANY = new TFBlockSetType("living_mahogany", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.LIVING_MAHOGANY_FURNITURE));
     /** 云 */
     public static final TFBlockSetType CLOUD = new TFBlockSetType("cloud", () -> List.of(TFTags.CLOUD_FURNITURE));
     /** 暮色(月盘块) */
@@ -225,6 +227,8 @@ public class TFBlockSetTypes {
     public static final TFBlockSetType SPIKE = new TFBlockSetType("spike", () -> List.of(TFTags.SPIKE_FURNITURE));
     /** 阴森木 */
     public static final TFBlockSetType SPOOKY = new TFBlockSetType("spooky", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.SPOOKY_FURNITURE));
+    /** 猴面包木 */
+    public static final TFBlockSetType BAOBAB = new TFBlockSetType("baobab", () -> List.of(TFTags.WOODEN_FURNITURE, TFTags.BAOBAB_FURNITURE));
 
 
     /* 四柱的 */
