@@ -210,6 +210,18 @@ public final class TFBlocks {
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .build();
+    public static final TFBlockSet CLOUD_SET = new TFBlockSet.Builder(CLOUD, Blocks.WHITE_WOOL, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.BED, true)
+            .build();
+    public static final TFBlockSet COPPER_SET = new TFBlockSet.Builder(COPPER, Blocks.COPPER_BLOCK, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
+    public static final TFBlockSet IRON_SET = new TFBlockSet.Builder(IRON, Blocks.IRON_BLOCK, true)
+            .disableAll()
+            .setAvailabilityFor(TFBlockType.TABLE, true)
+            .build();
     public static final TFBlockSet DUSKWARE_SET = new TFBlockSet.Builder(DUSKWARE, Blocks.STONE, true)
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
