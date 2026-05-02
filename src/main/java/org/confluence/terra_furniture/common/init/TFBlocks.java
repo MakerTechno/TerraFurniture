@@ -24,6 +24,9 @@ import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.misc.*;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
+import org.confluence.terra_furniture.common.block.sittable.ChairCrossingBlock;
+import org.confluence.terra_furniture.common.block.sittable.ChairOneLegBlock;
+import org.confluence.terra_furniture.common.block.sittable.ChairStraightBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
 import org.confluence.terra_furniture.common.item.FishBowlItem;
@@ -52,6 +55,16 @@ public final class TFBlocks {
     /* I AM THE STORM THAT IS APPROACHING!! */
     public static final DeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(property -> property.lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PlasticChairBlock.PlasticChairBE>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register("plastic_chair_entity", () -> BlockEntityType.Builder.of(PlasticChairBlock.PlasticChairBE::new, PLASTIC_CHAIR.get()).build(DSL.remainderType()));
+
+    /* GEO模型椅子 */
+    public static final DeferredBlock<ChairCrossingBlock> CHAIR_CROSSING = registerWithItem("chair_crossing", () -> new ChairCrossingBlock(property -> property.explosionResistance(3600000.8F)), ChairCrossingBlock.Item::new);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChairCrossingBlock.ChairCrossingBE>> CHAIR_CROSSING_ENTITY = BLOCK_ENTITIES.register("chair_crossing_entity", () -> BlockEntityType.Builder.of(ChairCrossingBlock.ChairCrossingBE::new, CHAIR_CROSSING.get()).build(DSL.remainderType()));
+
+    public static final DeferredBlock<ChairOneLegBlock> CHAIR_ONELEG = registerWithItem("chair_oneleg", () -> new ChairOneLegBlock(property -> property.explosionResistance(3600000.8F)), ChairOneLegBlock.Item::new);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChairOneLegBlock.ChairOneLegBE>> CHAIR_ONELEG_ENTITY = BLOCK_ENTITIES.register("chair_oneleg_entity", () -> BlockEntityType.Builder.of(ChairOneLegBlock.ChairOneLegBE::new, CHAIR_ONELEG.get()).build(DSL.remainderType()));
+
+    public static final DeferredBlock<ChairStraightBlock> CHAIR_STRAIGHT = registerWithItem("chair_straight", () -> new ChairStraightBlock(property -> property.explosionResistance(3600000.8F)), ChairStraightBlock.Item::new);
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChairStraightBlock.ChairStraightBE>> CHAIR_STRAIGHT_ENTITY = BLOCK_ENTITIES.register("chair_straight_entity", () -> BlockEntityType.Builder.of(ChairStraightBlock.ChairStraightBE::new, CHAIR_STRAIGHT.get()).build(DSL.remainderType()));
 
     /* Special furniture, not belongs to any furniture set */
     public static final DeferredBlock<Block> FISH_BOWL = registerWithItem("fish_bowl", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
@@ -230,7 +243,6 @@ public final class TFBlocks {
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .build();
-
 
     public static final DeferredBlock<PinWheel> PIN_WHEEL = registerWithoutItem("pin_wheel", () -> new PinWheel(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO).noCollission()));
     public static final DeferredItem<SimpleGeoRenderedItem> PIN_WHEEL_ITEM = TFItems.BLOCK_ITEMS.register("pin_wheel", () -> new SimpleGeoRenderedItem(PIN_WHEEL.get(), new Item.Properties(), false));
