@@ -7,7 +7,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.HandlerThread;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import org.confluence.lib.event.NameFixRegisterEvent;
+import org.confluence.lib.api.event.NameFixRegisterEvent;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
