@@ -56,8 +56,11 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
         tag(TFTags.HOUSE_CHAIR).add(
                 TFBlocks.GLASS_SET.SOFA.get(),
                 TFBlocks.BLUE_DUNGEON_SET.SOFA.get(),
-                TFBlocks.PLASTIC_CHAIR.get());
-
+                TFBlocks.PLASTIC_CHAIR.get(),
+                TFBlocks.ACACIA_SET.CHAIR.get(),
+                TFBlocks.JUNGLE_SET.CHAIR.get(),
+                TFBlocks.DARK_OAK_SET.CHAIR.get(),
+                TFBlocks.SPRUCE_SET.CHAIR.get());
     }
 
     @SuppressWarnings("unchecked")

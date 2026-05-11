@@ -210,6 +210,7 @@ tasks.withType(ProcessResources).configureEach {
     filesMatching(['META-INF/neoforge.mods.toml']) {
         expand replaceProperties
     }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 // Example configuration to allow publishing using the maven-publish plugin

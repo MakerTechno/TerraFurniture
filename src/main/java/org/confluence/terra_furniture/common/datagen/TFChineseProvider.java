@@ -109,9 +109,10 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.BLUE_DUNGEON_SET.LARGE_CHANDELIER.get(), "蓝地牢大型吊灯");
 
         // 椅子
-        add(TFBlocks.CHAIR_CROSSING.get(), "交叉椅");
-        add(TFBlocks.CHAIR_ONELEG.get(), "单腿椅");
-        add(TFBlocks.CHAIR_STRAIGHT.get(), "直背椅");
+        add(TFBlocks.ACACIA_SET.CHAIR.get(), "金合欢椅子");
+        add(TFBlocks.SPRUCE_SET.CHAIR.get(), "云杉木椅子");
+        add(TFBlocks.DARK_OAK_SET.CHAIR.get(), "深色橡木椅子");
+        add(TFBlocks.JUNGLE_SET.CHAIR.get(), "丛林木椅子");
 
     }
 }

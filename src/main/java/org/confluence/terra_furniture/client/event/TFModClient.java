@@ -47,9 +47,6 @@ public final class TFModClient {
 
         /*--block entities renderers--*/
         regSimpleGeoBER(event, TFBlocks.PLASTIC_CHAIR_ENTITY, false);
-        regSimpleGeoBER(event, TFBlocks.CHAIR_CROSSING_ENTITY, false);
-        regSimpleGeoBER(event, TFBlocks.CHAIR_ONELEG_ENTITY, false);
-        regSimpleGeoBER(event, TFBlocks.CHAIR_STRAIGHT_ENTITY, false);
         regSimpleGeoBER(event, TFBlocks.CLOCK_ENTITY, false);
         event.registerBlockEntityRenderer(TFBlocks.PIN_WHEEL_ENTITY.get(),
                 context -> BaseFunctionalGeoBER.Builder.<PinWheel.BEntity>of(false)
