@@ -1,9 +1,11 @@
 package org.confluence.terra_furniture.common.block.light;
 
 import net.minecraft.core.BlockPos;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -23,14 +25,24 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.confluence.terra_furniture.client.generators.DefaultBlockDataGenerator;
+import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
+import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.jetbrains.annotations.Nullable;
 
-public class SwitchableLightBlock extends CopperBulbBlock implements SimpleWaterloggedBlock {
+import java.util.HashSet;
+
+public class SwitchableLightBlock extends CopperBulbBlock implements SimpleWaterloggedBlock, AutoGenBlockData<SwitchableLightBlock>, BlockSetGetter<SwitchableLightBlock> {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
+    private final TFBlockSetType type;
     private final BlockShapeType shapeType;
-    public SwitchableLightBlock(Properties properties, BlockShapeType shapeType) {
+    public SwitchableLightBlock(TFBlockSetType type, Properties properties, BlockShapeType shapeType) {
         super(properties);
+        this.type = type;
         this.shapeType = shapeType;
         this.registerDefaultState(stateDefinition.any().setValue(LIT, true).setValue(POWERED, false).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
     }
@@ -89,5 +101,35 @@ public class SwitchableLightBlock extends CopperBulbBlock implements SimpleWater
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return shapeType.isSupported(state, level, pos);
+    }
+
+    @Override
+    public TFBlockSetType getType() {
+        return type;
+    }
+
+    @Override
+    public boolean hasParticle(SwitchableLightBlock block) {
+        return false;
+    }
+
+    @Override
+    public @Nullable BlockDataGenerator<? super SwitchableLightBlock> getGenerator() {
+        return new DefaultBlockDataGenerator<>() {
+            @Override
+            public TFBlockType<? extends SwitchableLightBlock> getTemplateType(SwitchableLightBlock block) {
+                return switch (block.shapeType) {
+                    case CANDLE -> TFBlockType.CANDLE;
+                    case LANTERN -> TFBlockType.LANTERN;
+                    case LAMP -> TFBlockType.LAMP;
+                    case CHANDELIER -> TFBlockType.CHANDELIER;
+                    default -> throw new IllegalStateException("Unexpected shape type: " + block.shapeType);
+                };
+            }
+
+            @Override
+            public void addBlockTags(SwitchableLightBlock block, BlockTagsProvider provider, HashSet<TagKey<Block>> keys) {
+            }
+        };
     }
 }

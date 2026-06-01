@@ -15,12 +15,22 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
+import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
+import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.confluence.terra_furniture.client.generators.DefaultBlockDataGenerator;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashSet;
+
+import net.minecraft.tags.TagKey;
 
 public class CandelabraBlock extends SwitchableLightBlock {
     public static final VoxelShape SHAPE = Block.box(3, 0, 3, 13 , 16, 13);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public CandelabraBlock(Properties properties) {
-        super(properties, BlockShapeType.DEFAULT);
+    public CandelabraBlock(TFBlockSetType type, Properties properties) {
+        super(type, properties, BlockShapeType.DEFAULT);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
     @Override
@@ -50,4 +60,16 @@ public class CandelabraBlock extends SwitchableLightBlock {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
+    @Override
+    public @Nullable BlockDataGenerator<? super SwitchableLightBlock> getGenerator() {
+        return new DefaultBlockDataGenerator<>() {
+            @Override
+            public TFBlockType<? extends SwitchableLightBlock> getTemplateType(SwitchableLightBlock block) {
+                return TFBlockType.CANDELABRAS;
+            }
+            @Override
+            public void addBlockTags(SwitchableLightBlock block, BlockTagsProvider provider, HashSet<TagKey<Block>> keys) {
+            }
+        };
+    }
 }

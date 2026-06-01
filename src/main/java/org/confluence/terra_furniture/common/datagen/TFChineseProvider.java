@@ -94,7 +94,6 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.MARBLE_SET.TABLE.get(), "大理石桌");
         add(TFBlocks.BALLOON_SET.TABLE.get(), "气球桌");
         add(TFBlocks.FLINX_FUR_SET.BED.get(), "小雪怪皮毛床");
-        add(TFBlocks.OAK_SET.BED.get(), "木床");
         
         add(TFBlocks.CLOUD_SET.BED.get(), "云床");
 
@@ -104,6 +103,8 @@ public class TFChineseProvider extends LanguageProvider {
 
         add(TFBlocks.OAK_SET.CHAIR.get(), "木椅");
         add(TFBlocks.OAK_SET.TABLE.get(), "木桌");
+        add(TFBlocks.OAK_SET.BED.get(), "木床");
+        add(TFBlocks.OAK_SET.CANDLE.get(), "木烛台");
 
         add(TFBlocks.PIN_WHEEL.get(), "风车");
 

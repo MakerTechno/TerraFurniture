@@ -84,7 +84,7 @@ public final class TFBlocks {
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .setSpecialIdFor(TFBlockType.TABLE, "wooden_table")
             .setAvailabilityFor(TFBlockType.BED, true)
-            .setAvailabilityFor(TFBlockType.CHANDELIER, true)
+            .setAvailabilityFor(TFBlockType.CANDLE, true)
             .build();
 
     // 蓝地牢

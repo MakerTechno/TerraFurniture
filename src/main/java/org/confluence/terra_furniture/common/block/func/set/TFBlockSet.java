@@ -153,12 +153,12 @@ public class TFBlockSet {
             putEntry(TFBlockType.BATHTUB, (p, a) -> new BathtubBlock(materialType, p));
             putEntry(TFBlockType.SINK, (p, a) -> new SinkBlock(materialType, propSourceBlock.defaultBlockState(), p));
             putEntry(TFBlockType.LARGE_CHANDELIER, (p, a) -> new LargeChandelierBlock(p));
-            putEntry(TFBlockType.CANDLE, (p, a) -> new SwitchableLightBlock(p, BlockShapeType.CANDLE));
-            putEntry(TFBlockType.LANTERN, (p, a) -> new SwitchableLightBlock(p, BlockShapeType.LANTERN));
-            putEntry(TFBlockType.LAMP, (p, a) -> new SwitchableLightBlock(p, BlockShapeType.LAMP));
-            putEntry(TFBlockType.CHANDELIER, (p, a) -> new SwitchableLightBlock(p, BlockShapeType.CHANDELIER));
+            putEntry(TFBlockType.CANDLE, (p, a) -> new SwitchableLightBlock(materialType, p, BlockShapeType.CANDLE));
+            putEntry(TFBlockType.LANTERN, (p, a) -> new SwitchableLightBlock(materialType, p, BlockShapeType.LANTERN));
+            putEntry(TFBlockType.LAMP, (p, a) -> new SwitchableLightBlock(materialType, p, BlockShapeType.LAMP));
+            putEntry(TFBlockType.CHANDELIER, (p, a) -> new SwitchableLightBlock(materialType, p, BlockShapeType.CHANDELIER));
             putEntry(TFBlockType.CLOCK, (p, a) -> new ClockBlock(p));
-            putEntry(TFBlockType.CANDELABRAS, (p, a) -> new CandelabraBlock(p));
+            putEntry(TFBlockType.CANDELABRAS, (p, a) -> new CandelabraBlock(materialType, p));
         }
 
         @SuppressWarnings("deprecation")

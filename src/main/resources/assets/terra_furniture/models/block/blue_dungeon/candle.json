@@ -4,8 +4,8 @@
 	"render_type": "cutout",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "terra_furniture:block/blue_dungeon_candle",
-		"1": "terra_furniture:block/blue_dungeon_candle_flames_anim",
+		"0": "terra_furniture:block/blue_dungeon/blue_dungeon_candle",
+		"1": "terra_furniture:block/blue_dungeon/blue_dungeon_candle_flames_anim",
 		"particle": "terra_furniture:block/particle/blue_dungeon_candle_particle"
 	},
 	"elements": [
