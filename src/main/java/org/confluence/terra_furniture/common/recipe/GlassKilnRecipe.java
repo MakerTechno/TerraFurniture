@@ -8,25 +8,27 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.confluence.lib.common.recipe.AbstractAmountRecipe;
-import org.confluence.lib.mixed.ILibShapedRecipePattern;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
 import org.jetbrains.annotations.Nullable;
+import org.mesdag.portlib.wrapper.world.item.crafting.PortShapedRecipePattern;
 
 public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
-    public final ShapedRecipePattern pattern;
+    public final PortShapedRecipePattern pattern;
     protected final float experience;
     protected final int cookingTime;
 
-    public GlassKilnRecipe(ItemStack result, ShapedRecipePattern pattern, float experience, int cookingTime) {
+    public GlassKilnRecipe(ItemStack result, PortShapedRecipePattern pattern, float experience, int cookingTime) {
         super(result, pattern.ingredients());
         this.pattern = pattern;
         this.experience = experience;
         this.cookingTime = cookingTime;
-        ILibShapedRecipePattern.setNonSymmetricalMatching(pattern);
+        pattern.setNonSymmetricalMatching();
     }
 
     public float getExperience() {
