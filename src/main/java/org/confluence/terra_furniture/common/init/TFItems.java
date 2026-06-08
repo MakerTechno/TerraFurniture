@@ -1,12 +1,14 @@
 package org.confluence.terra_furniture.common.init;
 
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 import org.confluence.terra_furniture.TerraFurniture;
 
 public final class TFItems {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(TerraFurniture.MODID);
-    public static final DeferredRegister.Items BLOCK_ITEMS = DeferredRegister.createItems(TerraFurniture.MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, TerraFurniture.MODID);
+    public static final DeferredRegister<Item> BLOCK_ITEMS = DeferredRegister.create(Registries.ITEM, TerraFurniture.MODID);
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

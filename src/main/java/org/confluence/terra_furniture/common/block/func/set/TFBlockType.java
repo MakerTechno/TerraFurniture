@@ -2,7 +2,7 @@ package org.confluence.terra_furniture.common.block.func.set;
 
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.world.level.block.*;
-import net.neoforged.neoforge.registries.DeferredBlock;
+import net.minecraftforge.registries.RegistryObject;
 import org.confluence.terra_furniture.common.block.light.CandelabraBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.light.SwitchableLightBlock;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TFBlockType<T extends Block> {
 
     private final String name;
-    private final Set<DeferredBlock<T>> registered = new ObjectArraySet<>();
+    private final Set<RegistryObject<T>> registered = new ObjectArraySet<>();
 
     private static final Map<String, TFBlockType<?>> REGISTRY = new ConcurrentHashMap<>();
 
@@ -44,11 +44,11 @@ public class TFBlockType<T extends Block> {
         return name;
     }
 
-    public void register(DeferredBlock<T> block) {
+    public void register(RegistryObject<T> block) {
         registered.add(block);
     }
 
-    public Set<DeferredBlock<T>> getAll() {
+    public Set<RegistryObject<T>> getAll() {
         return Collections.unmodifiableSet(registered);
     }
 
