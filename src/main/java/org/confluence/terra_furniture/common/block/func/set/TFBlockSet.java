@@ -3,7 +3,6 @@ package org.confluence.terra_furniture.common.block.func.set;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.neoforged.neoforge.registries.DeferredBlock;
 import org.confluence.terra_furniture.common.block.light.BlockShapeType;
 import org.confluence.terra_furniture.common.block.light.CandelabraBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
@@ -19,6 +18,7 @@ import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
 import org.confluence.terra_furniture.common.block.sleep.TFBedBlock;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
+import org.mesdag.portlib.registries.PortDeferredBlock;
 
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -28,32 +28,32 @@ import java.util.function.Supplier;
 
 public class TFBlockSet {
     /* Vanilla support */
-    public final DeferredBlock<ButtonBlock> BUTTON;
-    public final DeferredBlock<PressurePlateBlock> PRESSURE_PLATE;
-    public final DeferredBlock<SlabBlock> SLAB;
-    public final DeferredBlock<StairBlock> STAIRS;
-    public final DeferredBlock<TrapDoorBlock> TRAPDOOR;
+    public final PortDeferredBlock<ButtonBlock> BUTTON;
+    public final PortDeferredBlock<PressurePlateBlock> PRESSURE_PLATE;
+    public final PortDeferredBlock<SlabBlock> SLAB;
+    public final PortDeferredBlock<StairBlock> STAIRS;
+    public final PortDeferredBlock<TrapDoorBlock> TRAPDOOR;
 
     /* Special furniture */
-    public final DeferredBlock<TFDoorBlock> DOOR; // This is a bit different from vanilla
-    public final DeferredBlock<TableBlock> TABLE;
-    public final DeferredBlock<ChairBlock> CHAIR;
-    public final DeferredBlock<SofaBlock> SOFA;
-    public final DeferredBlock<ToiletBlock> TOILET;
-    public final DeferredBlock<TFBedBlock> BED;
-    public final DeferredBlock<BathtubBlock> BATHTUB;
-    public final DeferredBlock<SinkBlock> SINK;
+    public final PortDeferredBlock<TFDoorBlock> DOOR; // This is a bit different from vanilla
+    public final PortDeferredBlock<TableBlock> TABLE;
+    public final PortDeferredBlock<ChairBlock> CHAIR;
+    public final PortDeferredBlock<SofaBlock> SOFA;
+    public final PortDeferredBlock<ToiletBlock> TOILET;
+    public final PortDeferredBlock<TFBedBlock> BED;
+    public final PortDeferredBlock<BathtubBlock> BATHTUB;
+    public final PortDeferredBlock<SinkBlock> SINK;
 
     /* Not completed */
-    public final DeferredBlock<ClockBlock> CLOCK;
-    public final DeferredBlock<LargeChandelierBlock> LARGE_CHANDELIER; // This one uses GeoBER model
-    public final DeferredBlock<SwitchableLightBlock> CANDLE;
-    public final DeferredBlock<SwitchableLightBlock> LANTERN;
-    public final DeferredBlock<SwitchableLightBlock> LAMP;
-    public final DeferredBlock<CandelabraBlock> CANDELABRAS;
+    public final PortDeferredBlock<ClockBlock> CLOCK;
+    public final PortDeferredBlock<LargeChandelierBlock> LARGE_CHANDELIER; // This one uses GeoBER model
+    public final PortDeferredBlock<SwitchableLightBlock> CANDLE;
+    public final PortDeferredBlock<SwitchableLightBlock> LANTERN;
+    public final PortDeferredBlock<SwitchableLightBlock> LAMP;
+    public final PortDeferredBlock<CandelabraBlock> CANDELABRAS;
 
     /* Deprecated(But we keep this because it was used by old structures) */
-    public final DeferredBlock<SwitchableLightBlock> CHANDELIER;
+    public final PortDeferredBlock<SwitchableLightBlock> CHANDELIER;
 
     protected TFBlockSet(Builder builder) {
         BUTTON = init(builder, TFBlockType.BUTTON);
@@ -79,22 +79,23 @@ public class TFBlockSet {
     }
 
     @SuppressWarnings("all")
-    public static <T extends Block> DeferredBlock<T> init(Builder builder, TFBlockType<T> type) {
+    public static <T extends Block> PortDeferredBlock<T> init(Builder builder, TFBlockType<T> type) {
         Builder.TFBlockBuildEntry<T> entry = builder.getEntry(type);
         if (!entry.available) {
             return null;
         }
-        DeferredBlock<T> block = TFBlocks.registerWithItem(entry.specialId != null ? entry.specialId : builder.materialType.name() + "_" + type.name(), entry.getEntryResult());
+        PortDeferredBlock<T> block = TFBlocks.registerWithItem(entry.specialId != null ? entry.specialId : builder.materialType.name() + "_" + type.name(), entry.getEntryResult());
         type.register(block);
         return block;
     }
+
     @SuppressWarnings("all")
-    public static DeferredBlock<LargeChandelierBlock> initLargeChandelier(Builder builder) {
+    public static PortDeferredBlock<LargeChandelierBlock> initLargeChandelier(Builder builder) {
         Builder.TFBlockBuildEntry<LargeChandelierBlock> entry = builder.getEntry(TFBlockType.LARGE_CHANDELIER);
         if (!entry.available) {
             return null;
         }
-        DeferredBlock<LargeChandelierBlock> block = TFBlocks.registerLargeChandelier(entry.specialId != null ? entry.specialId : builder.materialType.name() + "_" + TFBlockType.LARGE_CHANDELIER.name(), entry.getEntryResult());
+        PortDeferredBlock<LargeChandelierBlock> block = TFBlocks.registerLargeChandelier(entry.specialId != null ? entry.specialId : builder.materialType.name() + "_" + TFBlockType.LARGE_CHANDELIER.name(), entry.getEntryResult());
         TFBlockType.LARGE_CHANDELIER.register(block);
         return block;
     }
@@ -107,11 +108,13 @@ public class TFBlockSet {
             public BlockBehaviour.Properties properties;
             public Consumer<BlockBehaviour.Properties> applier = properties1 -> {};
             public final TFBlockType<T> blockType;
+
             public TFBlockBuildEntry(TFBlockType<T> blockType, BlockBehaviour.Properties defaultProp, BiFunction<BlockBehaviour.Properties, Consumer<BlockBehaviour.Properties>, T> blockSupplier) {
                 this.blockType = blockType;
                 this.properties = defaultProp;
                 this.blockSupplier = blockSupplier;
             }
+
             public Supplier<T> getEntryResult() {
                 /* Copy to instance-like */
                 BlockBehaviour.Properties propertiesFinal = this.properties;
@@ -128,7 +131,7 @@ public class TFBlockSet {
         private int buttonPressedTick = 30;
         private float chairSitHeight = 0.5f;
         private float sofaSitHeight = 0.55f;
-        private float toiletSitHeight = 11.0f/16;
+        private float toiletSitHeight = 11.0f / 16;
         private int candleBlockLight = 14;
         private int lanternBlockLight = 14;
         private int lamp, candelabras, chandelier;
@@ -192,7 +195,7 @@ public class TFBlockSet {
 
         @SuppressWarnings("all")
         public <T extends Block> Builder setGetterFor(TFBlockType<T> key, BiFunction<BlockBehaviour.Properties, Consumer<BlockBehaviour.Properties>, T> instanceGetter) {
-            ((TFBlockBuildEntry<T>)entries.get(key)).blockSupplier = instanceGetter;
+            ((TFBlockBuildEntry<T>) entries.get(key)).blockSupplier = instanceGetter;
             return this;
         }
 
