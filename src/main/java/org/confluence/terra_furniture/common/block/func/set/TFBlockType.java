@@ -2,7 +2,6 @@ package org.confluence.terra_furniture.common.block.func.set;
 
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.world.level.block.*;
-import net.minecraftforge.registries.RegistryObject;
 import org.confluence.terra_furniture.common.block.light.CandelabraBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.light.SwitchableLightBlock;
@@ -17,6 +16,7 @@ import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
 import org.confluence.terra_furniture.common.block.sleep.TFBedBlock;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.UnmodifiableView;
+import org.mesdag.portlib.registries.PortDeferredBlock;
 
 import java.util.Collections;
 import java.util.Map;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TFBlockType<T extends Block> {
 
     private final String name;
-    private final Set<RegistryObject<T>> registered = new ObjectArraySet<>();
+    private final Set<PortDeferredBlock<T>> registered = new ObjectArraySet<>();
 
     private static final Map<String, TFBlockType<?>> REGISTRY = new ConcurrentHashMap<>();
 
@@ -44,11 +44,11 @@ public class TFBlockType<T extends Block> {
         return name;
     }
 
-    public void register(RegistryObject<T> block) {
+    public void register(PortDeferredBlock<T> block) {
         registered.add(block);
     }
 
-    public Set<RegistryObject<T>> getAll() {
+    public Set<PortDeferredBlock<T>> getAll() {
         return Collections.unmodifiableSet(registered);
     }
 

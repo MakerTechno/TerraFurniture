@@ -1,8 +1,8 @@
 package org.confluence.terra_furniture.client.generators;
 
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.client.model.generators.*;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraftforge.client.model.generators.*;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import org.confluence.terra_furniture.common.block.misc.TableBlock;
 
 public abstract class TableBDG extends DefaultBlockDataGenerator<TableBlock> {

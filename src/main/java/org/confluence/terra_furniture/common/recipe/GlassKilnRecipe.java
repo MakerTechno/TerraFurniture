@@ -1,24 +1,28 @@
 package org.confluence.terra_furniture.common.recipe;
 
+import PortLib.extensions.com.mojang.serialization.Codec.PortCodecExtension;
+import PortLib.extensions.net.minecraft.world.item.ItemStack.PortItemStackExtension;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.confluence.lib.common.recipe.AbstractAmountRecipe;
+import org.confluence.lib.common.recipe.SimpleRecipeSerializer;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
-import org.jetbrains.annotations.Nullable;
+import org.mesdag.portlib.network.PortRegistryFriendlyByteBuf;
+import org.mesdag.portlib.network.codec.PortByteBufCodecs;
+import org.mesdag.portlib.network.codec.PortStreamCodec;
+import org.mesdag.portlib.wrapper.world.item.crafting.PortCraftingInput;
 import org.mesdag.portlib.wrapper.world.item.crafting.PortShapedRecipePattern;
 
-public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
+public class GlassKilnRecipe extends AbstractAmountRecipe<PortCraftingInput> {
     public final PortShapedRecipePattern pattern;
     protected final float experience;
     protected final int cookingTime;
@@ -45,20 +49,20 @@ public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
     }
 
     @Override
-    public boolean matches(CraftingInput input, Level pLevel) {
+    public boolean matches(PortCraftingInput input, Level pLevel) {
         return pattern.matches(input);
     }
 
     @Override
-    public ItemStack assembleAndExtract(CraftingInput input, HolderLookup.@Nullable Provider registries) {
+    public ItemStack assembleAndExtract(PortCraftingInput input, RegistryAccess registryAccess) {
         consumeShaped(input, 4, 4, pattern);
-        return assemble(input, registries);
+        return assemble(input, registryAccess);
     }
 
     @Override
     public boolean isIncomplete() {
         NonNullList<Ingredient> nonnulllist = getIngredients();
-        return nonnulllist.isEmpty() || nonnulllist.stream().filter(ingredient -> !ingredient.isEmpty()).anyMatch(Ingredient::hasNoItems);
+        return nonnulllist.isEmpty() || nonnulllist.stream().filter(ingredient -> !ingredient.isEmpty()).anyMatch(Ingredient::isEmpty);
     }
 
     @Override
@@ -86,36 +90,29 @@ public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
         return TFRegistries.GLASS_KILN_RECIPE_TYPE.get();
     }
 
-    public static class Serializer implements RecipeSerializer<GlassKilnRecipe> {
+    public static class Serializer extends SimpleRecipeSerializer<GlassKilnRecipe> {
         public static final MapCodec<GlassKilnRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
-                ShapedRecipePattern.MAP_CODEC.forGetter(recipe -> recipe.pattern),
-                Codec.FLOAT.lenientOptionalFieldOf("experience", 0.0F).forGetter(recipe -> recipe.experience),
-                Codec.INT.lenientOptionalFieldOf("cookingtime", 100).forGetter(recipe -> recipe.cookingTime)
+                PortItemStackExtension.strictCodec().fieldOf("result").forGetter(recipe -> recipe.result),
+                PortShapedRecipePattern.MAP_CODEC.forGetter(recipe -> recipe.pattern),
+                PortCodecExtension.lenientOptionalFieldOf(Codec.FLOAT, "experience", 0.0F).forGetter(recipe -> recipe.experience),
+                PortCodecExtension.lenientOptionalFieldOf(Codec.INT, "cookingtime", 100).forGetter(recipe -> recipe.cookingTime)
         ).apply(instance, GlassKilnRecipe::new));
-        public static final StreamCodec<RegistryFriendlyByteBuf, GlassKilnRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
+        public static final PortStreamCodec<PortRegistryFriendlyByteBuf, GlassKilnRecipe> STREAM_CODEC = PortStreamCodec.composite(
+                PortItemStackExtension.streamCodec(), recipe -> recipe.result,
+                PortShapedRecipePattern.STREAM_CODEC, recipe -> recipe.pattern,
+                PortByteBufCodecs.FLOAT, recipe -> recipe.experience,
+                PortByteBufCodecs.VAR_INT, recipe -> recipe.cookingTime,
+                GlassKilnRecipe::new
+        );
 
         @Override
-        public MapCodec<GlassKilnRecipe> codec() {
+        protected MapCodec<GlassKilnRecipe> getCodec() {
             return CODEC;
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, GlassKilnRecipe> streamCodec() {
+        protected PortStreamCodec<PortRegistryFriendlyByteBuf, GlassKilnRecipe> getStreamCodec() {
             return STREAM_CODEC;
-        }
-
-        private static GlassKilnRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-            ItemStack itemstack = ItemStack.STREAM_CODEC.decode(buffer);
-            ShapedRecipePattern shapedrecipepattern = ShapedRecipePattern.STREAM_CODEC.decode(buffer);
-            return new GlassKilnRecipe(itemstack, shapedrecipepattern, buffer.readFloat(), buffer.readVarInt());
-        }
-
-        private static void toNetwork(RegistryFriendlyByteBuf buffer, GlassKilnRecipe recipe) {
-            ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
-            ShapedRecipePattern.STREAM_CODEC.encode(buffer, recipe.pattern);
-            buffer.writeFloat(recipe.experience);
-            buffer.writeVarInt(recipe.cookingTime);
         }
     }
 }

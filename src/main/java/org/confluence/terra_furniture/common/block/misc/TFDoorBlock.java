@@ -13,7 +13,7 @@ public class TFDoorBlock extends DoorBlock implements AutoGenBlockData<TFDoorBlo
     private final TFBlockSetType type;
 
     public TFDoorBlock(TFBlockSetType type, Properties properties) {
-        super(type.getType(), properties);
+        super(properties, type.getType());
         this.type = type;
     }
 

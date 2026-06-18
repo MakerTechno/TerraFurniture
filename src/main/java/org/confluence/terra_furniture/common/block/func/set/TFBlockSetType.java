@@ -42,9 +42,6 @@ public final class TFBlockSetType {
     public TFBlockSetType(
             String name,
             boolean canOpenByHand,
-            boolean canOpenByWindCharge,
-            boolean canButtonBeActivatedByArrows,
-            BlockSetType.PressurePlateSensitivity pressurePlateSensitivity,
             SoundType soundType,
             SoundEvent doorClose,
             SoundEvent doorOpen,
@@ -59,9 +56,6 @@ public final class TFBlockSetType {
         this.type = BlockSetType.register(new BlockSetType(
                 name,
                 canOpenByHand,
-                canOpenByWindCharge,
-                canButtonBeActivatedByArrows,
-                pressurePlateSensitivity,
                 soundType,
                 doorClose,
                 doorOpen,
@@ -79,9 +73,6 @@ public final class TFBlockSetType {
     public TFBlockSetType(
             String name,
             boolean canOpenByHand,
-            boolean canOpenByWindCharge,
-            boolean canButtonBeActivatedByArrows,
-            BlockSetType.PressurePlateSensitivity pressurePlateSensitivity,
             SoundType soundType,
             SoundEvent doorClose,
             SoundEvent doorOpen,
@@ -97,9 +88,6 @@ public final class TFBlockSetType {
         this.type = BlockSetType.register(new BlockSetType(
                 name,
                 canOpenByHand,
-                canOpenByWindCharge,
-                canButtonBeActivatedByArrows,
-                pressurePlateSensitivity,
                 soundType,
                 doorClose,
                 doorOpen,

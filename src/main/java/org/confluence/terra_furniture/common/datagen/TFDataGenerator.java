@@ -4,10 +4,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = TerraFurniture.MODID)
+@Mod.EventBusSubscriber(modid = TerraFurniture.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class TFDataGenerator {
     public static final Map<Block, BlockDataGenerator<?>> GENERATORS = new HashMap<>();
     @SubscribeEvent
@@ -44,7 +44,7 @@ public final class TFDataGenerator {
         TFBlockTagsProvider blockTagsProvider = new TFBlockTagsProvider(output, lookup, helper);
         generator.addProvider(server, blockTagsProvider);
         generator.addProvider(server, new TFItemTagsProvider(output, lookup, blockTagsProvider.contentsGetter(), helper));
-        generator.addProvider(server, new TFLootTableProvider(output, lookup));
-        generator.addProvider(server, new TFRecipeProvider(output, lookup));
+        generator.addProvider(server, new TFLootTableProvider(output));
+        generator.addProvider(server, new TFRecipeProvider(output));
     }
 }

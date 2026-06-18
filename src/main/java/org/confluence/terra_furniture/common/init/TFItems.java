@@ -1,17 +1,12 @@
 package org.confluence.terra_furniture.common.init;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.Item;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
 import org.confluence.terra_furniture.TerraFurniture;
+import org.mesdag.portlib.registries.PortItemRegistration;
+import org.mesdag.portlib.registries.PortRegisterHandler;
 
 public final class TFItems {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, TerraFurniture.MODID);
-    public static final DeferredRegister<Item> BLOCK_ITEMS = DeferredRegister.create(Registries.ITEM, TerraFurniture.MODID);
+    public static void init() {}
 
-    public static void register(IEventBus eventBus) {
-        ITEMS.register(eventBus);
-        BLOCK_ITEMS.register(eventBus);
-    }
+    public static final PortItemRegistration ITEMS = PortRegisterHandler.item(TerraFurniture.MODID);
+    public static final PortItemRegistration BLOCK_ITEMS = PortRegisterHandler.item(TerraFurniture.MODID);
 }

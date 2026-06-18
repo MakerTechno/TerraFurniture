@@ -13,7 +13,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -32,7 +31,7 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return switch (state.getValue(FACING)) {
             case NORTH -> Shapes.or(SINK_X.move(0, 0, 3 / 16.0), PIPE.move(0, 0, 6 / 16.0));
             case SOUTH -> Shapes.or(SINK_X.move(0, 0, -3 / 16.0), PIPE.move(0, 0, -6 / 16.0));
@@ -43,7 +42,7 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
     }
 
     @SuppressWarnings("deprecation")
-    protected @NotNull BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
+    public BlockState mirror(BlockState state, Mirror mirror) {
         Direction direction = state.getValue(FACING);
         switch (mirror) {
             case LEFT_RIGHT -> {

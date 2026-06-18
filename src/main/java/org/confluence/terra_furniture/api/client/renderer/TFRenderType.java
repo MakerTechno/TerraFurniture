@@ -9,9 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Function;
 
-import static net.minecraft.client.renderer.RenderStateShard.*;
-
-public class TFRenderType {
+public class TFRenderType extends RenderStateShard {
+    private TFRenderType() {
+        super(null, null, null);
+    }
 
     public static RenderType entityCutoutNoShadow(ResourceLocation location) {
         return ENTITY_CUTOUT_NO_SHADOW.apply(location);

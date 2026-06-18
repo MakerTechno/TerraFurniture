@@ -1,24 +1,24 @@
 package org.confluence.terra_furniture.common.event;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.player.CanContinueSleepingEvent;
-import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent;
-import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
+import org.mesdag.portlib.event.PortEventHandler;
+import org.mesdag.portlib.event.entity.player.PortCanContinueSleepingEvent;
+import org.mesdag.portlib.event.entity.player.PortCanPlayerSleepEvent;
 
-@EventBusSubscriber(modid = TerraFurniture.MODID)
 public final class TFGameEvents {
-    @SubscribeEvent
-    public static void canPlayerSleep(CanPlayerSleepEvent event) {
+    public static void init() {
+        PortEventHandler.addListener(TFGameEvents::canPlayerSleep);
+        PortEventHandler.addListener(TFGameEvents::canContinueSleeping);
+    }
+
+    private static void canPlayerSleep(PortCanPlayerSleepEvent event) {
         if (event.getState().getBlock() instanceof BathtubBlock) {
             event.setProblem(null);
         }
     }
 
-    @SubscribeEvent
-    public static void canContinueSleeping(CanContinueSleepingEvent event) {
+    private static void canContinueSleeping(PortCanContinueSleepingEvent event) {
         if (event.mayContinueSleeping()) return;
         LivingEntity living = event.getEntity();
         living.getSleepingPos().ifPresent(pos -> {

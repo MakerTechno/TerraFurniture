@@ -1,7 +1,7 @@
 package org.confluence.terra_furniture.common.datagen;
 
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.minecraftforge.common.data.LanguageProvider;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 
@@ -94,7 +94,7 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.MARBLE_SET.TABLE.get(), "大理石桌");
         add(TFBlocks.BALLOON_SET.TABLE.get(), "气球桌");
         add(TFBlocks.FLINX_FUR_SET.BED.get(), "小雪怪皮毛床");
-        
+
         add(TFBlocks.CLOUD_SET.BED.get(), "云床");
 
         add(TFBlocks.COPPER_SET.TABLE.get(), "铜桌");

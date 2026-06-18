@@ -10,9 +10,7 @@ import software.bernie.geckolib.model.GeoModel;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-/**
- * 简化Geo方块实体模型提供的通用类，将会缓存对应的模型、贴图与动画。
- */
+/// 简化Geo方块实体模型提供的通用类，将会缓存对应的模型、贴图与动画。
 public class CacheBlockModel<T extends BlockEntity & GeoBlockEntity> extends GeoModel<T> {
     protected final Function<String, ResourceLocation> pathApplier;
     public static final ConcurrentHashMap<String, ResourceLocation> MODEL = new ConcurrentHashMap<>();

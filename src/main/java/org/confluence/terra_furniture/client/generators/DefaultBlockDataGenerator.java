@@ -6,13 +6,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.model.generators.*;
-import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraftforge.client.model.generators.*;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import org.confluence.lib.common.LibTags;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -97,7 +96,7 @@ public abstract class DefaultBlockDataGenerator<T extends Block & BlockSetGetter
     /**
      * 构造某个模型
      */
-    public  <B extends ModelBuilder<B>, P extends ModelProvider<B>> B buildModel(P provider, @NotNull String builderOutput, ResourceLocation location) {
+    public  <B extends ModelBuilder<B>, P extends ModelProvider<B>> B buildModel(P provider, String builderOutput, ResourceLocation location) {
         B mb = provider.getBuilder(builderOutput);
         return mb.parent(provider.getExistingFile(location));
     }

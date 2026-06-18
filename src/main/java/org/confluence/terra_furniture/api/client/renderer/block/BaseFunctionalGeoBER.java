@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import org.confluence.terra_furniture.api.client.model.CacheBlockModel;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -23,6 +22,7 @@ import java.util.function.*;
 
 /**
  * 实验性渲染通用类，尝试减少多种方块实体在共同功能上的类数量开销。
+ *
  * @author MakerTechno
  */
 public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extends GeoBlockRenderer<T> {
@@ -63,39 +63,44 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
         public static <O extends BlockEntity & GeoBlockEntity> BaseFunctionalGeoBER<O> simple(boolean isNegative) {
             return Builder.<O>of(isNegative).build();
         }
+
         protected final T renderer;
+
         protected Builder(Supplier<T> constructor) {
             renderer = constructor.get();
         }
+
         /**
          * 构造一个 Builder 实例，绑定指定模型与渲染模式。<p>
          * 注意: 静态化获取, 需要注意每个子类都有其独特的获取方法, 而非一味使用该方法。
          *
-         * @param model 渲染使用的模型
+         * @param model      渲染使用的模型
          * @param isNegative 是否启用负体积渲染(RenderType:entityCutout)
-         * @param <O> 方块实体类型
+         * @param <O>        方块实体类型
          * @return 构建器实例
          */
         public static <O extends BlockEntity & GeoBlockEntity> Builder<O, BaseFunctionalGeoBER<O>> of(GeoModel<O> model, boolean isNegative) {
             return new Builder<>(() -> new BaseFunctionalGeoBER<>(model, isNegative));
         }
+
         /**
          * 使用默认模型创建 Builder 实例，无需编辑自定义模型。
          * <p><b>注意: 默认使用 {@link CacheBlockModel} 实例，请明确已经知悉该类的相关注意事项</b></p><p>
          * 注意: 静态化获取, 需要注意每个子类都有其独特的获取方法, 而非一味使用该方法。
          *
          * @param isNegative 是否启用负体积渲染(RenderType:entityCutout)
-         * @param <O> 方块实体类型
+         * @param <O>        方块实体类型
          * @return 构建器实例
          */
         public static <O extends BlockEntity & GeoBlockEntity> Builder<O, BaseFunctionalGeoBER<O>> of(boolean isNegative) {
             return new Builder<>(() -> new BaseFunctionalGeoBER<>(new CacheBlockModel<>(), isNegative));
         }
+
         /**
          * 添加骨骼隐藏规则，用于在指定模型层根据选择器与实体状态决定是否对骨骼操作。
          *
-         * @param floor 模型的层级，0表示模型最顶层所有元素，1表示向下的一层，以此类推
-         * @param selector 骨骼选择器，用于筛选目标骨骼
+         * @param floor     模型的层级，0表示模型最顶层所有元素，1表示向下的一层，以此类推
+         * @param selector  骨骼选择器，用于筛选目标骨骼
          * @param operation 对骨骼进行的操作。基于骨骼与实体状态，可在此对筛选的骨骼进行二次分类
          * @return 构建器自身
          */
@@ -103,6 +108,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             renderer.addBoneOp(new Pair<>(floor, selector), operation);
             return this;
         }
+
         /**
          * 注册渲染钩子，可在默认渲染模型前后插入自定义逻辑。
          * <p><b>注意: 该方法具有固定顺序的调用层，请按照逻辑顺序注册</b></p>
@@ -114,6 +120,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             renderer.addRenderHook(hook);
             return this;
         }
+
         /**
          * 自定义渲染可见范围(仅仅是可能有效)。
          * <p><b>使用此功能将会使shouldRendererOffScreen返回false</b></p>
@@ -126,6 +133,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             renderer.setApplied(applied);
             return this;
         }
+
         /**
          * 禁止离屏渲染(仅仅是可能有效)。
          * <p><b>注意：已经调用本构造器的{@link #renderBox(Function)}的构建器无需调用此方法</b></p>
@@ -136,6 +144,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             renderer.disableRenderOffScreen();
             return this;
         }
+
         /**
          * 结束构建。
          */
@@ -144,6 +153,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
             return renderer;
         }
     }
+
     private final Map<Integer, GeoBoneOp> op = new HashMap<>();
     private final Map<GeoBone, Integer> cachedBones = new HashMap<>(); // bone -> operation index
     private final List<IRenderFunctionHook<T>> hooks = new ArrayList<>();
@@ -155,6 +165,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     private class GeoBoneOp {
         final Pair<Integer, Predicate<GeoBone>> selector;
         final BiConsumer<GeoBone, T> operation;
+
         GeoBoneOp(Pair<Integer, Predicate<GeoBone>> selector, BiConsumer<GeoBone, T> operation) {
             this.selector = selector;
             this.operation = operation;
@@ -184,9 +195,9 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
 
     void processMaxFloor() {
         maxFloor = op.entrySet().stream()
-            .max(Comparator.comparingInt(value -> value.getValue().selector.getFirst()))
-            .map(ruleEntry -> ruleEntry.getValue().selector.getFirst())
-            .orElse(-1);
+                .max(Comparator.comparingInt(value -> value.getValue().selector.getFirst()))
+                .map(ruleEntry -> ruleEntry.getValue().selector.getFirst())
+                .orElse(-1);
     }
 
     void setupCacheAndProcess(BakedGeoModel model) {
@@ -213,14 +224,16 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
         for (GeoBone child : bone.getChildBones()) {
             computeBone(child, depth + 1, maxFloor, task);
         }
-
     }
 
     @Override
-    public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
-        if (!cachedBones.isEmpty()) cachedBones.forEach((bone, opId) -> op.get(opId).operation.accept(bone, animatable));
-        else if (!op.isEmpty()) setupCacheAndProcess(model);
-        super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
+    public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        if (!cachedBones.isEmpty()) {
+            cachedBones.forEach((bone, opId) -> op.get(opId).operation.accept(bone, animatable));
+        } else if (!op.isEmpty()) {
+            setupCacheAndProcess(model);
+        }
+        super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override
@@ -245,7 +258,7 @@ public class BaseFunctionalGeoBER<T extends BlockEntity & GeoBlockEntity> extend
     }
 
     @Override
-    public @NotNull AABB getRenderBoundingBox(T blockEntity) {
+    public AABB getRenderBoundingBox(T blockEntity) {
         return applied != null ? applied.apply(blockEntity.getBlockPos()) : super.getRenderBoundingBox(blockEntity);
     }
 }

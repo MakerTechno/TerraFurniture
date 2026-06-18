@@ -1,11 +1,10 @@
 package org.confluence.terra_furniture.common.block.light;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CopperBulbBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -25,6 +23,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import org.confluence.terra_furniture.client.generators.DefaultBlockDataGenerator;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
@@ -32,14 +31,17 @@ import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
 import org.jetbrains.annotations.Nullable;
+import org.mesdag.portlib.wrapper.sounds.PortSoundEvents;
+import org.mesdag.portlib.wrapper.world.level.block.PortCopperBulbBlock;
 
 import java.util.HashSet;
 
-public class SwitchableLightBlock extends CopperBulbBlock implements SimpleWaterloggedBlock, AutoGenBlockData<SwitchableLightBlock>, BlockSetGetter<SwitchableLightBlock> {
+public class SwitchableLightBlock extends PortCopperBulbBlock implements SimpleWaterloggedBlock, AutoGenBlockData<SwitchableLightBlock>, BlockSetGetter<SwitchableLightBlock> {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private final TFBlockSetType type;
     private final BlockShapeType shapeType;
+
     public SwitchableLightBlock(TFBlockSetType type, Properties properties, BlockShapeType shapeType) {
         super(properties);
         this.type = type;
@@ -48,21 +50,26 @@ public class SwitchableLightBlock extends CopperBulbBlock implements SimpleWater
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return shapeType.getShape();
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED,POWERED,LIT);
+        builder.add(WATERLOGGED, POWERED, LIT);
     }
+
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         BlockState blockstate = state.cycle(LIT);
-        level.playSound(null, pos, blockstate.getValue(LIT) ? SoundEvents.COPPER_BULB_TURN_ON : SoundEvents.COPPER_BULB_TURN_OFF, SoundSource.BLOCKS);
+        level.playSound(null, pos, blockstate.getValue(LIT)
+                        ? PortSoundEvents.COPPER_BULB_TURN_ON.get()
+                        : PortSoundEvents.COPPER_BULB_TURN_OFF.get(),
+                SoundSource.BLOCKS);
         level.setBlock(pos, blockstate, 3);
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
+
     @Override
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -77,29 +84,34 @@ public class SwitchableLightBlock extends CopperBulbBlock implements SimpleWater
         }
         return null;
     }
+
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         if (oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel) {
             this.checkAndFlip(state, serverlevel, pos);
         }
     }
+
     @Override
     public void checkAndFlip(BlockState state, ServerLevel level, BlockPos pos) {
         boolean flag = level.hasNeighborSignal(pos);
         if (flag != state.getValue(POWERED)) {
             BlockState blockstate = state.cycle(LIT);
-            level.playSound(null, pos, blockstate.getValue(LIT) ? SoundEvents.COPPER_BULB_TURN_ON : SoundEvents.COPPER_BULB_TURN_OFF, SoundSource.BLOCKS);
+            level.playSound(null, pos, blockstate.getValue(LIT)
+                            ? PortSoundEvents.COPPER_BULB_TURN_ON.get()
+                            : PortSoundEvents.COPPER_BULB_TURN_OFF.get(),
+                    SoundSource.BLOCKS);
             level.setBlock(pos, blockstate.setValue(POWERED, flag), 3);
         }
     }
 
     @Override
-    protected FluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return shapeType.isSupported(state, level, pos);
     }
 
@@ -123,7 +135,8 @@ public class SwitchableLightBlock extends CopperBulbBlock implements SimpleWater
                     case LANTERN -> TFBlockType.LANTERN;
                     case LAMP -> TFBlockType.LAMP;
                     case CHANDELIER -> TFBlockType.CHANDELIER;
-                    default -> throw new IllegalStateException("Unexpected shape type: " + block.shapeType);
+                    default ->
+                            throw new IllegalStateException("Unexpected shape type: " + block.shapeType);
                 };
             }
 

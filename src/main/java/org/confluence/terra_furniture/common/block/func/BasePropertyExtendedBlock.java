@@ -1,7 +1,5 @@
 package org.confluence.terra_furniture.common.block.func;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -29,21 +27,14 @@ import java.util.function.Consumer;
  * 基础的多种材料属性的变体方块，预留了很多有关生成的方法。
  */
 public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBlock<T>> extends Block implements SimpleWaterloggedBlock, BlockSetGetter<T>, AutoGenBlockData<T> {
-    public final MapCodec<BasePropertyExtendedBlock<T>> codec = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(
-                    BlockState.CODEC.fieldOf("base_state").forGetter(block -> block.baseState),
-                    propertiesCodec()
-            ).apply(instance, this::createNewInstance)
-    );
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public final Block base;
     private final BlockState baseState;
     private final TFBlockSetType type;
 
-    @SuppressWarnings("deprecation")
     public static Properties calcProperties(Block block, Consumer<Properties> extraPropApplier) {
-        Properties newProp = Properties.ofLegacyCopy(block);
+        Properties newProp = Properties.copy(block);
         extraPropApplier.accept(newProp);
         return newProp;
     }
@@ -76,7 +67,7 @@ public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBl
     }
 
     @Override
-    protected boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
         return getType().equals(TFBlockSetTypes.GLASS) || super.propagatesSkylightDown(state, reader, pos);
     }
 
@@ -106,15 +97,9 @@ public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBl
         return this.base.getExplosionResistance();
     }
 
-
     @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+    public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
         return false;
-    }
-
-    @Override
-    protected MapCodec<? extends Block> codec() {
-        return codec;
     }
 
     protected abstract BasePropertyExtendedBlock<T> createNewInstance(BlockState baseState, Properties properties);
@@ -125,12 +110,12 @@ public abstract class BasePropertyExtendedBlock<T extends BasePropertyExtendedBl
 
 
     @Override
-    protected VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return getType().equals(TFBlockSetTypes.GLASS) ? Shapes.empty() : super.getVisualShape(state, level, pos, context);
     }
 
     @Override
-    protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+    public float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
         return getType().equals(TFBlockSetTypes.GLASS) ? 1.0F : super.getShadeBrightness(state, level, pos);
     }
 

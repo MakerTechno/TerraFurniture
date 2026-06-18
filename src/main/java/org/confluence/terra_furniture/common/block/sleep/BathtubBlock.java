@@ -30,7 +30,7 @@ public class BathtubBlock extends TFBedBlock {
 
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         int index = state.getValue(FACING).get2DDataValue();
         return switch (state.getValue(PART)) {
             case BASE -> BASE_SHAPES[index];

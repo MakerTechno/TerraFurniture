@@ -1,28 +1,23 @@
 package org.confluence.terra_furniture.common.block.crafting;
 
-import com.mojang.serialization.MapCodec;
+import PortLib.extensions.net.minecraft.world.item.ItemStack.PortItemStackExtension;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -47,12 +42,13 @@ import org.confluence.terra_furniture.common.init.TFRegistries;
 import org.confluence.terra_furniture.common.menu.GlassKilnMenu;
 import org.confluence.terra_furniture.common.recipe.GlassKilnRecipe;
 import org.jetbrains.annotations.Nullable;
+import org.mesdag.portlib.wrapper.world.inventory.PortRecipeCraftingHolder;
+import org.mesdag.portlib.wrapper.world.item.crafting.PortCraftingInput;
+import org.mesdag.portlib.wrapper.world.item.crafting.PortSingleRecipeInput;
 
 import static org.confluence.terra_furniture.common.menu.GlassKilnMenu.*;
 
 public class GlassKilnBlock extends HorizontalDirectionalBlock implements EntityBlock {
-    public static final MapCodec<GlassKilnBlock> CODEC = simpleCodec(GlassKilnBlock::new);
-
     public GlassKilnBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(BlockStateProperties.LIT, false));
@@ -69,12 +65,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     @Override
-    protected MapCodec<GlassKilnBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
@@ -86,12 +77,12 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     @Override
-    protected boolean hasAnalogOutputSignal(BlockState state) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
     @Override
-    protected int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos pos) {
         return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
     }
 
@@ -119,7 +110,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
         return level.isClientSide ? null : LibUtils.getTicker(blockEntityType, TFBlocks.GLASS_KILN_ENTITY.get(), Entity::serverTick);
     }
 
-    public static class Entity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder {
+    public static class Entity extends BaseContainerBlockEntity implements WorldlyContainer, PortRecipeCraftingHolder {
         private static final Component TITLE = Component.translatable("container.terra_furniture.glass_kiln");
         private static final int[] SLOTS_FOR_UP = Util.make(new int[16], array -> {
             for (int i = INPUT_START; i <= INPUT_END; i++) array[i] = i;
@@ -171,10 +162,10 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             }
         };
         private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
-        private final RecipeManager.CachedCheck<CraftingInput, GlassKilnRecipe> glassKiln;
-        private final RecipeManager.CachedCheck<SingleRecipeInput, SmeltingRecipe> smelting;
+        private final RecipeManager.CachedCheck<PortCraftingInput, GlassKilnRecipe> glassKiln;
+        private final RecipeManager.CachedCheck<Container, SmeltingRecipe> smelting;
         private final NonNullList<ItemStack> cacheList = NonNullList.withSize(16, ItemStack.EMPTY);
-        private CraftingInput cachedInput = CraftingInput.EMPTY;
+        private PortCraftingInput cachedInput = PortCraftingInput.EMPTY;
 
         public Entity(BlockPos pos, BlockState blockState) {
             super(TFBlocks.GLASS_KILN_ENTITY.get(), pos, blockState);
@@ -190,11 +181,11 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             }
             NonNullList<ItemStack> itemStacks = entity.items;
             if (entity.isLit() || !itemStacks.get(FUEL_SLOT).isEmpty()) {
-                if (entity.cachedInput == CraftingInput.EMPTY) {
+                if (entity.cachedInput == PortCraftingInput.EMPTY) {
                     entity.updateCache();
                 }
-                RecipeHolder<GlassKilnRecipe> recipeHolder = entity.glassKiln.getRecipeFor(entity.cachedInput, level).orElse(null);
-                if (recipeHolder != null && entity.canResultInsert(recipeHolder.value().getResultItem(null))) {
+                GlassKilnRecipe recipe = entity.glassKiln.getRecipeFor(entity.cachedInput, level).orElse(null);
+                if (recipe != null && entity.canResultInsert(recipe.getResultItem(null))) {
                     if (entity.isLit()) {
                         entity.cookingProgress++;
                         if (entity.cookingProgress >= entity.cookingTotalTime) {
@@ -207,7 +198,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                                     }
                                 }
                             }
-                            shouldUpdate |= assemble(recipeHolder.value().assembleAndExtract(new CraftingInput(4, 4, entity.cacheList), null), itemStacks, entity, recipeHolder);
+                            shouldUpdate |= assemble(recipe.assembleAndExtract(new PortCraftingInput(4, 4, entity.cacheList), level.registryAccess()), itemStacks, entity, recipe);
                         }
                     } else {
                         shouldUpdate |= useFuel(entity, itemStacks);
@@ -216,9 +207,9 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                     boolean matches = false;
                     for (ItemStack stack : entity.cacheList) {
                         if (stack.isEmpty()) continue;
-                        SingleRecipeInput recipeInput = new SingleRecipeInput(stack);
-                        RecipeHolder<SmeltingRecipe> recipeHolder1 = entity.smelting.getRecipeFor(recipeInput, level).orElse(null);
-                        if (recipeHolder1 != null && entity.canResultInsert(recipeHolder1.value().getResultItem(level.registryAccess()))) {
+                        PortSingleRecipeInput recipeInput = new PortSingleRecipeInput(stack);
+                        SmeltingRecipe recipe1 = entity.smelting.getRecipeFor(recipeInput, level).orElse(null);
+                        if (recipe1 != null && entity.canResultInsert(recipe1.getResultItem(level.registryAccess()))) {
                             matches = true;
                             if (entity.isLit()) {
                                 entity.cookingProgress++;
@@ -229,7 +220,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                                         itemStacks.set(FUEL_SLOT, Items.WATER_BUCKET.getDefaultInstance());
                                     }
                                     stack.shrink(1);
-                                    shouldUpdate |= assemble(recipeHolder1.value().assemble(recipeInput, level.registryAccess()), itemStacks, entity, recipeHolder1);
+                                    shouldUpdate |= assemble(recipe1.assemble(recipeInput, level.registryAccess()), itemStacks, entity, recipe1);
                                 }
                             } else {
                                 shouldUpdate |= useFuel(entity, itemStacks);
@@ -255,11 +246,11 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             }
         }
 
-        private static boolean assemble(ItemStack neoResult, NonNullList<ItemStack> itemStacks, Entity entity, @Nullable RecipeHolder<?> recipeHolder) {
+        private static boolean assemble(ItemStack neoResult, NonNullList<ItemStack> itemStacks, Entity entity, @Nullable Recipe<?> recipeHolder) {
             ItemStack oldResult = itemStacks.get(RESULT_SLOT);
             if (oldResult.isEmpty()) {
                 itemStacks.set(RESULT_SLOT, neoResult.copy());
-            } else if (ItemStack.isSameItemSameComponents(oldResult, neoResult)) {
+            } else if (PortItemStackExtension.isSameItemSameComponents(oldResult, neoResult)) {
                 oldResult.grow(neoResult.getCount());
             }
             entity.setRecipeUsed(recipeHolder);
@@ -288,15 +279,15 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             for (int i = INPUT_START; i <= INPUT_END; i++) {
                 cacheList.set(i, items.get(i));
             }
-            this.cachedInput = CraftingInput.of(4, 4, cacheList);
+            this.cachedInput = PortCraftingInput.of(4, 4, cacheList);
         }
 
         @Override
         public void setItem(int slot, ItemStack stack) {
             ItemStack itemstack = items.get(slot);
-            boolean neoStackOrStackOn = !stack.isEmpty() && ItemStack.isSameItemSameComponents(itemstack, stack);
+            boolean neoStackOrStackOn = !stack.isEmpty() && PortItemStackExtension.isSameItemSameComponents(itemstack, stack);
             items.set(slot, stack);
-            stack.limitSize(LibUtils.MAX_STACK_SIZE);
+            PortItemStackExtension.limitSize(stack, LibUtils.MAX_STACK_SIZE);
             if (slot < FUEL_SLOT && !neoStackOrStackOn && level != null) {
                 this.cookingTotalTime = getTotalCookTime(level);
                 this.cookingProgress = 0;
@@ -305,20 +296,25 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             updateCache();
         }
 
+        @Override
+        public boolean stillValid(Player player) {
+            return false;
+        }
+
         private int getTotalCookTime(Level level) {
             return glassKiln.getRecipeFor(cachedInput, level)
-                    .map(holder -> holder.value().getCookingTime())
+                    .map(GlassKilnRecipe::getCookingTime)
                     .orElseGet(() -> {
-                        SingleRecipeInput recipeInput = null;
+                        PortSingleRecipeInput recipeInput = null;
                         for (int i = INPUT_START; i <= INPUT_END; i++) {
                             ItemStack itemStack = items.get(i);
                             if (!itemStack.isEmpty()) {
-                                recipeInput = new SingleRecipeInput(itemStack);
+                                recipeInput = new PortSingleRecipeInput(itemStack);
                             }
                         }
                         if (recipeInput == null) return 200;
                         return smelting.getRecipeFor(recipeInput, level)
-                                .map(holder -> holder.value().getCookingTime())
+                                .map(AbstractCookingRecipe::getCookingTime)
                                 .orElse(200);
                     });
         }
@@ -328,12 +324,10 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             return TITLE;
         }
 
-        @Override
         protected NonNullList<ItemStack> getItems() {
             return items;
         }
 
-        @Override
         protected void setItems(NonNullList<ItemStack> items) {
             this.items = items;
         }
@@ -350,7 +344,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                 ItemStack oldResult = items.get(RESULT_SLOT);
                 if (oldResult.isEmpty()) {
                     return true;
-                } else if (!ItemStack.isSameItemSameComponents(oldResult, neoResult)) {
+                } else if (!PortItemStackExtension.isSameItemSameComponents(oldResult, neoResult)) {
                     return false;
                 } else {
                     return oldResult.getCount() + neoResult.getCount() <= LibUtils.MAX_STACK_SIZE && oldResult.getCount() + neoResult.getCount() <= oldResult.getMaxStackSize() || oldResult.getCount() + neoResult.getCount() <= neoResult.getMaxStackSize();
@@ -387,14 +381,36 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
         }
 
         @Override
-        public void setRecipeUsed(@Nullable RecipeHolder<?> recipeHolder) {
-            if (recipeHolder != null) {
-                recipesUsed.addTo(recipeHolder.id(), 1);
+        public boolean isEmpty() {
+            return items.isEmpty();
+        }
+
+        @Override
+        public ItemStack getItem(int slot) {
+            return items.get(slot);
+        }
+
+        @Override
+        public ItemStack removeItem(int slot, int amount) {
+            ItemStack stack = items.get(slot);
+            stack.shrink(amount);
+            return stack.isEmpty() ? ItemStack.EMPTY : stack;
+        }
+
+        @Override
+        public ItemStack removeItemNoUpdate(int slot) {
+            return items.remove(slot);
+        }
+
+        @Override
+        public void setRecipeUsed(@Nullable Recipe<?> recipe) {
+            if (recipe != null) {
+                recipesUsed.addTo(recipe.getId(), 1);
             }
         }
 
         @Override
-        public @Nullable RecipeHolder<?> getRecipeUsed() {
+        public @Nullable Recipe<?> getRecipeUsed() {
             return null;
         }
 
@@ -413,10 +429,10 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
 
         public void getRecipesToAwardAndPopExperience(ServerLevel level, Vec3 popVec) {
             for (Object2IntMap.Entry<ResourceLocation> entry : recipesUsed.object2IntEntrySet()) {
-                level.getRecipeManager().byKey(entry.getKey()).ifPresent(recipeHolder -> {
-                    if (recipeHolder.value() instanceof GlassKilnRecipe glassKilnRecipe) {
+                level.getRecipeManager().byKey(entry.getKey()).ifPresent(recipe -> {
+                    if (recipe instanceof GlassKilnRecipe glassKilnRecipe) {
                         createExperience(level, popVec, entry.getIntValue(), glassKilnRecipe.getExperience());
-                    } else if (recipeHolder.value() instanceof SmeltingRecipe smeltingRecipe) {
+                    } else if (recipe instanceof SmeltingRecipe smeltingRecipe) {
                         createExperience(level, popVec, entry.getIntValue(), smeltingRecipe.getExperience());
                     }
                 });
@@ -442,10 +458,10 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
         }
 
         @Override
-        protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-            super.loadAdditional(tag, registries);
+        public void load(CompoundTag tag) {
+            super.load(tag);
             this.items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-            ContainerHelper.loadAllItems(tag, items, registries);
+            ContainerHelper.loadAllItems(tag, items);
             updateCache();
             this.litTime = tag.getInt("BurnTime");
             this.cookingProgress = tag.getInt("CookTime");
@@ -459,15 +475,20 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
         }
 
         @Override
-        protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-            super.saveAdditional(tag, registries);
+        protected void saveAdditional(CompoundTag tag) {
+            super.saveAdditional(tag);
             tag.putInt("BurnTime", this.litTime);
             tag.putInt("CookTime", this.cookingProgress);
             tag.putInt("CookTimeTotal", this.cookingTotalTime);
-            ContainerHelper.saveAllItems(tag, this.items, registries);
+            ContainerHelper.saveAllItems(tag, this.items);
             CompoundTag compoundtag = new CompoundTag();
             recipesUsed.forEach((id, amount) -> compoundtag.putInt(id.toString(), amount));
             tag.put("RecipesUsed", compoundtag);
+        }
+
+        @Override
+        public void clearContent() {
+
         }
     }
 }

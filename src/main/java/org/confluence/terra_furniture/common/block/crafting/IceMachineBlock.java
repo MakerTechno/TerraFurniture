@@ -1,9 +1,9 @@
 package org.confluence.terra_furniture.common.block.crafting;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
@@ -19,8 +19,6 @@ import org.confluence.terra_furniture.common.menu.IceMachineMenu;
 import org.jetbrains.annotations.Nullable;
 
 public class IceMachineBlock extends HorizontalDirectionalBlock {
-    public static final MapCodec<IceMachineBlock> CODEC = simpleCodec(IceMachineBlock::new);
-
     public IceMachineBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
@@ -37,18 +35,12 @@ public class IceMachineBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    protected MapCodec<IceMachineBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
-        } else {
-            player.openMenu(state.getMenuProvider(level, pos));
-            return InteractionResult.CONSUME;
         }
+        player.openMenu(state.getMenuProvider(level, pos));
+        return InteractionResult.CONSUME;
     }
 
     @Override

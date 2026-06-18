@@ -102,9 +102,7 @@ obfuscation {
     createRemappingConfiguration(configurations.localRuntime)
 }
 
-boolean slim = project.hasProperty('dev')
-        ? project.property('dev').toBoolean()
-        : true
+boolean slim = true
 
 dependencies {
     if (slim) {
@@ -112,10 +110,16 @@ dependencies {
         modImplementation(project(":Confluence-Magic-Lib"))
         modImplementation(project(":PortLib"))
     } else {
-        modImplementation(jarJar("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}"))
-        modImplementation jarJar("org.confluence.lib:Confluence-Magic-Lib:${confluence_lib_version}-forge")
-        modImplementation jarJar("org.mesdag.portlib:MesdagPortLib:${portlib_version}")
+        modImplementation("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
+        modImplementation(project(":Confluence-Magic-Lib"))
+        jarJar(project(":Confluence-Magic-Lib"))
+        modImplementation(project(":PortLib"))
+        jarJar(project(":PortLib"))
     }
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.3"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.3"))
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    interfaceInjectionData("org.mesdag.portlib:PortLib:${portlib_version}")
 }
 
 tasks.withType(ProcessResources).configureEach {

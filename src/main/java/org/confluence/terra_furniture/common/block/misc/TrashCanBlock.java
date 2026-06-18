@@ -2,11 +2,11 @@ package org.confluence.terra_furniture.common.block.misc;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Inventory;
@@ -79,7 +79,7 @@ public class TrashCanBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof Entity entity) {
             if (level.isClientSide) {
                 return InteractionResult.SUCCESS;
@@ -108,27 +108,25 @@ public class TrashCanBlock extends Block implements EntityBlock {
             return Component.translatable("container.terra_furniture.trash_can");
         }
 
-        @Override
         protected NonNullList<ItemStack> getItems() {
             return items;
         }
 
-        @Override
         protected void setItems(NonNullList<ItemStack> items) {
             this.items = items;
         }
 
         @Override
-        protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-            super.loadAdditional(tag, registries);
+        public void load(CompoundTag tag) {
+            super.load(tag);
             this.items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-            ContainerHelper.loadAllItems(tag, items, registries);
+            ContainerHelper.loadAllItems(tag, items);
         }
 
         @Override
-        protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-            super.saveAdditional(tag, registries);
-            ContainerHelper.saveAllItems(tag, this.items, registries);
+        public void saveAdditional(CompoundTag tag) {
+            super.saveAdditional(tag);
+            ContainerHelper.saveAllItems(tag, this.items);
         }
 
         @Override
@@ -139,6 +137,43 @@ public class TrashCanBlock extends Block implements EntityBlock {
         @Override
         public int getContainerSize() {
             return 9 * 6;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return items.isEmpty();
+        }
+
+        @Override
+        public ItemStack getItem(int slot) {
+            return items.get(slot);
+        }
+
+        @Override
+        public ItemStack removeItem(int slot, int amount) {
+            ItemStack stack = items.get(slot);
+            stack.shrink(amount);
+            return stack.isEmpty() ? ItemStack.EMPTY : stack;
+        }
+
+        @Override
+        public ItemStack removeItemNoUpdate(int slot) {
+            return items.remove(slot);
+        }
+
+        @Override
+        public void setItem(int slot, ItemStack stack) {
+            items.set(slot, stack);
+        }
+
+        @Override
+        public boolean stillValid(Player player) {
+            return true;
+        }
+
+        @Override
+        public void clearContent() {
+            items.clear();
         }
     }
 }

@@ -1,5 +1,6 @@
 package org.confluence.terra_furniture.common.init;
 
+import PortLib.extensions.net.minecraft.world.level.block.state.properties.BlockSetType.PortBlockSetTypeExtension;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
@@ -41,7 +42,7 @@ public class TFBlockSetTypes {
     /** 铁 */
     public static final TFBlockSetType IRON = new TFBlockSetType(BlockSetType.IRON, () -> List.of(TFTags.IRON_FURNITURE));
     /** 铜 */
-    public static final TFBlockSetType COPPER = new TFBlockSetType(BlockSetType.COPPER, () -> List.of(TFTags.COPPER_FURNITURE));
+    public static final TFBlockSetType COPPER = new TFBlockSetType(PortBlockSetTypeExtension.copper(), () -> List.of(TFTags.COPPER_FURNITURE));
     /** 金(泰拉中无法制作，只能通过海盗事件获得的系列) */
     public static final TFBlockSetType GOLD = new TFBlockSetType(BlockSetType.GOLD, () -> List.of(TFTags.GOLD_FURNITURE), ResourceLocation.withDefaultNamespace("block/gold_block"));
     /** 石头(注意不是圆石) */
@@ -60,8 +61,7 @@ public class TFBlockSetTypes {
     public static final TFBlockSetType OBSIDIAN = new TFBlockSetType("obsidian", () -> List.of(TFTags.OBSIDIAN_FURNITURE));
     /** 蓝地牢砖() */
     public static final TFBlockSetType BLUE_DUNGEON = new TFBlockSetType(
-            "blue_dungeon", true, true, true,
-            BlockSetType.PressurePlateSensitivity.MOBS, SoundType.BONE_BLOCK,
+            "blue_dungeon", true, SoundType.BONE_BLOCK,
             SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
             SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
@@ -71,8 +71,7 @@ public class TFBlockSetTypes {
     );
     /** 绿地牢砖 */
     public static final TFBlockSetType GREEN_DUNGEON = new TFBlockSetType(
-            "green_dungeon", true, true, true,
-            BlockSetType.PressurePlateSensitivity.MOBS, SoundType.BONE_BLOCK,
+            "green_dungeon", true, SoundType.BONE_BLOCK,
             SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
             SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
@@ -81,8 +80,7 @@ public class TFBlockSetTypes {
     );
     /** 粉地牢砖 */
     public static final TFBlockSetType PINK_DUNGEON = new TFBlockSetType(
-            "pink_dungeon", true, true, true,
-            BlockSetType.PressurePlateSensitivity.MOBS, SoundType.BONE_BLOCK,
+            "pink_dungeon", true, SoundType.BONE_BLOCK,
             SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
             SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
@@ -95,8 +93,7 @@ public class TFBlockSetTypes {
     /* 下面是可以通过制作获得的材质 */
     /** 骨头 */
     public static final TFBlockSetType BONE = new TFBlockSetType(
-            "bone", true, true, true,
-            BlockSetType.PressurePlateSensitivity.MOBS, SoundType.BONE_BLOCK,
+            "bone", true, SoundType.BONE_BLOCK,
             SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
             SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
@@ -106,8 +103,7 @@ public class TFBlockSetTypes {
 
     /** 哥特 */
     public static final TFBlockSetType GOTHIC = new TFBlockSetType(
-            "gothic", true, true, true,
-            BlockSetType.PressurePlateSensitivity.MOBS, SoundType.BONE_BLOCK,
+            "gothic", true, SoundType.BONE_BLOCK,
             SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
             SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
@@ -122,8 +118,7 @@ public class TFBlockSetTypes {
     public static final TFBlockSetType FLESH = new TFBlockSetType("flesh", () -> List.of(TFTags.FLESH_FURNITURE));
     /** 玻璃 */
     public static final TFBlockSetType GLASS = new TFBlockSetType(
-            "glass", true, true, true,
-            BlockSetType.PressurePlateSensitivity.MOBS, SoundType.GLASS,
+            "glass", true, SoundType.GLASS,
             SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
             SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
@@ -137,8 +132,7 @@ public class TFBlockSetTypes {
     public static final TFBlockSetType HONEY = new TFBlockSetType("honey", () -> List.of(TFTags.HONEY_FURNITURE));
     /** 冰冻 */
     public static final TFBlockSetType FROZEN = new TFBlockSetType(
-            "frozen", true, true, true,
-            BlockSetType.PressurePlateSensitivity.MOBS, SoundType.GLASS,
+            "frozen", true, SoundType.GLASS,
             SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
             SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
             SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,

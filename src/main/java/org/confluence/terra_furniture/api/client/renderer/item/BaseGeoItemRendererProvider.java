@@ -2,9 +2,9 @@ package org.confluence.terra_furniture.api.client.renderer.item;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.Item;
-import software.bernie.geckolib.animatable.GeoAnimatable;
-import software.bernie.geckolib.animatable.client.GeoRenderProvider;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 
@@ -12,7 +12,7 @@ import software.bernie.geckolib.renderer.GeoItemRenderer;
  * 简单Geo模型物品渲染提供器，提供一个{@link BaseGeoItemRenderer}
  * @apiNote 可以重写process()方法以对模型操作
  */
-public class BaseGeoItemRendererProvider<T extends Item & GeoAnimatable> implements GeoRenderProvider {
+public class BaseGeoItemRendererProvider<T extends Item & GeoAnimatable> implements IClientItemExtensions {
     protected final GeoModel<T> model;
     protected GeoItemRenderer<T> renderer;
     private final boolean isNegative;
@@ -23,11 +23,12 @@ public class BaseGeoItemRendererProvider<T extends Item & GeoAnimatable> impleme
     }
 
     @Override
-    public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
+    public BlockEntityWithoutLevelRenderer getCustomRenderer() {
         if (renderer == null) {
             this.renderer = new BaseGeoItemRenderer<>(model, this::process, isNegative);
         }
         return renderer;
     }
+
     public void process(BakedGeoModel model) {}
 }

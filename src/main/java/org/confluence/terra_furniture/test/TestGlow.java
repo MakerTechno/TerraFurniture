@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.confluence.terra_furniture.api.client.model.CacheBlockModel;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.texture.GeoAbstractTexture;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
@@ -16,7 +15,7 @@ public class TestGlow extends GeoBlockRenderer<LargeChandelierBlock.BEntity> {
         super(new CacheBlockModel<>());
         addRenderLayer(new AutoGlowingGeoLayer<>(this) {
             @Override
-            protected @NotNull RenderType getRenderType(LargeChandelierBlock.BEntity animatable, @Nullable MultiBufferSource bufferSource) {
+            protected RenderType getRenderType(LargeChandelierBlock.BEntity animatable) {
                 return RenderType.eyes(GeoAbstractTexture.appendToPath(getTextureLocation(animatable), "_glowmask"));
             }
         });

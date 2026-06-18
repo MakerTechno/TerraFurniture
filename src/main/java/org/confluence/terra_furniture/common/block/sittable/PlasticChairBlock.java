@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
@@ -19,9 +20,8 @@ import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.animatable.client.GeoRenderProvider;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -81,6 +81,7 @@ public class PlasticChairBlock extends ChairBlock {
         public AnimatableInstanceCache getAnimatableInstanceCache() {
             return this.cache;
         }
+
         @Override
         public double getYSvOffset() {
             return 0.9;
@@ -95,11 +96,12 @@ public class PlasticChairBlock extends ChairBlock {
         }
 
         @Override
-        public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-            consumer.accept(new GeoRenderProvider() {
+        public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+            consumer.accept(new IClientItemExtensions() {
                 private GeoItemRenderer<Item> renderer;
+
                 @Override
-                public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
+                public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                     if (renderer == null) {
                         this.renderer = new GeoItemRenderer<>(new CacheItemRefBlockModel<>());
                     }

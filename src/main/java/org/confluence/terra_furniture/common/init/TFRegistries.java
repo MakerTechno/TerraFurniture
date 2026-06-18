@@ -1,6 +1,5 @@
 package org.confluence.terra_furniture.common.init;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -11,10 +10,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.ShapedRecipePattern;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import org.confluence.lib.util.WipNotDisplayOutput;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.menu.GlassKilnMenu;
@@ -23,6 +21,7 @@ import org.confluence.terra_furniture.common.menu.LivingLoomMenu;
 import org.confluence.terra_furniture.common.recipe.GlassKilnRecipe;
 import org.confluence.terra_furniture.common.recipe.IceMachineRecipe;
 import org.confluence.terra_furniture.common.recipe.LivingLoomRecipe;
+import org.mesdag.portlib.wrapper.world.item.crafting.PortShapedRecipePattern;
 
 import java.util.function.Supplier;
 
@@ -30,7 +29,7 @@ public final class TFRegistries {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, TerraFurniture.MODID);
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, TerraFurniture.MODID);
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, TerraFurniture.MODID);
-    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB, TerraFurniture.MODID);
+    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TerraFurniture.MODID);
 
     public static final Supplier<RecipeSerializer<GlassKilnRecipe>> GLASS_KILN_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("glass_kiln", GlassKilnRecipe.Serializer::new);
     public static final Supplier<RecipeType<GlassKilnRecipe>> GLASS_KILN_RECIPE_TYPE = registerRecipeType("glass_kiln");
@@ -43,7 +42,7 @@ public final class TFRegistries {
     public static final Supplier<MenuType<LivingLoomMenu>> LIVING_LOOM_MENU = MENU_TYPES.register("living_loom", () -> new MenuType<>(LivingLoomMenu::new, FeatureFlags.VANILLA_SET));
     public static final Supplier<MenuType<IceMachineMenu>> ICE_MACHINE_MENU = MENU_TYPES.register("ice_machine", () -> new MenuType<>(IceMachineMenu::new, FeatureFlags.VANILLA_SET));
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> FURNITURE = TABS.register("furniture", () -> CreativeModeTab.builder().icon(TFBlocks.PLASTIC_CHAIR::toStack)
+    public static final RegistryObject<CreativeModeTab> FURNITURE = TABS.register("furniture", () -> CreativeModeTab.builder().icon(TFBlocks.PLASTIC_CHAIR::toStack)
             .title(Component.translatable("creativetab.terra_furniture"))
             .displayItems((parameters, output) -> {
                 WipNotDisplayOutput wrappedOutput = new WipNotDisplayOutput(output);
@@ -64,7 +63,7 @@ public final class TFRegistries {
     }
 
     public static void register(IEventBus eventBus) {
-        ShapedRecipePattern.setCraftingSize(4, 4);
+        PortShapedRecipePattern.setCraftingSize(4, 4);
         RECIPE_SERIALIZERS.register(eventBus);
         RECIPE_TYPES.register(eventBus);
         MENU_TYPES.register(eventBus);

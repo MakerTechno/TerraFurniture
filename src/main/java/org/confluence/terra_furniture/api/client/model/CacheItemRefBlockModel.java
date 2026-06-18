@@ -9,9 +9,7 @@ import software.bernie.geckolib.model.GeoModel;
 
 import java.util.function.Function;
 
-/**
- * 简化Geo物品渲染中提供方块实体模型的通用类，将会向{@link CacheBlockModel}缓存对应的模型、贴图与动画。
- */
+/// 简化Geo物品渲染中提供方块实体模型的通用类，将会向[CacheBlockModel]缓存对应的模型、贴图与动画。
 public class CacheItemRefBlockModel<T extends BlockItem & GeoItem> extends GeoModel<T> {
     protected final Function<String, ResourceLocation> pathApplier;
     /**

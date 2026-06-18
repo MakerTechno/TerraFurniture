@@ -1,5 +1,6 @@
 package org.confluence.terra_furniture.common.block.func.set;
 
+import com.google.common.base.Supplier;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -24,7 +25,6 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class TFBlockSet {
     /* Vanilla support */
@@ -142,11 +142,11 @@ public class TFBlockSet {
             this.materialType = materialType;
             this.fullCopyProp = fullCopyProp;
             this.propSourceBlock = propSourceBlock;
-            putEntry(TFBlockType.BUTTON, (p, a) -> new ButtonBlock(materialType.getType(), this.buttonPressedTick, p));
-            putEntry(TFBlockType.PRESSURE_PLATE, (p, a) -> new PressurePlateBlock(materialType.getType(), p));
+            putEntry(TFBlockType.BUTTON, (p, a) -> new ButtonBlock(p, materialType.getType(), this.buttonPressedTick, true));
+            putEntry(TFBlockType.PRESSURE_PLATE, (p, a) -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, p, materialType.getType()));
             putEntry(TFBlockType.SLAB, (p, a) -> new SlabBlock(p));
-            putEntry(TFBlockType.STAIRS, (p, a) -> new StairBlock(propSourceBlock.defaultBlockState(), p));
-            putEntry(TFBlockType.TRAPDOOR, (p, a) -> new TrapDoorBlock(materialType.getType(), p));
+            putEntry(TFBlockType.STAIRS, (p, a) -> new StairBlock(propSourceBlock::defaultBlockState, p));
+            putEntry(TFBlockType.TRAPDOOR, (p, a) -> new TrapDoorBlock(p, materialType.getType()));
             putEntry(TFBlockType.DOOR, (p, a) -> new TFDoorBlock(materialType, p));
             putEntry(TFBlockType.TABLE, (p, a) -> new TableBlock(materialType, p));
             putEntry(TFBlockType.CHAIR, (p, a) -> new ChairBlock(materialType, propSourceBlock.defaultBlockState(), a, this.chairSitHeight));
@@ -164,9 +164,8 @@ public class TFBlockSet {
             putEntry(TFBlockType.CANDELABRAS, (p, a) -> new CandelabraBlock(materialType, p));
         }
 
-        @SuppressWarnings("deprecation")
         protected <T extends Block> void putEntry(TFBlockType<T> type, BiFunction<BlockBehaviour.Properties, Consumer<BlockBehaviour.Properties>, T> blockSupplier) {
-            entries.put(type, new TFBlockBuildEntry<>(type, fullCopyProp ? BlockBehaviour.Properties.ofFullCopy(propSourceBlock) : BlockBehaviour.Properties.ofLegacyCopy(propSourceBlock), blockSupplier));
+            entries.put(type, new TFBlockBuildEntry<>(type, BlockBehaviour.Properties.copy(propSourceBlock), blockSupplier));
         }
 
         @SuppressWarnings("unchecked")

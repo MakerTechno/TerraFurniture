@@ -1,5 +1,6 @@
 package org.confluence.terra_furniture.common.init;
 
+import com.google.common.base.Supplier;
 import com.mojang.datafixers.DSL;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
@@ -29,9 +30,9 @@ import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
 import org.confluence.terra_furniture.common.item.FishBowlItem;
 import org.confluence.terra_furniture.common.item.SimpleGeoRenderedItem;
+import org.mesdag.portlib.registries.*;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
 
@@ -40,26 +41,26 @@ import static org.confluence.terra_furniture.common.init.TFBlockSetTypes.*;
 @SuppressWarnings("unused")
 public final class TFBlocks {
     /* The Registers */
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, TerraFurniture.MODID);
+    public static final PortBlockRegistration BLOCKS = PortRegisterHandler.block(TerraFurniture.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, TerraFurniture.MODID);
 
 
     /* Working machines for crafting furniture */
-    public static final RegistryObject<GlassKilnBlock> GLASS_KILN = registerWithItem("glass_kiln", () -> new GlassKilnBlock(BlockBehaviour.Properties.copy(Blocks.FURNACE)));
-    public static final Supplier<BlockEntityType<GlassKilnBlock.Entity>> GLASS_KILN_ENTITY = BLOCK_ENTITIES.register("glass_kiln_entity", () -> BlockEntityType.Builder.of(GlassKilnBlock.Entity::new, GLASS_KILN.get()).build(DSL.remainderType()));
-    public static final RegistryObject<LivingLoomBlock> LIVING_LOOM = registerWithItem("living_loom", () -> new LivingLoomBlock(BlockBehaviour.Properties.copy(Blocks.LOOM)));
-    public static final RegistryObject<IceMachineBlock> ICE_MACHINE = registerWithItem("ice_machine", () -> new IceMachineBlock(BlockBehaviour.Properties.copy(Blocks.GRINDSTONE)));
+    public static final PortDeferredBlock<GlassKilnBlock> GLASS_KILN = registerWithItem("glass_kiln", () -> new GlassKilnBlock(BlockBehaviour.Properties.copy(Blocks.FURNACE)));
+    public static final RegistryObject<BlockEntityType<GlassKilnBlock.Entity>> GLASS_KILN_ENTITY = BLOCK_ENTITIES.register("glass_kiln_entity", () -> BlockEntityType.Builder.of(GlassKilnBlock.Entity::new, GLASS_KILN.get()).build(DSL.remainderType()));
+    public static final PortDeferredBlock<LivingLoomBlock> LIVING_LOOM = registerWithItem("living_loom", () -> new LivingLoomBlock(BlockBehaviour.Properties.copy(Blocks.LOOM)));
+    public static final PortDeferredBlock<IceMachineBlock> ICE_MACHINE = registerWithItem("ice_machine", () -> new IceMachineBlock(BlockBehaviour.Properties.copy(Blocks.GRINDSTONE)));
 
     /* I AM THE STORM THAT IS APPROACHING!! */
-    public static final RegistryObject<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(property -> property.lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
+    public static final PortDeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(property -> property.lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
     public static final RegistryObject<BlockEntityType<PlasticChairBlock.PlasticChairBE>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register("plastic_chair_entity", () -> BlockEntityType.Builder.of(PlasticChairBlock.PlasticChairBE::new, PLASTIC_CHAIR.get()).build(DSL.remainderType()));
 
     /* Special furniture, not belongs to any furniture set */
-    public static final RegistryObject<Block> FISH_BOWL = registerWithItem("fish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
-    public static final RegistryObject<Block> GOLD_FISH_BOWL = registerWithItem("gold_fish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
-    public static final RegistryObject<Block> PUPFISH_BOWL = registerWithItem("pupfish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
-    public static final RegistryObject<Block> LAVA_SERPENT_BOWL = registerWithItem("lava_serpent_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
-    public static final RegistryObject<TrashCanBlock> TRASH_CAN = registerWithItem("trash_can", () -> new TrashCanBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BARS)));
+    public static final PortDeferredBlock<Block> FISH_BOWL = registerWithItem("fish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
+    public static final PortDeferredBlock<Block> GOLD_FISH_BOWL = registerWithItem("gold_fish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
+    public static final PortDeferredBlock<Block> PUPFISH_BOWL = registerWithItem("pupfish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
+    public static final PortDeferredBlock<Block> LAVA_SERPENT_BOWL = registerWithItem("lava_serpent_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
+    public static final PortDeferredBlock<TrashCanBlock> TRASH_CAN = registerWithItem("trash_can", () -> new TrashCanBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BARS)));
     public static final RegistryObject<BlockEntityType<TrashCanBlock.Entity>> TRASH_CAN_ENTITY = BLOCK_ENTITIES.register("trash_can_entity", () -> BlockEntityType.Builder.of(TrashCanBlock.Entity::new, TRASH_CAN.get()).build(DSL.remainderType()));
 
     /*
@@ -238,11 +239,11 @@ public final class TFBlocks {
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .build();
 
-    public static final RegistryObject<PinWheel> PIN_WHEEL = registerWithoutItem("pin_wheel", () -> new PinWheel(BlockBehaviour.Properties.copy(Blocks.BAMBOO).noCollission()));
-    public static final RegistryObject<SimpleGeoRenderedItem> PIN_WHEEL_ITEM = TFItems.BLOCK_ITEMS.register("pin_wheel", () -> new SimpleGeoRenderedItem(PIN_WHEEL.get(), new Item.Properties(), false));
+    public static final PortDeferredBlock<PinWheel> PIN_WHEEL = registerWithoutItem("pin_wheel", () -> new PinWheel(BlockBehaviour.Properties.copy(Blocks.BAMBOO).noCollission()));
+    public static final PortDeferredItem<SimpleGeoRenderedItem> PIN_WHEEL_ITEM = TFItems.BLOCK_ITEMS.register("pin_wheel", () -> new SimpleGeoRenderedItem(PIN_WHEEL.get(), new Item.Properties(), false));
 
-    public static final RegistryObject<HangingPotBlock> HANGING_POT = registerWithoutItem("hanging_pot", () -> new HangingPotBlock(BlockBehaviour.Properties.copy(Blocks.FLOWER_POT).noCollission().lightLevel(litBlockEmission(15))));
-    public static final RegistryObject<HangingPotBlock.BItem> HANGING_POT_ITEM = TFItems.BLOCK_ITEMS.register("hanging_pot", () -> new HangingPotBlock.BItem(HANGING_POT.get(), new Item.Properties()));
+    public static final PortDeferredBlock<HangingPotBlock> HANGING_POT = registerWithoutItem("hanging_pot", () -> new HangingPotBlock(BlockBehaviour.Properties.copy(Blocks.FLOWER_POT).noCollission().lightLevel(litBlockEmission(15))));
+    public static final PortDeferredItem<HangingPotBlock.BItem> HANGING_POT_ITEM = TFItems.BLOCK_ITEMS.register("hanging_pot", () -> new HangingPotBlock.BItem(HANGING_POT.get(), new Item.Properties()));
 
     public static final RegistryObject<BlockEntityType<HangingPotBlock.BEntity>> HANGING_POT_ENTITY = BLOCK_ENTITIES.register(
             "hanging_pot_entity",
@@ -257,7 +258,7 @@ public final class TFBlocks {
             "large_chandelier_entity",
             () -> BlockEntityType.Builder.of(
                     LargeChandelierBlock.BEntity::new,
-                    TFBlockType.LARGE_CHANDELIER.getAll().stream().map(RegistryObject::get).toArray(Block[]::new)
+                    TFBlockType.LARGE_CHANDELIER.getAll().stream().map(PortRegistryEntry::get).toArray(Block[]::new)
             ).build(DSL.remainderType())
     );
 
@@ -265,7 +266,7 @@ public final class TFBlocks {
             "chair_entity",
             () -> BlockEntityType.Builder.of(
                     ChairBlock.ChairBE::new,
-                    Stream.concat(TFBlockType.CHAIR.getAll().stream(), TFBlockType.SOFA.getAll().stream()).map(RegistryObject::get).toArray(Block[]::new)
+                    Stream.concat(TFBlockType.CHAIR.getAll().stream(), TFBlockType.SOFA.getAll().stream()).map(PortRegistryEntry::get).toArray(Block[]::new)
             ).build(DSL.remainderType())
     );
 
@@ -273,7 +274,7 @@ public final class TFBlocks {
             "toilet_entity",
             () -> BlockEntityType.Builder.of(
                     ToiletBlock.ToiletBE::new,
-                    TFBlockType.TOILET.getAll().stream().map(RegistryObject::get).toArray(Block[]::new)
+                    TFBlockType.TOILET.getAll().stream().map(PortRegistryEntry::get).toArray(Block[]::new)
             ).build(DSL.remainderType())
     );
 
@@ -281,39 +282,38 @@ public final class TFBlocks {
             "clock_entity",
             () -> BlockEntityType.Builder.of(
                     ClockBlock.Entity::new,
-                    TFBlockType.CLOCK.getAll().stream().map(RegistryObject::get).toArray(Block[]::new)
+                    TFBlockType.CLOCK.getAll().stream().map(PortRegistryEntry::get).toArray(Block[]::new)
             ).build(DSL.remainderType())
     );
 
 
 
-    public static <B extends Block> RegistryObject<B> registerWithItem(String id, Supplier<B> block) {
+    public static <B extends Block> PortDeferredBlock<B> registerWithItem(String id, Supplier<B> block) {
         return registerWithItem(id, block, new Item.Properties());
     }
 
-    public static <B extends Block> RegistryObject<B> registerWithItem(String id, Supplier<B> block, Function<B, BlockItem> item) {
-        RegistryObject<B> object = BLOCKS.register(id, block);
+    public static <B extends Block> PortDeferredBlock<B> registerWithItem(String id, Supplier<B> block, Function<B, BlockItem> item) {
+        PortDeferredBlock<B> object = BLOCKS.register(id, block);
         TFItems.BLOCK_ITEMS.register(id, () -> item.apply(object.get()));
         return object;
     }
 
-    public static <B extends Block> RegistryObject<B> registerWithItem(String id, Supplier<B> block, Item.Properties properties) {
-        RegistryObject<B> object = BLOCKS.register(id, block);
+    public static <B extends Block> PortDeferredBlock<B> registerWithItem(String id, Supplier<B> block, Item.Properties properties) {
+        PortDeferredBlock<B> object = BLOCKS.register(id, block);
         TFItems.BLOCK_ITEMS.register(id, () -> new BlockItem(object.get(), properties));
         return object;
     }
 
-    public static <B extends Block> RegistryObject<B> registerWithoutItem(String id, Supplier<B> block) {
+    public static <B extends Block> PortDeferredBlock<B> registerWithoutItem(String id, Supplier<B> block) {
         return BLOCKS.register(id, block);
     }
 
     public static void register(IEventBus eventBus) {
-        BLOCKS.register(eventBus);
         BLOCK_ENTITIES.register(eventBus);
     }
 
-    public static RegistryObject<LargeChandelierBlock> registerLargeChandelier(String id, Supplier<LargeChandelierBlock> block) {
-        RegistryObject<LargeChandelierBlock> RegistryObject = BLOCKS.register(id, block);
+    public static PortDeferredBlock<LargeChandelierBlock> registerLargeChandelier(String id, Supplier<LargeChandelierBlock> block) {
+        PortDeferredBlock<LargeChandelierBlock> RegistryObject = BLOCKS.register(id, block);
         TFItems.BLOCK_ITEMS.register(id, () -> new LargeChandelierBlock.BItem(RegistryObject.get(), new Item.Properties()));
         return RegistryObject;
     }

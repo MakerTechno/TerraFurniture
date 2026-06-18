@@ -1,10 +1,12 @@
 package org.confluence.terra_furniture.common.block.sleep;
 
+import PortLib.extensions.java.util.List.PortListExtension;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,7 +27,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import org.confluence.lib.common.block.HorizontalDirectionalWithForwardTwoPartBlock;
 import org.confluence.lib.common.block.StateProperties;
 import org.confluence.terra_furniture.client.generators.SingleMulStateBDG;
@@ -64,7 +66,7 @@ public class TFBedBlock extends HorizontalDirectionalWithForwardTwoPartBlock imp
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         boolean isForward = state.getValue(PART).isForward();
         return switch (state.getValue(FACING)) {
             case SOUTH -> isForward ? SHAPES[0] : SHAPES[2];
@@ -97,7 +99,7 @@ public class TFBedBlock extends HorizontalDirectionalWithForwardTwoPartBlock imp
     }
 
     @Override
-    public boolean isBed(BlockState state, BlockGetter level, BlockPos pos, LivingEntity sleeper) {
+    public boolean isBed(BlockState state, BlockGetter level, BlockPos pos, @Nullable Entity player) {
         return true;
     }
 
@@ -118,7 +120,7 @@ public class TFBedBlock extends HorizontalDirectionalWithForwardTwoPartBlock imp
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide) return InteractionResult.CONSUME;
 
         if (!canSetSpawn(level)) {
@@ -153,7 +155,7 @@ public class TFBedBlock extends HorizontalDirectionalWithForwardTwoPartBlock imp
         if (list.isEmpty()) {
             return false;
         } else {
-            list.getFirst().stopSleeping();
+            PortListExtension.getFirst(list).stopSleeping();
             return true;
         }
     }

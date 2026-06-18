@@ -2,6 +2,7 @@ package org.confluence.terra_furniture.common.block.sittable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -10,8 +11,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.api.utils.DelayableTaskMgr;
 import org.confluence.terra_furniture.api.utils.DelayableConsumerTask;
+import org.confluence.terra_furniture.api.utils.DelayableTaskMgr;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
@@ -38,7 +39,7 @@ public class ToiletBlock extends ChairBlock{
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide) return InteractionResult.PASS;
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof ToiletBE toiletBlock)) {
