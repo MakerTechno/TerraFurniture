@@ -41,7 +41,7 @@ public final class TFModClient {
     /// 选择层中以flame起始的名字
     public static final Predicate<GeoBone> FLAME = geoBone -> geoBone.getName().startsWith("flame");
 
-    private static void registerEntityRenderers(PortEntityRenderersEvent.PortRegisterRenderers event) {
+    private static void registerEntityRenderers(PortEntityRenderersEvent.RegisterRenderers event) {
         /*--entities renderers--*/
         event.registerEntityRenderer(TFEntities.NULL_RIDE.get(), NoopRenderer::new);
 
@@ -82,7 +82,7 @@ public final class TFModClient {
         bone.setHidden(!entity.getBlockState().getValue(BlockStateProperties.LIT));
     }
 
-    public static <O extends BlockEntity & GeoBlockEntity> void regSimpleGeoBER(PortEntityRenderersEvent.PortRegisterRenderers event, RegistryObject<BlockEntityType<O>> holder, boolean isNegativeModel) {
+    public static <O extends BlockEntity & GeoBlockEntity> void regSimpleGeoBER(PortEntityRenderersEvent.RegisterRenderers event, RegistryObject<BlockEntityType<O>> holder, boolean isNegativeModel) {
         event.registerBlockEntityRenderer(holder.get(), context -> BaseFunctionalGeoBER.Builder.simple(isNegativeModel));
     }
 
