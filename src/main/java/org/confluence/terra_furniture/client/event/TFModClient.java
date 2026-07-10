@@ -25,6 +25,7 @@ import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
 import org.confluence.terra_furniture.common.block.misc.PinWheel;
+import org.confluence.terra_furniture.common.block.sleep.TentBlock;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFEntities;
 import org.confluence.terra_furniture.common.init.TFRegistries;
@@ -71,6 +72,11 @@ public final class TFModClient {
                         .addRenderHook(CommonRenderHooks.swaying())
                         .addRenderHook(new HangingPotBlock.AddedRenderer<>())
                         .build()
+        );
+        event.registerBlockEntityRenderer(TFBlocks.TENT_BLOCK_ENTITY.get(),
+            context -> BaseFunctionalGeoBER.Builder.<TentBlock.BEntity>of(true)
+                .renderBox(pos -> new AABB(pos.getX() -1, pos.getY(), pos.getZ()-1, pos.getX() +1, pos.getY() +1, pos.getZ() +1))
+                .build()
         );
     }
 
