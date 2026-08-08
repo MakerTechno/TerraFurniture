@@ -5,7 +5,7 @@ plugins {
     id 'net.neoforged.moddev.legacyforge' version '2.0.141'
 }
 
-version = mod_version
+version = mod_version + "+" + minecraft_version
 group = mod_group_id
 
 repositories {
@@ -42,7 +42,7 @@ repositories {
 }
 
 base {
-    archivesName = mod_id
+    archivesName = "TerraFurniture-forge"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
