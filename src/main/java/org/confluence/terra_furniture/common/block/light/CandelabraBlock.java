@@ -2,6 +2,7 @@ package org.confluence.terra_furniture.common.block.light;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -16,15 +17,13 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import org.confluence.terra_furniture.client.generators.DefaultBlockDataGenerator;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
-import org.confluence.terra_furniture.client.generators.DefaultBlockDataGenerator;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
-
-import net.minecraft.tags.TagKey;
 
 public class CandelabraBlock extends SwitchableLightBlock {
     public static final VoxelShape SHAPE = Block.box(3, 0, 3, 13 , 16, 13);

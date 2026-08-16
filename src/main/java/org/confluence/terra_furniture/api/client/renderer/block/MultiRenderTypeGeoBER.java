@@ -21,7 +21,10 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 import software.bernie.geckolib.util.RenderUtil;
 
 import java.util.*;
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * 扩展的渲染类, 实现对Geo模型的自定义渲染类型。

@@ -1,7 +1,6 @@
 package org.confluence.terra_furniture.common.block.light;
 
 import net.minecraft.core.BlockPos;
-import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,6 +24,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import org.confluence.terra_furniture.client.generators.DefaultBlockDataGenerator;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
