@@ -52,9 +52,6 @@ public class TFBlockSet {
     public final PortDeferredBlock<SwitchableLightBlock> LAMP;
     public final PortDeferredBlock<CandelabraBlock> CANDELABRAS;
 
-    /* Deprecated(But we keep this because it was used by old structures) */
-    public final PortDeferredBlock<SwitchableLightBlock> CHANDELIER;
-
     protected TFBlockSet(Builder builder) {
         BUTTON = init(builder, TFBlockType.BUTTON);
         PRESSURE_PLATE = init(builder, TFBlockType.PRESSURE_PLATE);
@@ -74,7 +71,6 @@ public class TFBlockSet {
         LANTERN = init(builder, TFBlockType.LANTERN);
         LAMP = init(builder, TFBlockType.LAMP);
         CLOCK = init(builder, TFBlockType.CLOCK);
-        CHANDELIER = init(builder, TFBlockType.CHANDELIER);
         CANDELABRAS = init(builder, TFBlockType.CANDELABRAS);
     }
 
