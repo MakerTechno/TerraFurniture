@@ -1,6 +1,5 @@
 package org.confluence.terra_furniture.common.block.crafting;
 
-import PortLib.extensions.net.minecraft.world.item.ItemStack.PortItemStackExtension;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.Util;
@@ -42,6 +41,7 @@ import org.confluence.terra_furniture.common.init.TFRegistries;
 import org.confluence.terra_furniture.common.menu.GlassKilnMenu;
 import org.confluence.terra_furniture.common.recipe.GlassKilnRecipe;
 import org.jetbrains.annotations.Nullable;
+import org.mesdag.portlib.wrapper.common.extensions.IPortItemStackExtension;
 import org.mesdag.portlib.wrapper.world.inventory.PortRecipeCraftingHolder;
 import org.mesdag.portlib.wrapper.world.item.crafting.PortCraftingInput;
 import org.mesdag.portlib.wrapper.world.item.crafting.PortSingleRecipeInput;
@@ -250,7 +250,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             ItemStack oldResult = itemStacks.get(RESULT_SLOT);
             if (oldResult.isEmpty()) {
                 itemStacks.set(RESULT_SLOT, neoResult.copy());
-            } else if (PortItemStackExtension.isSameItemSameComponents(oldResult, neoResult)) {
+            } else if (IPortItemStackExtension.isSameItemSameComponents(oldResult, neoResult)) {
                 oldResult.grow(neoResult.getCount());
             }
             entity.setRecipeUsed(recipeHolder);
@@ -285,9 +285,9 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
         @Override
         public void setItem(int slot, ItemStack stack) {
             ItemStack itemstack = items.get(slot);
-            boolean neoStackOrStackOn = !stack.isEmpty() && PortItemStackExtension.isSameItemSameComponents(itemstack, stack);
+            boolean neoStackOrStackOn = !stack.isEmpty() && IPortItemStackExtension.isSameItemSameComponents(itemstack, stack);
             items.set(slot, stack);
-            PortItemStackExtension.limitSize(stack, LibUtils.MAX_STACK_SIZE);
+            stack.limitSize(LibUtils.MAX_STACK_SIZE);
             if (slot < FUEL_SLOT && !neoStackOrStackOn && level != null) {
                 this.cookingTotalTime = getTotalCookTime(level);
                 this.cookingProgress = 0;
@@ -344,7 +344,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                 ItemStack oldResult = items.get(RESULT_SLOT);
                 if (oldResult.isEmpty()) {
                     return true;
-                } else if (!PortItemStackExtension.isSameItemSameComponents(oldResult, neoResult)) {
+                } else if (!IPortItemStackExtension.isSameItemSameComponents(oldResult, neoResult)) {
                     return false;
                 } else {
                     return oldResult.getCount() + neoResult.getCount() <= LibUtils.MAX_STACK_SIZE && oldResult.getCount() + neoResult.getCount() <= oldResult.getMaxStackSize() || oldResult.getCount() + neoResult.getCount() <= neoResult.getMaxStackSize();
