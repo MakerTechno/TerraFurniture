@@ -1,12 +1,12 @@
 package org.confluence.terra_furniture.common.init;
 
-import PortLib.extensions.net.minecraft.world.level.block.state.properties.BlockSetType.PortBlockSetTypeExtension;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
+import org.mesdag.portlib.wrapper.common.extensions.IPortBlockSetTypeExtension;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class TFBlockSetTypes {
     /** 铁 */
     public static final TFBlockSetType IRON = new TFBlockSetType(BlockSetType.IRON, () -> List.of(TFTags.IRON_FURNITURE));
     /** 铜 */
-    public static final TFBlockSetType COPPER = new TFBlockSetType(PortBlockSetTypeExtension.copper(), () -> List.of(TFTags.COPPER_FURNITURE));
+    public static final TFBlockSetType COPPER = new TFBlockSetType(IPortBlockSetTypeExtension.copper(), () -> List.of(TFTags.COPPER_FURNITURE));
     /** 金(泰拉中无法制作，只能通过海盗事件获得的系列) */
     public static final TFBlockSetType GOLD = new TFBlockSetType(BlockSetType.GOLD, () -> List.of(TFTags.GOLD_FURNITURE), ResourceLocation.withDefaultNamespace("block/gold_block"));
     /** 石头(注意不是圆石) */
