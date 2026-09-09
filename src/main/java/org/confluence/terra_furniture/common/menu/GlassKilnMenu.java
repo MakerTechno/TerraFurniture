@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.ForgeHooks;
 import org.confluence.lib.common.menu.ContainerResultSlot;
 import org.confluence.lib.common.menu.ForgeFuelSlot;
 import org.confluence.terra_furniture.common.init.TFRegistries;
@@ -115,7 +116,7 @@ public class GlassKilnMenu extends AbstractContainerMenu {
     }
 
     protected boolean isFuel(ItemStack stack) {
-        return stack.getBurnTime(TFRegistries.GLASS_KILN_RECIPE_TYPE.get()) > 0;
+        return ForgeHooks.getBurnTime(stack, TFRegistries.GLASS_KILN_RECIPE_TYPE.get()) > 0;
     }
 
     public float getBurnProgress() {

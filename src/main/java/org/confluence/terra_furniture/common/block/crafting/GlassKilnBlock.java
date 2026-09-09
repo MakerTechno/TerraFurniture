@@ -35,6 +35,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeHooks;
 import org.confluence.lib.util.LibUtils;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
@@ -423,7 +424,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                 return itemStack.isEmpty() || (itemStack.is(stack.getItem()) && itemStack.getCount() + stack.getCount() <= stack.getMaxStackSize());
             } else {
                 ItemStack itemstack = getItem(FUEL_SLOT);
-                return stack.getBurnTime(TFRegistries.GLASS_KILN_RECIPE_TYPE.get()) > 0 || stack.is(Items.BUCKET) && !itemstack.is(Items.BUCKET);
+                return ForgeHooks.getBurnTime(stack, TFRegistries.GLASS_KILN_RECIPE_TYPE.get()) > 0 || stack.is(Items.BUCKET) && !itemstack.is(Items.BUCKET);
             }
         }
 
@@ -453,7 +454,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
             if (fuel.isEmpty()) {
                 return 0;
             } else {
-                return fuel.getBurnTime(TFRegistries.GLASS_KILN_RECIPE_TYPE.get());
+                return ForgeHooks.getBurnTime(fuel, TFRegistries.GLASS_KILN_RECIPE_TYPE.get());
             }
         }
 
