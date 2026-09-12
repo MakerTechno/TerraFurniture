@@ -186,7 +186,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
                     entity.updateCache();
                 }
                 GlassKilnRecipe recipe = entity.glassKiln.getRecipeFor(entity.cachedInput, level).orElse(null);
-                if (recipe != null && entity.canResultInsert(recipe.getResultItem(level.registryAccess()))) {
+                if (recipe != null && entity.canResultInsert(recipe.getResult())) {
                     if (entity.isLit()) {
                         entity.cookingProgress++;
                         if (entity.cookingProgress >= entity.cookingTotalTime) {

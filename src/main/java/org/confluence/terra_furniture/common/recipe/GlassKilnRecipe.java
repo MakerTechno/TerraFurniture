@@ -91,16 +91,16 @@ public class GlassKilnRecipe extends AbstractAmountRecipe<PortCraftingInput> {
 
     public static class Serializer extends SimpleRecipeSerializer<GlassKilnRecipe> {
         public static final MapCodec<GlassKilnRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
+                ItemStack.STRICT_CODEC.fieldOf("result").forGetter(AbstractAmountRecipe::getResult),
                 PortShapedRecipePattern.MAP_CODEC.forGetter(recipe -> recipe.pattern),
-                PortCodecExtension.lenientOptionalFieldOf(Codec.FLOAT, "experience", 0.0F).forGetter(recipe -> recipe.experience),
-                PortCodecExtension.lenientOptionalFieldOf(Codec.INT, "cookingtime", 100).forGetter(recipe -> recipe.cookingTime)
+                PortCodecExtension.lenientOptionalFieldOf(Codec.FLOAT, "experience", 0.0F).forGetter(GlassKilnRecipe::getExperience),
+                PortCodecExtension.lenientOptionalFieldOf(Codec.INT, "cookingtime", 100).forGetter(GlassKilnRecipe::getCookingTime)
         ).apply(instance, GlassKilnRecipe::new));
         public static final PortStreamCodec<PortRegistryFriendlyByteBuf, GlassKilnRecipe> STREAM_CODEC = PortStreamCodec.composite(
-                ItemStack.STREAM_CODEC, recipe -> recipe.result,
+                ItemStack.STREAM_CODEC, AbstractAmountRecipe::getResult,
                 PortShapedRecipePattern.STREAM_CODEC, recipe -> recipe.pattern,
-                PortByteBufCodecs.FLOAT, recipe -> recipe.experience,
-                PortByteBufCodecs.VAR_INT, recipe -> recipe.cookingTime,
+                PortByteBufCodecs.FLOAT, GlassKilnRecipe::getExperience,
+                PortByteBufCodecs.VAR_INT, GlassKilnRecipe::getCookingTime,
                 GlassKilnRecipe::new
         );
 
