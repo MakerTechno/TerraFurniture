@@ -103,12 +103,17 @@ obfuscation {
 }
 
 boolean slim = true
+boolean subproject = true
 
 dependencies {
     modImplementation("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
     modImplementation(project(":Confluence-Magic-Lib"))
     modImplementation(project(":PortLib"))
-    interfaceInjectionData("org.mesdag:PortLib:${portlib_version}")
+    if (subproject) {
+        interfaceInjectionData(rootProject.files("PortLib/portlib-interfaceinjection.json"))
+    } else {
+        interfaceInjectionData("org.mesdag:PortLib:${portlib_version}")
+    }
     if (!slim) {
         jarJar(project(":Confluence-Magic-Lib"))
         jarJar(project(":PortLib"))
