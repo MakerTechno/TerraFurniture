@@ -13,7 +13,6 @@ import org.confluence.terra_furniture.common.init.TFEntities;
 import org.confluence.terra_furniture.common.init.TFItems;
 import org.confluence.terra_furniture.common.init.TFRegistries;
 import org.jetbrains.annotations.Contract;
-import org.mesdag.portlib.network.PortNetworkHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,6 @@ import org.slf4j.LoggerFactory;
 public class TerraFurniture {
     public static final String MODID = "terra_furniture";
     public static final Logger LOGGER = LoggerFactory.getLogger("Terra Furniture");
-    public static final PortNetworkHandler NETWORK_HANDLER = new PortNetworkHandler(MODID, "1");
 
     public TerraFurniture(FMLJavaModLoadingContext context) {
         IEventBus eventBus = context.getModEventBus();

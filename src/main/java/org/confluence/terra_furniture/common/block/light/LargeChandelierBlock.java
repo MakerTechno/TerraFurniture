@@ -31,13 +31,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.confluence.lib.common.block.HorizontalDirectionalWithHorizontalTenPartBlock;
 import org.confluence.lib.common.block.StateProperties;
-import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.api.client.renderer.item.BaseGeoItemRendererProvider;
 import org.confluence.terra_furniture.common.block.func.be.BaseSwayingBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
 import org.jetbrains.annotations.Nullable;
+import org.mesdag.portlib.network.PortPacketDistributor;
 import org.mesdag.portlib.wrapper.sounds.PortSoundEvents;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -85,7 +85,7 @@ public class LargeChandelierBlock extends HorizontalDirectionalWithHorizontalTen
         if (level.isClientSide && level.getBlockEntity(base) instanceof BEntity blockEntity) {
             blockEntity.applyMovingAffectedDelta(entity.getDeltaMovement());
         } else if (!level.isClientSide && entity instanceof Player) {
-            TerraFurniture.NETWORK_HANDLER.sendToPlayersTrackingEntity(entity, new PlayerCrossDeltaS2C(entity.getPosition(1).subtract(entity.getPosition(0)).toVector3f(), base));
+            PortPacketDistributor.sendToPlayersTrackingEntity(entity, new PlayerCrossDeltaS2C(entity.getPosition(1).subtract(entity.getPosition(0)).toVector3f(), base));
         }
     }
 

@@ -52,7 +52,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.confluence.lib.common.block.HorizontalDirectionalWithVerticalTwoPartBlock;
 import org.confluence.lib.common.block.StateProperties;
-import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.api.client.renderer.block.IRenderFunctionHook;
 import org.confluence.terra_furniture.api.client.renderer.item.BaseGeoItemRendererProvider;
@@ -60,6 +59,7 @@ import org.confluence.terra_furniture.common.block.func.be.BaseSwayingBE;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.network.s2c.PlayerCrossDeltaS2C;
 import org.jetbrains.annotations.Nullable;
+import org.mesdag.portlib.network.PortPacketDistributor;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -109,7 +109,7 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
         if (level.isClientSide && level.getBlockEntity(basePos) instanceof BEntity blockEntity) {
             blockEntity.applyMovingAffectedDelta(entity.getDeltaMovement());
         } else if (!level.isClientSide && entity instanceof Player) {
-            TerraFurniture.NETWORK_HANDLER.sendToPlayersTrackingEntity(entity, new PlayerCrossDeltaS2C(entity.getPosition(1).subtract(entity.getPosition(0)).toVector3f(), basePos));
+            PortPacketDistributor.sendToPlayersTrackingEntity(entity, new PlayerCrossDeltaS2C(entity.getPosition(1).subtract(entity.getPosition(0)).toVector3f(), basePos));
         }
     }
 
