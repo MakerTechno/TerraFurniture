@@ -12,6 +12,7 @@ public class TFChineseProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        add(TFBlocks.ONE_LEG_TABLE.get(), "\u5355\u817f\u684c");
         add("creativetab.terra_furniture", "泰拉家具");
 
         add("msg.terra_furniture.sit", "出现某些错误导致乘坐方块失败。");

@@ -15,6 +15,7 @@ import org.confluence.terra_furniture.api.client.renderer.block.MultiRenderTypeG
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
+import org.confluence.terra_furniture.client.renderer.block.OneLegTableGeoRenderer;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
 import org.confluence.terra_furniture.common.block.misc.PinWheel;
@@ -48,6 +49,7 @@ public final class TFModClient {
         /*--block entities renderers--*/
         regSimpleGeoBER(event, TFBlocks.PLASTIC_CHAIR_ENTITY, false);
         regSimpleGeoBER(event, TFBlocks.CLOCK_ENTITY, false);
+        event.registerBlockEntityRenderer(TFBlocks.ONE_LEG_TABLE_ENTITY.get(), context -> new OneLegTableGeoRenderer());
         event.registerBlockEntityRenderer(TFBlocks.PIN_WHEEL_ENTITY.get(),
                 context -> BaseFunctionalGeoBER.Builder.<PinWheel.BEntity>of(false)
                         .addOperationBindRule(0, geoBone -> geoBone.getName().equals("bone"),
