@@ -1,0 +1,20 @@
+{
+  "credit": "Converted from the supplied One Leg Table model",
+  "render_type": "cutout",
+  "texture_size": [64, 64],
+  "textures": {
+    "particle": "terra_furniture:block/one_leg_table"
+  },
+  "elements": [
+    {
+      "name": "side",
+      "from": [0, 12.75, -0.25],
+      "to": [16, 16.25, 3.25],
+      "faces": {
+        "north": {"uv": [8, 4.5, 12, 5.5], "texture": "#particle"},
+        "up": {"uv": [8, 4.5, 4, 5.5], "texture": "#particle"},
+        "down": {"uv": [8, 5.5, 4, 6.5], "texture": "#particle"}
+      }
+    }
+  ]
+}
