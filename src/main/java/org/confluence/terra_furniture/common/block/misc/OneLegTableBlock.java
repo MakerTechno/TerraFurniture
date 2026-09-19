@@ -37,6 +37,7 @@ public class OneLegTableBlock extends CrossCollisionBlock implements EntityBlock
     private static final VoxelShape TOP_SHAPE = Shapes.box(0.0, 0.8125, 0.0, 1.0, 1.0, 1.0);
     private static final double LEG_HALF_WIDTH = 5.0 / 16.0;
     private static final double LEG_HEIGHT = 13.0 / 16.0;
+    private static final int MAX_TABLE_SPAN = 3;
     private static final int MAX_CONNECTED_BLOCKS = 64;
 
     public OneLegTableBlock(Properties properties) {
@@ -127,37 +128,75 @@ public class OneLegTableBlock extends CrossCollisionBlock implements EntityBlock
     }
 
     /**
-     * Finds the horizontal component containing {@code start}. The hard limit
-     * prevents malformed or enormous structures from causing unbounded work;
-     * an over-limit or invalid component safely falls back to a single table.
+     * Finds the table group containing {@code start}. A physically connected
+     * component is split into deterministic 3x3 cells, so no table group can
+     * span more than three blocks along either horizontal axis. Disconnected
+     * islands inside the same cell remain separate groups.
+     * <p>
+     * The hard block limit prevents malformed or enormous structures from
+     * causing unbounded work; an over-limit or invalid component safely falls
+     * back to a single table.
      */
     public TableGroup findGroup(@Nullable BlockGetter level, BlockPos start) {
         if (level == null || start == null || !isSameTable(level.getBlockState(start))) {
             return TableGroup.single(start == null ? BlockPos.ZERO : start);
         }
 
-        Set<BlockPos> visited = new HashSet<>();
+        Set<BlockPos> component = new HashSet<>();
         ArrayDeque<BlockPos> pending = new ArrayDeque<>();
         pending.add(start.immutable());
 
         while (!pending.isEmpty()) {
             BlockPos current = pending.removeFirst();
-            if (visited.contains(current) || !isSameTable(level.getBlockState(current))) {
+            if (component.contains(current) || !isSameTable(level.getBlockState(current))) {
                 continue;
             }
-            visited.add(current);
-            if (visited.size() > MAX_CONNECTED_BLOCKS) {
+            component.add(current);
+            if (component.size() > MAX_CONNECTED_BLOCKS) {
                 return TableGroup.single(start);
             }
             for (Direction direction : Direction.Plane.HORIZONTAL) {
                 BlockPos neighbor = current.relative(direction);
-                if (!visited.contains(neighbor) && isSameTable(level.getBlockState(neighbor))) {
+                if (!component.contains(neighbor) && isSameTable(level.getBlockState(neighbor))) {
                     pending.addLast(neighbor.immutable());
                 }
             }
         }
 
-        if (visited.isEmpty()) {
+        if (component.isEmpty()) {
+            return TableGroup.single(start);
+        }
+
+        int componentMinX = Integer.MAX_VALUE;
+        int componentMinZ = Integer.MAX_VALUE;
+        for (BlockPos member : component) {
+            componentMinX = Math.min(componentMinX, member.getX());
+            componentMinZ = Math.min(componentMinZ, member.getZ());
+        }
+
+        int groupMinX = componentMinX
+                + Math.floorDiv(start.getX() - componentMinX, MAX_TABLE_SPAN) * MAX_TABLE_SPAN;
+        int groupMinZ = componentMinZ
+                + Math.floorDiv(start.getZ() - componentMinZ, MAX_TABLE_SPAN) * MAX_TABLE_SPAN;
+        int groupMaxX = groupMinX + MAX_TABLE_SPAN - 1;
+        int groupMaxZ = groupMinZ + MAX_TABLE_SPAN - 1;
+
+        Set<BlockPos> groupMembers = new HashSet<>();
+        pending.add(start.immutable());
+        while (!pending.isEmpty()) {
+            BlockPos current = pending.removeFirst();
+            if (groupMembers.contains(current) || !component.contains(current)
+                    || current.getX() < groupMinX || current.getX() > groupMaxX
+                    || current.getZ() < groupMinZ || current.getZ() > groupMaxZ) {
+                continue;
+            }
+            groupMembers.add(current);
+            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                pending.addLast(current.relative(direction).immutable());
+            }
+        }
+
+        if (groupMembers.isEmpty()) {
             return TableGroup.single(start);
         }
 
@@ -168,7 +207,7 @@ public class OneLegTableBlock extends CrossCollisionBlock implements EntityBlock
         int minZ = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
         int maxZ = Integer.MIN_VALUE;
-        for (BlockPos member : visited) {
+        for (BlockPos member : groupMembers) {
             totalX += member.getX() + 0.5;
             totalZ += member.getZ() + 0.5;
             minX = Math.min(minX, member.getX());
@@ -181,7 +220,7 @@ public class OneLegTableBlock extends CrossCollisionBlock implements EntityBlock
             }
         }
 
-        int count = visited.size();
+        int count = groupMembers.size();
         return new TableGroup(anchor == null ? start.immutable() : anchor.immutable(),
                 totalX / count, totalZ / count, minX, minZ, maxX, maxZ, count);
     }
