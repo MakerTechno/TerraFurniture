@@ -160,6 +160,10 @@ public final class TFBlocks {
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .setAvailabilityFor(TFBlockType.CHAIR, true)
+            .setAvailabilityFor(TFBlockType.SINK, true)
+            .setPropertyFor(TFBlockType.SINK, properties -> properties.noOcclusion())
+            .setAvailabilityFor(TFBlockType.CANDELABRAS, true)
+            .doLightSetup(14, 14, 15, 15, 15)
             .build();
     public static final TFBlockSet STONE_SET = new TFBlockSet.Builder(STONE, Blocks.STONE, true)
             .disableAll()
@@ -232,6 +236,8 @@ public final class TFBlocks {
     public static final TFBlockSet IRON_SET = new TFBlockSet.Builder(IRON, Blocks.IRON_BLOCK, true)
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
+            .setAvailabilityFor(TFBlockType.SINK, true)
+            .setPropertyFor(TFBlockType.SINK, properties -> properties.noOcclusion())
             .build();
     public static final TFBlockSet DUSKWARE_SET = new TFBlockSet.Builder(DUSKWARE, Blocks.STONE, true)
             .disableAll()

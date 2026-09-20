@@ -13,6 +13,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.confluence.terra_furniture.common.block.func.BasePropertyHorizontalDirectionBlock;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.confluence.terra_furniture.common.init.TFBlockSetTypes;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -21,6 +22,8 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
     protected static final VoxelShape SINK_X;
     protected static final VoxelShape SINK_Z;
     protected static final VoxelShape PIPE;
+    protected static final VoxelShape IRON_BASE;
+    protected static final VoxelShape SPRUCE_BASE;
 
     public SinkBlock(TFBlockSetType type, BlockState state, Consumer<Properties> extraProperties) {
         super(type, state, extraProperties);
@@ -32,6 +35,12 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (getType().equals(TFBlockSetTypes.IRON)) {
+            return modelFittedShape(IRON_BASE, state.getValue(FACING));
+        }
+        if (getType().equals(TFBlockSetTypes.SPRUCE)) {
+            return modelFittedShape(SPRUCE_BASE, state.getValue(FACING));
+        }
         return switch (state.getValue(FACING)) {
             case NORTH -> Shapes.or(SINK_X.move(0, 0, 3 / 16.0), PIPE.move(0, 0, 6 / 16.0));
             case SOUTH -> Shapes.or(SINK_X.move(0, 0, -3 / 16.0), PIPE.move(0, 0, -6 / 16.0));
@@ -39,6 +48,30 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
             case EAST -> Shapes.or(SINK_Z.move(-3 / 16.0, 0, 0), PIPE.move(-6 / 16.0, 0, 0));
             default -> Shapes.or(SINK_X, PIPE);
         };
+    }
+
+    private static VoxelShape modelFittedShape(VoxelShape base, Direction facing) {
+        VoxelShape upright;
+        VoxelShape spout;
+        switch (facing) {
+            case SOUTH -> {
+                upright = Block.box(7, 14, 1, 9, 19, 3);
+                spout = Block.box(7, 16, 3, 9, 19, 7);
+            }
+            case WEST -> {
+                upright = Block.box(13, 14, 7, 15, 19, 9);
+                spout = Block.box(9, 16, 7, 13, 19, 9);
+            }
+            case EAST -> {
+                upright = Block.box(1, 14, 7, 3, 19, 9);
+                spout = Block.box(3, 16, 7, 7, 19, 9);
+            }
+            default -> {
+                upright = Block.box(7, 14, 13, 9, 19, 15);
+                spout = Block.box(7, 16, 9, 9, 19, 13);
+            }
+        }
+        return Shapes.or(base, upright, spout);
     }
 
     @SuppressWarnings("deprecation")
@@ -68,6 +101,12 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
         SINK_X = Block.box(1.0, 10.0, 3.0, 15.0, 15.0, 13.0);
         SINK_Z = Block.box(3.0, 10.0, 1.0, 13.0, 15.0, 15.0);
         PIPE = Block.box(7.0, 0.0, 7.0, 9.0, 10.0, 9.0);
+        IRON_BASE = Shapes.or(
+                Block.box(4, 0, 4, 12, 2, 12),
+                Block.box(6, 0, 6, 10, 9, 10),
+                Block.box(0, 9, 0, 16, 14, 16)
+        );
+        SPRUCE_BASE = Block.box(0, 0, 0, 16, 14, 16);
     }
 
     @Override
