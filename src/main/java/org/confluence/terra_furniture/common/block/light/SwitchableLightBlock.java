@@ -1,9 +1,11 @@
 package org.confluence.terra_furniture.common.block.light;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +24,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import org.confluence.terra_furniture.client.generators.DefaultBlockDataGenerator;
@@ -38,6 +41,11 @@ import java.util.HashSet;
 
 public class SwitchableLightBlock extends PortCopperBulbBlock implements SimpleWaterloggedBlock, AutoGenBlockData<SwitchableLightBlock>, BlockSetGetter<SwitchableLightBlock> {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    private static final VoxelShape OAK_CANDLE_SHAPE = Shapes.or(
+            Block.box(6, 0, 6, 10, 1, 10),
+            Block.box(6.5, 0.75, 6.5, 9.5, 10, 9.5),
+            Block.box(7.5, 0.075, 4.5, 8.5, 4, 6.5)
+    );
 
     private final TFBlockSetType type;
     private final BlockShapeType shapeType;
@@ -51,7 +59,24 @@ public class SwitchableLightBlock extends PortCopperBulbBlock implements SimpleW
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (type == org.confluence.terra_furniture.common.init.TFBlockSetTypes.OAK && shapeType == BlockShapeType.CANDLE) {
+            return OAK_CANDLE_SHAPE;
+        }
         return shapeType.getShape();
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (type == org.confluence.terra_furniture.common.init.TFBlockSetTypes.OAK
+                && shapeType == BlockShapeType.CANDLE
+                && state.getValue(LIT)
+                && !state.getValue(WATERLOGGED)) {
+            level.addParticle(ParticleTypes.SMALL_FLAME,
+                    pos.getX() + 8.06 / 16,
+                    pos.getY() + 12.6 / 16,
+                    pos.getZ() + 8.06 / 16,
+                    0, 0, 0);
+        }
     }
 
     @Override
