@@ -106,7 +106,13 @@ public class SinkBlock extends BasePropertyHorizontalDirectionBlock<SinkBlock> {
                 Block.box(6, 0, 6, 10, 9, 10),
                 Block.box(0, 9, 0, 16, 14, 16)
         );
-        SPRUCE_BASE = Block.box(0, 0, 0, 16, 14, 16);
+        SPRUCE_BASE = Shapes.or(
+                Block.box(0, 0, 0, 16, 10, 16),
+                Block.box(0, 10, 0, 16, 14, 1),
+                Block.box(0, 10, 15, 16, 14, 16),
+                Block.box(0, 10, 1, 1, 14, 15),
+                Block.box(15, 10, 1, 16, 14, 15)
+        );
     }
 
     @Override

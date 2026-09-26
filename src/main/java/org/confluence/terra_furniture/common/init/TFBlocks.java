@@ -29,6 +29,7 @@ import org.confluence.terra_furniture.common.block.misc.TrashCanBlock;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
+import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
 import org.confluence.terra_furniture.common.item.FishBowlItem;
 import org.confluence.terra_furniture.common.item.SimpleGeoRenderedItem;
 import org.mesdag.portlib.registries.*;
@@ -160,6 +161,9 @@ public final class TFBlocks {
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .setAvailabilityFor(TFBlockType.CHAIR, true)
+            .setAvailabilityFor(TFBlockType.BATHTUB, true)
+            .setGetterFor(TFBlockType.BATHTUB, (properties, applier) -> new BathtubBlock(SPRUCE, properties, BathtubBlock.tubShapes(10, 2), false))
+            .setPropertyFor(TFBlockType.BATHTUB, properties -> properties.noOcclusion())
             .setAvailabilityFor(TFBlockType.SINK, true)
             .setPropertyFor(TFBlockType.SINK, properties -> properties.noOcclusion())
             .setAvailabilityFor(TFBlockType.CANDELABRAS, true)
