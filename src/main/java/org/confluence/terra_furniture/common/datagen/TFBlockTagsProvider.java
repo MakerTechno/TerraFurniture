@@ -51,7 +51,11 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .addTag(TFTags.DUNGEON_FURNITURE);
 
         tag(BlockTags.MINEABLE_WITH_AXE)
+                .add(TFBlocks.ONE_LEG_TABLE.get())
                 .addTag(TFTags.WOODEN_FURNITURE);
+
+        tag(TFTags.HOUSE_TABLE)
+                .add(TFBlocks.ONE_LEG_TABLE.get());
 
         tag(TFTags.HOUSE_CHAIR).add(
                 TFBlocks.GLASS_SET.SOFA.get(),
