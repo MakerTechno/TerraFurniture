@@ -1,7 +1,103 @@
 {
-  "variants": {
-    "": {
-      "model": "terra_furniture:block/one_leg_table"
+  "multipart": [
+    {
+      "apply": {"model": "terra_furniture:block/one_leg_table/top"}
+    },
+    {
+      "when": {"north": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/side"}
+    },
+    {
+      "when": {"east": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/side", "y": 90}
+    },
+    {
+      "when": {"south": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/side", "y": 180}
+    },
+    {
+      "when": {"west": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/side", "y": 270}
+    },
+    {
+      "when": {"north": "false", "west": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/corner"}
+    },
+    {
+      "when": {"east": "false", "north": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/corner", "y": 90}
+    },
+    {
+      "when": {"south": "false", "east": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/corner", "y": 180}
+    },
+    {
+      "when": {"west": "false", "south": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/corner", "y": 270}
+    },
+    {
+      "when": {"north": "false", "east": "false", "west": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_only"}
+    },
+    {
+      "when": {"east": "false", "south": "false", "north": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_only", "y": 90}
+    },
+    {
+      "when": {"south": "false", "west": "false", "east": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_only", "y": 180}
+    },
+    {
+      "when": {"west": "false", "north": "false", "south": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_only", "y": 270}
+    },
+    {
+      "when": {"north": "false", "east": "true", "west": "true"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer"}
+    },
+    {
+      "when": {"east": "false", "south": "true", "north": "true"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer", "y": 90}
+    },
+    {
+      "when": {"south": "false", "west": "true", "east": "true"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer", "y": 180}
+    },
+    {
+      "when": {"west": "false", "north": "true", "south": "true"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer", "y": 270}
+    },
+    {
+      "when": {"north": "false", "east": "true", "west": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_corner"}
+    },
+    {
+      "when": {"east": "false", "south": "true", "north": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_corner", "y": 90}
+    },
+    {
+      "when": {"south": "false", "west": "true", "east": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_corner", "y": 180}
+    },
+    {
+      "when": {"west": "false", "north": "true", "south": "false"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_corner", "y": 270}
+    },
+    {
+      "when": {"north": "false", "east": "false", "west": "true"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_corner_y"}
+    },
+    {
+      "when": {"east": "false", "south": "false", "north": "true"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_corner_y", "y": 90}
+    },
+    {
+      "when": {"south": "false", "west": "false", "east": "true"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_corner_y", "y": 180}
+    },
+    {
+      "when": {"west": "false", "north": "false", "south": "true"},
+      "apply": {"model": "terra_furniture:block/one_leg_table/layer_corner_y", "y": 270}
     }
-  }
+  ]
 }

@@ -1,0 +1,28 @@
+{
+  "credit": "Converted from the supplied One Leg Table model",
+  "render_type": "cutout",
+  "texture_size": [64, 64],
+  "textures": {
+    "particle": "terra_furniture:block/one_leg_table"
+  },
+  "elements": [
+    {
+      "name": "layer_center",
+      "from": [1, 0, 1],
+      "to": [15, 13, 1],
+      "faces": {
+        "north": {"uv": [0.25, 8, 3.75, 11.25], "texture": "#particle"},
+        "south": {"uv": [3.75, 8, 0.25, 11.25], "texture": "#particle"}
+      }
+    },
+    {
+      "name": "layer_east_end",
+      "from": [15, 0, 1],
+      "to": [16, 13, 1],
+      "faces": {
+        "north": {"uv": [3.75, 8, 4, 11.25], "texture": "#particle"},
+        "south": {"uv": [4, 8, 3.75, 11.25], "texture": "#particle"}
+      }
+    }
+  ]
+}
