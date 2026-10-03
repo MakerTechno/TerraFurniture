@@ -3,6 +3,13 @@
 	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
 	"parent": "terra_furniture:item/displays/forward_two_parts",
+	"display": {
+		"gui": {
+			"rotation": [24, 147, 0],
+			"translation": [0, 2.25, 0],
+			"scale": [0.48, 0.48, 0.48]
+		}
+	},
 	"texture_size": [128, 128],
 	"textures": {
 		"0": "terra_furniture:block/spruce/spruce_bathtub/base",

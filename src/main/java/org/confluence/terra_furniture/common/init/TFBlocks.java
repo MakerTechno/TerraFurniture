@@ -21,7 +21,10 @@ import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSet;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
+import org.confluence.terra_furniture.common.block.light.ModelLightBlock;
+import org.confluence.terra_furniture.common.block.light.BlockShapeType;
 import org.confluence.terra_furniture.common.block.misc.ClockBlock;
+import org.confluence.terra_furniture.common.block.misc.CherryChestBlock;
 import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
 import org.confluence.terra_furniture.common.block.misc.OneLegTableBlock;
 import org.confluence.terra_furniture.common.block.misc.PinWheel;
@@ -56,6 +59,9 @@ public final class TFBlocks {
     /* I AM THE STORM THAT IS APPROACHING!! */
     public static final PortDeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(property -> property.lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
     public static final RegistryObject<BlockEntityType<PlasticChairBlock.PlasticChairBE>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register("plastic_chair_entity", () -> BlockEntityType.Builder.of(PlasticChairBlock.PlasticChairBE::new, PLASTIC_CHAIR.get()).build(DSL.remainderType()));
+
+    public static final PortDeferredBlock<CherryChestBlock> CHERRY_CHEST = registerWithoutItem("cherry_chest", () -> new CherryChestBlock(BlockBehaviour.Properties.copy(Blocks.CHEST).noOcclusion()));
+    public static final PortDeferredItem<SimpleGeoRenderedItem> CHERRY_CHEST_ITEM = TFItems.BLOCK_ITEMS.register("cherry_chest", () -> new SimpleGeoRenderedItem(CHERRY_CHEST.get(), new Item.Properties(), false, false));
 
     /* Special furniture, not belongs to any furniture set */
     public static final PortDeferredBlock<Block> FISH_BOWL = registerWithItem("fish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
@@ -166,9 +172,31 @@ public final class TFBlocks {
             .setPropertyFor(TFBlockType.BATHTUB, properties -> properties.noOcclusion())
             .setAvailabilityFor(TFBlockType.SINK, true)
             .setPropertyFor(TFBlockType.SINK, properties -> properties.noOcclusion())
+            .setAvailabilityFor(TFBlockType.TOILET, true)
+            .setPropertyFor(TFBlockType.TOILET, properties -> properties.noOcclusion())
+            .setAvailabilityFor(TFBlockType.LAMP, true)
+            .setGetterFor(TFBlockType.LAMP, (properties, applier) -> new ModelLightBlock(
+                    SPRUCE, properties, BlockShapeType.LAMP, Block.box(5, 0, 5, 11, 26, 11)))
+            .setPropertyFor(TFBlockType.LAMP, properties -> properties.noOcclusion())
             .setAvailabilityFor(TFBlockType.CANDELABRAS, true)
             .doLightSetup(14, 14, 15, 15, 15)
             .build();
+
+    public static final PortDeferredBlock<ModelLightBlock> SPRUCE_CANDLESTICK_ONE = registerWithItem(
+            "spruce_candlestick_one",
+            () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.copy(Blocks.SPRUCE_PLANKS)
+                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
+                    Block.box(6.5, 0, 6.5, 9.5, 13, 9.5)));
+    public static final PortDeferredBlock<ModelLightBlock> SPRUCE_CANDLESTICK_TWO = registerWithItem(
+            "spruce_candlestick_two",
+            () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.copy(Blocks.SPRUCE_PLANKS)
+                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
+                    Block.box(3.5, 0, 6.5, 12.5, 13, 9.5)));
+    public static final PortDeferredBlock<ModelLightBlock> SPRUCE_CANDLESTICK_THREE = registerWithItem(
+            "spruce_candlestick_three",
+            () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.copy(Blocks.SPRUCE_PLANKS)
+                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
+                    Block.box(2.5, 0, 6.5, 13.5, 13, 9.5)));
     public static final TFBlockSet STONE_SET = new TFBlockSet.Builder(STONE, Blocks.STONE, true)
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
@@ -297,6 +325,11 @@ public final class TFBlocks {
                     ClockBlock.Entity::new,
                     TFBlockType.CLOCK.getAll().stream().map(PortRegistryEntry::get).toArray(Block[]::new)
             ).build(DSL.remainderType())
+    );
+
+    public static final RegistryObject<BlockEntityType<CherryChestBlock.Entity>> CHERRY_CHEST_ENTITY = BLOCK_ENTITIES.register(
+            "cherry_chest_entity",
+            () -> BlockEntityType.Builder.of(CherryChestBlock.Entity::new, CHERRY_CHEST.get()).build(DSL.remainderType())
     );
 
 

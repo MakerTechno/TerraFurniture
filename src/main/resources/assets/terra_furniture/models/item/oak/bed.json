@@ -2,6 +2,13 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"parent": "terra_furniture:item/displays/bed",
+	"display": {
+		"gui": {
+			"rotation": [24, 147, 0],
+			"translation": [-0.25, 2.25, 0],
+			"scale": [0.48, 0.48, 0.48]
+		}
+	},
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "terra_furniture:block/oak/oak_bed/base",

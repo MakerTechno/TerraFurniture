@@ -17,9 +17,15 @@ import java.util.function.Consumer;
 public class SimpleGeoRenderedItem extends BlockItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final boolean isNegative;
+    private final boolean animated;
     public SimpleGeoRenderedItem(Block block, Properties properties, boolean isNegative) {
+        this(block, properties, isNegative, true);
+    }
+
+    public SimpleGeoRenderedItem(Block block, Properties properties, boolean isNegative, boolean animated) {
         super(block, properties);
         this.isNegative = isNegative;
+        this.animated = animated;
     }
 
     @Override
@@ -29,6 +35,9 @@ public class SimpleGeoRenderedItem extends BlockItem implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        if (!animated) {
+            return;
+        }
         RawAnimation aDefault = RawAnimation.begin().thenLoop("default");
         controllers.add(new AnimationController<>(this, state -> state.setAndContinue(aDefault)));
     }
