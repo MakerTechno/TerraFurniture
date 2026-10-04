@@ -2,7 +2,9 @@ package org.confluence.terra_furniture.common.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -18,6 +20,9 @@ import org.mesdag.portlib.wrapper.world.entity.vehicle.PortVehicleEntity;
  * 当对应方块实体脱离访问范围，实体应卸载自己。
  */
 public class RideableEntityNull extends PortVehicleEntity implements IPortEntityWithComplexSpawn {
+    // 1.21.1 Player.DEFAULT_VEHICLE_ATTACHMENT: seat height is the attachment,
+    // not the player's feet. 1.20.1's default riding offset is only -0.35.
+    private static final double PLAYER_VEHICLE_ATTACHMENT_Y = 0.6;
     private BlockPos blockEntityPos;
 
     public RideableEntityNull(EntityType<? extends PortVehicleEntity> entityType, Level level) {
@@ -38,6 +43,17 @@ public class RideableEntityNull extends PortVehicleEntity implements IPortEntity
     @Override
     protected Item getDropItem() {
         return Items.AIR;
+    }
+
+    @Override
+    protected void positionRider(Entity passenger, Entity.MoveFunction callback) {
+        if (passenger instanceof Player) {
+            if (hasPassenger(passenger)) {
+                callback.accept(passenger, getX(), getY() - PLAYER_VEHICLE_ATTACHMENT_Y, getZ());
+            }
+        } else {
+            super.positionRider(passenger, callback);
+        }
     }
 
     @Override

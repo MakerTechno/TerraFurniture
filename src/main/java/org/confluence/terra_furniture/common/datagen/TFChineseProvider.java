@@ -97,6 +97,8 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.SPRUCE_CANDLESTICK_TWO.get(), "云杉木双烛台");
         add(TFBlocks.SPRUCE_CANDLESTICK_THREE.get(), "云杉木三烛台");
         add(TFBlocks.CHERRY_CHEST.get(), "樱花木箱");
+        add(TFBlocks.SPRUCE_CHEST.get(), "云杉木箱");
+        add(TFBlocks.SPRUCE_SET.BED.get(), "云杉木床");
         add(TFBlocks.SPRUCE_SET.SINK.get(), "云杉木水槽");
         add(TFBlocks.SPRUCE_SET.BATHTUB.get(), "云杉木浴缸");
         add(TFBlocks.STONE_SET.TABLE.get(), "石桌");
