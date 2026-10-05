@@ -42,11 +42,27 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
 
         tag(TFTags.SINKS)
                 .add(TFBlocks.BLUE_DUNGEON_SET.SINK.get())
-                .add(TFBlocks.GLASS_SET.SINK.get());
+                .add(TFBlocks.GLASS_SET.SINK.get())
+                .add(TFBlocks.SPRUCE_SET.SINK.get())
+                .add(TFBlocks.IRON_SET.SINK.get());
+
+        tag(TFTags.SPRUCE_FURNITURE)
+                .add(TFBlocks.SPRUCE_SET.SINK.get(), TFBlocks.SPRUCE_SET.TOILET.get(), TFBlocks.SPRUCE_SET.LAMP.get(),
+                        TFBlocks.SPRUCE_CANDLESTICK_ONE.get(), TFBlocks.SPRUCE_CANDLESTICK_TWO.get(),
+                        TFBlocks.SPRUCE_CANDLESTICK_THREE.get());
+
+        tag(TFTags.WOODEN_FURNITURE)
+                .add(TFBlocks.SPRUCE_SET.SINK.get(), TFBlocks.SPRUCE_SET.TOILET.get(), TFBlocks.SPRUCE_SET.LAMP.get(),
+                        TFBlocks.SPRUCE_CANDLESTICK_ONE.get(), TFBlocks.SPRUCE_CANDLESTICK_TWO.get(),
+                        TFBlocks.SPRUCE_CANDLESTICK_THREE.get(), TFBlocks.CHERRY_CHEST.get());
+
+        tag(TFTags.IRON_FURNITURE)
+                .add(TFBlocks.IRON_SET.SINK.get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(TFBlocks.PLASTIC_CHAIR.get())
                 .add(TFBlocks.TRASH_CAN.get())
+                .add(TFBlocks.IRON_SET.SINK.get())
                 .addTag(TFTags.GLASS_FURNITURE)
                 .addTag(TFTags.DUNGEON_FURNITURE);
 
