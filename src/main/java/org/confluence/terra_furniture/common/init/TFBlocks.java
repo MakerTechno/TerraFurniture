@@ -33,6 +33,7 @@ import org.confluence.terra_furniture.common.block.misc.TrashCanBlock;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
+import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
 import org.confluence.terra_furniture.common.block.sleep.TentBlock;
 import org.confluence.terra_furniture.common.item.FishBowlItem;
 import org.confluence.terra_furniture.common.item.SimpleGeoRenderedItem;
@@ -192,6 +193,13 @@ public final class TFBlocks {
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .setAvailabilityFor(TFBlockType.CHAIR, true)
+            .setAvailabilityFor(TFBlockType.BATHTUB, true)
+            .setGetterFor(TFBlockType.BATHTUB, (properties, applier) -> new BathtubBlock(SPRUCE, properties, BathtubBlock.tubShapes(10, 2), false))
+            .setPropertyFor(TFBlockType.BATHTUB, properties -> properties.noOcclusion())
+            .setAvailabilityFor(TFBlockType.SINK, true)
+            .setPropertyFor(TFBlockType.SINK, properties -> properties.noOcclusion())
+            .setAvailabilityFor(TFBlockType.TOILET, true)
+            .setPropertyFor(TFBlockType.TOILET, properties -> properties.noOcclusion())
             .setAvailabilityFor(TFBlockType.LAMP, true)
             .setGetterFor(TFBlockType.LAMP, (properties, applier) -> new ModelLightBlock(
                     SPRUCE, properties, BlockShapeType.LAMP, Block.box(5, 0, 5, 11, 26, 11)))
@@ -268,6 +276,8 @@ public final class TFBlocks {
     public static final TFBlockSet IRON_SET = new TFBlockSet.Builder(IRON, Blocks.IRON_BLOCK, true)
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
+            .setAvailabilityFor(TFBlockType.SINK, true)
+            .setPropertyFor(TFBlockType.SINK, properties -> properties.noOcclusion())
             .build();
     public static final TFBlockSet DUSKWARE_SET = new TFBlockSet.Builder(DUSKWARE, Blocks.STONE, true)
             .disableAll()
