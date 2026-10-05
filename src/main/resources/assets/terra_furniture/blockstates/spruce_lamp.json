@@ -1,0 +1,6 @@
+{
+  "multipart": [
+    { "when": { "lit": "false" }, "apply": { "model": "terra_furniture:block/spruce/spruce_lamp_unlit" } },
+    { "when": { "lit": "true" }, "apply": { "model": "terra_furniture:block/spruce/spruce_lamp_lit" } }
+  ]
+}
