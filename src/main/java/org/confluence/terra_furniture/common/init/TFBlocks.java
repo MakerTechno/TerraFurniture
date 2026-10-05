@@ -24,6 +24,7 @@ import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.block.light.BlockShapeType;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.light.ModelLightBlock;
+import org.confluence.terra_furniture.common.block.misc.CherryChestBlock;
 import org.confluence.terra_furniture.common.block.misc.ClockBlock;
 import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
 import org.confluence.terra_furniture.common.block.misc.OneLegTableBlock;
@@ -88,6 +89,14 @@ public final class TFBlocks {
             () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
                     .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
                     Block.box(2.5, 0, 6.5, 13.5, 13, 9.5)));
+    public static final DeferredBlock<CherryChestBlock> CHERRY_CHEST = registerWithoutItem("cherry_chest",
+            () -> new CherryChestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHEST).noOcclusion()));
+    public static final DeferredItem<SimpleGeoRenderedItem> CHERRY_CHEST_ITEM = TFItems.BLOCK_ITEMS.register("cherry_chest",
+            () -> new SimpleGeoRenderedItem(CHERRY_CHEST.get(), new Item.Properties(), false));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CherryChestBlock.Entity>> CHERRY_CHEST_ENTITY = BLOCK_ENTITIES.register(
+            "cherry_chest_entity",
+            () -> BlockEntityType.Builder.of(CherryChestBlock.Entity::new, CHERRY_CHEST.get()).build(DSL.remainderType())
+    );
 
     /*
         Furniture sets.
