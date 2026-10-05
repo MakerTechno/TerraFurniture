@@ -183,6 +183,10 @@ public final class TFBlocks {
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .setAvailabilityFor(TFBlockType.CHAIR, true)
+            .setAvailabilityFor(TFBlockType.LAMP, true)
+            .setGetterFor(TFBlockType.LAMP, (properties, applier) -> new ModelLightBlock(
+                    SPRUCE, properties, BlockShapeType.LAMP, Block.box(5, 0, 5, 11, 26, 11)))
+            .setPropertyFor(TFBlockType.LAMP, properties -> properties.noOcclusion().lightLevel(litBlockEmission(15)))
             .build();
     public static final TFBlockSet STONE_SET = new TFBlockSet.Builder(STONE, Blocks.STONE, true)
             .disableAll()
