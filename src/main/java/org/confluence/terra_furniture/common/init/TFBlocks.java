@@ -21,7 +21,9 @@ import org.confluence.terra_furniture.common.block.crafting.IceMachineBlock;
 import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSet;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
+import org.confluence.terra_furniture.common.block.light.BlockShapeType;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
+import org.confluence.terra_furniture.common.block.light.ModelLightBlock;
 import org.confluence.terra_furniture.common.block.misc.ClockBlock;
 import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
 import org.confluence.terra_furniture.common.block.misc.OneLegTableBlock;
@@ -70,6 +72,22 @@ public final class TFBlocks {
     public static final DeferredBlock<TentBlock> TENT = registerWithoutItem("tent", () -> new TentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL)));
     public static final DeferredItem<BlockItem> TENT_ITEM = TFItems.BLOCK_ITEMS.register("tent", () -> new TentBlock.BItem(TENT.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TentBlock.BEntity>> TENT_BLOCK_ENTITY = BLOCK_ENTITIES.register("tent_block_entity", () -> BlockEntityType.Builder.of(TentBlock.BEntity::new, TENT.get()).build(DSL.remainderType()));
+
+    public static final DeferredBlock<ModelLightBlock> SPRUCE_CANDLESTICK_ONE = registerWithItem(
+            "spruce_candlestick_one",
+            () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
+                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
+                    Block.box(6.5, 0, 6.5, 9.5, 13, 9.5)));
+    public static final DeferredBlock<ModelLightBlock> SPRUCE_CANDLESTICK_TWO = registerWithItem(
+            "spruce_candlestick_two",
+            () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
+                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
+                    Block.box(3.5, 0, 6.5, 12.5, 13, 9.5)));
+    public static final DeferredBlock<ModelLightBlock> SPRUCE_CANDLESTICK_THREE = registerWithItem(
+            "spruce_candlestick_three",
+            () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
+                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
+                    Block.box(2.5, 0, 6.5, 13.5, 13, 9.5)));
 
     /*
         Furniture sets.
