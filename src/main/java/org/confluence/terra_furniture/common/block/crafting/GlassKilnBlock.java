@@ -299,7 +299,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
 
         @Override
         public boolean stillValid(Player player) {
-            return false;
+            return Container.stillValidBlockEntity(this, player);
         }
 
         private int getTotalCookTime(Level level) {
@@ -383,7 +383,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
 
         @Override
         public boolean isEmpty() {
-            return items.isEmpty();
+            return items.stream().allMatch(ItemStack::isEmpty);
         }
 
         @Override
@@ -393,14 +393,16 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
 
         @Override
         public ItemStack removeItem(int slot, int amount) {
-            ItemStack stack = items.get(slot);
-            stack.shrink(amount);
-            return stack.isEmpty() ? ItemStack.EMPTY : stack;
+            ItemStack removed = ContainerHelper.removeItem(items, slot, amount);
+            if (!removed.isEmpty()) {
+                setChanged();
+            }
+            return removed;
         }
 
         @Override
         public ItemStack removeItemNoUpdate(int slot) {
-            return items.remove(slot);
+            return ContainerHelper.takeItem(items, slot);
         }
 
         @Override
@@ -489,7 +491,7 @@ public class GlassKilnBlock extends HorizontalDirectionalBlock implements Entity
 
         @Override
         public void clearContent() {
-
+            items.clear();
         }
     }
 }

@@ -12,14 +12,17 @@ import org.confluence.terra_furniture.api.client.renderer.TFRenderType;
 import org.confluence.terra_furniture.api.client.renderer.block.BaseFunctionalGeoBER;
 import org.confluence.terra_furniture.api.client.renderer.block.CommonRenderHooks;
 import org.confluence.terra_furniture.api.client.renderer.block.MultiRenderTypeGeoBER;
+import org.confluence.terra_furniture.client.model.CherryChestGeoModel;
+import org.confluence.terra_furniture.client.renderer.block.OneLegTableGeoRenderer;
+import org.confluence.terra_furniture.client.renderer.block.SpruceChestRenderer;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
-import org.confluence.terra_furniture.client.renderer.block.OneLegTableGeoRenderer;
-import org.confluence.terra_furniture.client.renderer.block.SpruceChestRenderer;
-import org.confluence.terra_furniture.client.model.CherryChestGeoModel;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
-import org.confluence.terra_furniture.common.block.misc.*;
+import org.confluence.terra_furniture.common.block.misc.CherryChestBlock;
+import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
+import org.confluence.terra_furniture.common.block.misc.PinWheel;
+import org.confluence.terra_furniture.common.block.sleep.TentBlock;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFEntities;
 import org.confluence.terra_furniture.common.init.TFRegistries;
@@ -51,6 +54,10 @@ public final class TFModClient {
         regSimpleGeoBER(event, TFBlocks.PLASTIC_CHAIR_ENTITY, false);
         regSimpleGeoBER(event, TFBlocks.CLOCK_ENTITY, false);
         event.registerBlockEntityRenderer(TFBlocks.SPRUCE_CHEST_ENTITY.get(), SpruceChestRenderer::new);
+        event.registerBlockEntityRenderer(TFBlocks.TENT_BLOCK_ENTITY.get(),
+                context -> BaseFunctionalGeoBER.Builder.<TentBlock.BEntity>of(true)
+                        .renderBox(pos -> new AABB(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1))
+                        .build());
         event.registerBlockEntityRenderer(TFBlocks.CHERRY_CHEST_ENTITY.get(),
                 context -> BaseFunctionalGeoBER.Builder.<CherryChestBlock.Entity>of(new CherryChestGeoModel(), false).build());
         event.registerBlockEntityRenderer(TFBlocks.ONE_LEG_TABLE_ENTITY.get(), context -> new OneLegTableGeoRenderer());

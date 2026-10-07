@@ -20,21 +20,16 @@ import org.confluence.terra_furniture.common.block.crafting.IceMachineBlock;
 import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSet;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
+import org.confluence.terra_furniture.common.block.light.BlockShapeType;
+import org.confluence.terra_furniture.common.block.light.DirectionalModelLightBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.light.ModelLightBlock;
-import org.confluence.terra_furniture.common.block.light.DirectionalModelLightBlock;
-import org.confluence.terra_furniture.common.block.light.BlockShapeType;
-import org.confluence.terra_furniture.common.block.misc.ClockBlock;
-import org.confluence.terra_furniture.common.block.misc.CherryChestBlock;
-import org.confluence.terra_furniture.common.block.misc.SpruceChestBlock;
-import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
-import org.confluence.terra_furniture.common.block.misc.OneLegTableBlock;
-import org.confluence.terra_furniture.common.block.misc.PinWheel;
-import org.confluence.terra_furniture.common.block.misc.TrashCanBlock;
+import org.confluence.terra_furniture.common.block.misc.*;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
 import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
+import org.confluence.terra_furniture.common.block.sleep.TentBlock;
 import org.confluence.terra_furniture.common.item.FishBowlItem;
 import org.confluence.terra_furniture.common.item.SimpleGeoRenderedItem;
 import org.confluence.terra_furniture.common.item.SpruceChestItem;
@@ -68,6 +63,10 @@ public final class TFBlocks {
     public static final PortDeferredBlock<SpruceChestBlock> SPRUCE_CHEST = registerWithItem("spruce_chest",
             () -> new SpruceChestBlock(BlockBehaviour.Properties.copy(Blocks.CHEST).noOcclusion()),
             block -> new SpruceChestItem(block, new Item.Properties()));
+
+    public static final PortDeferredBlock<TentBlock> TENT = registerWithoutItem("tent", () -> new TentBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
+    public static final PortDeferredItem<TentBlock.BItem> TENT_ITEM = TFItems.BLOCK_ITEMS.register("tent", () -> new TentBlock.BItem(TENT.get()));
+    public static final RegistryObject<BlockEntityType<TentBlock.BEntity>> TENT_BLOCK_ENTITY = BLOCK_ENTITIES.register("tent_block_entity", () -> BlockEntityType.Builder.of(TentBlock.BEntity::new, TENT.get()).build(DSL.remainderType()));
 
     /* Special furniture, not belongs to any furniture set */
     public static final PortDeferredBlock<Block> FISH_BOWL = registerWithItem("fish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));

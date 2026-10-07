@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -141,7 +142,7 @@ public class TrashCanBlock extends Block implements EntityBlock {
 
         @Override
         public boolean isEmpty() {
-            return items.isEmpty();
+            return items.stream().allMatch(ItemStack::isEmpty);
         }
 
         @Override
@@ -151,24 +152,28 @@ public class TrashCanBlock extends Block implements EntityBlock {
 
         @Override
         public ItemStack removeItem(int slot, int amount) {
-            ItemStack stack = items.get(slot);
-            stack.shrink(amount);
-            return stack.isEmpty() ? ItemStack.EMPTY : stack;
+            ItemStack removed = ContainerHelper.removeItem(items, slot, amount);
+            if (!removed.isEmpty()) {
+                setChanged();
+            }
+            return removed;
         }
 
         @Override
         public ItemStack removeItemNoUpdate(int slot) {
-            return items.remove(slot);
+            return ContainerHelper.takeItem(items, slot);
         }
 
         @Override
         public void setItem(int slot, ItemStack stack) {
             items.set(slot, stack);
+            stack.limitSize(Math.min(getMaxStackSize(), stack.getMaxStackSize()));
+            setChanged();
         }
 
         @Override
         public boolean stillValid(Player player) {
-            return true;
+            return Container.stillValidBlockEntity(this, player);
         }
 
         @Override

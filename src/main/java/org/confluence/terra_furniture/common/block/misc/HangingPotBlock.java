@@ -47,7 +47,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.confluence.lib.common.block.HorizontalDirectionalWithVerticalTwoPartBlock;
@@ -143,6 +146,12 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         BlockPos basePos = toBase(state, pos);
         if (!level.isClientSide && level.getBlockEntity(basePos) instanceof BEntity bEntity) {
+            if (player.getItemInHand(hand).isEmpty()) {
+                checkAndFlip(state, (ServerLevel) level, pos, false);
+                if (bEntity.getFeatureStack().isEmpty()) return InteractionResult.FAIL;
+                bEntity.drops();
+                return InteractionResult.SUCCESS;
+            }
             if (bEntity.placeFeature(player, player.getItemInHand(hand))) {
                 if (bEntity.getFeatureStack().getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TorchBlock)
                     checkAndFlip(state, (ServerLevel) level, pos, true);
@@ -212,6 +221,7 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
         }
 
         private Lazy<IItemHandler> lazyItemHandler = Lazy.of(() -> itemStackHandler);
+        private LazyOptional<IItemHandler> itemHandlerCapability = LazyOptional.of(() -> itemStackHandler);
         public static final String INVENTORY = "inventory";
         private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -262,6 +272,26 @@ public class HangingPotBlock extends HorizontalDirectionalWithVerticalTwoPartBlo
 
         public Lazy<IItemHandler> getLazyItemHandler() {
             return lazyItemHandler;
+        }
+
+
+        /// 对应 NeoForge 现有物品能力登记，使用 Forge 的能力生命周期暴露展示槽。
+        @Override
+        public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction side) {
+            if (capability == ForgeCapabilities.ITEM_HANDLER) return itemHandlerCapability.cast();
+            return super.getCapability(capability, side);
+        }
+
+        @Override
+        public void invalidateCaps() {
+            super.invalidateCaps();
+            itemHandlerCapability.invalidate();
+        }
+
+        @Override
+        public void reviveCaps() {
+            super.reviveCaps();
+            itemHandlerCapability = LazyOptional.of(() -> itemStackHandler);
         }
 
         @Override
