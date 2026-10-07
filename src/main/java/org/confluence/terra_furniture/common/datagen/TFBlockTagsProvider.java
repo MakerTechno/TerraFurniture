@@ -29,6 +29,7 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .add(TFBlocks.GLASS_SET.LANTERN.get())
                 .add(TFBlocks.GLASS_SET.LAMP.get())
                 .add(TFBlocks.GLASS_SET.CANDELABRAS.get())
+                .add(TFBlocks.GLASS_SET.CHANDELIER.get())
                 .add(TFBlocks.GLASS_SET.CLOCK.get());
 
         tag(TFTags.DUNGEON_FURNITURE)
@@ -47,16 +48,16 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .add(TFBlocks.IRON_SET.SINK.get());
 
         tag(TFTags.SPRUCE_FURNITURE)
-                .add(TFBlocks.SPRUCE_CHEST.get())
+                .add(TFBlocks.SPRUCE_SET.CHEST.get())
                 .add(TFBlocks.SPRUCE_SET.SINK.get(), TFBlocks.SPRUCE_SET.TOILET.get(), TFBlocks.SPRUCE_SET.LAMP.get(),
-                        TFBlocks.SPRUCE_CANDLESTICK_ONE.get(), TFBlocks.SPRUCE_CANDLESTICK_TWO.get(),
-                        TFBlocks.SPRUCE_CANDLESTICK_THREE.get());
+                        TFBlocks.SPRUCE_SET.CANDLESTICKS.get(0).get(), TFBlocks.SPRUCE_SET.CANDLESTICKS.get(1).get(),
+                        TFBlocks.SPRUCE_SET.CANDLESTICKS.get(2).get());
 
         tag(TFTags.WOODEN_FURNITURE)
-                .add(TFBlocks.SPRUCE_CHEST.get())
+                .add(TFBlocks.SPRUCE_SET.CHEST.get())
                 .add(TFBlocks.SPRUCE_SET.SINK.get(), TFBlocks.SPRUCE_SET.TOILET.get(), TFBlocks.SPRUCE_SET.LAMP.get(),
-                        TFBlocks.SPRUCE_CANDLESTICK_ONE.get(), TFBlocks.SPRUCE_CANDLESTICK_TWO.get(),
-                        TFBlocks.SPRUCE_CANDLESTICK_THREE.get(), TFBlocks.CHERRY_CHEST.get());
+                        TFBlocks.SPRUCE_SET.CANDLESTICKS.get(0).get(), TFBlocks.SPRUCE_SET.CANDLESTICKS.get(1).get(),
+                        TFBlocks.SPRUCE_SET.CANDLESTICKS.get(2).get(), TFBlocks.CHERRY_SET.CHEST.get());
 
         tag(TFTags.IRON_FURNITURE)
                 .add(TFBlocks.IRON_SET.SINK.get());
@@ -69,11 +70,11 @@ public class TFBlockTagsProvider extends BlockTagsProvider {
                 .addTag(TFTags.DUNGEON_FURNITURE);
 
         tag(BlockTags.MINEABLE_WITH_AXE)
-                .add(TFBlocks.ONE_LEG_TABLE.get())
+                .add(TFBlocks.SPRUCE_SET.ONE_LEG_TABLE.get())
                 .addTag(TFTags.WOODEN_FURNITURE);
 
         tag(TFTags.HOUSE_TABLE)
-                .add(TFBlocks.ONE_LEG_TABLE.get());
+                .add(TFBlocks.SPRUCE_SET.ONE_LEG_TABLE.get());
 
         tag(TFTags.HOUSE_CHAIR).add(
                 TFBlocks.GLASS_SET.SOFA.get(),

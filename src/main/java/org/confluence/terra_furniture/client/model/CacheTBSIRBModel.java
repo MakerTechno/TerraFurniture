@@ -4,8 +4,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
-import org.confluence.terra_furniture.api.client.model.CacheBlockModel;
-import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
+import org.confluence.terra_furniture.api.client.model.*;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
 import software.bernie.geckolib.animatable.GeoItem;
 

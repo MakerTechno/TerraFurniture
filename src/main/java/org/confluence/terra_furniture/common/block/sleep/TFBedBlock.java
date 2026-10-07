@@ -35,8 +35,7 @@ import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
 import org.confluence.terra_furniture.common.block.func.MulStateGetter;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
-import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
-import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.confluence.terra_furniture.common.datagen.empowered.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;

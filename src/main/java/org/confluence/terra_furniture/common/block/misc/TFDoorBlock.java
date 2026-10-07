@@ -5,8 +5,7 @@ import org.confluence.terra_furniture.client.generators.VanillaMiscBlockBDG;
 import org.confluence.terra_furniture.common.block.func.BlockSetGetter;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
-import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
-import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.confluence.terra_furniture.common.datagen.empowered.*;
 import org.jetbrains.annotations.Nullable;
 
 public class TFDoorBlock extends DoorBlock implements AutoGenBlockData<TFDoorBlock>, BlockSetGetter<TFDoorBlock> {

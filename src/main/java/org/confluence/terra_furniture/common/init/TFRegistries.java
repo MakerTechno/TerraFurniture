@@ -15,12 +15,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import org.confluence.lib.util.WipNotDisplayOutput;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.menu.GlassKilnMenu;
-import org.confluence.terra_furniture.common.menu.IceMachineMenu;
-import org.confluence.terra_furniture.common.menu.LivingLoomMenu;
-import org.confluence.terra_furniture.common.recipe.GlassKilnRecipe;
-import org.confluence.terra_furniture.common.recipe.IceMachineRecipe;
-import org.confluence.terra_furniture.common.recipe.LivingLoomRecipe;
+import org.confluence.terra_furniture.common.menu.*;
+import org.confluence.terra_furniture.common.recipe.*;
 import org.mesdag.portlib.wrapper.world.item.crafting.PortShapedRecipePattern;
 
 import java.util.function.Supplier;

@@ -17,9 +17,7 @@ import org.confluence.lib.common.recipe.AmountIngredient;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.confluence.terra_furniture.common.init.TFRegistries;
-import org.confluence.terra_furniture.common.recipe.GlassKilnRecipe;
-import org.confluence.terra_furniture.common.recipe.IceMachineRecipe;
-import org.confluence.terra_furniture.common.recipe.LivingLoomRecipe;
+import org.confluence.terra_furniture.common.recipe.*;
 import org.jetbrains.annotations.Nullable;
 import org.mesdag.portlib.wrapper.common.PortTags;
 import org.mesdag.portlib.wrapper.world.item.crafting.PortShapedRecipePattern;
@@ -110,6 +108,14 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "AGA",
                 "GGG",
                 " G "
+        )), 0.1F, 200);
+        glassKiln(writer, TFBlocks.GLASS_SET.CHANDELIER.toStack(), PortShapedRecipePattern.of(Map.of(
+                'G', glass,
+                'A', AmountIngredient.of(2, Items.TORCH)
+        ), List.of(
+                "AGA",
+                "GGG",
+                "GAG"
         )), 0.1F, 200);
         glassKiln(writer, TFBlocks.GLASS_SET.CLOCK.toStack(), PortShapedRecipePattern.of(Map.of(
                 'G', AmountIngredient.of(2, Items.GLASS),

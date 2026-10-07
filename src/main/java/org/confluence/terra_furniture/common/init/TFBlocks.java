@@ -15,26 +15,25 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.block.crafting.GlassKilnBlock;
-import org.confluence.terra_furniture.common.block.crafting.IceMachineBlock;
-import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
+import org.confluence.terra_furniture.common.block.crafting.*;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSet;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.block.light.BlockShapeType;
 import org.confluence.terra_furniture.common.block.light.DirectionalModelLightBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.light.ModelLightBlock;
+import org.confluence.terra_furniture.common.block.light.SwitchableLightBlock;
 import org.confluence.terra_furniture.common.block.misc.*;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
 import org.confluence.terra_furniture.common.block.sleep.BathtubBlock;
 import org.confluence.terra_furniture.common.block.sleep.TentBlock;
-import org.confluence.terra_furniture.common.item.FishBowlItem;
-import org.confluence.terra_furniture.common.item.SimpleGeoRenderedItem;
-import org.confluence.terra_furniture.common.item.SpruceChestItem;
+import org.confluence.terra_furniture.common.item.*;
 import org.mesdag.portlib.registries.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 import java.util.stream.Stream;
@@ -58,25 +57,17 @@ public final class TFBlocks {
     public static final PortDeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(property -> property.lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
     public static final RegistryObject<BlockEntityType<PlasticChairBlock.PlasticChairBE>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register("plastic_chair_entity", () -> BlockEntityType.Builder.of(PlasticChairBlock.PlasticChairBE::new, PLASTIC_CHAIR.get()).build(DSL.remainderType()));
 
-    public static final PortDeferredBlock<CherryChestBlock> CHERRY_CHEST = registerWithoutItem("cherry_chest", () -> new CherryChestBlock(BlockBehaviour.Properties.copy(Blocks.CHEST).noOcclusion()));
-    public static final PortDeferredItem<SimpleGeoRenderedItem> CHERRY_CHEST_ITEM = TFItems.BLOCK_ITEMS.register("cherry_chest", () -> new SimpleGeoRenderedItem(CHERRY_CHEST.get(), new Item.Properties(), false, false));
-    public static final PortDeferredBlock<SpruceChestBlock> SPRUCE_CHEST = registerWithItem("spruce_chest",
-            () -> new SpruceChestBlock(BlockBehaviour.Properties.copy(Blocks.CHEST).noOcclusion()),
-            block -> new SpruceChestItem(block, new Item.Properties()));
-
+    /* Special furniture, not belongs to any furniture set */
     public static final PortDeferredBlock<TentBlock> TENT = registerWithoutItem("tent", () -> new TentBlock(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)));
     public static final PortDeferredItem<TentBlock.BItem> TENT_ITEM = TFItems.BLOCK_ITEMS.register("tent", () -> new TentBlock.BItem(TENT.get()));
     public static final RegistryObject<BlockEntityType<TentBlock.BEntity>> TENT_BLOCK_ENTITY = BLOCK_ENTITIES.register("tent_block_entity", () -> BlockEntityType.Builder.of(TentBlock.BEntity::new, TENT.get()).build(DSL.remainderType()));
 
-    /* Special furniture, not belongs to any furniture set */
     public static final PortDeferredBlock<Block> FISH_BOWL = registerWithItem("fish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final PortDeferredBlock<Block> GOLD_FISH_BOWL = registerWithItem("gold_fish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final PortDeferredBlock<Block> PUPFISH_BOWL = registerWithItem("pupfish_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final PortDeferredBlock<Block> LAVA_SERPENT_BOWL = registerWithItem("lava_serpent_bowl", () -> new Block(BlockBehaviour.Properties.copy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final PortDeferredBlock<TrashCanBlock> TRASH_CAN = registerWithItem("trash_can", () -> new TrashCanBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BARS)));
     public static final RegistryObject<BlockEntityType<TrashCanBlock.Entity>> TRASH_CAN_ENTITY = BLOCK_ENTITIES.register("trash_can_entity", () -> BlockEntityType.Builder.of(TrashCanBlock.Entity::new, TRASH_CAN.get()).build(DSL.remainderType()));
-    public static final PortDeferredBlock<OneLegTableBlock> ONE_LEG_TABLE = registerWithItem("one_leg_table", () -> new OneLegTableBlock(BlockBehaviour.Properties.copy(Blocks.SPRUCE_PLANKS).dynamicShape()));
-    public static final RegistryObject<BlockEntityType<OneLegTableBlock.BEntity>> ONE_LEG_TABLE_ENTITY = BLOCK_ENTITIES.register("one_leg_table_entity", () -> BlockEntityType.Builder.of(OneLegTableBlock.BEntity::new, ONE_LEG_TABLE.get()).build(DSL.remainderType()));
 
     /*
         Furniture sets.
@@ -133,6 +124,11 @@ public final class TFBlocks {
     public static final TFBlockSet CHERRY_SET = new TFBlockSet.Builder(CHERRY, Blocks.CHERRY_PLANKS, true)
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
+            .setAvailabilityFor(TFBlockType.CHEST, true)
+            .setPropertySourceFor(TFBlockType.CHEST, Blocks.CHEST)
+            .setPropertyFor(TFBlockType.CHEST, properties -> properties.noOcclusion())
+            .setGetterFor(TFBlockType.CHEST, (properties, applier) -> new TFChestBlock(CHERRY, properties))
+            .setItemFactoryFor(TFBlockType.CHEST, TFBlocks::chestItem)
             .build();
     public static final TFBlockSet CRIMSON_SET = new TFBlockSet.Builder(CRIMSON, Blocks.CRIMSON_PLANKS, true)
             .disableAll()
@@ -186,24 +182,29 @@ public final class TFBlocks {
                     SPRUCE, properties, BlockShapeType.LAMP, Block.box(5, 0, 5, 11, 26, 11)))
             .setPropertyFor(TFBlockType.LAMP, properties -> properties.noOcclusion())
             .setAvailabilityFor(TFBlockType.CANDELABRAS, true)
+            .setAvailabilityFor(TFBlockType.CHEST, true)
+            .setPropertySourceFor(TFBlockType.CHEST, Blocks.CHEST)
+            .setPropertyFor(TFBlockType.CHEST, properties -> properties.noOcclusion())
+            .setGetterFor(TFBlockType.CHEST, (properties, applier) -> new TFChestBlock(SPRUCE, properties))
+            .setItemFactoryFor(TFBlockType.CHEST, TFBlocks::chestItem)
+            .setAvailabilityFor(TFBlockType.ONE_LEG_TABLE, true)
+            .setSpecialIdFor(TFBlockType.ONE_LEG_TABLE, "one_leg_table")
+            .setPropertyFor(TFBlockType.ONE_LEG_TABLE, BlockBehaviour.Properties::dynamicShape)
+            .setGetterFor(TFBlockType.ONE_LEG_TABLE, (properties, applier) -> new OneLegTableBlock(properties))
+            .setAvailabilityFor(TFBlockType.CANDLESTICK, true)
+            .setPropertyFor(TFBlockType.CANDLESTICK, properties -> properties.noOcclusion().lightLevel(litBlockEmission(15)))
+            .setVariantsFor(TFBlockType.CANDLESTICK, Map.of(
+                    "spruce_candlestick_one", spruceCandlestick(6.5, 9.5),
+                    "spruce_candlestick_two", spruceCandlestick(3.5, 12.5),
+                    "spruce_candlestick_three", spruceCandlestick(2.5, 13.5)))
             .doLightSetup(14, 14, 15, 15, 15)
             .build();
 
-    public static final PortDeferredBlock<DirectionalModelLightBlock> SPRUCE_CANDLESTICK_ONE = registerWithItem(
-            "spruce_candlestick_one",
-            () -> new DirectionalModelLightBlock(SPRUCE, BlockBehaviour.Properties.copy(Blocks.SPRUCE_PLANKS)
-                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
-                    Block.box(6.5, 0, 6.5, 9.5, 13, 9.5)));
-    public static final PortDeferredBlock<DirectionalModelLightBlock> SPRUCE_CANDLESTICK_TWO = registerWithItem(
-            "spruce_candlestick_two",
-            () -> new DirectionalModelLightBlock(SPRUCE, BlockBehaviour.Properties.copy(Blocks.SPRUCE_PLANKS)
-                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
-                    Block.box(3.5, 0, 6.5, 12.5, 13, 9.5)));
-    public static final PortDeferredBlock<DirectionalModelLightBlock> SPRUCE_CANDLESTICK_THREE = registerWithItem(
-            "spruce_candlestick_three",
-            () -> new DirectionalModelLightBlock(SPRUCE, BlockBehaviour.Properties.copy(Blocks.SPRUCE_PLANKS)
-                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
-                    Block.box(2.5, 0, 6.5, 13.5, 13, 9.5)));
+    private static TFBlockSet.Builder.Variant<SwitchableLightBlock> spruceCandlestick(double minX, double maxX) {
+        return (properties, applier) -> new DirectionalModelLightBlock(
+                SPRUCE, properties, BlockShapeType.CANDLE, Block.box(minX, 0, 6.5, maxX, 13, 9.5));
+    }
+
     public static final TFBlockSet STONE_SET = new TFBlockSet.Builder(STONE, Blocks.STONE, true)
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
@@ -334,16 +335,24 @@ public final class TFBlocks {
             ).build(DSL.remainderType())
     );
 
-    public static final RegistryObject<BlockEntityType<CherryChestBlock.Entity>> CHERRY_CHEST_ENTITY = BLOCK_ENTITIES.register(
-            "cherry_chest_entity",
-            () -> BlockEntityType.Builder.of(CherryChestBlock.Entity::new, CHERRY_CHEST.get()).build(DSL.remainderType())
+    public static final RegistryObject<BlockEntityType<TFChestBlock.Entity>> CHEST_ENTITY = BLOCK_ENTITIES.register(
+            "chest_entity",
+            () -> BlockEntityType.Builder.of(
+                    TFChestBlock.Entity::new,
+                    TFBlockType.CHEST.getAll().stream().map(PortRegistryEntry::get).toArray(Block[]::new)
+            ).build(DSL.remainderType())
     );
-    public static final RegistryObject<BlockEntityType<SpruceChestBlock.Entity>> SPRUCE_CHEST_ENTITY = BLOCK_ENTITIES.register(
-            "spruce_chest_entity",
-            () -> BlockEntityType.Builder.of(SpruceChestBlock.Entity::new, SPRUCE_CHEST.get()).build(DSL.remainderType())
+    public static final RegistryObject<BlockEntityType<OneLegTableBlock.BEntity>> ONE_LEG_TABLE_ENTITY = BLOCK_ENTITIES.register(
+            "one_leg_table_entity",
+            () -> BlockEntityType.Builder.of(OneLegTableBlock.BEntity::new, SPRUCE_SET.ONE_LEG_TABLE.get()).build(DSL.remainderType())
     );
 
 
+
+    /* 统一使用 Geo 物品渲染的箱物品 */
+    private static SimpleGeoRenderedItem chestItem(TFChestBlock block) {
+        return new SimpleGeoRenderedItem(block, new Item.Properties(), false, false);
+    }
 
     public static <B extends Block> PortDeferredBlock<B> registerWithItem(String id, Supplier<B> block) {
         return registerWithItem(id, block, new Item.Properties());

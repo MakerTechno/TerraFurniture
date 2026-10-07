@@ -3,7 +3,7 @@
 	"credit": "Made with Blockbench",
 	"render_type": "cutout",
 	"textures": {
-		"0": "terra_furniture:block/blue_dungeon_candelabras",
+		"0": "terra_furniture:block/blue_dungeon/blue_dungeon_candelabras",
 		"1": "terra_furniture:block/blue_dungeon_candle_flames_anim",
 		"particle": "terra_furniture:block/particle/blue_dungeon_candelabras_particle"
 	},

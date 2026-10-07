@@ -5,10 +5,7 @@ import net.minecraft.world.level.block.*;
 import org.confluence.terra_furniture.common.block.light.CandelabraBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.light.SwitchableLightBlock;
-import org.confluence.terra_furniture.common.block.misc.ClockBlock;
-import org.confluence.terra_furniture.common.block.misc.SinkBlock;
-import org.confluence.terra_furniture.common.block.misc.TFDoorBlock;
-import org.confluence.terra_furniture.common.block.misc.TableBlock;
+import org.confluence.terra_furniture.common.block.misc.*;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.SofaBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
@@ -82,4 +79,9 @@ public class TFBlockType<T extends Block> {
     public static final TFBlockType<SwitchableLightBlock> LAMP = create("lamp");
     public static final TFBlockType<SwitchableLightBlock> CHANDELIER = create("chandelier");
     public static final TFBlockType<CandelabraBlock> CANDELABRAS = create("candelabras");
+
+    /* 可选类型，除非套装显式启用，否则始终不可用 */
+    public static final TFBlockType<TFChestBlock> CHEST = create("chest");
+    public static final TFBlockType<OneLegTableBlock> ONE_LEG_TABLE = create("one_leg_table");
+    public static final TFBlockType<SwitchableLightBlock> CANDLESTICK = create("candlestick");
 }

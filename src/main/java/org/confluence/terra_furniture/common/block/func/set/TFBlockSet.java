@@ -2,16 +2,14 @@ package org.confluence.terra_furniture.common.block.func.set;
 
 import com.google.common.base.Supplier;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.confluence.terra_furniture.common.block.light.BlockShapeType;
 import org.confluence.terra_furniture.common.block.light.CandelabraBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.light.SwitchableLightBlock;
-import org.confluence.terra_furniture.common.block.misc.ClockBlock;
-import org.confluence.terra_furniture.common.block.misc.SinkBlock;
-import org.confluence.terra_furniture.common.block.misc.TFDoorBlock;
-import org.confluence.terra_furniture.common.block.misc.TableBlock;
+import org.confluence.terra_furniture.common.block.misc.*;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.SofaBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
@@ -21,6 +19,9 @@ import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 import org.mesdag.portlib.registries.PortDeferredBlock;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -44,12 +45,18 @@ public class TFBlockSet {
     public final PortDeferredBlock<BathtubBlock> BATHTUB;
     public final PortDeferredBlock<SinkBlock> SINK;
 
+    /* 可选家具，需要套装显式启用并配置后才注册 */
+    public final PortDeferredBlock<TFChestBlock> CHEST;
+    public final PortDeferredBlock<OneLegTableBlock> ONE_LEG_TABLE;
+    public final List<PortDeferredBlock<SwitchableLightBlock>> CANDLESTICKS;
+
     /* Not completed */
     public final PortDeferredBlock<ClockBlock> CLOCK;
     public final PortDeferredBlock<LargeChandelierBlock> LARGE_CHANDELIER; // This one uses GeoBER model
     public final PortDeferredBlock<SwitchableLightBlock> CANDLE;
     public final PortDeferredBlock<SwitchableLightBlock> LANTERN;
     public final PortDeferredBlock<SwitchableLightBlock> LAMP;
+    public final PortDeferredBlock<SwitchableLightBlock> CHANDELIER;
     public final PortDeferredBlock<CandelabraBlock> CANDELABRAS;
 
     protected TFBlockSet(Builder builder) {
@@ -70,8 +77,12 @@ public class TFBlockSet {
         CANDLE = init(builder, TFBlockType.CANDLE);
         LANTERN = init(builder, TFBlockType.LANTERN);
         LAMP = init(builder, TFBlockType.LAMP);
+        CHANDELIER = init(builder, TFBlockType.CHANDELIER);
         CLOCK = init(builder, TFBlockType.CLOCK);
         CANDELABRAS = init(builder, TFBlockType.CANDELABRAS);
+        CHEST = init(builder, TFBlockType.CHEST);
+        ONE_LEG_TABLE = init(builder, TFBlockType.ONE_LEG_TABLE);
+        CANDLESTICKS = initVariants(builder, TFBlockType.CANDLESTICK);
     }
 
     @SuppressWarnings("all")
@@ -80,9 +91,43 @@ public class TFBlockSet {
         if (!entry.available) {
             return null;
         }
-        PortDeferredBlock<T> block = TFBlocks.registerWithItem(entry.specialId != null ? entry.specialId : builder.materialType.name() + "_" + type.name(), entry.getEntryResult());
+        String id = entry.specialId != null ? entry.specialId : builder.materialType.name() + "_" + type.name();
+        PortDeferredBlock<T> block = entry.itemFactory == null
+                ? TFBlocks.registerWithItem(id, entry.getEntryResult())
+                : TFBlocks.registerWithItem(id, entry.getEntryResult(), entry.itemFactory);
         type.register(block);
         return block;
+    }
+
+    /**
+     * 注册多方块类型的全部变体，例如云杉木烛台。
+     * 注册顺序由 variants 这个 map 的迭代顺序决定，与 add 顺序无关。
+     */
+    @SuppressWarnings("all")
+    public static <T extends Block> List<PortDeferredBlock<T>> initVariants(Builder builder, TFBlockType<T> type) {
+        Builder.TFBlockBuildEntry<T> entry = builder.getEntry(type);
+        if (!entry.available) {
+            return List.of();
+        }
+        if (entry.variants.isEmpty()) {
+            throw new IllegalStateException("Furniture type " + type.name() + " is enabled without any variant");
+        }
+        BlockBehaviour.Properties properties = entry.properties;
+        Consumer<BlockBehaviour.Properties> applier = entry.applier;
+        List<PortDeferredBlock<T>> blocks = new ArrayList<>(entry.variants.size());
+        int index = 0;
+        for (Map.Entry<String, Builder.Variant<T>> variant : entry.variants.entrySet()) {
+            index++;
+            String id = variant.getKey() != null && !variant.getKey().isBlank()
+                    ? variant.getKey()
+                    : builder.materialType.name() + "_" + type.name() + "_" + index;
+            PortDeferredBlock<T> block = entry.itemFactory == null
+                    ? TFBlocks.registerWithItem(id, () -> variant.getValue().create(properties, applier))
+                    : TFBlocks.registerWithItem(id, () -> variant.getValue().create(properties, applier), entry.itemFactory);
+            type.register(block);
+            blocks.add(block);
+        }
+        return List.copyOf(blocks);
     }
 
     @SuppressWarnings("all")
@@ -97,12 +142,22 @@ public class TFBlockSet {
     }
 
     public static class Builder {
+        /**
+         * 多方块类型中的单个变体，由该类型配置好的方块属性创建。
+         */
+        @FunctionalInterface
+        public interface Variant<T extends Block> {
+            T create(BlockBehaviour.Properties properties, Consumer<BlockBehaviour.Properties> applier);
+        }
+
         public static class TFBlockBuildEntry<T extends Block> {
             public boolean available = true;
             public @Nullable String specialId;
             public BiFunction<BlockBehaviour.Properties, Consumer<BlockBehaviour.Properties>, T> blockSupplier;
             public BlockBehaviour.Properties properties;
             public Consumer<BlockBehaviour.Properties> applier = properties1 -> {};
+            public @Nullable Function<T, BlockItem> itemFactory;
+            public final Map<String, Variant<T>> variants = new HashMap<>();
             public final TFBlockType<T> blockType;
 
             public TFBlockBuildEntry(TFBlockType<T> blockType, BlockBehaviour.Properties defaultProp, BiFunction<BlockBehaviour.Properties, Consumer<BlockBehaviour.Properties>, T> blockSupplier) {
@@ -112,6 +167,9 @@ public class TFBlockSet {
             }
 
             public Supplier<T> getEntryResult() {
+                if (blockSupplier == null) {
+                    throw new IllegalStateException("Furniture type " + blockType.name() + " has no block getter, call setGetterFor(...) first");
+                }
                 /* Copy to instance-like */
                 BlockBehaviour.Properties propertiesFinal = this.properties;
                 Consumer<BlockBehaviour.Properties> applierFinal = applier;
@@ -158,10 +216,23 @@ public class TFBlockSet {
             putEntry(TFBlockType.CHANDELIER, (p, a) -> new SwitchableLightBlock(materialType, p, BlockShapeType.CHANDELIER));
             putEntry(TFBlockType.CLOCK, (p, a) -> new ClockBlock(p));
             putEntry(TFBlockType.CANDELABRAS, (p, a) -> new CandelabraBlock(materialType, p));
+            putOptionalEntry(TFBlockType.CHEST);
+            putOptionalEntry(TFBlockType.ONE_LEG_TABLE);
+            putOptionalEntry(TFBlockType.CANDLESTICK);
         }
 
         protected <T extends Block> void putEntry(TFBlockType<T> type, BiFunction<BlockBehaviour.Properties, Consumer<BlockBehaviour.Properties>, T> blockSupplier) {
             entries.put(type, new TFBlockBuildEntry<>(type, BlockBehaviour.Properties.copy(propSourceBlock), blockSupplier));
+        }
+
+        /**
+         * 声明一个需要套装通过 {@link #setAvailabilityFor} 启用、并通过 {@link #setGetterFor}
+         * （多方块类型则用 {@link #setVariantsFor}）提供方块获取器的类型。
+         */
+        protected <T extends Block> void putOptionalEntry(TFBlockType<T> type) {
+            TFBlockBuildEntry<T> entry = new TFBlockBuildEntry<>(type, BlockBehaviour.Properties.copy(propSourceBlock), null);
+            entry.available = false;
+            entries.put(type, entry);
         }
 
         @SuppressWarnings("unchecked")
@@ -196,6 +267,33 @@ public class TFBlockSet {
 
         public <T extends Block> Builder setSpecialIdFor(TFBlockType<T> key, String id) {
             entries.get(key).specialId = id;
+            return this;
+        }
+
+        /**
+         * 为该类型使用自定义物品，而非默认的 BlockItem，例如使用 Geo 渲染的樱花木箱物品。
+         */
+        public <T extends Block> Builder setItemFactoryFor(TFBlockType<T> key, Function<T, BlockItem> itemFactory) {
+            getEntry(key).itemFactory = itemFactory;
+            return this;
+        }
+
+        /**
+         * 声明多方块类型的全部方块，例如云杉木单/双/三烛台。
+         * map 的键为方块 id，键为空白时回退为 {@code <材质>_<类型>_<序号>}。
+         */
+        public <T extends Block> Builder setVariantsFor(TFBlockType<T> key, Map<String, Variant<T>> variants) {
+            TFBlockBuildEntry<T> entry = getEntry(key);
+            entry.variants.clear();
+            entry.variants.putAll(variants);
+            return this;
+        }
+
+        /**
+         * 以其他方块的属性作为该类型的基础属性，而非套装材质的属性。
+         */
+        public <T extends Block> Builder setPropertySourceFor(TFBlockType<T> key, Block source) {
+            entries.get(key).properties = BlockBehaviour.Properties.copy(source);
             return this;
         }
 

@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.data.BlockTagsProvider;
-import org.confluence.terra_furniture.client.generators.DefaultBlockDataGenerator;
+import org.confluence.terra_furniture.client.generators.HorizontalBDG;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSetType;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
@@ -129,7 +129,7 @@ public class CandelabraBlock extends SwitchableLightBlock {
 
     @Override
     public @Nullable BlockDataGenerator<? super SwitchableLightBlock> getGenerator() {
-        return new DefaultBlockDataGenerator<>() {
+        return new HorizontalBDG<>() {
             @Override
             public TFBlockType<? extends SwitchableLightBlock> getTemplateType(SwitchableLightBlock block) {
                 return TFBlockType.CANDELABRAS;

@@ -9,8 +9,7 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.confluence.terra_furniture.TerraFurniture;
-import org.confluence.terra_furniture.common.datagen.empowered.AutoGenBlockData;
-import org.confluence.terra_furniture.common.datagen.empowered.BlockDataGenerator;
+import org.confluence.terra_furniture.common.datagen.empowered.*;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 
 import java.util.HashMap;
