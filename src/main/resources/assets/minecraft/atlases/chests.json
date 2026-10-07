@@ -1,0 +1,16 @@
+{
+    "sources": [
+        {
+            "type": "minecraft:single",
+            "resource": "terra_furniture:block/spruce/spruce_chest"
+        },
+        {
+            "type": "minecraft:single",
+            "resource": "terra_furniture:block/spruce/spruce_chest_left"
+        },
+        {
+            "type": "minecraft:single",
+            "resource": "terra_furniture:block/spruce/spruce_chest_right"
+        }
+    ]
+}

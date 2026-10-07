@@ -22,14 +22,10 @@ import org.confluence.terra_furniture.common.block.crafting.LivingLoomBlock;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockSet;
 import org.confluence.terra_furniture.common.block.func.set.TFBlockType;
 import org.confluence.terra_furniture.common.block.light.BlockShapeType;
+import org.confluence.terra_furniture.common.block.light.DirectionalModelLightBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.light.ModelLightBlock;
-import org.confluence.terra_furniture.common.block.misc.CherryChestBlock;
-import org.confluence.terra_furniture.common.block.misc.ClockBlock;
-import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
-import org.confluence.terra_furniture.common.block.misc.OneLegTableBlock;
-import org.confluence.terra_furniture.common.block.misc.PinWheel;
-import org.confluence.terra_furniture.common.block.misc.TrashCanBlock;
+import org.confluence.terra_furniture.common.block.misc.*;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
@@ -75,19 +71,26 @@ public final class TFBlocks {
     public static final DeferredItem<BlockItem> TENT_ITEM = TFItems.BLOCK_ITEMS.register("tent", () -> new TentBlock.BItem(TENT.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TentBlock.BEntity>> TENT_BLOCK_ENTITY = BLOCK_ENTITIES.register("tent_block_entity", () -> BlockEntityType.Builder.of(TentBlock.BEntity::new, TENT.get()).build(DSL.remainderType()));
 
-    public static final DeferredBlock<ModelLightBlock> SPRUCE_CANDLESTICK_ONE = registerWithItem(
+    public static final DeferredBlock<SpruceChestBlock> SPRUCE_CHEST = registerWithItem("spruce_chest",
+            () -> new SpruceChestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHEST).noOcclusion()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SpruceChestBlock.Entity>> SPRUCE_CHEST_ENTITY = BLOCK_ENTITIES.register(
+            "spruce_chest_entity",
+            () -> BlockEntityType.Builder.of(SpruceChestBlock.Entity::new, SPRUCE_CHEST.get()).build(DSL.remainderType())
+    );
+
+    public static final DeferredBlock<DirectionalModelLightBlock> SPRUCE_CANDLESTICK_ONE = registerWithItem(
             "spruce_candlestick_one",
-            () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
+            () -> new DirectionalModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
                     .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
                     Block.box(6.5, 0, 6.5, 9.5, 13, 9.5)));
-    public static final DeferredBlock<ModelLightBlock> SPRUCE_CANDLESTICK_TWO = registerWithItem(
+    public static final DeferredBlock<DirectionalModelLightBlock> SPRUCE_CANDLESTICK_TWO = registerWithItem(
             "spruce_candlestick_two",
-            () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
+            () -> new DirectionalModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
                     .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
                     Block.box(3.5, 0, 6.5, 12.5, 13, 9.5)));
-    public static final DeferredBlock<ModelLightBlock> SPRUCE_CANDLESTICK_THREE = registerWithItem(
+    public static final DeferredBlock<DirectionalModelLightBlock> SPRUCE_CANDLESTICK_THREE = registerWithItem(
             "spruce_candlestick_three",
-            () -> new ModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
+            () -> new DirectionalModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
                     .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
                     Block.box(2.5, 0, 6.5, 13.5, 13, 9.5)));
     public static final DeferredBlock<CherryChestBlock> CHERRY_CHEST = registerWithoutItem("cherry_chest",
@@ -193,6 +196,7 @@ public final class TFBlocks {
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .setAvailabilityFor(TFBlockType.CHAIR, true)
+            .setAvailabilityFor(TFBlockType.BED, true)
             .setAvailabilityFor(TFBlockType.BATHTUB, true)
             .setGetterFor(TFBlockType.BATHTUB, (properties, applier) -> new BathtubBlock(SPRUCE, properties, BathtubBlock.tubShapes(10, 2), false))
             .setPropertyFor(TFBlockType.BATHTUB, properties -> properties.noOcclusion())

@@ -1,9 +1,12 @@
 package org.confluence.terra_furniture.common.event;
 
+import net.minecraft.world.Container;
+import net.minecraft.world.level.block.ChestBlock;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.HandlerThread;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -26,6 +29,10 @@ public class TFEvents {
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlock(Capabilities.ItemHandler.BLOCK, (level, pos, state, blockEntity, side) -> {
+            Container container = ChestBlock.getContainer((ChestBlock) state.getBlock(), state, level, pos, true);
+            return container == null ? null : new InvWrapper(container);
+        }, TFBlocks.SPRUCE_CHEST.get(), TFBlocks.CHERRY_CHEST.get());
         event.registerBlockEntity(
             Capabilities.ItemHandler.BLOCK,
             TFBlocks.HANGING_POT_ENTITY.get(),

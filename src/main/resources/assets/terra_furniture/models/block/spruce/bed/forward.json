@@ -1,0 +1,6 @@
+{
+    "parent": "terra_furniture:block/oak/bed/forward",
+    "textures": {
+        "particle": "terra_furniture:block/spruce/spruce_bed/forward"
+    }
+}

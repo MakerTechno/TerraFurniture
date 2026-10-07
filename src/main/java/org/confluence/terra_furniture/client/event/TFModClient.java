@@ -1,6 +1,7 @@
 package org.confluence.terra_furniture.client.event;
 
 import net.minecraft.client.RecipeBookCategories;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,17 +14,21 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.confluence.terra_furniture.TerraFurniture;
 import org.confluence.terra_furniture.api.client.renderer.TFRenderType;
 import org.confluence.terra_furniture.api.client.renderer.block.BaseFunctionalGeoBER;
 import org.confluence.terra_furniture.api.client.renderer.block.CommonRenderHooks;
 import org.confluence.terra_furniture.api.client.renderer.block.MultiRenderTypeGeoBER;
+import org.confluence.terra_furniture.client.model.CherryChestGeoModel;
+import org.confluence.terra_furniture.client.renderer.block.OneLegTableGeoRenderer;
+import org.confluence.terra_furniture.client.renderer.block.SpruceChestRenderer;
+import org.confluence.terra_furniture.client.renderer.item.SpruceChestItemRenderer;
 import org.confluence.terra_furniture.client.screen.GlassKilnScreen;
 import org.confluence.terra_furniture.client.screen.IceMachineScreen;
 import org.confluence.terra_furniture.client.screen.LivingLoomScreen;
-import org.confluence.terra_furniture.client.model.CherryChestGeoModel;
-import org.confluence.terra_furniture.client.renderer.block.OneLegTableGeoRenderer;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.misc.CherryChestBlock;
 import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
@@ -54,6 +59,7 @@ public final class TFModClient {
         regSimpleGeoBER(event, TFBlocks.CLOCK_ENTITY, false);
         event.registerBlockEntityRenderer(TFBlocks.CHERRY_CHEST_ENTITY.get(),
                 context -> BaseFunctionalGeoBER.Builder.<CherryChestBlock.Entity>of(new CherryChestGeoModel(), false).build());
+        event.registerBlockEntityRenderer(TFBlocks.SPRUCE_CHEST_ENTITY.get(), SpruceChestRenderer::new);
         event.registerBlockEntityRenderer(TFBlocks.ONE_LEG_TABLE_ENTITY.get(), context -> new OneLegTableGeoRenderer());
         event.registerBlockEntityRenderer(TFBlocks.PIN_WHEEL_ENTITY.get(),
                 context -> BaseFunctionalGeoBER.Builder.<PinWheel.BEntity>of(false)
@@ -96,6 +102,22 @@ public final class TFModClient {
 
     public static <O extends BlockEntity & GeoBlockEntity> void regSimpleGeoBER(EntityRenderersEvent.RegisterRenderers event, DeferredHolder<BlockEntityType<?>, BlockEntityType<O>> holder, boolean isNegativeModel) {
         event.registerBlockEntityRenderer(holder.get(), context -> BaseFunctionalGeoBER.Builder.simple(isNegativeModel));
+    }
+
+    /// 云杉木箱的物品渲染通过 NeoForge 客户端扩展注册。
+    @SubscribeEvent
+    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    renderer = new SpruceChestItemRenderer();
+                }
+                return renderer;
+            }
+        }, TFBlocks.SPRUCE_CHEST.get().asItem());
     }
 
     @SubscribeEvent
