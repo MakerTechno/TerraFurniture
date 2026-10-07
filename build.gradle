@@ -145,7 +145,6 @@ tasks.withType(ProcessResources).configureEach {
     filesMatching(['META-INF/mods.toml']) {
         expand replaceProperties
     }
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 publishing {
