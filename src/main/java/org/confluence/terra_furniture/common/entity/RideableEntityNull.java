@@ -20,9 +20,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public class RideableEntityNull extends VehicleEntity implements IEntityWithComplexSpawn {
     private BlockPos blockEntityPos;
+
     public RideableEntityNull(EntityType<? extends VehicleEntity> entityType, Level level) {
         this(entityType, level, BlockPos.ZERO);
     }
+
     public RideableEntityNull(EntityType<? extends VehicleEntity> entityType, Level level, BlockPos blockEntityPos) {
         super(entityType, level);
         this.blockEntityPos = blockEntityPos;
@@ -33,28 +35,39 @@ public class RideableEntityNull extends VehicleEntity implements IEntityWithComp
         verticalCollision = false;
         verticalCollisionBelow = false;
     }
+
     @Override
     protected Item getDropItem() {
         return Items.AIR;
     }
+
     @Override
     public void tick() {
         super.tick();
+        if (level().isClientSide || isRemoved()) {
+            return;
+        }
         BlockEntity blockEntity = level().getBlockEntity(blockEntityPos);
-        if (!(blockEntity instanceof BaseSittableBE<?> cast)){
-            this.remove(RemovalReason.DISCARDED);
-        } else {
-            if (canAddPassenger(this)) cast.cleanSeat();
+        if (!(blockEntity instanceof BaseSittableBE<?> seat) || seat.getSit() != this) {
+            discard();
+            return;
+        }
+        if (!isVehicle()) {
+            seat.cleanSeat();
         }
     }
+
     @Override
     protected void readAdditionalSaveData(@NotNull CompoundTag compound) {}
+
     @Override
     protected void addAdditionalSaveData(@NotNull CompoundTag compound) {}
+
     @Override
     public void writeSpawnData(@NotNull RegistryFriendlyByteBuf buffer) {
         buffer.writeBlockPos(this.blockEntityPos);
     }
+
     @Override
     public void readSpawnData(@NotNull RegistryFriendlyByteBuf additionalData) {
         blockEntityPos = additionalData.readBlockPos();

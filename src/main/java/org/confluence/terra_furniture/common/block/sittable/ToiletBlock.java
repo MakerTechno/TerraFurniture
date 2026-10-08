@@ -3,7 +3,6 @@ package org.confluence.terra_furniture.common.block.sittable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -26,7 +25,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /** It's not a joke, u can get a poo Lol*/
-public class ToiletBlock extends ChairBlock{
+public class ToiletBlock extends ChairBlock {
     public static final int TICKS_TO_POOP = 60;
 
     public ToiletBlock(TFBlockSetType type, BlockState state, Consumer<Properties> properties, float yOff) {
@@ -68,16 +67,22 @@ public class ToiletBlock extends ChairBlock{
         public ToiletBE(BlockPos pos, BlockState blockState) {
             super(TFBlocks.TOILET_ENTITY.get(), pos, blockState);
         }
+        @Override
         public void tickAtServer() {
-            if (this.delayer < PLAYER_SIT_ON_CHECK_DELAY) ++this.delayer;
-            else if (this.sit != null) {
-                if (this.sit.getFirstPassenger() != null) serverTaskMgr.tick(() -> new Triplet<>(this.sit, (ServerLevel) this.level, this.worldPosition));
-                else {
-                    this.sit.remove(Entity.RemovalReason.DISCARDED);
-                    this.sit = null;
-                    serverTaskMgr.clear();
-                }
+            super.tickAtServer();
+            if (delayer < PLAYER_SIT_ON_CHECK_DELAY || !(level instanceof ServerLevel serverLevel)) {
+                return;
             }
+            RideableEntityNull seat = getSit();
+            if (seat != null && seat.isVehicle()) {
+                serverTaskMgr.tick(() -> new Triplet<>(seat, serverLevel, worldPosition));
+            }
+        }
+
+        @Override
+        public void cleanSeat() {
+            super.cleanSeat();
+            serverTaskMgr.clear();
         }
 
         public DelayableTaskMgr<Supplier<Triplet<RideableEntityNull, ServerLevel, BlockPos>>> getServerTaskMgr() {

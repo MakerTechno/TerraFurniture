@@ -2,6 +2,7 @@ package org.confluence.terra_furniture.api.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -15,12 +16,12 @@ public class DelayableConsumerTask<T> {
     private final List<Runnable> tasksToDeal = new ArrayList<>();
 
     public DelayableConsumerTask(Consumer<T> singleRunTask, int delayedTicks) {
-        this.singleRunTask = singleRunTask;
-        this.delayedTicks = delayedTicks;
+        this.singleRunTask = Objects.requireNonNull(singleRunTask, "Task callback");
+        setDelayedTicks(delayedTicks);
     }
 
     public DelayableConsumerTask<T> with(Runnable runnable) {
-        tasksToDeal.add(runnable);
+        tasksToDeal.add(Objects.requireNonNull(runnable, "Completion callback"));
         return this;
     }
 
@@ -30,10 +31,12 @@ public class DelayableConsumerTask<T> {
      * @apiNote 可以用task.with(task::reset)的方法避免返回true。
      */
     public boolean tryTick(T element) {
-        if (count++ < delayedTicks) return false;
+        if (++count < delayedTicks) {
+            return false;
+        }
         singleRunTask.accept(element);
-        tasksToDeal.forEach(Runnable::run);
-        return count >= delayedTicks;
+        List.copyOf(tasksToDeal).forEach(Runnable::run);
+        return count > 0 && count >= delayedTicks;
     }
 
     public DelayableConsumerTask<T> reset() {
@@ -42,6 +45,9 @@ public class DelayableConsumerTask<T> {
     }
 
     public void setDelayedTicks(int delayedTicks) {
+        if (delayedTicks < 0) {
+            throw new IllegalArgumentException("Delay must not be negative");
+        }
         this.delayedTicks = delayedTicks;
     }
 }

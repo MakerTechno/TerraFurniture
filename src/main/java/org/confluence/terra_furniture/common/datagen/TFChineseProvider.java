@@ -12,7 +12,6 @@ public class TFChineseProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add(TFBlocks.ONE_LEG_TABLE.get(), "\u5355\u817f\u684c");
         add("creativetab.terra_furniture", "泰拉家具");
 
         add("msg.terra_furniture.sit", "出现某些错误导致乘坐方块失败。");
@@ -37,8 +36,8 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.PUPFISH_BOWL.get(), "鳉鱼缸");
         add(TFBlocks.LAVA_SERPENT_BOWL.get(), "熔岩蛇缸");
         add(TFBlocks.TRASH_CAN.get(), "垃圾桶");
-        add(TFBlocks.HANGING_POT.get(), "吊挂盆");
         add(TFBlocks.TENT.get(), "帐篷");
+        add(TFBlocks.HANGING_POT.get(), "吊挂盆");
 
         add(TFBlocks.PLASTIC_CHAIR.get(), "塑料椅");
         add(TFBlocks.GLASS_SET.DOOR.get(), "玻璃门");
@@ -52,6 +51,7 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.GLASS_SET.CANDELABRAS.get(), "玻璃烛台");
         add(TFBlocks.GLASS_SET.SINK.get(), "玻璃水槽");
         add(TFBlocks.GLASS_SET.CLOCK.get(), "玻璃时钟");
+        add(TFBlocks.GLASS_SET.CHANDELIER.get(), "玻璃吊灯");
         add(TFBlocks.GLASS_SET.BATHTUB.get(), "玻璃浴缸");
 
         add(TFBlocks.BLUE_DUNGEON_SET.DOOR.get(), "蓝地牢门");
@@ -91,14 +91,15 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.SPOOKY_SET.TABLE.get(), "阴森木桌");
         add(TFBlocks.POLISHED_BLACKSTONE_SET.TABLE.get(), "磨制黑石桌");
         add(TFBlocks.SPRUCE_SET.TABLE.get(), "云杉木桌");
+        add(TFBlocks.SPRUCE_SET.ONE_LEG_TABLE.get(), "云杉单腿桌");
         add(TFBlocks.SPRUCE_SET.CANDELABRAS.get(), "云杉木烛台");
         add(TFBlocks.SPRUCE_SET.TOILET.get(), "云杉木马桶");
         add(TFBlocks.SPRUCE_SET.LAMP.get(), "云杉木落地灯");
-        add(TFBlocks.SPRUCE_CANDLESTICK_ONE.get(), "云杉木单烛台");
-        add(TFBlocks.SPRUCE_CANDLESTICK_TWO.get(), "云杉木双烛台");
-        add(TFBlocks.SPRUCE_CANDLESTICK_THREE.get(), "云杉木三烛台");
-        add(TFBlocks.CHERRY_CHEST.get(), "樱花木箱");
-        add(TFBlocks.SPRUCE_CHEST.get(), "云杉木箱");
+        add(TFBlocks.SPRUCE_SET.CANDLESTICKS.get(0).get(), "云杉木单烛台");
+        add(TFBlocks.SPRUCE_SET.CANDLESTICKS.get(1).get(), "云杉木双烛台");
+        add(TFBlocks.SPRUCE_SET.CANDLESTICKS.get(2).get(), "云杉木三烛台");
+        add(TFBlocks.CHERRY_SET.CHEST.get(), "樱花木箱");
+        add(TFBlocks.SPRUCE_SET.CHEST.get(), "云杉木箱");
         add(TFBlocks.SPRUCE_SET.BED.get(), "云杉木床");
         add(TFBlocks.SPRUCE_SET.SINK.get(), "云杉木水槽");
         add(TFBlocks.SPRUCE_SET.BATHTUB.get(), "云杉木浴缸");
@@ -107,7 +108,7 @@ public class TFChineseProvider extends LanguageProvider {
         add(TFBlocks.MARBLE_SET.TABLE.get(), "大理石桌");
         add(TFBlocks.BALLOON_SET.TABLE.get(), "气球桌");
         add(TFBlocks.FLINX_FUR_SET.BED.get(), "小雪怪皮毛床");
-        
+
         add(TFBlocks.CLOUD_SET.BED.get(), "云床");
 
         add(TFBlocks.COPPER_SET.TABLE.get(), "铜桌");

@@ -32,9 +32,12 @@ public class OneLegTableGeoRenderer implements BlockEntityRenderer<OneLegTableBl
         double offsetX = group.centerX() - (blockEntity.getBlockPos().getX() + 0.5);
         double offsetZ = group.centerZ() - (blockEntity.getBlockPos().getZ() + 0.5);
         poseStack.pushPose();
-        poseStack.translate(offsetX, 0.0, offsetZ);
-        legRenderer.render(blockEntity, partialTick, poseStack, bufferSource, packedLight, packedOverlay);
-        poseStack.popPose();
+        try {
+            poseStack.translate(offsetX, 0.0, offsetZ);
+            legRenderer.render(blockEntity, partialTick, poseStack, bufferSource, packedLight, packedOverlay);
+        } finally {
+            poseStack.popPose();
+        }
     }
 
     @Override

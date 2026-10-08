@@ -4,8 +4,8 @@
 		{
 			"description": {
 				"identifier": "geometry.unknown",
-				"texture_width": 128,
-				"texture_height": 128,
+				"texture_width": 64,
+				"texture_height": 64,
 				"visible_bounds_width": 2,
 				"visible_bounds_height": 2.5,
 				"visible_bounds_offset": [0, 0.75, 0]
@@ -16,23 +16,21 @@
 					"parent": "down",
 					"pivot": [0, 0, 0],
 					"cubes": [
-						{"origin": [-1, 7, 7], "size": [2, 4, 1], "uv": [0, 0]}
+						{"origin": [-8, 7, 7], "size": [1, 4, 1], "uv": [0, 0]}
 					]
 				},
 				{
 					"name": "up",
 					"pivot": [0, 0, 0],
 					"cubes": [
-						{"origin": [-7, 0, -7], "size": [14, 10, 14], "inflate": 0.005, "uv": [0, 19]},
-						{"origin": [-7, 0, -7], "size": [14, 10, 14], "inflate": 0.255, "uv": [56, 19]}
+						{"origin": [-8, 0, -7], "size": [15, 10, 14], "uv": [0, 19]}
 					]
 				},
 				{
 					"name": "down",
 					"pivot": [0, 10, -7],
 					"cubes": [
-						{"origin": [-7, 9, -7], "size": [14, 5, 14], "uv": [0, 0]},
-						{"origin": [-7, 9, -7], "size": [14, 5, 14], "inflate": 0.25, "uv": [56, 0]}
+						{"origin": [-8, 9, -7], "size": [15, 5, 14], "uv": [0, 0]}
 					]
 				}
 			]

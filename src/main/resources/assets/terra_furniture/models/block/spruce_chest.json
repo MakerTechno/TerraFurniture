@@ -1,5 +1,6 @@
 {
-    "textures": {
-        "particle": "terra_furniture:block/spruce/spruce_chest"
-    }
+  "parent": "builtin/entity",
+  "textures": {
+    "particle": "terra_furniture:block/spruce_chest"
+  }
 }

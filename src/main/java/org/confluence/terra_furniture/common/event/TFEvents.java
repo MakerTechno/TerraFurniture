@@ -32,7 +32,7 @@ public class TFEvents {
         event.registerBlock(Capabilities.ItemHandler.BLOCK, (level, pos, state, blockEntity, side) -> {
             Container container = ChestBlock.getContainer((ChestBlock) state.getBlock(), state, level, pos, true);
             return container == null ? null : new InvWrapper(container);
-        }, TFBlocks.SPRUCE_CHEST.get(), TFBlocks.CHERRY_CHEST.get());
+        }, TFBlocks.SPRUCE_SET.CHEST.get(), TFBlocks.CHERRY_SET.CHEST.get());
         event.registerBlockEntity(
             Capabilities.ItemHandler.BLOCK,
             TFBlocks.HANGING_POT_ENTITY.get(),

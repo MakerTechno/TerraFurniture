@@ -105,6 +105,14 @@ public class TFRecipeProvider extends AbstractRecipeProvider {
                 "GGG",
                 " G "
         )), 0.1F, 200);
+        glassKiln(recipeOutput, TFBlocks.GLASS_SET.CHANDELIER.toStack(), ShapedRecipePattern.of(Map.of(
+                'G', glass,
+                'A', AmountIngredient.of(2, Items.TORCH)
+        ), List.of(
+                "AGA",
+                "GGG",
+                "GAG"
+        )), 0.1F, 200);
         glassKiln(recipeOutput, TFBlocks.GLASS_SET.CLOCK.toStack(), ShapedRecipePattern.of(Map.of(
                 'G', AmountIngredient.of(2, Items.GLASS),
                 'I', Ingredient.of(Items.IRON_INGOT)

@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -25,7 +26,13 @@ import org.confluence.terra_furniture.common.block.light.BlockShapeType;
 import org.confluence.terra_furniture.common.block.light.DirectionalModelLightBlock;
 import org.confluence.terra_furniture.common.block.light.LargeChandelierBlock;
 import org.confluence.terra_furniture.common.block.light.ModelLightBlock;
-import org.confluence.terra_furniture.common.block.misc.*;
+import org.confluence.terra_furniture.common.block.light.SwitchableLightBlock;
+import org.confluence.terra_furniture.common.block.misc.ClockBlock;
+import org.confluence.terra_furniture.common.block.misc.HangingPotBlock;
+import org.confluence.terra_furniture.common.block.misc.OneLegTableBlock;
+import org.confluence.terra_furniture.common.block.misc.PinWheel;
+import org.confluence.terra_furniture.common.block.misc.TFChestBlock;
+import org.confluence.terra_furniture.common.block.misc.TrashCanBlock;
 import org.confluence.terra_furniture.common.block.sittable.ChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.PlasticChairBlock;
 import org.confluence.terra_furniture.common.block.sittable.ToiletBlock;
@@ -34,6 +41,8 @@ import org.confluence.terra_furniture.common.block.sleep.TentBlock;
 import org.confluence.terra_furniture.common.item.FishBowlItem;
 import org.confluence.terra_furniture.common.item.SimpleGeoRenderedItem;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -47,60 +56,27 @@ public final class TFBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(TerraFurniture.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, TerraFurniture.MODID);
 
-
     /* Working machines for crafting furniture */
     public static final DeferredBlock<GlassKilnBlock> GLASS_KILN = registerWithItem("glass_kiln", () -> new GlassKilnBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE)));
-    public static final Supplier<BlockEntityType<GlassKilnBlock.Entity>> GLASS_KILN_ENTITY = BLOCK_ENTITIES.register("glass_kiln_entity", () -> BlockEntityType.Builder.of(GlassKilnBlock.Entity::new, GLASS_KILN.get()).build(DSL.remainderType()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GlassKilnBlock.Entity>> GLASS_KILN_ENTITY = BLOCK_ENTITIES.register("glass_kiln_entity", () -> BlockEntityType.Builder.of(GlassKilnBlock.Entity::new, GLASS_KILN.get()).build(DSL.remainderType()));
     public static final DeferredBlock<LivingLoomBlock> LIVING_LOOM = registerWithItem("living_loom", () -> new LivingLoomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LOOM)));
     public static final DeferredBlock<IceMachineBlock> ICE_MACHINE = registerWithItem("ice_machine", () -> new IceMachineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRINDSTONE)));
 
     /* I AM THE STORM THAT IS APPROACHING!! */
-    public static final DeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(property -> property.lightLevel(BlockState -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
+    public static final DeferredBlock<PlasticChairBlock> PLASTIC_CHAIR = registerWithItem("plastic_chair", () -> new PlasticChairBlock(property -> property.lightLevel(state -> 1).explosionResistance(3600000.8F)), PlasticChairBlock.Item::new);
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PlasticChairBlock.PlasticChairBE>> PLASTIC_CHAIR_ENTITY = BLOCK_ENTITIES.register("plastic_chair_entity", () -> BlockEntityType.Builder.of(PlasticChairBlock.PlasticChairBE::new, PLASTIC_CHAIR.get()).build(DSL.remainderType()));
 
     /* Special furniture, not belongs to any furniture set */
+    public static final DeferredBlock<TentBlock> TENT = registerWithoutItem("tent", () -> new TentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL)));
+    public static final DeferredItem<TentBlock.BItem> TENT_ITEM = TFItems.BLOCK_ITEMS.register("tent", () -> new TentBlock.BItem(TENT.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TentBlock.BEntity>> TENT_BLOCK_ENTITY = BLOCK_ENTITIES.register("tent_block_entity", () -> BlockEntityType.Builder.of(TentBlock.BEntity::new, TENT.get()).build(DSL.remainderType()));
+
     public static final DeferredBlock<Block> FISH_BOWL = registerWithItem("fish_bowl", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final DeferredBlock<Block> GOLD_FISH_BOWL = registerWithItem("gold_fish_bowl", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final DeferredBlock<Block> PUPFISH_BOWL = registerWithItem("pupfish_bowl", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final DeferredBlock<Block> LAVA_SERPENT_BOWL = registerWithItem("lava_serpent_bowl", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)), block -> new FishBowlItem(block, new Item.Properties()));
     public static final DeferredBlock<TrashCanBlock> TRASH_CAN = registerWithItem("trash_can", () -> new TrashCanBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BARS)));
-    public static final Supplier<BlockEntityType<TrashCanBlock.Entity>> TRASH_CAN_ENTITY = BLOCK_ENTITIES.register("trash_can_entity", () -> BlockEntityType.Builder.of(TrashCanBlock.Entity::new, TRASH_CAN.get()).build(DSL.remainderType()));
-    public static final DeferredBlock<OneLegTableBlock> ONE_LEG_TABLE = registerWithItem("one_leg_table", () -> new OneLegTableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS).dynamicShape()));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OneLegTableBlock.BEntity>> ONE_LEG_TABLE_ENTITY = BLOCK_ENTITIES.register("one_leg_table_entity", () -> BlockEntityType.Builder.of(OneLegTableBlock.BEntity::new, ONE_LEG_TABLE.get()).build(DSL.remainderType()));
-    public static final DeferredBlock<TentBlock> TENT = registerWithoutItem("tent", () -> new TentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL)));
-    public static final DeferredItem<BlockItem> TENT_ITEM = TFItems.BLOCK_ITEMS.register("tent", () -> new TentBlock.BItem(TENT.get()));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TentBlock.BEntity>> TENT_BLOCK_ENTITY = BLOCK_ENTITIES.register("tent_block_entity", () -> BlockEntityType.Builder.of(TentBlock.BEntity::new, TENT.get()).build(DSL.remainderType()));
-
-    public static final DeferredBlock<SpruceChestBlock> SPRUCE_CHEST = registerWithItem("spruce_chest",
-            () -> new SpruceChestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHEST).noOcclusion()));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SpruceChestBlock.Entity>> SPRUCE_CHEST_ENTITY = BLOCK_ENTITIES.register(
-            "spruce_chest_entity",
-            () -> BlockEntityType.Builder.of(SpruceChestBlock.Entity::new, SPRUCE_CHEST.get()).build(DSL.remainderType())
-    );
-
-    public static final DeferredBlock<DirectionalModelLightBlock> SPRUCE_CANDLESTICK_ONE = registerWithItem(
-            "spruce_candlestick_one",
-            () -> new DirectionalModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
-                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
-                    Block.box(6.5, 0, 6.5, 9.5, 13, 9.5)));
-    public static final DeferredBlock<DirectionalModelLightBlock> SPRUCE_CANDLESTICK_TWO = registerWithItem(
-            "spruce_candlestick_two",
-            () -> new DirectionalModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
-                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
-                    Block.box(3.5, 0, 6.5, 12.5, 13, 9.5)));
-    public static final DeferredBlock<DirectionalModelLightBlock> SPRUCE_CANDLESTICK_THREE = registerWithItem(
-            "spruce_candlestick_three",
-            () -> new DirectionalModelLightBlock(SPRUCE, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
-                    .noOcclusion().lightLevel(litBlockEmission(15)), BlockShapeType.CANDLE,
-                    Block.box(2.5, 0, 6.5, 13.5, 13, 9.5)));
-    public static final DeferredBlock<CherryChestBlock> CHERRY_CHEST = registerWithoutItem("cherry_chest",
-            () -> new CherryChestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHEST).noOcclusion()));
-    public static final DeferredItem<SimpleGeoRenderedItem> CHERRY_CHEST_ITEM = TFItems.BLOCK_ITEMS.register("cherry_chest",
-            () -> new SimpleGeoRenderedItem(CHERRY_CHEST.get(), new Item.Properties(), false));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CherryChestBlock.Entity>> CHERRY_CHEST_ENTITY = BLOCK_ENTITIES.register(
-            "cherry_chest_entity",
-            () -> BlockEntityType.Builder.of(CherryChestBlock.Entity::new, CHERRY_CHEST.get()).build(DSL.remainderType())
-    );
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TrashCanBlock.Entity>> TRASH_CAN_ENTITY = BLOCK_ENTITIES.register("trash_can_entity", () -> BlockEntityType.Builder.of(TrashCanBlock.Entity::new, TRASH_CAN.get()).build(DSL.remainderType()));
 
     /*
         Furniture sets.
@@ -157,6 +133,11 @@ public final class TFBlocks {
     public static final TFBlockSet CHERRY_SET = new TFBlockSet.Builder(CHERRY, Blocks.CHERRY_PLANKS, true)
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
+            .setAvailabilityFor(TFBlockType.CHEST, true)
+            .setPropertySourceFor(TFBlockType.CHEST, Blocks.CHEST)
+            .setPropertyFor(TFBlockType.CHEST, properties -> properties.noOcclusion())
+            .setGetterFor(TFBlockType.CHEST, (properties, applier) -> new TFChestBlock(CHERRY, properties))
+            .setItemFactoryFor(TFBlockType.CHEST, TFBlocks::chestItem)
             .build();
     public static final TFBlockSet CRIMSON_SET = new TFBlockSet.Builder(CRIMSON, Blocks.CRIMSON_PLANKS, true)
             .disableAll()
@@ -194,9 +175,10 @@ public final class TFBlocks {
             .build();
     public static final TFBlockSet SPRUCE_SET = new TFBlockSet.Builder(SPRUCE, Blocks.SPRUCE_PLANKS, true)
             .disableAll()
+            .setAvailabilityFor(TFBlockType.BED, true)
+            .setPropertyFor(TFBlockType.BED, properties -> properties.noOcclusion())
             .setAvailabilityFor(TFBlockType.TABLE, true)
             .setAvailabilityFor(TFBlockType.CHAIR, true)
-            .setAvailabilityFor(TFBlockType.BED, true)
             .setAvailabilityFor(TFBlockType.BATHTUB, true)
             .setGetterFor(TFBlockType.BATHTUB, (properties, applier) -> new BathtubBlock(SPRUCE, properties, BathtubBlock.tubShapes(10, 2), false))
             .setPropertyFor(TFBlockType.BATHTUB, properties -> properties.noOcclusion())
@@ -207,10 +189,39 @@ public final class TFBlocks {
             .setAvailabilityFor(TFBlockType.LAMP, true)
             .setGetterFor(TFBlockType.LAMP, (properties, applier) -> new ModelLightBlock(
                     SPRUCE, properties, BlockShapeType.LAMP, Block.box(5, 0, 5, 11, 26, 11)))
-            .setPropertyFor(TFBlockType.LAMP, properties -> properties.noOcclusion().lightLevel(litBlockEmission(15)))
+            .setPropertyFor(TFBlockType.LAMP, properties -> properties.noOcclusion())
             .setAvailabilityFor(TFBlockType.CANDELABRAS, true)
+            .setPropertyFor(TFBlockType.CANDELABRAS, properties -> properties.noOcclusion())
+            .setAvailabilityFor(TFBlockType.CHEST, true)
+            .setPropertySourceFor(TFBlockType.CHEST, Blocks.CHEST)
+            .setPropertyFor(TFBlockType.CHEST, properties -> properties.noOcclusion())
+            .setGetterFor(TFBlockType.CHEST, (properties, applier) -> new TFChestBlock(SPRUCE, properties))
+            .setItemFactoryFor(TFBlockType.CHEST, TFBlocks::chestItem)
+            .setAvailabilityFor(TFBlockType.ONE_LEG_TABLE, true)
+            .setSpecialIdFor(TFBlockType.ONE_LEG_TABLE, "one_leg_table")
+            .setPropertyFor(TFBlockType.ONE_LEG_TABLE, BlockBehaviour.Properties::dynamicShape)
+            .setGetterFor(TFBlockType.ONE_LEG_TABLE, (properties, applier) -> new OneLegTableBlock(properties))
+            .setAvailabilityFor(TFBlockType.CANDLESTICK, true)
+            .setPropertyFor(TFBlockType.CANDLESTICK, properties -> properties.noOcclusion().lightLevel(litBlockEmission(15)))
+            .setVariantsFor(TFBlockType.CANDLESTICK, spruceCandlesticks())
             .doLightSetup(14, 14, 15, 15, 15)
             .build();
+
+    private static Map<String, TFBlockSet.Builder.Variant<SwitchableLightBlock>> spruceCandlesticks() {
+        Map<String, TFBlockSet.Builder.Variant<SwitchableLightBlock>> variants = new LinkedHashMap<>();
+        variants.put("spruce_candlestick_one", spruceCandlestick(6.5, 9.5, new Vec3(8.06, 13.6, 8.06)));
+        variants.put("spruce_candlestick_two", spruceCandlestick(3.5, 12.5,
+                new Vec3(11.06, 13.6, 8.06), new Vec3(5.06, 11.6, 8.06)));
+        variants.put("spruce_candlestick_three", spruceCandlestick(2.5, 13.5,
+                new Vec3(8.06, 13.6, 8.06), new Vec3(4.06, 11.6, 8.06), new Vec3(12.06, 10.6, 8.06)));
+        return variants;
+    }
+
+    private static TFBlockSet.Builder.Variant<SwitchableLightBlock> spruceCandlestick(double minX, double maxX, Vec3... flamePositions) {
+        return (properties, applier) -> new DirectionalModelLightBlock(
+                SPRUCE, properties, BlockShapeType.CANDLE, Block.box(minX, 0, 6.5, maxX, 13, 9.5), flamePositions);
+    }
+
     public static final TFBlockSet STONE_SET = new TFBlockSet.Builder(STONE, Blocks.STONE, true)
             .disableAll()
             .setAvailabilityFor(TFBlockType.TABLE, true)
@@ -341,7 +352,23 @@ public final class TFBlocks {
             ).build(DSL.remainderType())
     );
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TFChestBlock.Entity>> CHEST_ENTITY = BLOCK_ENTITIES.register(
+            "chest_entity",
+            () -> BlockEntityType.Builder.of(
+                    TFChestBlock.Entity::new,
+                    TFBlockType.CHEST.getAll().stream().map(DeferredBlock::get).toArray(Block[]::new)
+            ).build(DSL.remainderType())
+    );
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OneLegTableBlock.BEntity>> ONE_LEG_TABLE_ENTITY = BLOCK_ENTITIES.register(
+            "one_leg_table_entity",
+            () -> BlockEntityType.Builder.of(OneLegTableBlock.BEntity::new, SPRUCE_SET.ONE_LEG_TABLE.get()).build(DSL.remainderType())
+    );
 
+
+    /* 统一使用 Geo 物品渲染的箱物品 */
+    private static SimpleGeoRenderedItem chestItem(TFChestBlock block) {
+        return new SimpleGeoRenderedItem(block, new Item.Properties(), false, false);
+    }
 
     public static <B extends Block> DeferredBlock<B> registerWithItem(String id, Supplier<B> block) {
         return registerWithItem(id, block, new Item.Properties());
@@ -373,7 +400,6 @@ public final class TFBlocks {
         TFItems.BLOCK_ITEMS.register(id, () -> new LargeChandelierBlock.BItem(deferredBlock.get(), new Item.Properties()));
         return deferredBlock;
     }
-
 
     public static ToIntFunction<BlockState> litBlockEmission(int lightValue) {
         return blockState -> blockState.getValue(BlockStateProperties.LIT) ? lightValue : 0;
