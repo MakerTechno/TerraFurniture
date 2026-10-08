@@ -64,13 +64,13 @@ public class GlassKilnCategory implements IRecipeCategory<RecipeHolder<GlassKiln
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if (symmetrical) {
-                    addInput(builder, j * 18 + 5, i * 18 + 5, recipe.value().ingredients.get(width - j - 1 + i * width));
+                    addInput(builder, j * 18 + 5, i * 18 + 5, recipe.value().getIngredients().get(width - j - 1 + i * width));
                 } else {
-                    addInput(builder, j * 18 + 5, i * 18 + 5, recipe.value().ingredients.get(j + i * width));
+                    addInput(builder, j * 18 + 5, i * 18 + 5, recipe.value().getIngredients().get(j + i * width));
                 }
             }
         }
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 9).addItemStack(recipe.value().getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 9).addItemStack(recipe.value().getResult());
     }
 
     @Override
@@ -80,6 +80,6 @@ public class GlassKilnCategory implements IRecipeCategory<RecipeHolder<GlassKiln
 
     @Override
     public @Nullable ResourceLocation getRegistryName(RecipeHolder<GlassKilnRecipe> recipe) {
-        return TerraFurniture.asResource(recipe.value().getGroup() + "/" + BuiltInRegistries.ITEM.getKey(recipe.value().getResultItem(null).getItem()).getPath());
+        return TerraFurniture.asResource(recipe.value().getGroup() + "/" + BuiltInRegistries.ITEM.getKey(recipe.value().getResult().getItem()).getPath());
     }
 }

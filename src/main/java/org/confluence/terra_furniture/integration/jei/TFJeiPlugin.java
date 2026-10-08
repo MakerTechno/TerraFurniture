@@ -102,6 +102,6 @@ public final class TFJeiPlugin implements IModPlugin {
                 }
             }
         });
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 117, 33).addItemStack(recipe.value().getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 117, 33).addItemStack(recipe.value().getResult());
     }
 }

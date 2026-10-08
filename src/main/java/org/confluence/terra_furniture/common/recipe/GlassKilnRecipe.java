@@ -86,10 +86,10 @@ public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
 
     public static class Serializer implements RecipeSerializer<GlassKilnRecipe> {
         public static final MapCodec<GlassKilnRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
+                ItemStack.STRICT_CODEC.fieldOf("result").forGetter(GlassKilnRecipe::getResult),
                 ShapedRecipePattern.MAP_CODEC.forGetter(recipe -> recipe.pattern),
-                Codec.FLOAT.lenientOptionalFieldOf("experience", 0.0F).forGetter(recipe -> recipe.experience),
-                Codec.INT.lenientOptionalFieldOf("cookingtime", 100).forGetter(recipe -> recipe.cookingTime)
+                Codec.FLOAT.lenientOptionalFieldOf("experience", 0.0F).forGetter(GlassKilnRecipe::getExperience),
+                Codec.INT.lenientOptionalFieldOf("cookingtime", 100).forGetter(GlassKilnRecipe::getCookingTime)
         ).apply(instance, GlassKilnRecipe::new));
         public static final StreamCodec<RegistryFriendlyByteBuf, GlassKilnRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
 
@@ -110,7 +110,7 @@ public class GlassKilnRecipe extends AbstractAmountRecipe<CraftingInput> {
         }
 
         private static void toNetwork(RegistryFriendlyByteBuf buffer, GlassKilnRecipe recipe) {
-            ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
+            ItemStack.STREAM_CODEC.encode(buffer, recipe.getResult());
             ShapedRecipePattern.STREAM_CODEC.encode(buffer, recipe.pattern);
             buffer.writeFloat(recipe.experience);
             buffer.writeVarInt(recipe.cookingTime);
