@@ -137,8 +137,8 @@ boolean dev = project.hasProperty('dev')
 // Default true. When -Pdev=false, it's for release build.
 // Or if using this mod individually, please use ./gradlew build -Pdev=false
 
-boolean sodium = false;
-boolean iris = false;
+boolean sodium = false
+boolean iris = false
 
 dependencies {
     // Example optional mod dependency with JEI
@@ -174,15 +174,11 @@ dependencies {
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
-
-    compileOnly "curse.maven:irisshaders-455508:6661598"
-    if (sodium) {
+    if (iris) {
         runtimeOnly "curse.maven:irisshaders-455508:6661598"
     }
 
-    // sodium
-    compileOnly "curse.maven:sodium-394468:6382651"
-    if (sodium && iris) {
+    if (sodium || iris) {
         runtimeOnly "curse.maven:sodium-394468:6382651"
     }
 
