@@ -37,9 +37,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.confluence.lib.util.LibDateUtils;
 import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.api.client.renderer.item.BaseGeoItemRendererProvider;
-import org.confluence.terra_furniture.common.block.func.multi.*;
+import org.confluence.terra_furniture.common.block.func.multi.HorizontalDirectionalWithHorizontalSixPartBlock;
+import org.confluence.terra_furniture.common.block.func.multi.TFStateProperties;
 import org.confluence.terra_furniture.common.init.TFBlocks;
 import org.jetbrains.annotations.Nullable;
 import org.mesdag.portlib.event.entity.player.PortCanPlayerSleepEvent;
@@ -150,7 +152,7 @@ public class TentBlock extends HorizontalDirectionalWithHorizontalSixPartBlock i
                 return Either.left(Player.BedSleepingProblem.OBSTRUCTED);
             } else {
                 /// 帐篷不改写重生点。
-                if (level.isDay()) {
+                if (LibDateUtils.isDay(level)) {
                     return Either.left(Player.BedSleepingProblem.NOT_POSSIBLE_NOW);
                 } else {
                     if (!player.isCreative()) {
