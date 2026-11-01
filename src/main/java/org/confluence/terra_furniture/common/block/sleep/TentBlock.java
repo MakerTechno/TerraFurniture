@@ -36,6 +36,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.event.EventHooks;
+import org.confluence.lib.util.LibDateUtils;
 import org.confluence.terra_furniture.api.client.model.CacheItemRefBlockModel;
 import org.confluence.terra_furniture.api.client.renderer.item.BaseGeoItemRendererProvider;
 import org.confluence.terra_furniture.common.block.func.multi.HorizontalDirectionalWithHorizontalSixPartBlock;
@@ -137,7 +138,7 @@ public class TentBlock extends HorizontalDirectionalWithHorizontalSixPartBlock i
     /** 模仿ServerPlayer进行操作 */
     private Either<Player.BedSleepingProblem, Unit> sleepWithoutSetRespawnServer(ServerPlayer player, ServerLevel level, BlockPos at) {
         var vanillaResult = ((java.util.function.Supplier<Either<Player.BedSleepingProblem, net.minecraft.util.Unit>>) () -> {
-            
+
             Direction direction = level.getBlockState(at).getValue(HorizontalDirectionalBlock.FACING);
             if (player.isSleeping() || !player.isAlive()) {
                 return Either.left(Player.BedSleepingProblem.OTHER_PROBLEM);
@@ -149,7 +150,7 @@ public class TentBlock extends HorizontalDirectionalWithHorizontalSixPartBlock i
                 return Either.left(Player.BedSleepingProblem.OBSTRUCTED);
             } else {
                 // player.setRespawnPosition(level.dimension(), at, player.getYRot(), false, true);
-                if (level.isDay()) {
+                if (LibDateUtils.isDay(level)) {
                     return Either.left(Player.BedSleepingProblem.NOT_POSSIBLE_NOW);
                 } else {
                     if (!player.isCreative()) {
